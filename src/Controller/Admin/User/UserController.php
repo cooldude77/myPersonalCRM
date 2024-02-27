@@ -1,0 +1,29 @@
+<?php
+// src/Controller/ProductController.php
+namespace App\Controller\Admin\User;
+
+// ...
+use App\Entity\User;
+use App\Form\Admin\User\UserForm;
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class UserController extends AbstractController
+{
+    #[Route('/user/create', name: 'create_user')]
+    public function createUser(UserRepository $repository): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserForm::class, $user);
+
+        return $this->render('admin/user/create_user.html.twig', [
+            'form' => $form,
+        ]);
+
+    }
+
+
+}

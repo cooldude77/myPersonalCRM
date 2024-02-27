@@ -19,6 +19,10 @@ class User
     #[ORM\Column(length: 1000)]
     private ?string $password = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?UserTypePrefill $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +48,18 @@ class User
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getType(): ?UserTypePrefill
+    {
+        return $this->type;
+    }
+
+    public function setType(UserTypePrefill $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
