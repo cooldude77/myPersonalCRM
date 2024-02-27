@@ -1,28 +1,21 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller;
+namespace App\Controller\Admin\Product;
 
 // ...
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\ProductRepository;
+
 class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'create_product')]
+    #[Route('/product/create', name: 'create_product')]
     public function createProduct(EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
-        $product->setProductCode('Keyboard');
-        $product->setProductDescription('Ergonomic and stylish!');
-
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($product);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
 
         return new Response('Saved new product with id '.$product->getId());
     }

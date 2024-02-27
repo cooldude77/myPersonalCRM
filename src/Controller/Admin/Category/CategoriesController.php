@@ -1,11 +1,12 @@
 <?php
 // src/Controller/LuckyController.php
-namespace App\Controller;
+namespace App\Controller\Admin\Category;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-class CategoriesCreateController extends AbstractController
+
+class CategoriesController extends AbstractController
 {
     #[Route('/categories/create')]
     public function number(): Response
