@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\UserTypePrefillRepository;
+use App\Repository\UserTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserTypePrefillRepository::class)]
-class UserTypePrefill
+#[ORM\Entity(repositoryClass: UserTypeRepository::class)]
+class UserType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

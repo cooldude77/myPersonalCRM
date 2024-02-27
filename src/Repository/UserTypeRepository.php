@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\UserTypePrefill;
+use App\Entity\UserType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserTypePrefill>
+ * @extends ServiceEntityRepository<UserType>
  *
- * @method UserTypePrefill|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserTypePrefill|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserTypePrefill[]    findAll()
- * @method UserTypePrefill[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserType[]    findAll()
+ * @method UserType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserTypePrefillRepository extends ServiceEntityRepository
+class UserTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserTypePrefill::class);
+        parent::__construct($registry, UserType::class);
     }
 
     //    /**
