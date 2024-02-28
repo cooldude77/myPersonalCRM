@@ -21,7 +21,7 @@ class User
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?UserTypePrefill $type = null;
+    private ?UserType $type = null;
 
     public function getId(): ?int
     {
@@ -52,12 +52,12 @@ class User
         return $this;
     }
 
-    public function getType(): ?UserTypePrefill
+    public function getType(): ?UserType
     {
         return $this->type;
     }
 
-    public function setType(UserTypePrefill $type): static
+    public function setType(UserType $type): static
     {
         $this->type = $type;
 

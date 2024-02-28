@@ -2,19 +2,20 @@
 // src/Controller/LuckyController.php
 namespace App\Controller\Admin\Category;
 
+use App\Entity\Category;
+use App\Form\Admin\Category\CategoryForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategoriesController extends AbstractController
 {
-    #[Route('/categories/create')]
-    public function number(): Response
+    #[Route('/category/create', 'category_create')]
+    public function create(): Response
     {
-        $number = random_int(0, 100);
+        $category = new Category();
+        $form = $this->createForm(CategoryForm::class, $category);
 
-        return $this->render('categories/create_category.html.twig', [
-            'number' => $number,
-        ]);
+        return $this->render('/admin/categories/create.html.twig', ['form' => $form]);
     }
 }
