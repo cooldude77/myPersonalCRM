@@ -5,6 +5,7 @@ namespace App\Form\Admin\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -16,10 +17,11 @@ class UserForm extends AbstractType
         $builder->add('password', PasswordType::class);
         $builder->add('type', EntityType::class, [
                 'class' => 'App\Entity\UserType',
-                'choice_label' => 'code'
+                'choice_label' => 'description'
             ]
         );
 
+        $builder->add('save', SubmitType::class);
 
     }
 }
