@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Admin\Product;
+namespace App\Controller\Admin\Product\Type;
 
 // ...
 use App\Entity\ProductType;
@@ -36,10 +36,10 @@ class ProductTypeController extends AbstractController
 
     }
 
-    #[Route('/product/type/update', name: 'product_type_update')]
-    public function updateProductType(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/product/type/update/{type}', name: 'product_type_update')]
+    public function updateProductType($type, EntityManagerInterface $entityManager, Request $request, ProductTypeRepository $productTypeRepository): Response
     {
-        $type = new ProductType();
+        $type = $productTypeRepository->findOneBy(['type' => $type]);
 
         $form = $this->createForm(ProductTypeUpdateForm::class, $type);
 
