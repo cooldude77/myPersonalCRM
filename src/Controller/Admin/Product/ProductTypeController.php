@@ -32,7 +32,7 @@ class ProductTypeController extends AbstractController
 
             return $this->redirectToRoute('admin/product/type/success_create.html.twig');
         }
-        return $this->render('admin/product/type/list.html.twig', $form);
+        return $this->render('admin/product/type/create.html.twig', ['form' => $form]);
 
     }
 
@@ -53,7 +53,7 @@ class ProductTypeController extends AbstractController
 
             return $this->redirectToRoute('admin/product/type/success_update.html.twig');
         }
-        return $this->render('admin/product/type/list.html.twig', $form);
+        return $this->render('admin/product/type/update.html.twig', ['form' => $form]);
 
     }
 
@@ -63,7 +63,7 @@ class ProductTypeController extends AbstractController
 
         $list = $productTypeRepository->findAll();
 
-        return $this->render('admin/product/type/list.html.twig', $list);
+        return $this->render('admin/product/type/list.html.twig', ['list' => $list]);
 
     }
 
