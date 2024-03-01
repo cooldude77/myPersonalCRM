@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderItemController extends AbstractController
 {
-    #[Route('/orderItem/create', name: 'create_orderItem')]
-    public function createOrderItem(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/order/header/{id}/item/create', name: 'order_item_create')]
+    public function createOrderItem($id, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $type = new OrderItem();
+        $orderItem = new OrderItem();
 
-        $form = $this->createForm(OrderItemCreateForm::class, $type);
+        $form = $this->createForm(OrderItemCreateForm::class, $orderItem);
 
         $form->handleRequest($request);
 
@@ -29,9 +29,9 @@ class OrderItemController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            return $this->redirectToRoute('common\Order\orderItem/success_create.html.twig');
+            return $this->redirectToRoute('common/order/item/success_create.html.twig');
         }
-        return $this->render('common\Order/orderItem/create.html.twig', ['form' => $form]);
+        return $this->render('common/order/item/create.html.twig', ['form' => $form]);
     }
 
 
