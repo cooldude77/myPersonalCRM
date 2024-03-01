@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\Product\Attribute;
+namespace App\Form\Admin\Product\Type\Attribute;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

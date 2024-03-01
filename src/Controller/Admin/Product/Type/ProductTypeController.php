@@ -4,8 +4,8 @@ namespace App\Controller\Admin\Product\Type;
 
 // ...
 use App\Entity\ProductType;
-use App\Form\Admin\Product\Type\ProductTypeCreateForm;
-use App\Form\Admin\Product\Type\ProductTypeUpdateForm;
+use App\Form\Admin\Customer\Type\ProductTypeCreateForm;
+use App\Form\Admin\Customer\Type\ProductTypeUpdateForm;
 use App\Repository\ProductTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
