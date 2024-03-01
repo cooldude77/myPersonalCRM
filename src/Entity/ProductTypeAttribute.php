@@ -23,6 +23,11 @@ class ProductTypeAttribute
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductType $productType = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ProductAttributeValueType $valueType = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,4 +68,18 @@ class ProductTypeAttribute
 
         return $this;
     }
+
+    public function getValueType(): ?ProductAttributeValueType
+    {
+        return $this->valueType;
+    }
+
+    public function setValueType(ProductAttributeValueType $valueType): static
+    {
+        $this->valueType = $valueType;
+
+        return $this;
+    }
+
+
 }

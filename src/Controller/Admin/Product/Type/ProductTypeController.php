@@ -67,4 +67,17 @@ class ProductTypeController extends AbstractController
 
     }
 
+    #[Route('/product/type/delete/{type}', name: 'product_type_delete')]
+    public function deleteProductType($type, ProductTypeRepository $productTypeRepository, EntityManagerInterface $entityManager): Response
+    {
+
+        $productType = $productTypeRepository->findOneBy(['type' => $type]);
+
+        $entityManager->remove($productType);
+
+        $entityManager->flush();
+        return new Response("Success");
+
+    }
+
 }

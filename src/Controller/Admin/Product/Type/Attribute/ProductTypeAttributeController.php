@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Admin\Product;
+namespace App\Controller\Admin\Product\Type\Attribute;
 
 // ...
 use App\Entity\ProductType;
@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductTypeAttributeController extends AbstractController
 {
-    #[Route('/product/type/attribute/create', name: 'create_product_type_attribute')]
-    public function createProduct(EntityManagerInterface $entityManager): Response
+    #[Route('/product/type/{$type}/attribute/create', name: 'product_type_attribute_create')]
+    public function createProductTypeAttribute($type, EntityManagerInterface $entityManager): Response
     {
         $product = new ProductType();
 

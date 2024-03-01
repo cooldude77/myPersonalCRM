@@ -1,3 +1,24 @@
-{% for item in list %}
-    {{ item.type }}
-{% endfor %}
+{# templates/user/create.html.twig #}
+{% extends 'base/my_base_template.html.twig' %}
+{% block content %}
+    <ul>
+        {% for item in list %}
+            <li>
+                <div class="product-type">
+                    {{ item.type }}
+                </div>
+                <div class="product-description">
+                    {{ item.description }}
+                </div>
+                <div class="product-action-update">
+                    <a href="{{ path('product_type_update', {'type':item.type}) }}">Update</a>
+                </div>
+
+                <div class="product-action-delete">
+                    <a href="{{ path('product_type_delete', {'type':item.type}) }}">Delete</a>
+                </div>
+            </li>
+
+        {% endfor %}
+    </ul>
+{% endblock %}
