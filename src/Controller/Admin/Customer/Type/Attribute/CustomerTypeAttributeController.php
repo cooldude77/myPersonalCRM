@@ -1,6 +1,6 @@
 <?php
 // src/Controller/CustomerController.php
-namespace App\Controller\Admin\Customer;
+namespace App\Controller\Admin\Customer\Type\Attribute;
 
 // ...
 use App\Entity\CustomerType;
