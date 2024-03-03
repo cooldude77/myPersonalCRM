@@ -1,20 +1,20 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "fed6cf8a2e4294c734fa7da226565535",
-    "packages": [
-        {
-            "name": "doctrine/cache",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/cache.git",
-                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"
-            },
-            "dist": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "7155d503b3a3b75825bbcccddaf494c0",
+  "packages": [
+    {
+      "name": "doctrine/cache",
+      "version": "2.2.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/doctrine/cache.git",
+        "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/cache/zipball/1ca8f21980e770095a31456042471a57bc4c68fb",
                 "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",

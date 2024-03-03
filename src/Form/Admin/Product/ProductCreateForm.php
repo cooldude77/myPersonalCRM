@@ -13,6 +13,7 @@ class ProductCreateForm extends AbstractType
     {
         $builder->add('productCode', TextType::class);
         $builder->add('productDescription', TextType::class);
+        $builder->add('category', TextType::class);
         $builder->add('save', SubmitType::class);
 
     }

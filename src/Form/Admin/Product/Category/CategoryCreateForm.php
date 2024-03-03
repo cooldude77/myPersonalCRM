@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\Category;
+namespace App\Form\Admin\Product\Category;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class CategoryForm extends AbstractType
+class CategoryCreateForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
