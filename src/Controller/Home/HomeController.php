@@ -14,9 +14,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function createCustomer(EntityManagerInterface $entityManager, Request $request): Response
     {
-        return new Response(
-            '<html><body>Welcome To Home</body></html>'
-        );
+        return $this->render("home/home.html.twig");
     }
 
 }

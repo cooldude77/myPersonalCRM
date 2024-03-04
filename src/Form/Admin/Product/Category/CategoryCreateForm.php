@@ -2,31 +2,31 @@
 
 namespace App\Form\Admin\Product\Category;
 
+use App\Form\Admin\Product\Category\Transformer\CategoryToIdTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 class CategoryCreateForm extends AbstractType
 {
+
+    private CategoryToIdTransformer $categoryToIdTransformer;
+
+    public function __construct(
+        CategoryToIdTransformer $categoryToIdTransformer)
+    {
+
+        $this->categoryToIdTransformer = $categoryToIdTransformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('code', TextType::class);
         $builder->add('description', TextType::class);
-        $builder->add('parent', TextType::class);
+        $builder->add('parent', TextType::class, ['attr' => ['require' => false]])->
+        get('parent')->addModelTransformer($this->categoryToIdTransformer);
 
-        $builder->add('isTopCategory', CheckboxType::class, ['mapped' => false]);
-
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            $data = $event->getData();
-            if ($data['isTopCategory'] === true) {
-                $data['parent'] = "_000";
-            }
-            $event->setData($data);
-        });
         $builder->add('save', SubmitType::class);
 
     }

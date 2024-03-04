@@ -20,7 +20,7 @@ class Category
     private ?string $description = null;
 
     #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'category', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn]
     private ?self $parent = null;
 
     #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'parent', cascade: ['persist', 'remove'])]
