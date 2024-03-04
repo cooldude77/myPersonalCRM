@@ -16,17 +16,22 @@ class FileController extends AbstractController
     #[Route('/file/create', name: 'file_create')]
     public function createFile(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $type = new File();
+        $file = new File();
 
-        $form = $this->createForm(FileCreateForm::class, $type);
+        $form = $this->createForm(FileCreateForm::class, $file);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             // perform some action...
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
+            //        $entityManager->persist($form->getData());
+            //       $entityManager->flush();
+
+            $fileHandle = $form->get('uploadedFile')->getData();
+            $fileName = md5(uniqid()) . '.' . $fileHandle->guessExtension();
+            //$fileHandle->move($this->getParameter('/tmp'), $fileName);
+            $fileHandle->move('/var/www/html/temp', $fileName);
 
             return $this->redirectToRoute('common/file/success_create.html.twig');
         }

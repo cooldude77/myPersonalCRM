@@ -33,7 +33,7 @@ class FileCreateForm extends AbstractType
             ->addModelTransformer($this->fileTypeToIdTransformer);
 
 
-        $builder->add('file', FileType::class, [
+        $builder->add('uploadedFile', FileType::class, [
             'label' => 'File',
             'mapped' => false,
             'required' => false
