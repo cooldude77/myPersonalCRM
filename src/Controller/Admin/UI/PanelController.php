@@ -20,10 +20,10 @@ class PanelController extends AbstractController
             $routeName = $request->get('load_next');
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
-
             $content = $this->forward($controllerAction)->getContent();
+
             return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content]);
         }
-        return $this->render('admin/ui/panel/panel.html.twig');
+        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "Hello"]);
     }
 }
