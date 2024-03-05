@@ -4,7 +4,6 @@ namespace App\Controller\Admin\Product\Category;
 
 use App\Entity\Category;
 use App\Form\Admin\Product\Category\CategoryCreateForm;
-use App\Form\Admin\Product\Category\CategoryForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +29,6 @@ class CategoryCreateController extends AbstractController
             return $this->redirectToRoute('task_success');
         }
 
-        return $this->render('/admin/categories/create.html.twig', ['form' => $form]);
+        return $this->render('/admin/category/create.html.twig', ['form' => $form]);
     }
 }
