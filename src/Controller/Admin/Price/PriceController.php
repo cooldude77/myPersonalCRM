@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PriceController extends AbstractController
 {
     #[Route('/product/{id}/base/price', name: 'create_price')]
-    public function createPrice($id, EntityManagerInterface $entityManager, ProductRepository $productRepository, Request $request): Response
+    public function createBasePriceForProduct($id, EntityManagerInterface $entityManager, ProductRepository $productRepository, Request $request): Response
     {
         $type = new PriceBaseProduct();
         $type->setProduct($productRepository->findOneBy(['id' => $id]));
