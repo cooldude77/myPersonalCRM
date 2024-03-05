@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Customer;
 use App\Entity\Customer;
 use App\Form\Admin\Customer\CustomerCreateForm;
 use App\Repository\CustomerRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,4 +58,15 @@ class CustomerController extends AbstractController
         // return $this->render('customer/show.html.twig', ['customer' => $customer]);
     }
 
+    #[Route('/customer/list', name: 'customer_list')]
+    public function list(ProductRepository $productRepository, int $id): Response
+    {
+        $product = $productRepository->find($id);
+
+        return new Response('Check out this updated product: ' . $product->getProductDescription());
+
+        // or render a template
+        // in the template, print things with {{ product.name }}
+        // return $this->render('product/show.html.twig', ['product' => $product]);
+    }
 }

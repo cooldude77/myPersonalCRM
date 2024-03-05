@@ -47,10 +47,22 @@ class ProductController extends AbstractController
             );
         }
 
-        $product->setProductDescription('New .... ');
-        $productRepository->getEntityManager()->flush($product);
+         $product->setProductDescription('New .... ');
+         $productRepository->getEntityManager()->flush($product);
 
-        return new Response('Check out this updated product: '.$product->getProductDescription());
+         return new Response('Check out this updated product: ' . $product->getProductDescription());
+
+         // or render a template
+         // in the template, print things with {{ product.name }}
+         // return $this->render('product/show.html.twig', ['product' => $product]);
+     }
+
+    #[Route('/product/list', name: 'product_list')]
+    public function list(ProductRepository $productRepository, int $id): Response
+    {
+        $product = $productRepository->find($id);
+
+        return new Response('Check out this updated product: ' . $product->getProductDescription());
 
         // or render a template
         // in the template, print things with {{ product.name }}

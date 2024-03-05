@@ -1,0 +1,25 @@
+{# templates/user/create.html.twig #}
+{% extends 'base/my_base_template.html.twig' %}
+
+ {% block sidebar %}
+     <ul>
+         <li>Product</li>
+         <li>
+             <ul>
+                 <li>
+                     <a href="{{ path('admin_panel',{ 'load_next': path('product_list') }) }}"> List Products </a>
+                 </li>
+             </ul>
+         </li>
+         <li>Customer</li>
+         <li>
+             <ul>
+                 <li>
+                     <a href="{{ path('admin_panel',{ 'load_next': path('customer_list') }) }}"> List Customer </a>
+                 </li>
+             </ul>
+         </li>
+
+
+     </ul>
+ {% endblock %}
