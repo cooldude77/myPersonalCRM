@@ -58,11 +58,11 @@ class ProductController extends AbstractController
      }
 
     #[Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository, int $id): Response
+    public function list(ProductRepository $productRepository): Response
     {
-        $product = $productRepository->find($id);
+        $product = $productRepository->findAll();
 
-        return new Response('Check out this updated product: ' . $product->getProductDescription());
+        return new Response('Check out this updated product:');
 
         // or render a template
         // in the template, print things with {{ product.name }}

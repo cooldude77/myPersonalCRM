@@ -7,7 +7,7 @@
          <li>
              <ul>
                  <li>
-                     <a href="{{ path('admin_panel',{ 'load_next': path('product_list') }) }}"> List Products </a>
+                     <a href="{{ path('admin_panel',{ 'load_next': 'product_list' }) }}"> List Products </a>
                  </li>
              </ul>
          </li>
@@ -15,7 +15,7 @@
          <li>
              <ul>
                  <li>
-                     <a href="{{ path('admin_panel',{ 'load_next': path('customer_list') }) }}"> List Customer </a>
+                     <a href="{{ path('admin_panel',{ 'load_next': 'customer_list' }) }}"> List Customer </a>
                  </li>
              </ul>
          </li>
@@ -23,3 +23,7 @@
 
      </ul>
  {% endblock %}
+{% block content %}
+
+    {{ content }}
+{% endblock %}
