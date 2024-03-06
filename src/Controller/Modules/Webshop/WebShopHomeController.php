@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopController extends AbstractController
+class WebShopHomeController extends AbstractController
 {
-    #[Route('/shop', name: 'module_web_shop')]
-    public function createProduct(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/shop/home', name: 'module_web_shop_home')]
+    public function home(EntityManagerInterface $entityManager, Request $request): Response
     {
+
 
         return $this->render('admin/ui/panel/panel.html.twig');
     }

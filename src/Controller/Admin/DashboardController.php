@@ -8,6 +8,8 @@ use App\Entity\Customer;
 use App\Entity\PriceBaseProduct;
 use App\Entity\Product;
 use App\Entity\ProductType;
+use App\Entity\WebshopHome;
+use App\Entity\WebshopHomeSection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -64,6 +66,8 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('ProductType', 'fa fa-tags', ProductType::class),
             MenuItem::linkToCrud('Customer', 'fa fa-tags', Customer::class),
             MenuItem::linkToCrud('Base Price', 'fa fa-tags', PriceBaseProduct::class),
+            MenuItem::linkToCrud('Web Shop Home', 'fa fa-tags', WebshopHome::class),
+            MenuItem::linkToCrud('Web Shop Section', 'fa fa-tags', WebshopHomeSection::class),
 
             MenuItem::section('Users'),
 
