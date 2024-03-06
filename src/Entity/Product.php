@@ -23,6 +23,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne]
+    private ?ProductType $productType = null;
+
 
     public function getId(): ?int
     {
@@ -73,6 +76,18 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getProductType(): ?ProductType
+    {
+        return $this->productType;
+    }
+
+    public function setProductType(?ProductType $productType): static
+    {
+        $this->productType = $productType;
 
         return $this;
     }

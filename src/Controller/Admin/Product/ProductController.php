@@ -21,6 +21,8 @@ class ProductController extends AbstractCrudController
         yield TextField::new('productCode');
         yield TextField::new('productDescription');
         yield AssociationField::new('category');
-      //  yield AssociationField::new('productType');
+        yield AssociationField::new('productType');
+
+        //  yield AssociationField::new('productType');
     }
 }

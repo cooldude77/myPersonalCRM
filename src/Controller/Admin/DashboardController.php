@@ -46,7 +46,10 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('MyPersonalCRM');
+
+
     }
+
 
     public function configureMenuItems(): iterable
     {

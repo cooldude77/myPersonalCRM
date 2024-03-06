@@ -4,8 +4,6 @@ namespace App\Controller\Admin\Product\Type;
 
 // ...
 use App\Entity\ProductType;
-use App\Form\Admin\Customer\Type\ProductTypeCreateForm;
-use App\Form\Admin\Customer\Type\ProductTypeUpdateForm;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductTypeController extends AbstractCrudController
