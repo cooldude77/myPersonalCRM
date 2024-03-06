@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Product\ProductController;
 use App\Entity\Category;
+use App\Entity\Customer;
 use App\Entity\PriceBaseProduct;
 use App\Entity\Product;
 use App\Entity\ProductType;
@@ -61,7 +62,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Category', 'fa fa-tags', Category::class),
             MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
             MenuItem::linkToCrud('ProductType', 'fa fa-tags', ProductType::class),
-            // MenuItem::linkToCrud('Customer', 'fa fa-tags', Customer::class),
+            MenuItem::linkToCrud('Customer', 'fa fa-tags', Customer::class),
             MenuItem::linkToCrud('Base Price', 'fa fa-tags', PriceBaseProduct::class),
 
             MenuItem::section('Users'),

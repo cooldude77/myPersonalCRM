@@ -39,4 +39,9 @@ class Customer
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return Customer::class;
+    }
 }
