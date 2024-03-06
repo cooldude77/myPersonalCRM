@@ -19,12 +19,11 @@ class Category
     #[ORM\Column(length: 1000)]
     private ?string $description = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'category', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn]
+    // Note: removed inversedBy: 'category', from above notation
     private ?self $parent = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'parent', cascade: ['persist', 'remove'])]
-    private ?self $category = null;
 
     public function getId(): ?int
     {
@@ -55,22 +54,6 @@ class Category
         return $this;
     }
 
-    public function getCategory(): ?self
-    {
-        return $this->category;
-    }
-
-    public function setCategory(self $category): static
-    {
-        // set the owning side of the relation if necessary
-        if ($category->getParent() !== $this) {
-            $category->setParent($this);
-        }
-
-        $this->category = $category;
-
-        return $this;
-    }
 
     public function getParent(): ?self
     {
