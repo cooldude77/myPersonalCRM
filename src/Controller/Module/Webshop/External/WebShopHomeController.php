@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Modules\Webshop;
+namespace App\Controller\Module\Webshop\External;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +15,7 @@ class WebShopHomeController extends AbstractController
     {
 
 
-        return $this->render('admin/ui/panel/panel.html.twig');
+        return $this->render('module/web_shop/external/web_shop.html.twig');
     }
 
 }

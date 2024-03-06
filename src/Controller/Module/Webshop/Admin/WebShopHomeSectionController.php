@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Modules\Webshop\Admin;
+namespace App\Controller\Module\Webshop\Admin;
 
 use App\Entity\WebshopHomeSection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
