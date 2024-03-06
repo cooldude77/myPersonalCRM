@@ -10,7 +10,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PanelController extends AbstractController
 {
-    #[Route('/admin', name: 'admin_panel')]
+    #[Route('/hello', name: 'admin_panel')]
     public function admin(
         Request         $request,
         RouterInterface $router): Response
