@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\WebshopHomeSection;
+use App\Entity\WebShopHome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<WebshopHomeSection>
+ * @extends ServiceEntityRepository<WebShopHome>
  *
- * @method WebshopHomeSection|null find($id, $lockMode = null, $lockVersion = null)
- * @method WebshopHomeSection|null findOneBy(array $criteria, array $orderBy = null)
- * @method WebshopHomeSection[]    findAll()
- * @method WebshopHomeSection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method WebShopHome|null find($id, $lockMode = null, $lockVersion = null)
+ * @method WebShopHome|null findOneBy(array $criteria, array $orderBy = null)
+ * @method WebShopHome[]    findAll()
+ * @method WebShopHome[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WebshopHomeSectionRepository extends ServiceEntityRepository
+class WebShopHomeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WebshopHomeSection::class);
+        parent::__construct($registry, WebShopHome::class);
     }
 
     //    /**
-    //     * @return WebshopHomeSection[] Returns an array of WebshopHomeSection objects
+    //     * @return WebShopHome[] Returns an array of WebShopHome objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class WebshopHomeSectionRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?WebshopHomeSection
+    //    public function findOneBySomeField($value): ?WebShopHome
     //    {
     //        return $this->createQueryBuilder('w')
     //            ->andWhere('w.exampleField = :val')

@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\WebshopHomeRepository;
+use App\Repository\WebShopHomeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WebshopHomeRepository::class)]
-class WebshopHome
+#[ORM\Entity(repositoryClass: WebShopHomeRepository::class)]
+class WebShopHome
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
