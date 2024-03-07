@@ -1,0 +1,17 @@
+{# templates/user/create.html.twig #}
+{% extends 'base/my_base_template.html.twig' %}
+{% block sidebar %}
+
+{% endblock %}
+{% block content %}
+    This is a new shop
+    {{ webShopHome.name }}
+    {% for section in webShopHomeSection %}
+        <h2>
+            {{ section.header }}
+            <div>
+                Section content
+            </div>
+        </h2>
+    {% endfor %}
+{% endblock %}

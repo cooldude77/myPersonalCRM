@@ -1,0 +1,19 @@
+{# templates/user/create.html.twig #}
+{% extends 'base/my_base_template.html.twig' %}
+{% block sidebar %}
+
+{% endblock %}
+{% block content %}
+    {% for category in categories %}
+        <h2>
+            {{ category.code }}
+        </h2>
+    {% endfor %}
+    {% for product in products %}
+        <div>
+            <a href="{{ path('module_web_shop_product_display',{'code':product.productCode}) }}"> {{ product.productCode }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
