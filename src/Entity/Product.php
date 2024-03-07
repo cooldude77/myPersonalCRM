@@ -14,17 +14,17 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $productCode = null;
+    private ?string $code = null;
 
     #[ORM\Column(length: 5000)]
-    private ?string $productDescription = null;
+    private ?string $description = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
     #[ORM\ManyToOne]
-    private ?ProductType $productType = null;
+    private ?ProductType $type = null;
 
 
     public function getId(): ?int
@@ -44,26 +44,26 @@ class Product
         return $this;
     }
 
-    public function getProductCode(): ?string
+    public function getCode(): ?string
     {
-        return $this->productCode;
+        return $this->code;
     }
 
-    public function setProductCode(string $productCode): static
+    public function setCode(string $code): static
     {
-        $this->productCode = $productCode;
+        $this->code = $code;
 
         return $this;
     }
 
-    public function getProductDescription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->productDescription;
+        return $this->description;
     }
 
-    public function setProductDescription(string $productDescription): static
+    public function setDescription(string $description): static
     {
-        $this->productDescription = $productDescription;
+        $this->description = $description;
 
         return $this;
     }
@@ -80,20 +80,20 @@ class Product
         return $this;
     }
 
-    public function getProductType(): ?ProductType
+    public function getType(): ?ProductType
     {
-        return $this->productType;
+        return $this->type;
     }
 
-    public function setProductType(?ProductType $productType): static
+    public function setType(?ProductType $type): static
     {
-        $this->productType = $productType;
+        $this->type = $type;
 
         return $this;
     }
 
     public function __toString(): string
     {
-        return $this->getProductDescription();
+        return $this->getDescription();
     }
 }

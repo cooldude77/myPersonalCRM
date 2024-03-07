@@ -21,8 +21,8 @@ class ProductCreateForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('productCode', TextType::class);
-        $builder->add('productDescription', TextType::class);
+        $builder->add('code', TextType::class);
+        $builder->add('description', TextType::class);
         $builder->add('category', TextType::class);
 
         $builder->get('category')->addModelTransformer($this->categoryToIdTransformer);

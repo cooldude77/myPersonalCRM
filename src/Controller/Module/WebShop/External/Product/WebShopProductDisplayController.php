@@ -15,7 +15,7 @@ class WebShopProductDisplayController extends AbstractController
                          ProductRepository $productRepository,
                          Request $request): Response
     {
-        $product = $productRepository->findOneBy(['productCode' => $code]);
+        $product = $productRepository->findOneBy(['code' => $code]);
         return $this->render('module/web_shop/external/product/web_shop_product_display.html.twig',
             ['product' => $product]);
     }

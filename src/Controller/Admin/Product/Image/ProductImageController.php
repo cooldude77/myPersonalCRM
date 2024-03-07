@@ -47,10 +47,10 @@ class ProductImageController extends AbstractController
             );
         }
 
-        $product->setProductDescription('New .... ');
+        $product->setDescription('New .... ');
         $productRepository->getEntityManager()->flush($product);
 
-        return new Response('Check out this updated product: ' . $product->getProductDescription());
+        return new Response('Check out this updated product: ' . $product->getDescription());
 
         // or render a template
         // in the template, print things with {{ product.name }}

@@ -1,7 +1,7 @@
 {% if products is not null and products|length > 0 %}
     {% for product in products %}
         <div class="product">
-            <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.productCode }}</a>
+            <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
         </div>
     {% endfor %}
 {% endif %}

@@ -11,7 +11,7 @@
     {% endfor %}
     {% for product in products %}
         <div>
-            <a href="{{ path('module_web_shop_product_display',{'code':product.productCode}) }}"> {{ product.productCode }}</a>
+            <a href="{{ path('module_web_shop_product_display',{'code':product.code}) }}"> {{ product.code }}</a>
         </div>
     {% endfor %}
 {% endblock %}
