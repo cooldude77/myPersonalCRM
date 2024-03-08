@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\FileTypeRepository;
+use App\Repository\FileBaseTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FileTypeRepository::class)]
-class FileType
+#[ORM\Entity(repositoryClass: FileBaseTypeRepository::class)]
+class FileBaseType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,10 +18,6 @@ class FileType
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?FileBaseType $baseType = null;
 
     public function getId(): ?int
     {
@@ -48,18 +44,6 @@ class FileType
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getBaseType(): ?FileBaseType
-    {
-        return $this->baseType;
-    }
-
-    public function setBaseType(?FileBaseType $baseType): static
-    {
-        $this->baseType = $baseType;
 
         return $this;
     }
