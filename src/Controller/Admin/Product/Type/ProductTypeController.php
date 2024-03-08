@@ -3,15 +3,10 @@
 namespace App\Controller\Admin\Product\Type;
 
 // ...
-use App\Entity\ProductType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ProductTypeController extends AbstractCrudController
+class ProductTypeController extends AbstractController
 {
 
 
-    public static function getEntityFqcn(): string
-    {
-        return ProductType::class;
-    }
 }

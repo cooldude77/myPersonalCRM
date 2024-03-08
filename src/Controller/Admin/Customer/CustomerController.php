@@ -4,9 +4,9 @@ namespace App\Controller\Admin\Customer;
 
 // ...
 use App\Entity\Customer;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CustomerController extends AbstractCrudController
+class CustomerController extends AbstractController
 {
 
     public static function getEntityFqcn(): string

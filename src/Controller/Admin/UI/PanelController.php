@@ -10,7 +10,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PanelController extends AbstractController
 {
-    #[Route('/hello', name: 'admin_panel')]
+    #[Route('/admin', name: 'admin_panel')]
     public function admin(
         Request         $request,
         RouterInterface $router): Response
@@ -20,10 +20,10 @@ class PanelController extends AbstractController
             $routeName = $request->get('load_next');
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
-            $content = $this->forward($controllerAction)->getContent();
 
+            $content = $this->forward($controllerAction)->getContent();
             return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content]);
         }
-        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "Hello"]);
+        return $this->render('admin/ui/panel/panel.html.twig', ['content' => null]);
     }
 }

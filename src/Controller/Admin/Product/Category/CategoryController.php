@@ -3,22 +3,32 @@
 namespace App\Controller\Admin\Product\Category;
 
 use App\Entity\Category;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use App\Form\Admin\Product\Category\CategoryCreateForm;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class CategoryController extends AbstractCrudController
+class CategoryController extends AbstractController
 {
-    public function configureFields(string $pageName): iterable
+    #[Route('/category/create', 'category_create')]
+    public function create(EntityManagerInterface $entityManager, Request $request): Response
     {
-        yield TextField::new('code');
-        yield TextField::new('description');
-        yield AssociationField::new('parent');
+        $category = new Category();
+        $form = $this->createForm(CategoryCreateForm::class, $category);
 
-    }
+        $form->handleRequest($request);
 
-    public static function getEntityFqcn(): string
-    {
-        return Category::class;
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // perform some action...
+            $entityManager->persist($form->getData());
+            $entityManager->flush();
+
+            return $this->redirectToRoute('task_success');
+        }
+
+        return $this->render('/admin/category/create.html.twig', ['form' => $form]);
     }
 }
