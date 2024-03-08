@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Product;
 
 // ...
+use App\Config\Admin\ProductFieldList;
 use App\Entity\Product;
 use App\Form\Admin\Product\ProductCreateForm;
 use App\Repository\ProductRepository;
@@ -58,10 +59,12 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository): Response
+    public function list(ProductRepository $productRepository,
+                         ProductFieldList  $fieldList): Response
     {
         $product = $productRepository->findAll();
 
-        return $this->render('admin/product/list.html.twig', ['products' => $product]);
+        return $this->render('admin/product/list.html.twig', ['products' => $product,
+            'fields' => $fieldList->fieldsToShowOnListEntity()]);
     }
 }
