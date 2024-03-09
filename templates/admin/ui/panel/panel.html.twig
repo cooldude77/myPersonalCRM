@@ -1,6 +1,8 @@
 {# templates/user/create.html.twig #}
 {% extends 'base/my_base_template.html.twig' %}
-
+  {% block javascripts %}
+      <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  {% endblock %}
  {% block sidebar %}
      <ul>
          <li>Product</li>
@@ -22,6 +24,23 @@
      </ul>
  {% endblock %}
 {% block content %}
+    <div id="app">(( message))</div>
+
 
     {{ content|raw }}
+
+    <script type="module">
+
+        const app = Vue.createApp({
+            delimiters: ['((', '))'],
+            data() {
+                return {
+                    message: "Hello World!"
+                }
+            }
+        })
+
+        app.mount('#app')
+
+    </script>
 {% endblock %}
