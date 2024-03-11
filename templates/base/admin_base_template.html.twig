@@ -9,6 +9,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     {% endblock %}
 
     {% block javascripts %}
@@ -16,22 +17,23 @@
 </head>
 <body>
 {% block body %}
+    <div class="wrapper">
+        <div id="header">
+            {% block header %}
+                <div class="container-fluid bg-primary text-white text-center">
+                    <h1>My First Bootstrap Page</h1>
+                </div>
+            {% endblock %}
+        </div>
+        <nav id="sidebar">
+            {% block sidebar %}
 
-    <div id="header">
-        {% block header %}
-            <div class="container-fluid bg-primary text-white text-center">
-                <h1>My First Bootstrap Page</h1>
-            </div>
-        {% endblock %}
-    </div>
-    <div id="sidebar">
-        {% block sidebar %}
+            {% endblock %}
+        </nav>
 
-        {% endblock %}
-    </div>
-
-    <div id="content">
-        {% block content %}{% endblock %}
+        <nav id="content" class="container-fluid">
+            {% block content %}{% endblock %}
+        </nav>
     </div>
 {% endblock %}
 </body>

@@ -3,7 +3,7 @@
 
  {% block sidebar %}
      <ul>
-         {% for section in sidebarMenu %}
+         {% for section in sidebarMenu.sections %}
              {% include  'base/_li_section_with_header.html.twig' with section %}
          {% endfor %}
 

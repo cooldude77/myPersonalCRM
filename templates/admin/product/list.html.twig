@@ -1,7 +1,14 @@
 {% if products is not null and products|length > 0 %}
-    {% for product in products %}
-        <div class="product">
-            <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
-        </div>
-    {% endfor %}
+    <div class="container">
+        {% for product in products %}
+            <div class="row">
+                <div class="col-sm-4" style="background-color:lavender;">
+                    <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
+                </div>
+                <div class="col-sm-4" style="background-color:lavender;">
+                    <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
