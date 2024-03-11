@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product/create', name: 'create_product')]
+    #[Route('/product/create', name: 'product_create')]
     public function createProduct(EntityManagerInterface $entityManager, Request $request): Response
     {
         $type = new Product();
@@ -30,7 +30,7 @@ class ProductController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin/product/success_create.html.twig');
+            return $this->render('admin/product/success.html.twig');
         }
         return $this->render('admin/product/create.html.twig', ['form' => $form]);
     }
