@@ -3,24 +3,10 @@
 
  {% block sidebar %}
      <ul>
-         <li>Product</li>
-         <li>
-             <ul>
-                 <li>
-                     <a href="{{ path('admin_panel',{ 'load_next': 'product_list','type':'list' }) }}"> List
-                         Products </a>
-                 </li>
-             </ul>
-         </li>
-         <li>Customer</li>
-         <li>
-             <ul>
-                 <li>
-                     <a href="{{ path('admin_panel',{ 'load_next': 'customer_list','type':'list' }) }}"> List
-                         Customer </a>
-                 </li>
-             </ul>
-         </li>
+         {% for section in sidebarMenu %}
+             {% include  'base/_li_section_with_header.html.twig' with section %}
+         {% endfor %}
+
      </ul>
  {% endblock %}
 {% block content %}
@@ -30,5 +16,8 @@
         {% include "admin/ui/panel/_create_button_in_list.html.twig"
             with { 'load_next': 'product_create', 'redirect_upon_success_url': redirect_upon_success_url} only %}
     {% endif %}
-    {{ content|raw }}
+
+    <div class="container">
+        {{ content|raw }}
+    </div>
 {% endblock %}

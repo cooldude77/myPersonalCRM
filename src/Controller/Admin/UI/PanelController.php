@@ -16,14 +16,30 @@ class PanelController extends AbstractController
         RouterInterface $router): Response
     {
 
+        $adminUrl = $router->generate('admin_panel');
+        $sideBar =
+            [
+                'section' => [
+                    'header_text' => 'Product',
+                    'items' => [
+                        [
+                            'url' => $adminUrl . '?load_next=product_list',
+                            'text' => 'Product'
+                        ]
+                    ]
+
+                ]
+            ];
+
+
         if ($request->get('load_next') !== null) {
             $routeName = $request->get('load_next');
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
             $content = $this->forward($controllerAction)->getContent();
 
-            return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content]);
+            return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content, 'sidebarMenu' => $sideBar]);
         }
-        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "This is home"]);
+        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "This is home", 'sidebarMenu' => $sideBar]);
     }
 }
