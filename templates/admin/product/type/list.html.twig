@@ -1,9 +1,9 @@
 {# templates/user/create.html.twig #}
-{% extends 'base/my_base_template.html.twig' %}
+{% extends 'base/admin_base_template.html.twig' %}
 {% block content %}
 
     {% if list is empty || list.length ==0 %}
-        Hello
+        No Product Type Found
     {% else %}
         <table>
             {% for item in list %}

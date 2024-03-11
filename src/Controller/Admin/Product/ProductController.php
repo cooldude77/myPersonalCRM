@@ -62,9 +62,7 @@ class ProductController extends AbstractController
     public function list(ProductRepository $productRepository,
                          ProductFieldList  $fieldList): Response
     {
-        $product = $productRepository->findAll();
-
-        return $this->render('admin/product/list.html.twig', ['products' => $product,
-            'fields' => $fieldList->fieldsToShowOnListEntity()]);
+        $products = $productRepository->findAll();
+        return $this->render('admin/product/list.html.twig', ['products' => $products]);
     }
 }

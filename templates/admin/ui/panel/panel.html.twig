@@ -1,5 +1,5 @@
 {# templates/user/create.html.twig #}
-{% extends 'base/my_base_template.html.twig' %}
+{% extends 'base/admin_base_template.html.twig' %}
 
  {% block sidebar %}
      <ul>
@@ -25,7 +25,10 @@
  {% endblock %}
 {% block content %}
     {% if app.request.get('type') == 'list' %}
-        {% include "admin/ui/panel/_create_button_in_list.html.twig" with { 'load_next': 'product_create' } only %}
+        {% set redirect_upon_success_url =  path('admin_panel',{ 'load_next': 'product_list','type':'list' }) %}
+
+        {% include "admin/ui/panel/_create_button_in_list.html.twig"
+            with { 'load_next': 'product_create', 'redirect_upon_success_url': redirect_upon_success_url} only %}
     {% endif %}
     {{ content|raw }}
 {% endblock %}

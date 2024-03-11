@@ -24,6 +24,6 @@ class PanelController extends AbstractController
 
             return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content]);
         }
-        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "Hello"]);
+        return $this->render('admin/ui/panel/panel.html.twig', ['content' => "This is home"]);
     }
 }
