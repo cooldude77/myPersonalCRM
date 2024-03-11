@@ -23,7 +23,7 @@ class PanelController extends AbstractController
                     'header_text' => 'Product',
                     'items' => [
                         [
-                            'url' => $adminUrl . '?load_next=product_list',
+                            'url' => $adminUrl . '?load_next=product_list&type=list',
                             'text' => 'Product'
                         ]
                     ]
