@@ -26,6 +26,10 @@ class Product
     #[ORM\ManyToOne]
     private ?ProductType $type = null;
 
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+
 
     public function getId(): ?int
     {
@@ -96,4 +100,17 @@ class Product
     {
         return $this->getDescription();
     }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
 }
