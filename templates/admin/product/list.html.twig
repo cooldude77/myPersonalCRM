@@ -3,10 +3,7 @@
         {% for product in products %}
             <div class="row">
                 <div class="col-sm-4" style="background-color:lavender;">
-                    <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
-                </div>
-                <div class="col-sm-4" style="background-color:lavender;">
-                    <a href="{{ path('product_edit',{id:product.id}) }}"> {{ product.code }}</a>
+                    <a href="{{ path('product_display',{id:product.id}) }}"> {{ product.code }}</a>
                 </div>
             </div>
         {% endfor %}

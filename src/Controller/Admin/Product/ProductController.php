@@ -30,7 +30,10 @@ class ProductController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            return $this->render('admin/product/success.html.twig');
+            $response = $this->render('admin/product/success.html.twig');
+            $response->setStatusCode(401);
+
+            return $response;
         }
         return $this->render('admin/product/create.html.twig', ['form' => $form]);
     }
@@ -51,7 +54,26 @@ class ProductController extends AbstractController
         $product->setDescription('New .... ');
         $productRepository->getEntityManager()->flush($product);
 
-        return new Response('Check out this updated product: ' . $product->getDescription());
+
+        // or render a template
+        // in the template, print things with {{ product.name }}
+        return $this->render('product/show.html.twig', ['product' => $product]);
+    }
+
+    #[Route('/product/display/{id}', name: 'product_display')]
+    public function display(ProductRepository $productRepository, int $id): Response
+    {
+        $product = $productRepository->find($id);
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
+            );
+        }
+
+        $form = $this->createForm(ProductCreateForm::class, $product);
+
+
+        return $this->render('admin/product/create.html.twig', ['form' => $form]);
 
         // or render a template
         // in the template, print things with {{ product.name }}

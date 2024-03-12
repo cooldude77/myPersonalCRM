@@ -14,7 +14,9 @@
         {% set redirect_upon_success_url =  path('admin_panel',{ 'load_next': 'product_list','type':'list' }) %}
 
         {% include "admin/ui/panel/_create_button_in_list.html.twig"
-            with { 'load_next': 'product_create', 'redirect_upon_success_url': redirect_upon_success_url} only %}
+            with { 'load_next': 'product_create',
+            'type':'create',
+            'redirect_upon_success_url': redirect_upon_success_url} only %}
     {% endif %}
 
     <div class="container">

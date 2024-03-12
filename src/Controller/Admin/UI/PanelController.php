@@ -72,13 +72,30 @@ class PanelController extends AbstractController
 
 
         if ($request->get('load_next') !== null) {
+
             $routeName = $request->get('load_next');
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
-            $content = $this->forward($controllerAction)->getContent();
+            $response = $this->forward($controllerAction);
+            $content = $response->getContent();
 
-            return $this->render('admin/ui/panel/panel.html.twig', ['content' => $content, 'sidebarMenu' => $sideBar]);
+            switch ($request->get('type')) {
+                case 'list':
+                    return $this->render('admin/ui/panel/panel.html.twig',
+                        ['content' => $content, 'sidebarMenu' => $sideBar]);
+
+                case 'create':
+
+                    if ($response->getStatusCode() == 401) {
+                        $redirect_url = $request->get('redirect_upon_success_url');
+                        return $this->redirect($redirect_url);
+                    } else
+                        return $this->render('admin/ui/panel/panel.html.twig',
+                            ['content' => $content, 'sidebarMenu' => $sideBar]);
+            }
+
         }
+
         return $this->render('admin/ui/panel/panel.html.twig', ['content' => "This is home", 'sidebarMenu' => $sideBar]);
     }
 }
