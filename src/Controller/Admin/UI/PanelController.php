@@ -10,6 +10,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PanelController extends AbstractController
 {
+
+
     #[Route('/admin', name: 'admin_panel')]
     public function admin(
         Request         $request,
@@ -17,6 +19,10 @@ class PanelController extends AbstractController
     {
 
         $adminUrl = $router->generate('admin_panel');
+
+        $session = $request->getSession();
+        $session->set('context_route', 'admin_panel');
+
         $sideBar =
             [
                 'sections' => [
@@ -24,7 +30,7 @@ class PanelController extends AbstractController
                         'header_text' => 'Product',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=product_list&type=list',
+                                'url' => $adminUrl . '?load_next=product_list&type=list&context_route=admin_panel',
                                 'text' => 'Product List'
                             ]
                         ]
@@ -33,7 +39,7 @@ class PanelController extends AbstractController
                         'header_text' => 'Customer',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=customer_list&type=list',
+                                'url' => $adminUrl . '?load_next=customer_list&type=list&context_route=admin_panel',
                                 'text' => 'Customer List'
                             ]
                         ]
@@ -42,7 +48,7 @@ class PanelController extends AbstractController
                         'header_text' => 'Prices',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
                                 'text' => 'Prices List'
                             ]
                         ]
@@ -51,7 +57,7 @@ class PanelController extends AbstractController
                         'header_text' => 'WebShop',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
                                 'text' => 'WebShop List'
                             ]
                         ]
@@ -59,7 +65,7 @@ class PanelController extends AbstractController
                         'header_text' => 'Users',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
                                 'text' => 'Users List'
                             ]
                         ]
