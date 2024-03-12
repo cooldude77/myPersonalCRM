@@ -70,7 +70,7 @@ class ProductController extends AbstractController
             );
         }
 
-        return $this->render('admin/product/display.html.twig');
+        return $this->render('admin/product/display.html.twig', ['product' => $product]);
 
     }
 

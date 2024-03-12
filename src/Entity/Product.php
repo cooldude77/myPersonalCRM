@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -28,6 +29,9 @@ class Product
 
     #[ORM\Column]
     private ?bool $isActive = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $longDescription = null;
 
 
 
@@ -109,6 +113,18 @@ class Product
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getLongDescription(): ?string
+    {
+        return $this->longDescription;
+    }
+
+    public function setLongDescription(?string $longDescription): static
+    {
+        $this->longDescription = $longDescription;
 
         return $this;
     }
