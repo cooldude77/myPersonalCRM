@@ -1,5 +1,6 @@
-<a href="{{ path('admin_panel',
+<a href="{{ path(app.session.get('context_route'),
     {
-        'load_next': load_next,'type':type,
+        'load_next': load_next,'type':'create',
         'redirect_upon_success_url':redirect_upon_success_url,
-        'context_route':app.request.get('context_route')}) }}">Create </a>
+        'context_route':app.request.get('context_route')
+    }) }}">Create </a>

@@ -3,15 +3,14 @@
         {% for product in products %}
             <div class="row">
                 <div class="col-sm-4" style="background-color:lavender;">
-                    {{ product.code }}
+                    <a href="{{ path(app.session.get('context_route'),
+                        {'load_next':'product_display',id:product.id,
+                            'type':'display'}) }}">   {{ product.code }}</a>
                 </div>
                 <div class="col-sm-4" style="background-color:lavender;">
                     <a href="{{ path(app.session.get('context_route'),
-                        {'load_next':'product_edit',id:product.id}) }}"> Edit</a>
-                </div>
-                <div class="col-sm-4" style="background-color:lavender;">
-                    <a href="{{ path(app.session.get('context_route'),
-                        {'load_next':'product_edit',id:product.id}) }}"> Edit</a>
+                        {'load_next':'product_edit',id:product.id,
+                            'type':'edit'}) }}"> Edit</a>
                 </div>
             </div>
         {% endfor %}

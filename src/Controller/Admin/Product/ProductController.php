@@ -70,14 +70,8 @@ class ProductController extends AbstractController
             );
         }
 
-        $form = $this->createForm(ProductCreateForm::class, $product);
+        return $this->render('admin/product/display.html.twig');
 
-
-        return $this->render('admin/product/create.html.twig', ['form' => $form]);
-
-        // or render a template
-        // in the template, print things with {{ product.name }}
-        // return $this->render('product/show.html.twig', ['product' => $product]);
     }
 
     #[Route('/product/list', name: 'product_list')]
