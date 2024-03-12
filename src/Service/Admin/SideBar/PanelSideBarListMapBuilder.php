@@ -15,7 +15,7 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Product',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?function=product&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?function=product&type=list',
                                 'text' => 'Product List'
                             ]
                         ]
@@ -24,7 +24,7 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Customer',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=customer_list&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?load_next=customer_list&type=list',
                                 'text' => 'Customer List'
                             ]
                         ]
@@ -33,7 +33,7 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Prices',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
                                 'text' => 'Prices List'
                             ]
                         ]
@@ -42,7 +42,7 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'WebShop',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
                                 'text' => 'WebShop List'
                             ]
                         ]
@@ -50,7 +50,7 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Users',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
                                 'text' => 'Users List'
                             ]
                         ]
