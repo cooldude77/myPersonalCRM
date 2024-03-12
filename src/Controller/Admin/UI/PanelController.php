@@ -23,18 +23,7 @@ class PanelController extends AbstractController
         $session = $request->getSession();
         $session->set('context_route', 'admin_panel');
 
-        $actions = [
 
-            'functions' => [
-                'name' => 'Product',
-                'routes' => [
-                    ['create', 'product_create'],
-                    ['edit', 'product_edit'],
-                    ['display', 'product_display'],
-                    ['list', 'product_list']
-                ]
-            ]
-        ];
 
         $sideBar =
             [
@@ -43,7 +32,7 @@ class PanelController extends AbstractController
                         'header_text' => 'Product',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=product_list&type=list&context_route=admin_panel',
+                                'url' => $adminUrl . '?function=product&type=list&context_route=admin_panel',
                                 'text' => 'Product List'
                             ]
                         ]
@@ -89,10 +78,16 @@ class PanelController extends AbstractController
 
             ];
 
+        $builder = new PanelActionListMapBuilder();
+        $map = $builder->build();
 
-        if ($request->get('load_next') !== null) {
+        if ($request->get('type') !== null) {
 
-            $routeName = $request->get('load_next');
+            $type = $request->get('type');
+            $function = $request->get('function');
+
+            $routeName = $map->getRouteFromFunctionAndAction($function, $type);
+
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
 
@@ -113,15 +108,13 @@ class PanelController extends AbstractController
                     } else
                         return $this->render('admin/ui/panel/panel.html.twig',
                             ['content' => $content,
-                                'sidebarMenu' => $sideBar,
-                                'actions' => $actions]);
+                                'sidebarMenu' => $sideBar]);
             }
 
         }
 
         return $this->render('admin/ui/panel/panel.html.twig',
             ['content' => "This is home",
-                'sidebarMenu' => $sideBar,
-                'actions' => $actions]);
+                'sidebarMenu' => $sideBar]);
     }
 }
