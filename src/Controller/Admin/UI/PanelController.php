@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\UI;
 
+use App\Service\Admin\SideBar\PanelSideBarListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,63 +24,12 @@ class PanelController extends AbstractController
         $session = $request->getSession();
         $session->set('context_route', 'admin_panel');
 
+        $mapBuilder = new PanelActionListMapBuilder();
+        $map = $mapBuilder->build();
 
+        $sideBarBuilder = new PanelSideBarListMapBuilder();
+        $sideBar = $sideBarBuilder->build($adminUrl)->getSideBarList();
 
-        $sideBar =
-            [
-                'sections' => [
-                    [
-                        'header_text' => 'Product',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?function=product&type=list&context_route=admin_panel',
-                                'text' => 'Product List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Customer',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?load_next=customer_list&type=list&context_route=admin_panel',
-                                'text' => 'Customer List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Prices',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
-                                'text' => 'Prices List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'WebShop',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
-                                'text' => 'WebShop List'
-                            ]
-                        ]
-                    ], [
-                        'header_text' => 'Users',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list&context_route=admin_panel',
-                                'text' => 'Users List'
-                            ]
-                        ]
-                    ],
-
-
-                ],
-
-            ];
-
-        $builder = new PanelActionListMapBuilder();
-        $map = $builder->build();
 
         if ($request->get('type') !== null) {
 
