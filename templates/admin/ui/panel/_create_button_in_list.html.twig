@@ -1,6 +1,12 @@
+{% set after =  path(app.session.get('context_route'),
+    {
+        'function':app.request.get('function'),
+        'type':'display'}) %}
+
 <a href="{{ path(app.session.get('context_route'),
     {
-        'load_next': load_next,'type':'create',
-        'redirect_upon_success_url':redirect_upon_success_url,
-        'context_route':app.request.get('context_route')
+        'function':app.request.get('function') ,
+        'type':'create',
+        'redirect_upon_success_url': after
+
     }) }}">Create </a>

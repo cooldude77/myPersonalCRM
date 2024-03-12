@@ -83,22 +83,28 @@ class PanelController extends AbstractController
 
         if ($request->get('type') !== null) {
 
+            // Prepare to read from map
             $type = $request->get('type');
             $function = $request->get('function');
-
             $routeName = $map->getRouteFromFunctionAndAction($function, $type);
 
+            // call controller
             $route = $router->getRouteCollection()->get($routeName);
             $controllerAction = $route->getDefault('_controller');
-
             $response = $this->forward($controllerAction, ['id' => $request->get('id')], $request->query->all());
+
             $content = $response->getContent();
 
+            // decide what to do next
             switch ($request->get('type')) {
                 case 'list':
                 case 'display':
                     return $this->render('admin/ui/panel/panel.html.twig',
-                        ['content' => $content, 'sidebarMenu' => $sideBar]);
+                        [
+                            'content' => $content,
+                            'sidebarMenu' => $sideBar,
+                            'actionListMap' => $map
+                        ]);
 
                 case 'create':
 
@@ -107,14 +113,19 @@ class PanelController extends AbstractController
                         return $this->redirect($redirect_url);
                     } else
                         return $this->render('admin/ui/panel/panel.html.twig',
-                            ['content' => $content,
-                                'sidebarMenu' => $sideBar]);
+                            [
+                                'content' => $content,
+                                'sidebarMenu' => $sideBar,
+                                'actionListMap' => $map
+                            ]);
             }
 
         }
 
         return $this->render('admin/ui/panel/panel.html.twig',
-            ['content' => "This is home",
-                'sidebarMenu' => $sideBar]);
+            [
+                'content' => "This is home",
+                'sidebarMenu' => $sideBar,
+                'actionListMap' => $map]);
     }
 }
