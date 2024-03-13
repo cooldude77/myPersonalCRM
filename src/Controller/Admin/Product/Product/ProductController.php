@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Admin\Product;
+namespace App\Controller\Admin\Product\Product;
 
 // ...
 use App\Config\Admin\ProductFieldList;
