@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Admin\Product\Product\Image;
+namespace App\Controller\Admin\Product\Image;
 
 // ...
 use App\Entity\Product;

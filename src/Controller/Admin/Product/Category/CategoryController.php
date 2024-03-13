@@ -1,6 +1,6 @@
 <?php
 // src/Controller/LuckyController.php
-namespace App\Controller\Admin\Product\Product\Category;
+namespace App\Controller\Admin\Product\Category;
 
 use App\Entity\Category;
 use App\Form\Admin\Product\Category\CategoryCreateForm;
