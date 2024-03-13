@@ -1,10 +1,10 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Admin\Product\Product\Type\Attribute;
+namespace App\Controller\Admin\Product\Type\Attribute;
 
 // ...
 use App\Entity\ProductTypeAttribute;
-use App\Form\Admin\Customer\Type\ProductTypeCreateForm;
+use App\Form\Admin\Product\Type\ProductTypeCreateForm;
 use App\Repository\ProductTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
