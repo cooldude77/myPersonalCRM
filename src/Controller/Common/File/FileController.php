@@ -5,6 +5,7 @@ namespace App\Controller\Common\File;
 // ...
 use App\Entity\File;
 use App\Form\Common\File\FileCreateForm;
+use App\Repository\FileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function createFile( Request $request): Response
+    public function createFile( EntityManagerInterface  $entityManager,Request $request): Response
     {
         $file = new File();
 
@@ -24,20 +25,24 @@ class FileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // perform some action...
-            //        $entityManager->persist($form->getData());
-            //       $entityManager->flush();
-
+            /** @var File $file */
+            $file = $form->getData();
             $fileHandle = $form->get('uploadedFile')->getData();
-            $fileName = md5(uniqid()) . '.' . $fileHandle->guessExtension();
+            $fileName = $file->getName().'.'.$fileHandle->guessExtension();
 
             //$fileHandle->move($this->getParameter('/tmp'), $fileName);
-            $fileHandle->move('/var/www/html/temp', $fileName);
+            if($fileHandle->move('/var/www/html/temp', $fileName)){
 
-            return $this->redirectToRoute('common/file/success_create.html.twig');
+                $file->setName($fileName);
+                $entityManager->persist($file);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('common/file/success_create.html.twig');
+            }
+
+
         }
         return $this->render('common/file/create.html.twig', ['form' => $form]);
     }
-
 
 }
