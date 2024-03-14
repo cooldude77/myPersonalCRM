@@ -2,11 +2,12 @@
 
 namespace App\Controller\Admin\UI;
 
+use App\Service\Admin\Action\PanelActionListMapBuilder;
 use App\Service\Admin\SideBar\PanelSideBarListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 class PanelController extends AbstractController
