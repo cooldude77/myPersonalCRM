@@ -18,12 +18,11 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+### Project Files ###
+.env
 /.idea
-/cache
-/logs
-.idea/jsLibraryMappings.xml
-.idea/modules.xml
-.idea/php-test-framework.xml
-.idea/php.xml
-.idea/vcs.xml
-.idea/php.xml
+/tmp
+### Project Files ###
+
+

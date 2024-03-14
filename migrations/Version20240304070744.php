@@ -23,8 +23,6 @@ final class Version20240304070744 extends AbstractMigration
         $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, type_id INT NOT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(5000) NOT NULL, INDEX IDX_8C9F3610C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE file_type (id INT AUTO_INCREMENT NOT NULL, type VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE file ADD CONSTRAINT FK_8C9F3610C54C8C93 FOREIGN KEY (type_id) REFERENCES file_type (id)');
-        $this->addSql('INSERT INTO file_type ( type, description) values ("image_jpeg","image/jpeg")');
-
     }
 
     public function down(Schema $schema): void

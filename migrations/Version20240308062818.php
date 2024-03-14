@@ -23,8 +23,7 @@ final class Version20240308062818 extends AbstractMigration
         $this->addSql('CREATE TABLE category_file (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, file_id INT NOT NULL, INDEX IDX_7044C5712469DE2 (category_id), UNIQUE INDEX UNIQ_7044C5793CB796C (file_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE category_file ADD CONSTRAINT FK_7044C5712469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');
         $this->addSql('ALTER TABLE category_file ADD CONSTRAINT FK_7044C5793CB796C FOREIGN KEY (file_id) REFERENCES file (id)');
-        $this->addSql('ALTER TABLE file_type ADD CONSTRAINT FK_5223F47F14A35F7 FOREIGN KEY (base_type_id) REFERENCES file_base_type (id)');
-        $this->addSql('CREATE INDEX IDX_5223F47F14A35F7 ON file_type (base_type_id)');
+
     }
 
     public function down(Schema $schema): void
