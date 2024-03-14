@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function createFile(EntityManagerInterface $entityManager, Request $request): Response
+    public function createFile( Request $request): Response
     {
         $file = new File();
 
@@ -30,6 +30,7 @@ class FileController extends AbstractController
 
             $fileHandle = $form->get('uploadedFile')->getData();
             $fileName = md5(uniqid()) . '.' . $fileHandle->guessExtension();
+
             //$fileHandle->move($this->getParameter('/tmp'), $fileName);
             $fileHandle->move('/var/www/html/temp', $fileName);
 
