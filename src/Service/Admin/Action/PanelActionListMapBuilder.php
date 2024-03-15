@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\UI;
+namespace App\Service\Admin\Action;
 
 class PanelActionListMapBuilder
 {
