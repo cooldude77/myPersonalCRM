@@ -30,13 +30,12 @@ class FileCreateForm extends AbstractType
 
         ]);
 
-
         $builder->add('uploadedFile', FileType::class, [
             'label' => 'File',
             'required' => false
         ]);
 
-        $builder->add('save', SubmitType::class, array('label' => 'Submit'));
+      //  $builder->add('save', SubmitType::class, array('label' => 'Submit'));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
@@ -44,7 +43,7 @@ class FileCreateForm extends AbstractType
             $fileFormDTO = $event->getData();
 
             if ($fileFormDTO->name == null)
-                $fileFormDTO->name =  uniqid(rand(), true);;
+                $fileFormDTO->name =  uniqid(rand(), true);
 
             $event->setData($fileFormDTO);
         });
