@@ -7,8 +7,8 @@ class FileFormDTO
     /** @var string
      * @Assert\NotBlank(message="Please enter name of file")
      */
-    public string $name;
-    public string $type;
+    public ?string $name = null;
+    public ?string $type = null;
 
     /**
      * @var mixed

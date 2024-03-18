@@ -20,7 +20,6 @@ class FileController extends AbstractController
     public function createFile( EntityManagerInterface  $entityManager,Request $request): Response
     {
         $fileFormDTO = new FileFormDTO();
-
         $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
 
         $form->handleRequest($request);
@@ -33,7 +32,7 @@ class FileController extends AbstractController
             $fileName = $fileFormDTO->name.'.'.$fileHandle->guessExtension();
 
             //$fileHandle->move($this->getParameter('/tmp'), $fileName);
-            if($fileHandle->move('/var/www/html/temp', $fileName)){
+            if($fileHandle->move('/var/www/html/public/temp', $fileName)){
 
                 $fileFormDTO->name = $fileName;
                 $entityManager->persist($fileFormDTO);
