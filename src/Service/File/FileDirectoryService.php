@@ -22,7 +22,7 @@ class FileDirectoryService
      * @var string
      */
     private string $projectDir;
-
+    private string $fileBaseDirPathSegment = '/public/uploads';
 
     public function __construct(KernelInterface $kernel)
     {
@@ -35,11 +35,11 @@ class FileDirectoryService
 
     public function getProductFileFullPath(int $type,int $id): string
     {
-        return $this->projectDir.'/public'.'/files/products/{$id}/';
+        return $this->projectDir.$this->fileBaseDirPathSegment.'/products/{$id}/';
     }
     public function getGeneralFileFullPath(): string
     {
-        return $this->projectDir.'/public'.'/files/general/';
+        return $this->projectDir.$this->fileBaseDirPathSegment.'/general/';
     }
 
 }
