@@ -2,8 +2,10 @@
 
 namespace App\Service\File;
 
+use App\Kernel;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  *  Directory Structure:
@@ -14,22 +16,30 @@ class FileDirectoryService
 {
 
 
-    /** @var ParameterBag  */
-    private ParameterBagInterface $parameterBag;
+    /** @var Kernel */
+    private KernelInterface $kernel;
+    /**
+     * @var string
+     */
+    private string $projectDir;
 
-    public function __construct(ParameterBagInterface $parameterBag)
+
+    public function __construct(KernelInterface $kernel)
     {
+        $this->kernel = $kernel;
 
-        $this->parameterBag = $parameterBag;
+         $this->projectDir = $this->kernel->getProjectDir();
+
+
     }
 
     public function getProductFileFullPath(int $type,int $id): string
     {
-        return $this->parameterBag->get('kernel.dir').'/public'.'/files/products/{$id}/';
+        return $this->projectDir.'/public'.'/files/products/{$id}/';
     }
     public function getGeneralFileFullPath(): string
     {
-        return $this->parameterBag->get('kernel.dir').'/public'.'/files/general/';
+        return $this->projectDir.'/public'.'/files/general/';
     }
 
 }

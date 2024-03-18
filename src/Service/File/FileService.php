@@ -11,14 +11,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileService
 {
 
+    private FileTypeRepository $fileTypeRepository;
     private FileRepository $fileRepository;
 
     public function __construct(FileRepository $fileRepository,FileTypeRepository $fileTypeRepository)
     {
+        $this->fileTypeRepository = $fileTypeRepository;
         $this->fileRepository = $fileRepository;
     }
 
-    public function mapFileEntity(FileFormDTO $fileFormDTO ): File
+    public function mapFileEntity(FileFormDTO $fileFormDTO): File
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
@@ -27,14 +29,15 @@ class FileService
 
         $fileEntity = $this->fileRepository->create();
         $fileEntity->setName($fileFormDTO->name);
-        $fileEntity->setType($this->fileRepository->findOneBy($fileFormDTO->type));
+        $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
+        $fileEntity->setType($type);
 
         return $fileEntity;
     }
 
-    public function move(File $file, UploadedFile $fileHandle, string $filePath):void
+    public function move(UploadedFile $fileHandle, $fileName, string $filePath)
     {
-        $fileHandle->move($filePath, $file->getName());
+        return $fileHandle->move($filePath, $fileName);
     }
 
 }

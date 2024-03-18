@@ -43,11 +43,11 @@ class FileController extends AbstractController
                    $entityManager->flush();
              */
 
+
             $fileEntity = $fileService->mapFileEntity($form->getData());
-            $fileService->move($fileEntity ,
-                $form->get('uploadedFile')->getData(),
-                $fileDirectoryService->getGeneralFileFullPath(),
-            );
+            $path = $fileDirectoryService->getGeneralFileFullPath();
+            $fileHandle = $form->getData('uploadedFile')->uploadedFile;
+            $fileService->move( $fileHandle,$fileEntity->getName(), $path);
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
