@@ -65,6 +65,6 @@ class FileType
     }
     public function __toString(): string
     {
-       return $this->description;
+       return $this->id;
     }
 }

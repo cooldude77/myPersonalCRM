@@ -26,7 +26,9 @@ class FileCreateForm extends AbstractType
         $builder->add('type', EntityType::class, [
             // validation message if the data transformer fails
             'invalid_message' => 'That is not a valid file Type id',
-            'class' => \App\Entity\FileType::class
+            'class' => \App\Entity\FileType::class,
+            'choice_label'=>'description',
+            'choice_value'=>'id'
 
         ]);
 
@@ -35,7 +37,7 @@ class FileCreateForm extends AbstractType
             'required' => false
         ]);
 
-      //  $builder->add('save', SubmitType::class, array('label' => 'Submit'));
+        $builder->add('save', SubmitType::class, array('label' => 'Submit'));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
