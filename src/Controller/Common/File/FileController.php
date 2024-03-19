@@ -36,8 +36,9 @@ class FileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileService->mapFileEntity($form->getData());
-            $path = $fileDirectoryService->getGeneralFileFullPath();
             $fileHandle = $form->getData('uploadedFile')->uploadedFile;
+
+            $path = $fileDirectoryService->getGeneralFileFullPath();
             $fileService->move( $fileHandle,$fileEntity->getName(), $path);
 
             $entityManager->persist($fileEntity);

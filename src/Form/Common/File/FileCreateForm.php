@@ -37,8 +37,6 @@ class FileCreateForm extends AbstractType
             'required' => false
         ]);
 
-        $builder->add('save', SubmitType::class, array('label' => 'Submit'));
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
             /** @var FileFormDTO $fileFormDTO */
