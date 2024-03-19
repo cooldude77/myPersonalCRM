@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Form\Admin\Product\Image\DTO;
+namespace App\Form\Admin\Product\File\DTO;
 
 use App\Form\Common\File\DTO\FileFormDTO;
 
 class ProductFileDTO
 {
 
-    public FileFormDTO $fileFormDTO ;
+    public ?FileFormDTO $fileFormDTO = null;
 
-    public int|null $id=null;
+    public  int $productId= 0 ;
+
 
     public function __construct()
     {
         $this->fileFormDTO = new FileFormDTO();
     }
+
 
 }
