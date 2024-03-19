@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ *  Image guidelines :
+ *
+ *  Carousel : 
+ */
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
@@ -29,20 +34,6 @@ class FileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /*
-               $fileFormDTO = $form->getData();
-               $fileHandle = $form->get('uploadedFile')->getData();
-               $fileName = $fileFormDTO->name.'.'.$fileHandle->guessExtension();
-
-               //$fileHandle->move($this->getParameter('/tmp'), $fileName);
-               if($fileHandle->move('/var/www/html/public/temp', $fileName)){
-
-                   $fileFormDTO->name = $fileName;
-                   $entityManager->persist($fileFormDTO);
-                   $entityManager->flush();
-             */
-
 
             $fileEntity = $fileService->mapFileEntity($form->getData());
             $path = $fileDirectoryService->getGeneralFileFullPath();
