@@ -2,42 +2,26 @@
 
 namespace App\Service\File;
 
-use App\Entity\File;
-use App\Form\Common\File\DTO\FileFormDTO;
-use App\Repository\FileRepository;
-use App\Repository\FileTypeRepository;
+use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
+    private FileGeneralDirectoryPathNamer $fileDirectoryPathNamer;
 
-    private FileTypeRepository $fileTypeRepository;
-    private FileRepository $fileRepository;
 
-    public function __construct(FileRepository $fileRepository,FileTypeRepository $fileTypeRepository)
+    /**
+     * @param FileGeneralDirectoryPathNamer $fileDirectoryPathNamer
+     */
+    public function __construct(FileGeneralDirectoryPathNamer $fileDirectoryPathNamer)
     {
-        $this->fileTypeRepository = $fileTypeRepository;
-        $this->fileRepository = $fileRepository;
+        $this->fileDirectoryPathNamer = $fileDirectoryPathNamer;
     }
 
-    public function mapFileEntity(FileFormDTO $fileFormDTO): File
+    public function processFile(UploadedFile $fileHandle, $fileName): File
     {
-
-        $fileHandle = $fileFormDTO->uploadedFile;
-        $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
-        $fileFormDTO->name = $fileName;
-
-        $fileEntity = $this->fileRepository->create();
-        $fileEntity->setName($fileFormDTO->name);
-        $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
-        $fileEntity->setType($type);
-
-        return $fileEntity;
+        $path = $this->fileDirectoryPathNamer->getFileFullPath([]);
+        return $fileHandle->move($path, $fileName);
     }
-
-    public function move(UploadedFile $fileHandle, $fileName, string $filePath)
-    {
-        return $fileHandle->move($filePath, $fileName);
-    }
-
 }

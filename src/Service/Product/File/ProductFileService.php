@@ -2,15 +2,15 @@
 
 namespace App\Service\Product\File;
 
-use App\Service\File\FileDirectoryService;
+use App\Service\File\FileGeneralDirectoryPathNamer;
 
 class ProductFileService
 {
-    private FileDirectoryService $fileDirectoryService;
+    private FileGeneralDirectoryPathNamer $fileDirectoryService;
 
     public function __construct(
-        FileDirectoryService $fileDirectoryService,
-    FileService $fileService)
+        FileGeneralDirectoryPathNamer $fileDirectoryService,
+        FileService                   $fileService)
     {
         $this->fileDirectoryService = $fileDirectoryService;
     }

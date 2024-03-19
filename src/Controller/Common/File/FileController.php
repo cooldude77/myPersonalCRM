@@ -3,30 +3,25 @@
 namespace App\Controller\Common\File;
 
 // ...
-use App\Entity\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
-use App\Repository\FileRepository;
-use App\Service\File\FileDirectoryService;
+use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Service\File\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
  *  Image guidelines :
  *
- *  Carousel : 
+ *  Carousel :
  */
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function createFile(EntityManagerInterface $entityManager,
-                               FileService            $fileService, Request $request,
-                               FileDirectoryService   $fileDirectoryService): Response
+    public function createFile(EntityManagerInterface $entityManager, FileDTOMapper $fileDTOMapper, FileService $fileService, Request $request): Response
     {
         $fileFormDTO = new FileFormDTO();
         $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
@@ -35,11 +30,10 @@ class FileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fileEntity = $fileService->mapFileEntity($form->getData());
+            $fileEntity = $fileDTOMapper->mapFileEntity($form->getData());
             $fileHandle = $form->getData('uploadedFile')->uploadedFile;
 
-            $path = $fileDirectoryService->getGeneralFileFullPath();
-            $fileService->move( $fileHandle,$fileEntity->getName(), $path);
+            $fileService->processFile($fileHandle,$fileEntity->getName());
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
