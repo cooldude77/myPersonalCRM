@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\FileBaseTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * File Base Types are majorly image,document,audio ,video.
+ * This is the base class from which FileType derives
+ */
 #[ORM\Entity(repositoryClass: FileBaseTypeRepository::class)]
 class FileBaseType
 {

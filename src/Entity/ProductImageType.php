@@ -6,6 +6,16 @@ use App\Repository\ProductImageTypeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ *  Image types which include
+ *  Main Product Image
+ *  Carousel image etc
+ *  Each will have minimum dimensions
+ *
+ * The need to create it was that this information is very specific to product
+ * There could be some information common to category images and webshop images but
+ * mixing them with this could mean more coding and sql queries
+ */
 #[ORM\Entity(repositoryClass: ProductImageTypeRepository::class)]
 class ProductImageType
 {

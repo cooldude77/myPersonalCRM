@@ -5,6 +5,11 @@ namespace App\Entity;
 use App\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ *  File contains all files anywhere in the system
+ * The table has name of file and File Type (document,image,video etc)
+ */
+
 #[ORM\Entity(repositoryClass: FileRepository::class)]
 class File
 {
