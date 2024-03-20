@@ -46,7 +46,9 @@ class ProductImageFileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\ProductFile $productFileEntity, ProductImageType $productImageType)
+    public function create(
+        \App\Entity\ProductFile $productFileEntity,
+                           ProductImageType $productImageType)
     {
 
         $productImageEntity = new ProductImageFile();

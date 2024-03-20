@@ -7,6 +7,7 @@ use App\Form\Admin\Product\File\DTO\ProductFileDTO;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
 use App\Form\Admin\Product\File\Form\ProductFileCreateForm;
 use App\Form\Admin\Product\File\Form\ProductFileImageCreateForm;
+use App\Service\Product\File\ProductFileImageService;
 use App\Service\Product\File\ProductFileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductImageController extends AbstractController
 {
     #[Route('/product/{id}/file/image/create', name: 'create_product_image')]
-    public function createProductImage(EntityManagerInterface $entityManager,
-                                       ProductFileService $productFileService,
-                                       Request $request): Response
+    public function createProductImage(EntityManagerInterface  $entityManager,
+                                       ProductFileImageService $productFileImageService,
+                                       Request                 $request): Response
     {
         $productImageFileDTO = new ProductFileImageDTO();
 
@@ -30,11 +31,18 @@ class ProductImageController extends AbstractController
 
         $form->handleRequest($request);
 
-        $data = $form->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-           // $productImageEntity = $productFileService->processFormData($form->getData());
+            $productImageEntity = $productFileImageService->mapFormDTO($data);
+            $productFileImageService->moveFile($data);
+
+            $entityManager->persist($productImageEntity);
+            $entityManager->flush();
+            return $this->redirectToRoute('common/file/success_create.html.twig');
+
+
         }
 
             return $this->render('admin/product/create.html.twig', ['form' => $form]);

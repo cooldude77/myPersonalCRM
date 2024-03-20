@@ -19,5 +19,10 @@ class ProductFileImageDTO
         $this->productFileDTO = new ProductFileDTO();
     }
 
+    public function create()
+    {
+        return new $P();
+    }
+
 
 }
