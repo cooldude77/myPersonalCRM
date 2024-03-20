@@ -10,17 +10,12 @@ use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
  *
  *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
  */
-class FileProductDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
+class ProductFileDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
 {
 
 
-    public function setId()
-    {
-
-    }
-
     public function getFileFullPath(array $params): string
     {
-        return $this->getProjectDir() . $this->getFileBaseDirPathSegment() . '/products/'.$params['idProduct'].'/';
+        return $this->getProjectDir() . $this->getFileBaseDirPathSegment() . '/products/'.$params['idProduct'].'/images/';
     }
 }

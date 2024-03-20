@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\ProductFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,4 +46,12 @@ class ProductFileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\File $file, Product $product): ProductFile
+    {
+        $productFile =  new ProductFile();
+        $productFile->setFile($file);
+        $productFile->setProduct($product);
+
+        return $productFile;
+    }
 }

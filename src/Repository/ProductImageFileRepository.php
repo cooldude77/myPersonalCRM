@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ProductImageFile;
+use App\Entity\ProductImageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,4 +46,13 @@ class ProductImageFileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\ProductFile $productFileEntity, ProductImageType $productImageType)
+    {
+
+        $productImageEntity = new ProductImageFile();
+        $productImageEntity->setProductFile($productFileEntity);
+        $productImageEntity->setProductImageType($productImageType);
+
+        return $productImageEntity;
+    }
 }
