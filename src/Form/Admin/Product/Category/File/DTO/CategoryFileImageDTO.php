@@ -21,7 +21,7 @@ class CategoryFileImageDTO
 
     public function create()
     {
-        return new CategoryImageFileDTO();
+        return new CategoryFileImageDTO();
     }
 
 

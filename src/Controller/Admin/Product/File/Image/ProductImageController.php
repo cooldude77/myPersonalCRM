@@ -45,7 +45,7 @@ class ProductImageController extends AbstractController
 
         }
 
-            return $this->render('admin/product/create.html.twig', ['form' => $form]);
+            return $this->render('admin/product/file/image/create.html.twig', ['form' => $form]);
     }
 
 

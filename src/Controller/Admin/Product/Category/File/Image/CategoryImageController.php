@@ -42,7 +42,7 @@ class CategoryImageController extends AbstractController
 
         }
 
-            return $this->render('admin/Category/create.html.twig', ['form' => $form]);
+            return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
     }
 
 

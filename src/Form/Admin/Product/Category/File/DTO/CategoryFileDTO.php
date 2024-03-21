@@ -9,7 +9,7 @@ class CategoryFileDTO
 
     public ?FileFormDTO $fileFormDTO = null;
 
-    public  int $CategoryId= 0 ;
+    public  int $categoryId= 0 ;
 
 
     public function __construct()
