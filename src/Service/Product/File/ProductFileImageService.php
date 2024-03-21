@@ -39,9 +39,9 @@ class ProductFileImageService
 
     }
 
-    public function moveFile(ProductFileImageDTO $productFileImageDTO)
+    public function moveFile(ProductFileImageDTO $productFileImageDTO): \Symfony\Component\HttpFoundation\File\File
     {
-        $this->productFileService->moveFile($productFileImageDTO->productFileDTO);
+        return $this->productFileService->moveFile($productFileImageDTO->productFileDTO);
     }
 
 
