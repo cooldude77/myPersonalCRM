@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CategoryController extends AbstractController
 {
@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            return $this->redirectToRoute('task_success');
+            return $this->render('/common/miscellaneous/success/create.html.twig', ['message' => 'Category successfully created']);
         }
 
         return $this->render('/admin/category/create.html.twig', ['form' => $form]);
