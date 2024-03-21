@@ -24,8 +24,7 @@ final class Version20240308053009 extends AbstractMigration
         $this->addSql('ALTER TABLE file_type ADD base_type_id INT NOT NULL');
         $this->addSql('ALTER TABLE file_type ADD CONSTRAINT FK_5223F47F14A35F7 FOREIGN KEY (base_type_id) REFERENCES file_base_type (id)');
         $this->addSql('CREATE INDEX IDX_5223F47F14A35F7 ON file_type (base_type_id)');
-        // inserts
-        $this->addSql('INSERT INTO file_base_type(type,description) VALUES ("IMAGE","Image")');
+         $this->addSql('INSERT INTO file_base_type(type,description) VALUES ("IMAGE","Image")');
         $this->addSql('INSERT INTO file_type(type,description,base_type_id) VALUES ("JPEG","image/jpeg",1)');
 
     }

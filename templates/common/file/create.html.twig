@@ -2,5 +2,7 @@
 {% extends 'base/admin_base_template.html.twig' %}
 
 {% block content %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+    <input type="submit" value="Submit"/>
+    {{ form_end(form) }}
 {% endblock %}

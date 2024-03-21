@@ -5,6 +5,12 @@ namespace App\Entity;
 use App\Repository\FileTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * This is subclass of FileType and determines the valid file types for each
+ * base file type
+ * like jpeg, png for images
+ * pdf, doc, excel for document
+ */
 #[ORM\Entity(repositoryClass: FileTypeRepository::class)]
 class FileType
 {
@@ -62,5 +68,9 @@ class FileType
         $this->baseType = $baseType;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+       return $this->type;
     }
 }
