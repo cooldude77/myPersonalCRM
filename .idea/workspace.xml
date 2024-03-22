@@ -233,6 +233,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/common/miscellaneous/success" />
+    </key>
   </component>
   <component name="RunManager" selected="PHPUnit.CategoryControllerTest.testCreate">
     <configuration name="CategoryControllerTest.testCreate" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
