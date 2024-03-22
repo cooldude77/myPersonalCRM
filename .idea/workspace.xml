@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Test case working with datbase&#10;Needed to add another class with doctrine command">
-      <change afterPath="$PROJECT_DIR$/src/Config/Admin/CategoryFieldList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/category/display.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/category/list.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Admin/Price/DTO/PriceBaseProductDTO.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Admin/SideBar/PanelSideBarListMapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Admin/SideBar/PanelSideBarListMapBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/Price/PriceBaseProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/Price/PriceBaseProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Admin/Price/PriceBaseProductCreateForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Admin/Price/PriceBaseProductCreateForm.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,27 +24,27 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="br_document_integration" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "cooldude77"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;cooldude77&quot;
   }
-}]]></component>
+}</component>
   <component name="GitHubPullRequestState">{
   &quot;prStates&quot;: []
 }</component>
   <component name="GitLabMergeRequestsSettings">{}</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/cooldude77/myPersonalCRM.git",
-    "accountId": "7bc1738d-937a-4497-b8d2-263698f322df"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/cooldude77/myPersonalCRM.git&quot;,
+    &quot;accountId&quot;: &quot;7bc1738d-937a-4497-b8d2-263698f322df&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/vendor/nikic/php-parser/composer.json" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -185,7 +182,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "br__pricing__development",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/admin/category",
     "node.js.detected.package.eslint": "true",
@@ -218,6 +215,7 @@
       <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
       <window_info anchor="bottom" id="Run" order="5" weight="0.5226716" />
       <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
+      <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.3302696" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.5226716" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.3302696" />
