@@ -3,10 +3,11 @@
 namespace App\Tests\Controller\Admin\Product\Category;
 
 use App\Controller\Admin\Product\Category\CategoryController;
+use App\Service\Testing\AbstractDoctrineWithMigrationTestCase;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CategoryControllerTest extends WebTestCase
+class CategoryControllerTest extends AbstractDoctrineWithMigrationTestCase
 {
 
     public function testCreate()
@@ -20,5 +21,15 @@ class CategoryControllerTest extends WebTestCase
 
         // Validate a successful response and some content
         $this->assertResponseIsSuccessful();
+        $buttonCrawlerNode = $crawler->selectButton('Save');
+
+        $form = $buttonCrawlerNode->form();
+        $form['category_create_form[code]'] = 'Fabien';
+        $form['category_create_form[description]'] = 'Symfony rocks!';
+
+        // submit the Form object
+        $client->submit($form);
+        $this->assertResponseIsSuccessful();
+
     }
 }

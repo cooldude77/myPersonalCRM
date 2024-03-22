@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="adding common template">
-      <change afterPath="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="First Test case working">
+      <change afterPath="$PROJECT_DIR$/src/Service/Testing/AbstractDoctrineWithMigrationTestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/category/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/category/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/common/miscellaneous/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/common/miscellaneous/success/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,25 +32,37 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{}]]></component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": []
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "cooldude77"
+  }
 }]]></component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{}]]></component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: []
+}</component>
+  <component name="GitLabMergeRequestsSettings">{}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/cooldude77/myPersonalCRM.git",
+    "accountId": "7bc1738d-937a-4497-b8d2-263698f322df"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/vendor/nikic/php-parser/composer.json" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="PhpDebugGeneral" ignore_connections_through_unregistered_servers="false" />
   <component name="PhpServers">
     <servers>
-      <server host="http://192.168.88.188" id="61a0901f-8fd9-4049-9b87-dd1ae253d326" name="Vagrant Symfony" use_path_mappings="true">
+      <server host="192.168.88.188" id="c3494e45-7d1b-47c6-85d5-0e9a958d8085" name="192.168.88.188" />
+      <server host="http://192.168.88.188" id="61a0901f-8fd9-4049-9b87-dd1ae253d326" name="Vagrant Symfony">
         <path_mappings>
           <mapping local-root="$PROJECT_DIR$" remote-root="/var/www/html/myPersonalCRM" />
         </path_mappings>
       </server>
     </servers>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php8.2">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php8.3">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
@@ -161,11 +178,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Constants": "false",
+    "PHP Remote Debug.Vagrant.executor": "Debug",
+    "PHPUnit.CategoryControllerTest.testCreate.executor": "Debug",
+    "PHPUnit.PHP Unit.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "/var/www/html/myPersonalCRM",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -183,8 +205,8 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31347656" />
-      <window_info id="Commit" order="1" weight="0.31347656" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19824219" />
+      <window_info active="true" id="Commit" order="1" visible="true" weight="0.19824219" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -192,11 +214,12 @@
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
       <window_info anchor="bottom" id="Terminal" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.32964888" />
-      <window_info anchor="bottom" id="Services" order="5" />
-      <window_info anchor="bottom" id="Find" order="5" weight="0.3302696" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
+      <window_info anchor="bottom" id="Run" order="5" weight="0.47732842" />
+      <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.3302696" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
@@ -206,11 +229,38 @@
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
     </layout>
   </component>
-  <component name="RunManager">
-    <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="PHPUnit.CategoryControllerTest.testCreate">
+    <configuration name="CategoryControllerTest.testCreate" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\Controller\Admin\Product\Category\CategoryControllerTest" configuration_file="$PROJECT_DIR$/phpunit.xml.dist" file="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" method="testCreate" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP Unit" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="/bin/php8.3" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
+    <configuration name="Vagrant" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug" filter_connections="FILTER" server_name="Vagrant Symfony" session_id="PHPSTORM">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="PHP Remote Debug.Vagrant" />
+      <item itemvalue="PHPUnit.PHP Unit" />
+      <item itemvalue="PHPUnit.CategoryControllerTest.testCreate" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.CategoryControllerTest.testCreate" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -292,6 +342,7 @@
       <workItem from="1710661986668" duration="1405000" />
       <workItem from="1710999785081" duration="113000" />
       <workItem from="1710999963908" duration="2343000" />
+      <workItem from="1711082059244" duration="10772000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -657,6 +708,27 @@
     <MESSAGE value="Adding .env to gitignore" />
     <MESSAGE value="adding common template" />
     <option name="LAST_COMMIT_MESSAGE" value="adding common template" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php</url>
+          <line>22</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php</url>
+          <line>34</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php</url>
+          <line>25</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
