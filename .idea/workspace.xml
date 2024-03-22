@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="First Test case working">
-      <change afterPath="$PROJECT_DIR$/src/Service/Testing/AbstractDoctrineWithMigrationTestCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Test case working with datbase&#10;Needed to add another class with doctrine command">
+      <change afterPath="$PROJECT_DIR$/src/Config/Admin/CategoryFieldList.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/category/display.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/category/list.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/category/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/category/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/common/miscellaneous/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/common/miscellaneous/success/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Admin/SideBar/PanelSideBarListMapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Admin/SideBar/PanelSideBarListMapBuilder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,14 +180,14 @@
   "keyToString": {
     "Constants": "false",
     "PHP Remote Debug.Vagrant.executor": "Debug",
-    "PHPUnit.CategoryControllerTest.testCreate.executor": "Debug",
+    "PHPUnit.CategoryControllerTest.testCreate.executor": "Run",
     "PHPUnit.PHP Unit.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/var/www/html/myPersonalCRM",
+    "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/admin/category",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -205,20 +205,21 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.19824219" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.19824219" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19824219" />
+      <window_info id="Commit" order="1" weight="0.19824219" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
-      <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.47732842" />
+      <window_info anchor="bottom" id="Run" order="5" weight="0.5226716" />
       <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
+      <window_info anchor="bottom" id="TODO" order="7" weight="0.3302696" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.5226716" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.3302696" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
@@ -231,6 +232,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/admin/category" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -345,7 +347,7 @@
       <workItem from="1710661986668" duration="1405000" />
       <workItem from="1710999785081" duration="113000" />
       <workItem from="1710999963908" duration="2343000" />
-      <workItem from="1711082059244" duration="10772000" />
+      <workItem from="1711082059244" duration="11491000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -690,7 +692,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -710,7 +712,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Adding .env to gitignore" />
     <MESSAGE value="adding common template" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding common template" />
+    <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -727,7 +730,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/Admin/Product/Category/CategoryController.php</url>
-          <line>25</line>
+          <line>27</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
