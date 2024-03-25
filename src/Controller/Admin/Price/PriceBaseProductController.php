@@ -5,17 +5,21 @@ namespace App\Controller\Admin\Price;
 // ...
 use App\Entity\PriceBaseProduct;
 use App\Form\Admin\Price\DTO\PriceBaseProductDTO;
+use App\Form\Admin\Price\Mapper\PriceBaseProductDTOMapper;
 use App\Form\Admin\Price\PriceBaseProductCreateForm;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
 class PriceBaseProductController extends AbstractController
 { #[Route('/price/product/{id}/create', name: 'price_base_create')]
-public function createProduct(EntityManagerInterface $entityManager, Request $request): Response
+public function createProduct(EntityManagerInterface $entityManager,
+                              PriceBaseProductDTOMapper $baseProductDTOMapper,
+                              Request $request): Response
 {
     $type = new PriceBaseProductDTO();
 
@@ -25,8 +29,9 @@ public function createProduct(EntityManagerInterface $entityManager, Request $re
 
     if ($form->isSubmitted() && $form->isValid()) {
 
+        $price =$baseProductDTOMapper->map($form->getData());
         // perform some action...
-        $entityManager->persist($form->getData());
+        $entityManager->persist($price);
         $entityManager->flush();
 
         $response = $this->render('admin/product/success.html.twig');

@@ -45,4 +45,12 @@ class PriceBaseProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency): PriceBaseProduct
+    {
+
+        $price =  new PriceBaseProduct();
+        $price->setProduct($product);
+        $price->setCurrency($currency);
+        return $price;
+    }
 }

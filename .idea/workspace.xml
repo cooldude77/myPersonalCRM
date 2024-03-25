@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Test case working with datbase&#10;Needed to add another class with doctrine command">
-      <change afterPath="$PROJECT_DIR$/src/Form/Admin/Price/DTO/PriceBaseProductDTO.php" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="adding price forms ( incomplete)">
+      <change afterPath="$PROJECT_DIR$/src/Form/Admin/Price/Mapper/PriceBaseProductDTOMapper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Admin/Price/PriceBaseProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/Price/PriceBaseProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/Admin/Price/PriceBaseProductCreateForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Admin/Price/PriceBaseProductCreateForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/PriceBaseProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PriceBaseProductRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,27 +175,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Constants": "false",
-    "PHP Remote Debug.Vagrant.executor": "Debug",
-    "PHPUnit.CategoryControllerTest.testCreate.executor": "Run",
-    "PHPUnit.PHP Unit.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "br__pricing__development",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/admin/category",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Constants&quot;: &quot;false&quot;,
+    &quot;PHP Remote Debug.Vagrant.executor&quot;: &quot;Debug&quot;,
+    &quot;PHPUnit.CategoryControllerTest.testCreate.executor&quot;: &quot;Run&quot;,
+    &quot;PHPUnit.PHP Unit.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;br__pricing__development&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/var/www/html/myPersonalCRM/templates/admin/category&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -216,9 +218,9 @@
       <window_info anchor="bottom" id="Run" order="5" weight="0.5226716" />
       <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
       <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
-      <window_info anchor="bottom" id="TODO" order="7" weight="0.3302696" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.5226716" />
-      <window_info anchor="bottom" id="Find" order="7" weight="0.3302696" />
+      <window_info anchor="bottom" id="TODO" order="8" weight="0.3302696" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.5226716" />
+      <window_info anchor="bottom" id="Find" order="10" weight="0.3302696" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
@@ -346,6 +348,7 @@
       <workItem from="1710999785081" duration="113000" />
       <workItem from="1710999963908" duration="2343000" />
       <workItem from="1711082059244" duration="11491000" />
+      <workItem from="1711342281308" duration="1714000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -690,7 +693,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -711,7 +714,8 @@
     <MESSAGE value="Adding .env to gitignore" />
     <MESSAGE value="adding common template" />
     <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
+    <MESSAGE value="adding price forms ( incomplete)" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding price forms ( incomplete)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -91,7 +91,7 @@ class Product
 
     public function __toString(): string
     {
-        return $this->getDescription();
+        return $this->code;
     }
 
     public function isIsActive(): ?bool
@@ -117,5 +117,6 @@ class Product
 
         return $this;
     }
+
 
 }
