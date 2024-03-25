@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="adding price forms ( incomplete)">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Updating migrations for renaming of web shop  tables and creating new controllers for webshop">
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/DTO/WebShopDTO.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Mapper/WebShopDTOMapper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/WebShopSectionCreateForm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/create.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/success.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopHomeController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopHomeSectionController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopHomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/WebShopHome.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WebShop.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/WebShopHomeSection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WebShopHomeSection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/WebShopHomeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/WebShopHomeRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Admin/Action/PanelActionListMapBuilder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_home.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_home.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/WebShop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WebShop.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/WebShopHomeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/WebShopRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,27 +179,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Constants": "false",
-    "PHP Remote Debug.Vagrant.executor": "Debug",
-    "PHPUnit.CategoryControllerTest.testCreate.executor": "Run",
-    "PHPUnit.PHP Unit.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "br__webshop__development",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/admin/category",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Constants&quot;: &quot;false&quot;,
+    &quot;PHP Remote Debug.Vagrant.executor&quot;: &quot;Debug&quot;,
+    &quot;PHPUnit.CategoryControllerTest.testCreate.executor&quot;: &quot;Run&quot;,
+    &quot;PHPUnit.PHP Unit.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;br__webshop__development&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/var/www/html/myPersonalCRM/templates/module/web_shop/admin&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -208,8 +209,8 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26660156" />
-      <window_info id="Commit" order="1" weight="0.22102866" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15071616" />
+      <window_info id="Commit" order="1" weight="0.26660156" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -236,6 +237,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/module/web_shop/admin" />
+      <recent name="$PROJECT_DIR$/src/Form/Module/WebShop/Admin" />
       <recent name="$PROJECT_DIR$/templates/admin/category" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -243,7 +246,7 @@
       <recent name="$PROJECT_DIR$/templates/common/miscellaneous/success" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Remote Debug.Vagrant">
     <configuration name="CategoryControllerTest.testCreate" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="App\Tests\Controller\Admin\Product\Category\CategoryControllerTest" configuration_file="$PROJECT_DIR$/phpunit.xml.dist" file="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" method="testCreate" scope="Method" />
       <method v="2" />
@@ -354,6 +357,7 @@
       <workItem from="1710999963908" duration="2343000" />
       <workItem from="1711082059244" duration="11491000" />
       <workItem from="1711342281308" duration="1714000" />
+      <workItem from="1711374306003" duration="585000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -698,7 +702,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -720,7 +724,8 @@
     <MESSAGE value="adding common template" />
     <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
     <MESSAGE value="adding price forms ( incomplete)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding price forms ( incomplete)" />
+    <MESSAGE value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

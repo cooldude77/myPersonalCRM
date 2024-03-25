@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method WebShop[]    findAll()
  * @method WebShop[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WebShopHomeRepository extends ServiceEntityRepository
+class WebShopRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -45,4 +45,8 @@ class WebShopHomeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(): WebShop
+    {
+        return new WebShop();
+    }
 }
