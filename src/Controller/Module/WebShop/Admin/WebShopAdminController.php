@@ -2,9 +2,6 @@
 
 namespace App\Controller\Module\WebShop\Admin;
 
-use App\Entity\Product;
-use App\Entity\WebShop;
-use App\Form\Admin\Product\ProductCreateForm;
 use App\Form\Module\WebShop\Admin\DTO\WebShopDTO;
 use App\Form\Module\WebShop\Admin\Mapper\WebShopDTOMapper;
 use App\Form\Module\WebShop\Admin\WebShopCreateForm;
@@ -34,12 +31,12 @@ class WebShopAdminController extends AbstractController
             $entityManager->persist($webShopEntity);
             $entityManager->flush();
 
-            $response = $this->render('module/web_shop/admin/success.html.twig');
+            $response = $this->render('module/web_shop/admin/web_shop/success.html.twig');
             $response->setStatusCode(401);
 
             return $response;
         }
-        return $this->render('module/web_shop/admin/create.html.twig', ['form' => $form]);
+        return $this->render('module/web_shop/admin/web_shop/create.html.twig', ['form' => $form]);
 
 
     }

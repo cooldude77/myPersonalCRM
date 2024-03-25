@@ -45,4 +45,10 @@ class WebShopHomeSectionRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\WebShop $webShop): WebShopSection
+    {
+        $webShopSection = new WebShopSection();
+        $webShopSection->setWebShop($webShop);
+        return $webShopSection;
+    }
 }

@@ -16,18 +16,15 @@ class WebShopSection
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $header = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $footer = null;
-
     #[ORM\Column]
     private ?int $sectionOrder = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?WebShop $webShopHome = null;
+    private ?WebShop $webShop = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -46,30 +43,7 @@ class WebShopSection
         return $this;
     }
 
-    public function getHeader(): ?string
-    {
-        return $this->header;
-    }
-
-    public function setHeader(string $header): static
-    {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    public function getFooter(): ?string
-    {
-        return $this->footer;
-    }
-
-    public function setFooter(string $footer): static
-    {
-        $this->footer = $footer;
-
-        return $this;
-    }
-
+    
     public function getSectionOrder(): ?int
     {
         return $this->sectionOrder;
@@ -82,20 +56,31 @@ class WebShopSection
         return $this;
     }
 
-    public function getWebShopHome(): ?WebShop
-    {
-        return $this->webShopHome;
-    }
-
-    public function setWebShopHome(?WebShop $webShopHome): static
-    {
-        $this->webShopHome = $webShopHome;
-
-        return $this;
-    }
 
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getWebShop(): ?WebShop
+    {
+        return $this->webShop;
+    }
+
+    public function setWebShop(?WebShop $webShop): void
+    {
+        $this->webShop = $webShop;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }
