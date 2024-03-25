@@ -6,7 +6,7 @@ use App\Repository\WebShopHomeSectionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WebShopHomeSectionRepository::class)]
-class WebShopHomeSection
+class WebShopSection
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +27,7 @@ class WebShopHomeSection
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?WebShopHome $webShopHome = null;
+    private ?WebShop $webShopHome = null;
 
     public function getId(): ?int
     {
@@ -82,12 +82,12 @@ class WebShopHomeSection
         return $this;
     }
 
-    public function getWebShopHome(): ?WebShopHome
+    public function getWebShopHome(): ?WebShop
     {
         return $this->webShopHome;
     }
 
-    public function setWebShopHome(?WebShopHome $webShopHome): static
+    public function setWebShopHome(?WebShop $webShopHome): static
     {
         $this->webShopHome = $webShopHome;
 

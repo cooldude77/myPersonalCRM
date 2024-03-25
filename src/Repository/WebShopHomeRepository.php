@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\WebShopHome;
+use App\Entity\WebShop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<WebShopHome>
+ * @extends ServiceEntityRepository<WebShop>
  *
- * @method WebShopHome|null find($id, $lockMode = null, $lockVersion = null)
- * @method WebShopHome|null findOneBy(array $criteria, array $orderBy = null)
- * @method WebShopHome[]    findAll()
- * @method WebShopHome[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method WebShop|null find($id, $lockMode = null, $lockVersion = null)
+ * @method WebShop|null findOneBy(array $criteria, array $orderBy = null)
+ * @method WebShop[]    findAll()
+ * @method WebShop[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class WebShopHomeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WebShopHome::class);
+        parent::__construct($registry, WebShop::class);
     }
 
     //    /**

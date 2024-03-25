@@ -6,7 +6,7 @@ use App\Repository\WebShopHomeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WebShopHomeRepository::class)]
-class WebShopHome
+class WebShop
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -25,6 +25,12 @@ class PanelActionListMapBuilder
                             'display' => 'category_display',
                             'list' => 'category_list'
                         ]
+                    ] ,
+                    'web-shop' => [
+                        'routes' => [
+                            'create' => 'web_shop_create',
+                            'edit' => 'web_shop_edit'
+                        ]
                     ]
                 ]
             ]

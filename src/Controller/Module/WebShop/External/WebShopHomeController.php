@@ -2,6 +2,8 @@
 
 namespace App\Controller\Module\WebShop\External;
 
+use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use App\Repository\WebShopHomeRepository;
 use App\Repository\WebShopHomeSectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,13 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebShopHomeController extends AbstractController
 {
     #[Route('/shop/home/{name}', name: 'module_web_shop_home')]
-    public function home(string                       $name, WebShopHomeRepository $webShopHomeRepository,
-                         WebShopHomeSectionRepository $webShopHomeSectionRepository,
-                         Request                      $request): Response
+    public function home(string $name, WebShopHomeRepository $webShopHomeRepository, WebShopHomeSectionRepository $webShopHomeSectionRepository, Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
         $webShop = $webShopHomeRepository->findOneBy(['name' => $name]);
         $webShopSection = $webShopHomeSectionRepository->findBy(['webShopHome' => $webShop]);
-        return $this->render('module/web_shop/external/web_shop_home.html.twig', ['webShopHome' => $webShop, 'webShopHomeSection' => $webShopSection]);
+
+        $products = $productRepository->findAll();
+        $categories = $categoryRepository->findAll();
+        return $this->render('module/web_shop/external/web_shop_home.html.twig',
+            ['webShopHome' => $webShop, 'webShopHomeSection' => $webShopSection,
+             'products'    => $products,
+             'categories'  => $categories]);
     }
 
 }

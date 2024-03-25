@@ -14,4 +14,13 @@
             </div>
         </h2>
     {% endfor %}
+    {% for category in categories %}
+    {{ category.name }}
+    {% endfor %}
+
+    {% for product in products %}
+    {{ product.name }}
+    {% endfor %}
+
+
 {% endblock %}
