@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopByCategoryController extends AbstractController
+class WebShopDisplayController extends AbstractController
 {
     #[Route('/shop/category', name: 'module_web_shop_category_all')]
     public function home(CategoryRepository $categoryRepository,
