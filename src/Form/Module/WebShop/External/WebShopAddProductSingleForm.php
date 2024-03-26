@@ -17,9 +17,9 @@ class WebShopAddProductSingleForm extends AbstractType
                               array                $options): void
     {
         $builder->add('productId',
-            TextType::class);
+            TextType::class,['label'=>false]);
         $builder->add('quantity',
-            NumberType::class);
+            NumberType::class,['label'=>false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

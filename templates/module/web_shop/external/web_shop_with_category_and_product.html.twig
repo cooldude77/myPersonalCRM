@@ -11,8 +11,11 @@
     {% endfor %}
     {{ form_start(form) }}
     {% for element in form.products %}
-        {{ form_row(element) }}
+        {#  form_row does not work well. Shows label as indexes #}
+        {{ form_widget(element) }}
+
     {% endfor %}
+    {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock %}
 
