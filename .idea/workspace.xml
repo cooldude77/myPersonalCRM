@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Updating migrations for renaming of web shop  tables and creating new controllers for webshop">
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Webshop Home displaying good">
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/External/DTO/WebShopAddProductDTO.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/External/Mapper/WebShopAddProductToCartDTOMapper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/External/WebShopAddProductCollectionForm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/External/WebShopAddProductSingleForm.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopByCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopDisplayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopHomePageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_home.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_home.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopDisplayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/External/WebShopDisplayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Mapper/WebShopDTOMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Mapper/WebShopDTOMapper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/WebShopSectionCreateForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/WebShopSectionCreateForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/WebShopCreateForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/WebShopCreateForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_by_category.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/module/web_shop/external/web_shop_with_category_and_product.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,15 +55,10 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/vendor/nikic/php-parser/composer.json" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="PhpDebugGeneral" ignore_connections_through_unregistered_servers="false" />
+  <component name="PhpDebugGeneral" ignore_connections_through_unregistered_servers="false" listening_started="true" />
   <component name="PhpServers">
     <servers>
       <server host="192.168.88.188" id="c3494e45-7d1b-47c6-85d5-0e9a958d8085" name="192.168.88.188" />
-      <server host="http://192.168.88.188" id="61a0901f-8fd9-4049-9b87-dd1ae253d326" name="Vagrant Symfony">
-        <path_mappings>
-          <mapping local-root="$PROJECT_DIR$" remote-root="/var/www/html/myPersonalCRM" />
-        </path_mappings>
-      </server>
     </servers>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php8.3">
@@ -173,28 +175,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Constants&quot;: &quot;false&quot;,
-    &quot;PHP Remote Debug.Vagrant.executor&quot;: &quot;Debug&quot;,
-    &quot;PHPUnit.CategoryControllerTest.testCreate.executor&quot;: &quot;Run&quot;,
-    &quot;PHPUnit.PHP Unit.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;br__webshop__development&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/var/www/html/myPersonalCRM/templates/module/web_shop/admin/web_shop/section&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Constants": "false",
+    "PHP Remote Debug.Vagrant.executor": "Debug",
+    "PHPUnit.CategoryControllerTest.testCreate.executor": "Run",
+    "PHPUnit.PHP Unit.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
+    "git-widget-placeholder": "br__webshop__development",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "/var/www/html/myPersonalCRM/src/Form/Module/WebShop/External",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -203,39 +205,39 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25097656" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14290366" />
       <window_info id="Commit" order="1" weight="0.25097656" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="0" />
-      <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
-      <window_info anchor="bottom" id="Terminal" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.5226716" />
-      <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
-      <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.3302696" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.5226716" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.3302696" />
+      <window_info anchor="bottom" id="Debug" order="0" weight="0.52634805" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
+      <window_info anchor="bottom" id="Problems" order="3" />
+      <window_info anchor="bottom" id="Problems View" order="4" weight="0.3302696" />
+      <window_info anchor="bottom" id="Terminal" order="5" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.5226716" />
+      <window_info anchor="bottom" id="Services" order="8" weight="0.5851716" />
+      <window_info anchor="bottom" id="Duplicates" order="9" weight="0.3302696" />
+      <window_info anchor="bottom" id="TODO" order="10" weight="0.3302696" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.5226716" />
+      <window_info anchor="bottom" id="Find" order="12" weight="0.3302696" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info anchor="right" id="Database" order="2" weight="0.25" />
-      <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="4" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.25" />
+      <window_info anchor="right" id="Gradle" order="4" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="5" weight="0.25" />
     </layout>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Form/Module/WebShop/External" />
       <recent name="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop/section" />
       <recent name="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop" />
       <recent name="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section" />
       <recent name="$PROJECT_DIR$/templates/module/web_shop/admin" />
-      <recent name="$PROJECT_DIR$/src/Form/Module/WebShop/Admin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop" />
@@ -256,7 +258,7 @@
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
-    <configuration name="Vagrant" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug" filter_connections="FILTER" server_name="Vagrant Symfony" session_id="PHPSTORM">
+    <configuration name="Vagrant" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug" filter_connections="FILTER" server_name="192.168.88.188" session_id="PHPSTORM">
       <method v="2" />
     </configuration>
     <list>
@@ -357,6 +359,7 @@
       <workItem from="1711342281308" duration="1714000" />
       <workItem from="1711374306003" duration="585000" />
       <workItem from="1711427535907" duration="213000" />
+      <workItem from="1711428436731" duration="11014000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -701,7 +704,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -724,7 +727,8 @@
     <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
     <MESSAGE value="adding price forms ( incomplete)" />
     <MESSAGE value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
+    <MESSAGE value="Webshop Home displaying good" />
+    <option name="LAST_COMMIT_MESSAGE" value="Webshop Home displaying good" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
