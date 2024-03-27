@@ -20,16 +20,15 @@ class CartDisplayController extends AbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function home(CategoryRepository $categoryRepository, ProductRepository $productRepository, WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper, CartUpdateService $cartUpdateService, Request $request): Response
+    public function home( WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper, CartUpdateService $cartUpdateService, Request $request): Response
     {
 
 
         $session = $request->getSession();
 
-        $cart = $session->get('cart');
+        $cart = $session->get(CartUpdateService::CART_SESSION_KEY);
 
-        $DTOArray = [];
-
+        $DTOArray = $addProductToCartDTOMapper->createDTOArrayFromArrayList($cart['products']);
         $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]);
 
         $form->handleRequest($request);
@@ -45,7 +44,7 @@ class CartDisplayController extends AbstractController
                    // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/web_shop_with_category_and_product.html.twig', ['form' => $form]);
+        return $this->render('module/web_shop/external/cart/cart.html.twig', ['form' => $form]);
     }
 
 }

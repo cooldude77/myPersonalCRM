@@ -11,30 +11,11 @@ class WebShopAddProductToCartDTOMapper
 {
 
 
-
-
-    public function createDTOArray1(Session $session,array $products): ArrayCollection
-    {
-        $dtoArray = new ArrayCollection();
-        /** @var Product $product */
-        foreach ($products as $product) {
-
-            $dto = new WebShopProductDTO();
-            $dto->productId = $product->getId();
-            $dto->quantity = $this->getQuantity($session,$product->getId());
-            $dtoArray->add($dto);
-        }
-        return $dtoArray; /*$dtoArray = array();
-
-        foreach ($products as $product) {
-
-            $dto = new WebShopAddProductDTO();
-            $dto->productId = $product->getId();
-            $dto->quantity = $this->getQuantity($session,$product->getId());
-            $dtoArray[] = $dto;
-        }*/
-        //return $dtoArray;
-    }
+    /**
+     * @param array $products
+     * @return ArrayCollection
+     * Used with product entity list
+     */
    public function createDTOArray(array $products): ArrayCollection
     {
         $dtoArray = new ArrayCollection();
@@ -49,11 +30,24 @@ class WebShopAddProductToCartDTOMapper
         return $dtoArray;
     }
 
-    private function getQuantity(Session $session,?int $productId): int
+    /**
+     * @param array $productList
+     * @return ArrayCollection
+     *
+     * To be used with array from session objects
+     */
+ public function createDTOArrayFromArrayList(array $productList): ArrayCollection
     {
-        $cart = $session->get('cart');
+        $dtoArray =new  ArrayCollection();
+        /** @var Product $product */
+        foreach ($productList as $productId=>$quantity) {
 
-        return $cart['products'][$productId]['quantity'] ?? 0;
-
+            $dto = new WebShopProductDTO();
+            $dto->productId = $productId;
+            $dto->quantity = $quantity;
+            $dtoArray->add($dto);
+        }
+        return $dtoArray;
     }
+
 }
