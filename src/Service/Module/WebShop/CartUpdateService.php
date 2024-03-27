@@ -2,12 +2,13 @@
 
 namespace App\Service\Module\WebShop;
 
-use App\Form\Module\WebShop\External\DTO\WebShopProductDTO;
+use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartUpdateService
 {
 
+    const CART_SESSION_KEY = 'WEB_SHOP_CART_SESSION_KEY';
     private SessionInterface $session;
 
     public function updateCart(SessionInterface $session,
@@ -16,7 +17,7 @@ class CartUpdateService
 
         $this->createCart($session);
 
-        $cart = $session->get('cart');
+        $cart = $session->get(self::CART_SESSION_KEY);
 
 
         /** @var WebShopProductDTO $product */
@@ -42,12 +43,13 @@ class CartUpdateService
     public function createCart(SessionInterface $session): void
     {
         $this->session = $session;
-        if (empty($session->get('cart'))) $session->set('cart',
+        if (empty($session->get(self::CART_SESSION_KEY)))
+            $session->set(self::CART_SESSION_KEY,
             array());
 
         if (empty($cart['products'])) $cart = array('products' => array());
 
-        $session->set('cart', $cart);
+        $session->set(self::CART_SESSION_KEY, $cart);
     }
 
     private function productExists(int $productId): bool
@@ -75,7 +77,7 @@ class CartUpdateService
      */
     public function getCart(): array
     {
-        return $this->session->get('cart');
+        return $this->session->get(self::CART_SESSION_KEY);
     }
 
     /**
@@ -84,7 +86,7 @@ class CartUpdateService
      */
     public function setCart(array $cart): void
     {
-        $this->session->set('cart', $cart);
+        $this->session->set(self::CART_SESSION_KEY, $cart);
     }
 
     private function removeProduct(?int $productId): void

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\External;
+namespace App\Form\Module\WebShop\External\ShopHome;
 
-use App\Form\Module\WebShop\External\DTO\WebShopProductDTO;
-
+use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

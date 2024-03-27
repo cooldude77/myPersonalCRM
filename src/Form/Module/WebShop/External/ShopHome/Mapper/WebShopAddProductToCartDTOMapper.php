@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Mapper;
+namespace App\Form\Module\WebShop\External\ShopHome\Mapper;
 
 use App\Entity\Product;
-use App\Form\Module\WebShop\External\DTO\WebShopProductDTO;
-use App\Repository\WebShopRepository;
+use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class WebShopAddProductToCartDTOMapper

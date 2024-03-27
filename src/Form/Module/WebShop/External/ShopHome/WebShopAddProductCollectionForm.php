@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External;
+namespace App\Form\Module\WebShop\External\ShopHome;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

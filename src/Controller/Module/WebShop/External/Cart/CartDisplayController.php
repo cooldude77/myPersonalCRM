@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External;
+namespace App\Controller\Module\WebShop\External\Cart;
 
 use App\Form\Module\WebShop\External\ShopHome\Mapper\WebShopAddProductToCartDTOMapper;
 use App\Form\Module\WebShop\External\ShopHome\WebShopAddProductCollectionForm;
@@ -14,24 +14,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopDisplayController extends AbstractController
+class CartDisplayController extends AbstractController
 {
     /**
      * @throws Exception
      */
-    #[Route('/shop/category', name: 'module_web_shop_category_all')]
+    #[Route('/cart', name: 'module_web_shop_cart')]
     public function home(CategoryRepository $categoryRepository, ProductRepository $productRepository, WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper, CartUpdateService $cartUpdateService, Request $request): Response
     {
-        $categories = $categoryRepository->findAll();
-        $products = $productRepository->findBy(['category' => $categories]);
 
-        $DTOArray = $addProductToCartDTOMapper->createDTOArray($products);
-
-        $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]);
 
         $session = $request->getSession();
 
         $cart = $session->get('cart');
+
+        $DTOArray = [];
+
+        $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]);
+
         $form->handleRequest($request);
 
 
@@ -45,7 +45,7 @@ class WebShopDisplayController extends AbstractController
                    // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/web_shop_with_category_and_product.html.twig', ['categories' => $categories, 'form' => $form]);
+        return $this->render('module/web_shop/external/web_shop_with_category_and_product.html.twig', ['form' => $form]);
     }
 
 }
