@@ -3,7 +3,7 @@
 namespace App\Form\Module\WebShop\External\Mapper;
 
 use App\Entity\Product;
-use App\Form\Module\WebShop\External\DTO\WebShopAddProductDTO;
+use App\Form\Module\WebShop\External\DTO\WebShopProductDTO;
 use App\Repository\WebShopRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,13 +15,13 @@ class WebShopAddProductToCartDTOMapper
 
 
 
-    public function createDTOArray(Session $session,array $products): ArrayCollection
+    public function createDTOArray1(Session $session,array $products): ArrayCollection
     {
         $dtoArray = new ArrayCollection();
         /** @var Product $product */
         foreach ($products as $product) {
 
-            $dto = new WebShopAddProductDTO();
+            $dto = new WebShopProductDTO();
             $dto->productId = $product->getId();
             $dto->quantity = $this->getQuantity($session,$product->getId());
             $dtoArray->add($dto);
@@ -36,6 +36,19 @@ class WebShopAddProductToCartDTOMapper
             $dtoArray[] = $dto;
         }*/
         //return $dtoArray;
+    }
+   public function createDTOArray(array $products): ArrayCollection
+    {
+        $dtoArray = new ArrayCollection();
+        /** @var Product $product */
+        foreach ($products as $product) {
+
+            $dto = new WebShopProductDTO();
+            $dto->productId = $product->getId();
+            $dto->quantity = 0;
+            $dtoArray->add($dto);
+        }
+        return $dtoArray;
     }
 
     private function getQuantity(Session $session,?int $productId): int

@@ -17,7 +17,9 @@ class WebShopAddProductCollectionForm extends AbstractType
             CollectionType::class,
             ['entry_type' => WebShopAddProductSingleForm::class]);
 
-        $builder->add('save', SubmitType::class);
+        $builder->add('update', SubmitType::class,['label'=>'Update Cart']);
+
+        $builder->add('cart',SubmitType::class,['label'=>'Goto Cart']);
     }
 
 }

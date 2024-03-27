@@ -2,7 +2,7 @@
 
 namespace App\Form\Module\WebShop\External;
 
-use App\Form\Module\WebShop\External\DTO\WebShopAddProductDTO;
+use App\Form\Module\WebShop\External\DTO\WebShopProductDTO;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -24,7 +24,7 @@ class WebShopAddProductSingleForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-      $resolver->setDefaults(['data_class'=>WebShopAddProductDTO::class]);
+      $resolver->setDefaults(['data_class'=>WebShopProductDTO::class]);
     }
 
 }
