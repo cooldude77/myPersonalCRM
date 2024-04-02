@@ -32,7 +32,7 @@ class FileController extends AbstractController
 
             $fileEntity = $fileService->mapDTOToEntity($form->getData());
             $fileService->moveFile($fileGeneralDirectoryPathNamer,
-                $form->getData('uploadedFile'),$fileEntity->getName(),[]);
+                $fileFormDTO->uploadedFile,$fileEntity->getName(),[]);
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();

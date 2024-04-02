@@ -29,8 +29,12 @@ class FileDTOMapper
 
         $fileEntity = $this->fileRepository->create();
         $fileEntity->setName($fileFormDTO->name);
+
         $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
+
         $fileEntity->setType($type);
+
+        $fileEntity->setYourFileName($fileFormDTO->yourFileName);
 
         return $fileEntity;
     }

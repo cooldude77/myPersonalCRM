@@ -9,6 +9,7 @@ class FileFormDTO
      */
     public ?string $name = null;
     public ?string $type = null;
+    public ?string $yourFileName = null;
 
     /**
      * @var mixed
