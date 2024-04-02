@@ -12,6 +12,15 @@ class PanelSideBarListMapBuilder
             [
                 'sections' => [
                     [
+                        'header_text' => 'Category',
+                        'items' => [
+                            [
+                                'url' => $adminUrl . '?function=category&type=list',
+                                'text' => 'Categories'
+                            ]
+                        ]
+                    ],
+                    [
                         'header_text' => 'Product',
                         'items' => [
                             [

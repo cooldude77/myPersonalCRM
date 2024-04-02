@@ -22,7 +22,7 @@ class Kernel extends BaseKernel
     {
         if($this->environment=="dev"){
             return $this->getDefaultCacheAndLogPath().'/logs'; //and here
-    }
+        }
         return dirname(__DIR__).'/var/'.$this->environment.'/logs';
     }
 

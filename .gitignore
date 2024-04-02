@@ -22,8 +22,8 @@
 
 ### Project Files ###
 .env
+.env.test.local
 .env.test
-.env.local
 /.idea
 /tmp
 ### Project Files ###

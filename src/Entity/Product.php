@@ -40,17 +40,6 @@ class Product
         return $this->id;
     }
 
-    public function getIdProduct(): ?int
-    {
-        return $this->idProduct;
-    }
-
-    public function setIdProduct(int $idProduct): static
-    {
-        $this->idProduct = $idProduct;
-
-        return $this;
-    }
 
     public function getCode(): ?string
     {
