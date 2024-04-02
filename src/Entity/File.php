@@ -25,6 +25,9 @@ class File
     #[ORM\JoinColumn(nullable: false)]
     private ?FileType $type = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $yourFileName = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,6 +53,18 @@ class File
     public function setType(?FileType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getYourFileName(): ?string
+    {
+        return $this->yourFileName;
+    }
+
+    public function setYourFileName(string $yourFileName): static
+    {
+        $this->yourFileName = $yourFileName;
 
         return $this;
     }
