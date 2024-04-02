@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductImageTypeRepository;
+use App\Repository\WebShopImageTypeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

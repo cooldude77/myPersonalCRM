@@ -13,6 +13,9 @@ class WebShopFile
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?File $file = null;
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?WebShop $webShop = null;
@@ -33,4 +36,16 @@ class WebShopFile
 
         return $this;
     }
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(File $file): static
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
 }

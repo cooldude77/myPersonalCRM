@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\WebShop;
 use App\Entity\WebShopFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,4 +46,13 @@ class WebShopFileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function create(\App\Entity\File $file, WebShop $webShop): WebShopFile
+    {
+        $webShopFile =  new WebShopFile();
+        $webShopFile->setFile($file);
+        $webShopFile->setWebShop($webShop);
+
+        return $webShopFile;
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Controller\Module\WebShop\Admin\File\Image;
 
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
 use App\Form\Module\WebShop\Admin\File\Form\WebShopFileImageCreateForm;
+use App\Service\Module\WebShop\File\WebShopFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebShopImageController extends AbstractController
 {
-    #[Route('/webShop/{id}/file/image/create', name: 'create_webShop_image')]
+    #[Route('/web-shop/{id}/file/image/create', name: 'create_webShop_image')]
     public function createWebShopImage(EntityManagerInterface  $entityManager,
                                        WebShopFileImageService $webShopFileImageService,
                                        Request                 $request): Response
@@ -42,7 +43,7 @@ class WebShopImageController extends AbstractController
 
         }
 
-            return $this->render('admin/webShop/file/image/create.html.twig', ['form' => $form]);
+            return $this->render('module/web_shop/admin/file/image/create.html.twig', ['form' => $form]);
     }
 
 
