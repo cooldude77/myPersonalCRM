@@ -70,8 +70,4 @@ class AbstractFileDirectoryPathNamer
         return $this->publicSegment;
     }
 
-    public function removePublicFolderAndSlash(string $path) :string
-    {
-        return substr($path, strlen($this->getPublicSegment().'/'),strlen($path) );
-    }
 }

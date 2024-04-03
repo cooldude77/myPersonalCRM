@@ -2,7 +2,8 @@
     <div class="container">
         {% for file in files %}
             <div class="row">
-               <img src="{{ asset(service_file.getFilePathSegmentByName(file.getName,true)) }}"/>
+              {#  <img src="{{ asset(service_file.getFilePathSegmentByName(file.getName,true)) }}"/>#}
+               <img src="{{ asset(service_file.getFilePathSegmentByName(file.getName)|removePublicPathSegment) }}"/>
                {#   <img src="{{ asset('uploads/general/127531954660ce1c79dec26.74006442.jpg') }}"/>#}
 
             </div>

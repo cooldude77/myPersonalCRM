@@ -30,7 +30,7 @@ class FileGeneralDirectoryPathNamer extends AbstractFileDirectoryPathNamer imple
 
     public function getPublicFilePathSegment(): string
     {
-        return parent::getPublicFilePathSegment(). $this->additionalPath; 
+        return parent::getPublicFilePathSegment(). $this->additionalPath;
     }
 
 

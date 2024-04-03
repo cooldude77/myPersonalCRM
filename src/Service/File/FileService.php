@@ -33,12 +33,10 @@ class FileService
      * {#   <img src="{{ asset('uploads/general/127531954660ce1c79dec26.74006442.jpg') }}"/>#}
      * so public part has to be removed
      */
-    public function getFilePathSegmentByName($fileName, $forTwig = false): string
+    public function getFilePathSegmentByName($fileName): string
     {
-        $path = $this->fileDirectoryPathNamer->getPublicFilePathSegment() . '/' . $fileName;
+        return $this->fileDirectoryPathNamer->getPublicFilePathSegment() . '/' . $fileName;
 
-        return $forTwig ? $this->fileDirectoryPathNamer->removePublicFolderAndSlash($path) : $path;
     }
-
 
 }
