@@ -27,11 +27,6 @@ class FileService
      * @param $fileName
      * @param bool $forTwig
      * @return string
-     * Mostly for use by twig
-     * forTwig is to be true
-     * Twig asset function only requires structure below /public
-     * {#   <img src="{{ asset('uploads/general/127531954660ce1c79dec26.74006442.jpg') }}"/>#}
-     * so public part has to be removed
      */
     public function getFilePathSegmentByName($fileName): string
     {
