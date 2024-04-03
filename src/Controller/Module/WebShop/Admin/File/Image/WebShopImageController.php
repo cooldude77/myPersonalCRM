@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebShopImageController extends AbstractController
 {
-    #[Route('/web-shop/{id}/file/image/create', name: 'create_webShop_image')]
+    #[Route('/shop/{id}/file/image/create', name: 'create_webShop_image')]
     public function createWebShopImage(EntityManagerInterface  $entityManager,
                                        WebShopFileImageService $webShopFileImageService,
                                        Request                 $request): Response
