@@ -10,12 +10,14 @@ use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
  *
  *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
  */
+
+
 class FileGeneralDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
 {
 
 
-    public function getFileFullPath(array $params): string
+    public function getFileFullPathImage(array $params): string
     {
-        return $this->getProjectDir() . $this->getProjectDir() . '/general/';
+        return $this->getBaseFilePathForFiles() . '/general';
     }
 }

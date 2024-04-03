@@ -20,7 +20,7 @@ class FileDTOMapper
         $this->fileRepository = $fileRepository;
     }
 
-    public function mapFileEntity(FileFormDTO $fileFormDTO): File
+    public function mapToFileEntity(FileFormDTO $fileFormDTO): File
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
