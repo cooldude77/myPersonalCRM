@@ -5,7 +5,7 @@ namespace App\Service\File\Base;
 use App\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-define( 'DS', DIRECTORY_SEPARATOR );
+define('DS', DIRECTORY_SEPARATOR);
 
 class AbstractFileDirectoryPathNamer
 {
@@ -32,6 +32,16 @@ class AbstractFileDirectoryPathNamer
 
     /**
      * @return string
+     * Provides complete directory path ( but not the file name )
+     */
+    protected function getBaseFilePathForFiles(): string
+    {
+
+        return $this->getProjectDir() . $this->getPublicFilePathSegment();
+    }
+
+    /**
+     * @return string
      * Only provides the segment
      */
     public function getPublicFilePathSegment(): string
@@ -39,13 +49,9 @@ class AbstractFileDirectoryPathNamer
         return $this->publicFilePathSegment;
     }
 
-    /**
-     * @return string
-     * Provides complete directory path ( but not the file name )
-     */
-    protected function getBaseFilePathForFiles(): string
+    protected function getEnvironment(): string
     {
 
-        return $this->getProjectDir() . $this->getPublicFilePathSegment() ;
+        return $this->kernel->getEnvironment();
     }
 }

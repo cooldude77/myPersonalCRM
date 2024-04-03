@@ -11,10 +11,24 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileService
 {
 
-    public function moveFile(FileDirectoryPathNamerInterface $fileDirectoryPathNamer, UploadedFile $fileHandle, string $fileName, array $params): File
+    private FileGeneralDirectoryPathNamer $fileDirectoryPathNamer;
+
+    public function __construct(FileGeneralDirectoryPathNamer $fileDirectoryPathNamer)
     {
-        $path = $fileDirectoryPathNamer->getFileFullPathImage($params);
+
+        $this->fileDirectoryPathNamer = $fileDirectoryPathNamer;
+    }
+    public function moveFile( UploadedFile $fileHandle, string $fileName, array $params): File
+    {
+        $path = $this->fileDirectoryPathNamer->getFileFullPathImage($params);
         return $fileHandle->move($path, $fileName);
     }
 
+    public function getFilePathByName($name):string{
+
+        return "";
+    }
+    public function getFilePathByYourFileName($yourFileName):string{
+        return "";
+    }
 }
