@@ -24,7 +24,7 @@ class FileController extends AbstractController
     #[Route('/file/create', name: 'file_create')]
     public function createFile(EntityManagerInterface $entityManager,
                                FileDTOMapper $fileDTOMapper,
-                               FileService $fileService, FileGeneralDirectoryPathNamer $fileGeneralDirectoryPathNamer, Request $request): Response
+                               FileService $fileService, Request $request): Response
     {
         $fileFormDTO = new FileFormDTO();
         $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
@@ -35,8 +35,7 @@ class FileController extends AbstractController
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
 
-            $fileService->moveFile($fileGeneralDirectoryPathNamer,
-                $fileFormDTO->uploadedFile,$fileEntity->getName(),[]);
+            $fileService->moveFile( $fileFormDTO->uploadedFile,$fileEntity->getName(),[]);
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
