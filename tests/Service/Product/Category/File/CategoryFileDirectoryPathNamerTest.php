@@ -17,6 +17,6 @@ class CategoryFileDirectoryPathNamerTest  extends KernelTestCase
         $namer = new CategoryFileDirectoryPathNamer(static::$kernel);
 
         $expected =static::$kernel->getProjectDir().'/public/uploads/categories/1/images';
-        assertEquals($namer->getFileFullPathImage(['id'=>1]),$expected);
+        assertEquals($namer->getFullPathForImages(['id'=>1]),$expected);
     }
 }

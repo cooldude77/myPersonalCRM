@@ -17,6 +17,10 @@ class AbstractFileDirectoryPathNamer
     private string $projectDir;
     private string $publicFilePathSegment = '/public/uploads';
 
+    private string $publicSegment = '/public';
+
+    private string $uploadsSegment ='/uploads';
+
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
@@ -28,6 +32,11 @@ class AbstractFileDirectoryPathNamer
     private function getProjectDir(): string
     {
         return $this->projectDir;
+    }
+
+    public function getUploadsSegment(): string
+    {
+        return $this->uploadsSegment;
     }
 
     /**
@@ -42,7 +51,7 @@ class AbstractFileDirectoryPathNamer
 
     /**
      * @return string
-     * Only provides the segment
+     * Only provides the segment till uploads folder
      */
     public function getPublicFilePathSegment(): string
     {
@@ -53,5 +62,16 @@ class AbstractFileDirectoryPathNamer
     {
 
         return $this->kernel->getEnvironment();
+    }
+
+
+    public function getPublicSegment():string
+    {
+        return $this->publicSegment;
+    }
+
+    public function removePublicFolderAndSlash(string $path) :string
+    {
+        return substr($path, strlen($this->getPublicSegment().'/'),strlen($path) );
     }
 }

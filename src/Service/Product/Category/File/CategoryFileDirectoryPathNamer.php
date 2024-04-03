@@ -14,7 +14,7 @@ class CategoryFileDirectoryPathNamer extends AbstractFileDirectoryPathNamer impl
 {
 
 
-    public function getFileFullPathImage(array $params): string
+    public function getFullPathForImages(array $params): string
     {
         // category id
         return $this->getBaseFilePathForFiles(). '/categories/'.$params['id'].'/images';

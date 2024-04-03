@@ -15,9 +15,23 @@ use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
 class FileGeneralDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
 {
 
+    private $additionalPath = '/general';
 
-    public function getFileFullPathImage(array $params): string
+
+    /**
+     * @param array $params
+     * @return string
+     * Doesn't include file name
+     */
+    public function getFullPathForImages(array $params): string
     {
-        return $this->getBaseFilePathForFiles() . '/general';
+        return $this->getBaseFilePathForFiles() . $this->additionalPath;
     }
+
+    public function getPublicFilePathSegment(): string
+    {
+        return parent::getPublicFilePathSegment(). $this->additionalPath; 
+    }
+
+
 }

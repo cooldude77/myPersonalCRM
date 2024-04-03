@@ -6,6 +6,7 @@ namespace App\Controller\Common\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
+use App\Repository\FileRepository;
 use App\Service\File\FileGeneralDirectoryPathNamer;
 use App\Service\File\FileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function createFile(EntityManagerInterface $entityManager,
+    public function create(EntityManagerInterface $entityManager,
                                FileDTOMapper $fileDTOMapper,
                                FileService $fileService, Request $request): Response
     {
@@ -43,5 +44,15 @@ class FileController extends AbstractController
         }
 
         return $this->render('common/file/create.html.twig', ['form' => $form]);
+    }
+
+
+    #[Route('/file/list', name: 'file_list')]
+    public function list(FileRepository $fileRepository): Response
+    {
+
+        $files = $fileRepository->findAll();
+
+        return $this->render('common/file/list.html.twig', ['files' => $files]);
     }
 }
