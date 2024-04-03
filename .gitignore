@@ -15,9 +15,15 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
 ### Project Files ###
 .env
 .env.test.local
+.env.test
 /.idea
 /tmp
 ### Project Files ###

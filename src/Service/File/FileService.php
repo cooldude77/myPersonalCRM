@@ -2,35 +2,36 @@
 
 namespace App\Service\File;
 
-use App\Form\Common\File\DTO\FileFormDTO;
-use App\Form\Common\File\Mapper\FileDTOMapper;
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Repository\FileRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
+
     private FileGeneralDirectoryPathNamer $fileDirectoryPathNamer;
-    private FileDTOMapper $fileDTOMapper;
 
-
-    /**
-     * @param FileGeneralDirectoryPathNamer $fileDirectoryPathNamer
-     */
-    public function __construct(FileDTOMapper $fileDTOMapper)
+    public function __construct(FileGeneralDirectoryPathNamer $fileDirectoryPathNamer)
     {
-        $this->fileDTOMapper = $fileDTOMapper;
+
+        $this->fileDirectoryPathNamer = $fileDirectoryPathNamer;
     }
 
-    public function moveFile(FileDirectoryPathNamerInterface $fileDirectoryPathNamer, UploadedFile $fileHandle, string $fileName, array $params): File
+    public function moveFile(UploadedFile $fileHandle, string $fileName, array $params): File
     {
-        $path = $fileDirectoryPathNamer->getFileFullPath($params);
+        $path = $this->fileDirectoryPathNamer->getFullPathForImages($params);
         return $fileHandle->move($path, $fileName);
     }
 
-    public function mapDTOToEntity(FileFormDTO $fileFormDTO): \App\Entity\File
+    /**
+     * @param $fileName
+     * @param bool $forTwig
+     * @return string
+     */
+    public function getFilePathSegmentByName($fileName): string
     {
-        return $this->fileDTOMapper->mapFileEntity($fileFormDTO);
+        return $this->fileDirectoryPathNamer->getPublicFilePathSegment() . '/' . $fileName;
 
     }
+
 }

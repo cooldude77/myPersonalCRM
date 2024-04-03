@@ -5,7 +5,6 @@ namespace App\Service\Product\File;
 use App\Entity\Product;
 use App\Entity\ProductFile;
 use App\Form\Admin\Product\File\DTO\ProductFileDTO;
-use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
 use App\Repository\ProductFileRepository;
 use App\Repository\ProductRepository;
 use App\Service\File\FileService;
@@ -41,7 +40,7 @@ class ProductFileService
         return $this->fileService->moveFile($this->productFileDirectoryPathNamer,
             $productFileDTO->fileFormDTO->uploadedFile,
             $productFileDTO->fileFormDTO->name,
-            ['productId' => $productFileDTO->productId]);
+            ['id' => $productFileDTO->productId]);
     }
 
 
