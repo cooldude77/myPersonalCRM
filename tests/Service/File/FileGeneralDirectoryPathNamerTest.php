@@ -2,7 +2,7 @@
 
 namespace App\Tests\Service\File;
 
-use App\Service\File\GeneralDirectoryPathProvider;
+use App\Service\File\Provider\GeneralDirectoryPathProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertEquals;
 

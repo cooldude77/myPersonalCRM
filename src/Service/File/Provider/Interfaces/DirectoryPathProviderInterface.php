@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\File\Interfaces;
+namespace App\Service\File\Provider\Interfaces;
 
 
 

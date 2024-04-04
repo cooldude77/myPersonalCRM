@@ -5,7 +5,7 @@ namespace App\Controller\Admin\Product\Category\File\Image;
 // ...
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
-use App\Service\Product\Category\File\CategoryFileImageService;
+use App\Service\Product\Category\File\Image\CategoryFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

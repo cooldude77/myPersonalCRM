@@ -3,12 +3,9 @@
 namespace App\Controller\Admin\Product\File\Image;
 
 // ...
-use App\Form\Admin\Product\File\DTO\ProductFileDTO;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
-use App\Form\Admin\Product\File\Form\ProductFileCreateForm;
 use App\Form\Admin\Product\File\Form\ProductFileImageCreateForm;
-use App\Service\Product\File\ProductFileImageService;
-use App\Service\Product\File\ProductFileService;
+use App\Service\Product\File\Image\ProductFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

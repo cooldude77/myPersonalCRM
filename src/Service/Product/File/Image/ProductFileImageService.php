@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Service\Product\File;
+namespace App\Service\Product\File\Image;
 
-use App\Entity\Product;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
-use App\Repository\ProductFileRepository;
 use App\Repository\ProductImageFileRepository;
 use App\Repository\ProductImageTypeRepository;
-use App\Repository\ProductRepository;
-use App\Service\File\FileService;
+use App\Service\Product\File\ProductFileService;
 
 class ProductFileImageService
 {

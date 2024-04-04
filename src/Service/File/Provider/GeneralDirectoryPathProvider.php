@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\File;
+namespace App\Service\File\Provider;
 
 use App\Service\File\Base\AbstractFileDirectoryPathNamer;
-use App\Service\File\Interfaces\DirectoryPathProviderInterface;
+use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:
@@ -15,23 +15,18 @@ use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 class GeneralDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
 {
 
-    private $additionalPath = '/general';
+    private string $ownPathSegment = '/general';
 
 
     /**
      * @param array $params
      * @return string
      * Doesn't include file name
+     * will return '/public/uploads/general'
      */
     public function getFullPathForImages(array $params): string
     {
-        return $this->getBaseFilePathForFiles() . $this->additionalPath;
+        return $this->getBaseFilePathForFiles() . $this->ownPathSegment;
     }
-
-    public function getPublicFilePathSegment(): string
-    {
-        return parent::getPublicFilePathSegment(). $this->additionalPath;
-    }
-
 
 }

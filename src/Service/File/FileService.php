@@ -2,8 +2,8 @@
 
 namespace App\Service\File;
 
-use App\Repository\FileRepository;
-use App\Service\File\Interfaces\DirectoryPathProviderInterface;
+use App\Form\Common\File\Mapper\FileDTOMapper;
+use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -11,28 +11,40 @@ class FileService
 {
 
     private DirectoryPathProviderInterface $directoryPathProviderInterface;
+    private FileDTOMapper $fileDTOMapper;
 
-    public function __construct(DirectoryPathProviderInterface $directoryPathProvider)
+    public function __construct(FileDTOMapper $fileDTOMapper)
     {
-
-        $this->directoryPathProviderInterface = $directoryPathProvider;
+        $this->fileDTOMapper = $fileDTOMapper;
     }
 
-    public function moveFile(UploadedFile $fileHandle, string $fileName, array $params): File
+    public function moveFile(UploadedFile $fileHandle,
+                             string       $fileName,
+                             array        $params): File
     {
         $path = $this->directoryPathProviderInterface->getFullPathForImages($params);
-        return $fileHandle->move($path, $fileName);
+        return $fileHandle->move($path,
+            $fileName);
     }
 
     /**
      * @param $fileName
-     * @param bool $forTwig
      * @return string
      */
     public function getFilePathSegmentByName($fileName): string
     {
         return $this->directoryPathProviderInterface->getPublicFilePathSegment() . '/' . $fileName;
 
+    }
+
+    public function setDirectoryPathProviderInterface(DirectoryPathProviderInterface $directoryPathProviderInterface): void
+    {
+        $this->directoryPathProviderInterface = $directoryPathProviderInterface;
+    }
+
+    public function mapToFileEntity(?\App\Form\Common\File\DTO\FileFormDTO $fileFormDTO): \App\Entity\File
+    {
+        return $this->fileDTOMapper->mapToFileEntity($fileFormDTO);
     }
 
 }

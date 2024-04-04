@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Product\Category\File;
+namespace App\Service\Product\Category\File\Provider;
 
 use App\Service\File\Base\AbstractFileDirectoryPathNamer;
-use App\Service\File\Interfaces\DirectoryPathProviderInterface;
+use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:

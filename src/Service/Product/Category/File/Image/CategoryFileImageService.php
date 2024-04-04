@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Service\Product\Category\File;
+namespace App\Service\Product\Category\File\Image;
 
 use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Repository\CategoryImageFileRepository;
 use App\Repository\CategoryImageTypeRepository;
+use App\Service\Product\Category\File\CategoryFileService;
 use Symfony\Component\HttpFoundation\File\File;
 
 class CategoryFileImageService
@@ -32,8 +33,8 @@ class CategoryFileImageService
     {
 
         return $this->categoryImageFileRepository->create(
-            $this->categoryFileService->mapFormDTO($categoryFileImageDTO->categoryFileDTO),
-        $this->CategoryImageTypeRepository->findOneBy(['type'=>$categoryFileImageDTO->imageType]));
+            $this->categoryFileService->mapFormDtoToEntity($categoryFileImageDTO->categoryFileDTO),
+        $this->categoryImageTypeRepository->findOneBy(['type'=>$categoryFileImageDTO->imageType]));
 
     }
 
