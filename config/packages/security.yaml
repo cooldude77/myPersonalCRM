@@ -15,7 +15,10 @@ security:
             security: false
         main:
             lazy: true
-            provider: app_user_provider
+            provider:
+                # the name of your user provider can be anything
+                your_custom_user_provider:
+                    id: App\Security\UserProvider
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

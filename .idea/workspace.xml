@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Removed entities. Now will go step by step for creation of user" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Adding user class">
+      <change afterPath="$PROJECT_DIR$/src/Security/UserProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,6 +158,13 @@
       <path value="$PROJECT_DIR$/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/vendor/jms/metadata" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/clock" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/vendor/symfony/password-hasher" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -302,6 +313,7 @@
         <option value="php-symfony_property_access-496f3e5b81bf-962a107b" />
         <option value="php-symfony_property_info-496f3e5b81bf-2121575a" />
         <option value="php-symfony_routing-32176dc03897-6830fff1" />
+        <option value="php-symfony_security_core-32176dc03897-a649b70f" />
         <option value="php-symfony_string-496f3e5b81bf-7c6fa32e" />
         <option value="php-symfony_twig_bridge-496f3e5b81bf-d7a60a3d" />
         <option value="php-symfony_twig_bundle-496f3e5b81bf-311195f7" />
@@ -694,7 +706,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -718,7 +730,9 @@
     <MESSAGE value="adding price forms ( incomplete)" />
     <MESSAGE value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
     <MESSAGE value="Removed entities. Now will go step by step for creation of user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed entities. Now will go step by step for creation of user" />
+    <MESSAGE value="Composer require security for starting to work on user" />
+    <MESSAGE value="Adding user class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding user class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
