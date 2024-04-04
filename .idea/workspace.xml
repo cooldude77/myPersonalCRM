@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Updating migrations for renaming of web shop  tables and creating new controllers for webshop">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminSectionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/DTO/WebShopSectionDTO.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/Mapper/WebShopSectionDTOMapper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop/section/create.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop/success.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Module/WebShop/Admin/WebShopAdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/WebShopSection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WebShopSection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/WebShopSectionCreateForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/WebShopSectionCreateForm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/WebShopHomeSectionRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/WebShopHomeSectionRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/module/web_shop/admin/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/module/web_shop/admin/success.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/module/web_shop/admin/web_shop/section/success.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/UserType.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserTypeRepository.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +184,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "br__webshop__development",
+    "git-widget-placeholder": "br__user__related__dev",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/module/web_shop/admin/web_shop/section",
     "node.js.detected.package.eslint": "true",
@@ -211,7 +204,7 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.38378906" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32975262" />
       <window_info active="true" id="Commit" order="1" visible="true" weight="0.25097656" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -250,7 +243,7 @@
       <recent name="$PROJECT_DIR$/templates/common/miscellaneous/success" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Remote Debug.Vagrant">
     <configuration name="CategoryControllerTest.testCreate" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="App\Tests\Controller\Admin\Product\Category\CategoryControllerTest" configuration_file="$PROJECT_DIR$/phpunit.xml.dist" file="$PROJECT_DIR$/tests/Controller/Admin/Product/Category/CategoryControllerTest.php" method="testCreate" scope="Method" />
       <method v="2" />
