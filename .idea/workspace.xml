@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Updating migrations for renaming of web shop  tables and creating new controllers for webshop">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/UserType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserTypeRepository.php" beforeDir="false" />
-    </list>
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Removed entities. Now will go step by step for creation of user" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -205,22 +199,22 @@
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32975262" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.25097656" />
+      <window_info id="Commit" order="1" weight="0.32975262" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
+      <window_info anchor="bottom" id="Problems View" order="2" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.5226716" />
-      <window_info anchor="bottom" id="Services" order="6" weight="0.5851716" />
+      <window_info anchor="bottom" id="Services" order="5" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.5226716" />
       <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.3302696" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.5226716" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.3302696" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.5226716" />
+      <window_info anchor="bottom" id="Find" order="9" weight="0.3302696" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
@@ -700,7 +694,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -723,7 +717,8 @@
     <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
     <MESSAGE value="adding price forms ( incomplete)" />
     <MESSAGE value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
+    <MESSAGE value="Removed entities. Now will go step by step for creation of user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed entities. Now will go step by step for creation of user" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
