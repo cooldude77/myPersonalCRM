@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class CategoryFileService
 {
-    private CategoryFileDirectoryPathNamer $categoryFileDirectoryPathNamer;
+    private CategoryDirectoryPathProvider $categoryFileDirectoryPathNamer;
     private FileService $fileService;
     private CategoryFileRepository $categoryFileRepository;
     private CategoryRepository $categoryRepository;
 
-    public function __construct(CategoryFileRepository $categoryFileRepository, CategoryRepository $categoryRepository, CategoryFileDirectoryPathNamer $categoryFileDirectoryPathNamer, FileService $fileService)
+    public function __construct(CategoryFileRepository $categoryFileRepository, CategoryRepository $categoryRepository, CategoryDirectoryPathProvider $categoryFileDirectoryPathNamer, FileService $fileService)
     {
 
         $this->categoryFileDirectoryPathNamer = $categoryFileDirectoryPathNamer;

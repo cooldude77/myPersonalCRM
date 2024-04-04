@@ -3,14 +3,14 @@
 namespace App\Service\Product\File;
 
 use App\Service\File\Base\AbstractFileDirectoryPathNamer;
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:
  *
  *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
  */
-class ProductFileDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
+class ProductDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
 {
 
 

@@ -3,23 +3,24 @@
 namespace App\Service\File;
 
 use App\Repository\FileRepository;
+use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
 
-    private FileGeneralDirectoryPathNamer $fileDirectoryPathNamer;
+    private DirectoryPathProviderInterface $directoryPathProviderInterface;
 
-    public function __construct(FileGeneralDirectoryPathNamer $fileDirectoryPathNamer)
+    public function __construct(DirectoryPathProviderInterface $directoryPathProvider)
     {
 
-        $this->fileDirectoryPathNamer = $fileDirectoryPathNamer;
+        $this->directoryPathProviderInterface = $directoryPathProvider;
     }
 
     public function moveFile(UploadedFile $fileHandle, string $fileName, array $params): File
     {
-        $path = $this->fileDirectoryPathNamer->getFullPathForImages($params);
+        $path = $this->directoryPathProviderInterface->getFullPathForImages($params);
         return $fileHandle->move($path, $fileName);
     }
 
@@ -30,7 +31,7 @@ class FileService
      */
     public function getFilePathSegmentByName($fileName): string
     {
-        return $this->fileDirectoryPathNamer->getPublicFilePathSegment() . '/' . $fileName;
+        return $this->directoryPathProviderInterface->getPublicFilePathSegment() . '/' . $fileName;
 
     }
 

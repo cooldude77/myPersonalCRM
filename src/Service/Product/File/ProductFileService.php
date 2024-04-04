@@ -11,12 +11,12 @@ use App\Service\File\FileService;
 
 class ProductFileService
 {
-    private ProductFileDirectoryPathNamer $productFileDirectoryPathNamer;
+    private ProductDirectoryPathProvider $productFileDirectoryPathNamer;
     private FileService $fileService;
     private ProductFileRepository $productFileRepository;
     private ProductRepository $productRepository;
 
-    public function __construct(ProductFileRepository $productFileRepository, ProductRepository $productRepository, ProductFileDirectoryPathNamer $productFileDirectoryPathNamer, FileService $fileService)
+    public function __construct(ProductFileRepository $productFileRepository, ProductRepository $productRepository, ProductDirectoryPathProvider $productFileDirectoryPathNamer, FileService $fileService)
     {
 
         $this->productFileDirectoryPathNamer = $productFileDirectoryPathNamer;

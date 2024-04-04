@@ -7,7 +7,7 @@ use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\FileRepository;
-use App\Service\File\FileGeneralDirectoryPathNamer;
+use App\Service\File\GeneralDirectoryPathProvider;
 use App\Service\File\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -3,7 +3,7 @@
 namespace App\Service\File;
 
 use App\Service\File\Base\AbstractFileDirectoryPathNamer;
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:
@@ -12,7 +12,7 @@ use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
  */
 
 
-class FileGeneralDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
+class GeneralDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
 {
 
     private $additionalPath = '/general';

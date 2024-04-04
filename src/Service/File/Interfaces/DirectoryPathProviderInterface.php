@@ -4,7 +4,7 @@ namespace App\Service\File\Interfaces;
 
 
 
-interface FileDirectoryPathNamerInterface
+interface DirectoryPathProviderInterface
 {
     public function getFullPathForImages(array $params): string;
 }

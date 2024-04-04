@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;

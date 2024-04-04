@@ -3,14 +3,14 @@
 namespace App\Service\Product\Category\File;
 
 use App\Service\File\Base\AbstractFileDirectoryPathNamer;
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Service\File\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:
  *
  *  Category: Base Kernel Dir/public/files/Categorys/{id}/{filename.extension}
  */
-class CategoryFileDirectoryPathNamer extends AbstractFileDirectoryPathNamer implements FileDirectoryPathNamerInterface
+class CategoryDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
 {
 
 
