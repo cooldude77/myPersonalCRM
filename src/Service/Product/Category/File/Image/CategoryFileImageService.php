@@ -17,10 +17,9 @@ class CategoryFileImageService
     private CategoryImageTypeRepository $categoryImageTypeRepository;
     private CategoryFileService $categoryFileService;
 
-    public function __construct(
-        CategoryImageFileRepository $categoryImageFileRepository,
-        CategoryImageTypeRepository $categoryImageTypeRepository,
-        CategoryFileService         $categoryFileService)
+    public function __construct(CategoryImageFileRepository $categoryImageFileRepository,
+                                CategoryImageTypeRepository $categoryImageTypeRepository,
+                                CategoryFileService         $categoryFileService)
     {
 
 
@@ -31,10 +30,11 @@ class CategoryFileImageService
 
     public function mapFormDTO(CategoryFileImageDTO $categoryFileImageDTO): CategoryImageFile
     {
+        $categoryFile = $this->categoryFileService->mapFormDtoToEntity($categoryFileImageDTO->categoryFileDTO);
+        $imageType = $this->categoryImageTypeRepository->findOneBy(['type' => $categoryFileImageDTO->imageType]);
 
-        return $this->categoryImageFileRepository->create(
-            $this->categoryFileService->mapFormDtoToEntity($categoryFileImageDTO->categoryFileDTO),
-        $this->categoryImageTypeRepository->findOneBy(['type'=>$categoryFileImageDTO->imageType]));
+        return $this->categoryImageFileRepository->create($categoryFile,
+            $imageType);
 
     }
 

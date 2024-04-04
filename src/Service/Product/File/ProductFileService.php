@@ -37,9 +37,10 @@ class ProductFileService
     {
         /** @var Product $product */
         $product = $this->productRepository->findOneBy(['id' => $productFileDTO->productId]);
+
         $file = $this->fileDTOMapper->mapToFileEntity($productFileDTO->fileFormDTO);
-        return $this->productFileRepository->create($file,
-            $product);
+
+        return $this->productFileRepository->create($file, $product);
 
     }
 

@@ -2,10 +2,12 @@
 
 namespace App\Service\Product\File\Image;
 
+use App\Entity\ProductImageFile;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
 use App\Repository\ProductImageFileRepository;
 use App\Repository\ProductImageTypeRepository;
 use App\Service\Product\File\ProductFileService;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductFileImageService
 {
@@ -15,10 +17,9 @@ class ProductFileImageService
     private ProductImageTypeRepository $productImageTypeRepository;
     private ProductFileService $productFileService;
 
-    public function __construct(
-        ProductImageFileRepository $productImageFileRepository,
-        ProductImageTypeRepository $productImageTypeRepository,
-        ProductFileService         $productFileService)
+    public function __construct(ProductImageFileRepository $productImageFileRepository,
+                                ProductImageTypeRepository $productImageTypeRepository,
+                                ProductFileService         $productFileService)
     {
 
 
@@ -27,16 +28,18 @@ class ProductFileImageService
         $this->productFileService = $productFileService;
     }
 
-    public function mapFormDTO(ProductFileImageDTO $productFileImageDTO): \App\Entity\ProductImageFile
+    public function mapFormDTO(ProductFileImageDTO $productFileImageDTO): ProductImageFile
     {
 
-        return $this->productImageFileRepository->create(
-            $this->productFileService->mapFormDTO($productFileImageDTO->productFileDTO),
-        $this->productImageTypeRepository->findOneBy(['type'=>$productFileImageDTO->imageType]));
+        $productFile = $this->productFileService->mapFormDTO($productFileImageDTO->productFileDTO);
+        $productImageType = $this->productImageTypeRepository->findOneBy(['type' => $productFileImageDTO->imageType]);
+
+        return $this->productImageFileRepository->create($productFile,
+            $productImageType);
 
     }
 
-    public function moveFile(ProductFileImageDTO $productFileImageDTO): \Symfony\Component\HttpFoundation\File\File
+    public function moveFile(ProductFileImageDTO $productFileImageDTO): File
     {
         return $this->productFileService->moveFile($productFileImageDTO->productFileDTO);
     }

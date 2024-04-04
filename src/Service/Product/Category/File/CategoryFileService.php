@@ -47,7 +47,7 @@ class CategoryFileService
 
         return $this->fileService->moveFile($categoryFileDTO->fileFormDTO->uploadedFile,
             $categoryFileDTO->fileFormDTO->name,
-            ['CategoryId' => $categoryFileDTO->categoryId]);
+            ['id' => $categoryFileDTO->categoryId]);
     }
 
 
