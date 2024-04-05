@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Updating migrations for renaming of web shop  tables and creating new controllers for webshop">
-      <change beforePath="$PROJECT_DIR$/.env.test" beforeDir="false" afterPath="$PROJECT_DIR$/.env.test" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Adding webpack encore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +219,7 @@
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
       <window_info anchor="bottom" id="Services" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.3302696" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.3302696" />
       <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.5226716" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.3302696" />
@@ -705,7 +702,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -728,7 +725,8 @@
     <MESSAGE value="Test case working with datbase&#10;Needed to add another class with doctrine command" />
     <MESSAGE value="adding price forms ( incomplete)" />
     <MESSAGE value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating migrations for renaming of web shop  tables and creating new controllers for webshop" />
+    <MESSAGE value="Adding webpack encore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding webpack encore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
