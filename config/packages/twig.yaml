@@ -1,6 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
-
+    globals:
+        service_file: '@App\Service\File\FileService'
 when@test:
     twig:
         strict_variables: true
