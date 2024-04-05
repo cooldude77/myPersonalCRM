@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Adding user class">
-      <change afterPath="$PROJECT_DIR$/src/Security/UserProvider.php" afterDir="false" />
+    <list default="true" id="dbca6f84-7c42-4690-9322-3a27d0a843e2" name="Changes" comment="Adding RegistrationController.php and custom provider">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,6 +168,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
       <path value="$PROJECT_DIR$/vendor/symfony/password-hasher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/validator" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -179,28 +183,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Constants": "false",
-    "PHP Remote Debug.Vagrant.executor": "Debug",
-    "PHPUnit.CategoryControllerTest.testCreate.executor": "Run",
-    "PHPUnit.PHP Unit.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "br__user__related__dev",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/var/www/html/myPersonalCRM/templates/module/web_shop/admin/web_shop/section",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Constants&quot;: &quot;false&quot;,
+    &quot;PHP Remote Debug.Vagrant.executor&quot;: &quot;Debug&quot;,
+    &quot;PHPUnit.CategoryControllerTest.testCreate.executor&quot;: &quot;Run&quot;,
+    &quot;PHPUnit.PHP Unit.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;br__user__related__dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/var/www/html/myPersonalCRM/templates/module/web_shop/admin/web_shop/section&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -209,8 +213,8 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" show_stripe_button="false" />
       <window_info id="Robo tasks" show_stripe_button="false" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32975262" />
-      <window_info id="Commit" order="1" weight="0.32975262" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29524738" />
+      <window_info id="Commit" order="1" weight="0.29524738" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -218,9 +222,9 @@
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
       <window_info anchor="bottom" id="Terminal" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.47732842" />
+      <window_info active="true" anchor="bottom" id="Debug" order="4" visible="true" weight="0.3302696" />
       <window_info anchor="bottom" id="Services" order="5" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.5226716" />
       <window_info anchor="bottom" id="Duplicates" order="7" weight="0.3302696" />
@@ -317,6 +321,7 @@
         <option value="php-symfony_string-496f3e5b81bf-7c6fa32e" />
         <option value="php-symfony_twig_bridge-496f3e5b81bf-d7a60a3d" />
         <option value="php-symfony_twig_bundle-496f3e5b81bf-311195f7" />
+        <option value="php-symfony_validator-496f3e5b81bf-c47f451e" />
         <option value="php-symfony_var_dumper-496f3e5b81bf-156bbaac" />
         <option value="php-symfony_yaml-32176dc03897-8e7ca8e8" />
         <option value="php-twig_twig-32176dc03897-227cd264" />
@@ -362,6 +367,7 @@
       <workItem from="1711082059244" duration="11491000" />
       <workItem from="1711342281308" duration="1714000" />
       <workItem from="1711374306003" duration="585000" />
+      <workItem from="1712289090952" duration="1477000" />
     </task>
     <task id="LOCAL-00006" summary="New migrations for tables added">
       <created>1709040081322</created>
@@ -706,7 +712,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710163061519</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -732,7 +738,9 @@
     <MESSAGE value="Removed entities. Now will go step by step for creation of user" />
     <MESSAGE value="Composer require security for starting to work on user" />
     <MESSAGE value="Adding user class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding user class" />
+    <MESSAGE value="Adding RegistrationController.php" />
+    <MESSAGE value="Adding RegistrationController.php and custom provider" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding RegistrationController.php and custom provider" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -756,6 +764,11 @@
           <url>file://$PROJECT_DIR$/src/Form/Module/WebShop/Admin/Section/Mapper/WebShopSectionDTOMapper.php</url>
           <line>28</line>
           <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/vendor/symfony/config/Definition/ScalarNode.php</url>
+          <line>38</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
