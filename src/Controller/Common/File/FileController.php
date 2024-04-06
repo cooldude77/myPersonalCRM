@@ -5,6 +5,8 @@ namespace App\Controller\Common\File;
 // ...
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
+use App\Form\Common\File\Mapper\FileDTOMapper;
+use App\Repository\FileRepository;
 use App\Service\File\FileGeneralDirectoryPathNamer;
 use App\Service\File\FileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +23,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function createFile(EntityManagerInterface $entityManager, FileService $fileService, FileGeneralDirectoryPathNamer $fileGeneralDirectoryPathNamer, Request $request): Response
+    public function create(EntityManagerInterface $entityManager,
+                               FileDTOMapper $fileDTOMapper,
+                               FileService $fileService, Request $request): Response
     {
         $fileFormDTO = new FileFormDTO();
         $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
@@ -30,9 +34,9 @@ class FileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fileEntity = $fileService->mapDTOToEntity($form->getData());
-            $fileService->moveFile($fileGeneralDirectoryPathNamer,
-                $form->getData('uploadedFile'),$fileEntity->getName(),[]);
+            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
+
+            $fileService->moveFile( $fileFormDTO->uploadedFile,$fileEntity->getName(),[]);
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
@@ -40,5 +44,15 @@ class FileController extends AbstractController
         }
 
         return $this->render('common/file/create.html.twig', ['form' => $form]);
+    }
+
+
+    #[Route('/file/list', name: 'file_list')]
+    public function list(FileRepository $fileRepository): Response
+    {
+
+        $files = $fileRepository->findAll();
+
+        return $this->render('common/file/list.html.twig', ['files' => $files]);
     }
 }

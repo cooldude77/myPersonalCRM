@@ -14,8 +14,10 @@ class ProductFileDirectoryPathNamer extends AbstractFileDirectoryPathNamer imple
 {
 
 
-    public function getFileFullPath(array $params): string
+    public function getFullPathForImages(array $params): string
     {
-        return $this->getProjectDir() . $this->getFileBaseDirPathSegment() . '/products/'.$params['productId'].'/images/';
+        return $this->getBaseFilePathForFiles(). '/products/'.$params['id'].'/images';
     }
+
+
 }
