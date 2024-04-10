@@ -1,9 +1,8 @@
-#sidebar {
-
-    width: 200px;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    height: 100%;
-    border:1px red;
+#sidebar-wrapper
+{
+    min-height: 100vh;
+    border: 1px solid black;
+}
+#wrapper {
+    border: 1px solid red;
 }

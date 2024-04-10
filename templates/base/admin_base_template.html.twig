@@ -4,22 +4,27 @@
         {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
     {% endblock %}
 {% block body %}
-
-    <div class="wrapper">
-        <div id="header">
-            {% block header %}
-                <div class="container-fluid">
-                    <h1>Admin Page</h1>
-                </div>
-            {% endblock %}
+    <div id="wrapper" class="container">
+        <div class="row">
+            <div id="header" class="col">
+                {% block header %}
+                {% endblock %}
+            </div>
         </div>
-        <nav id="sidebar" class="container">
-            {% block sidebar %}
-            {% endblock %}
-        </nav>
+        <div class="row">
+            <div id="sidebar-wrapper" class="col-sm">
+                {% block sidebar %}
+                {% endblock %}
+            </div>
+            <div id="content-wrapper" class="col-sm">
 
-        <nav id="content" class="container">
-            {% block content %}{% endblock %}
-        </nav>
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div id="footer-wrapper">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
     </div>
 {% endblock %}

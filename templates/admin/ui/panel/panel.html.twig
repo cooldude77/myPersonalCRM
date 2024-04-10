@@ -1,13 +1,10 @@
 {# templates/user/create.html.twig #}
 {% extends 'base/admin_base_template.html.twig' %}
-
+{% block header %}
+  {% include 'admin/ui/header/user_logged_in.html.twig' %}
+{% endblock %}
  {% block sidebar %}
-     <ul>
-         {% for section in sidebarMenu.sections %}
-             {% include  'base/_li_section_with_header.html.twig' with section %}
-         {% endfor %}
-
-     </ul>
+    {% include 'admin/ui/sidebar/nav.html.twig' with {'sections':sidebarMenu.sections} %}
  {% endblock %}
 {% block content %}
     {% if app.request.get('type') == 'list' %}
