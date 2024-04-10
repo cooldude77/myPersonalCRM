@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\RouterInterface;
 
-class PanelController extends AbstractController
+class PanelMainController extends AbstractController
 {
 
 
@@ -20,7 +20,6 @@ class PanelController extends AbstractController
         RouterInterface $router): Response
     {
 
-        $adminUrl = $router->generate('admin_panel');
 
         $session = $request->getSession();
         $session->set('context_route', 'admin_panel');
@@ -28,8 +27,6 @@ class PanelController extends AbstractController
         $mapBuilder = new PanelActionListMapBuilder();
         $map = $mapBuilder->build();
 
-        $sideBarBuilder = new PanelSideBarListMapBuilder();
-        $sideBar = $sideBarBuilder->build($adminUrl)->getSideBarList();
 
 
         if ($request->get('type') !== null) {
@@ -49,11 +46,11 @@ class PanelController extends AbstractController
             // decide what to do next
             switch ($request->get('type')) {
                 case 'list':
+
                 case 'display':
                     return $this->render('admin/ui/panel/panel.html.twig',
                         [
                             'content' => $content,
-                            'sidebarMenu' => $sideBar,
                             'actionListMap' => $map
                         ]);
 
