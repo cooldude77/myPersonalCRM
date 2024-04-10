@@ -48,7 +48,7 @@ class PanelMainController extends AbstractController
                 case 'list':
 
                 case 'display':
-                    return $this->render('admin/ui/panel/panel.html.twig',
+                    return $this->render('admin/ui/panel/panel_main.html.twig',
                         [
                             'content' => $content,
                             'actionListMap' => $map
@@ -60,20 +60,15 @@ class PanelMainController extends AbstractController
                         $redirect_url = $request->get('redirect_upon_success_url');
                         return $this->redirect($redirect_url);
                     } else
-                        return $this->render('admin/ui/panel/panel.html.twig',
+                        return $this->render('admin/ui/panel/panel_main.html.twig',
                             [
-                                'content' => $content,
-                                'sidebarMenu' => $sideBar,
-                                'actionListMap' => $map
+                                'content' => $content
                             ]);
             }
 
         }
 
-        return $this->render('admin/ui/panel/panel.html.twig',
-            [
-                'content' => "This is home",
-                'sidebarMenu' => $sideBar,
-                'actionListMap' => $map]);
+        return $this->render('admin/ui/panel/panel_main.html.twig',
+            ['content' => "This is home"]);
     }
 }

@@ -1,7 +1,9 @@
-{# templates/user/create.html.twig #}
+{# templates/admin/ui/panel/panel_admin.html.twig #}
 {% extends 'base/admin_base_template.html.twig' %}
 {% block header %}
-  {% include 'admin/ui/header/user_logged_in.html.twig' %}
+    {{ render(controller(
+        'App\\Controller\\Admin\\UI\\Panel\\Components\\PanelHeaderController::header'
+    )) }}
 {% endblock %}
  {% block sidebar %}
      {{ render(controller(

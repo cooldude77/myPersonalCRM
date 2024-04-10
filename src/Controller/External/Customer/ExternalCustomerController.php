@@ -14,7 +14,7 @@ class ExternalCustomerController extends AbstractController
     public function createProduct(EntityManagerInterface $entityManager, Request $request): Response
     {
 
-        return $this->render('admin/ui/panel/panel.html.twig');
+        return $this->render('admin/ui/panel/panel_main.html.twig');
     }
 
 }
