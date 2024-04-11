@@ -1,6 +1,1 @@
-{% if app.request.get('type') == 'list' %}
-    {% include "admin/ui/panel/_create_button_in_list.html.twig" %}
-{% elseif app.request.get('type') == 'display' %}
-    {% include "admin/ui/panel/_display_button_in_list.html.twig" %}
-{% endif %}
 {{ content|raw }}

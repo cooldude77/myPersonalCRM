@@ -4,7 +4,11 @@ namespace App\Service\Admin\Action;
 
 class PanelActionListMapBuilder
 {
-
+    /**
+     * @return PanelActionListMap
+     * function - product/customer / webshop etc
+     * route -> route names related to processes of a function
+     */
     public function build()
     {
         return new PanelActionListMap(
