@@ -2,6 +2,9 @@
 
 namespace App\Service\Admin\Action;
 
+use App\Service\Admin\Action\Exception\ActionNotFoundInMap;
+use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
+
 class PanelActionListMap
 {
     private array $actionList;
@@ -12,16 +15,26 @@ class PanelActionListMap
         $this->actionList = $actionList;
     }
 
-    public function getRouteFromFunctionAndAction(string $function, string $action): string
+    /**
+     * @throws FunctionNotFoundInMap|ActionNotFoundInMap
+     */
+    public function getRoute(string $function, string $action): string
     {
 
-        $routes = $this->getActionsFromFunction($function)['routes'];
-        return $routes[$action];
+        if(!empty( $this->getActions($function)['routes'][$action]))
+            throw new ActionNotFoundInMap($function,$action);
+        return $this->getActions($function)['routes'][$action];
     }
 
-    public function getActionsFromFunction(string $function): array
+    /**
+     * @throws FunctionNotFoundInMap
+     */
+    private function getActions(string $function): array
     {
 
-        return $this->actionList['functions'][$function];
+        if(empty($this->actionList['functions'][$function]))
+            throw new FunctionNotFoundInMap($function);
+        else
+            return $this->actionList['functions'][$function];
     }
 }

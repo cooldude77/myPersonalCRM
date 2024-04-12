@@ -71,10 +71,33 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/category/list', name: 'category_list')]
-    public function list(CategoryRepository $categoryRepository,
-                         CategoryFieldList  $fieldList): Response
+    public function list(CategoryRepository $categoryRepository): Response
     {
+        $displayUrl = '';
+        $listGrid=
+            [
+              'columns'=>[
+                [
+                    'label'=>'Name',
+                  'propertyName'=>'name'
+                ],
+                  [
+                      'label'=>'Description',
+                     'propertyName'=>'description'
+                 ],
+
+              ],
+                'create_button'=>[
+                    'targetRoute'=>'category_create',
+                    'redirectRoute'=>'admin_panel',
+                    'call_in_redirect_route'=>'category_create'
+                ]
+            ];
+
+
         $categories = $categoryRepository->findAll();
-        return $this->render('admin/common/list/list.html.twig', ['items' => $categories]);
+        return $this->render('admin/common/list/list.html.twig', [
+            'entities' => $categories,
+            'listGrid'=> $listGrid]);
     }
 }

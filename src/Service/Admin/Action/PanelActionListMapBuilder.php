@@ -2,16 +2,20 @@
 
 namespace App\Service\Admin\Action;
 
+/**
+ * @method getPanelActionListMap()
+ */
 class PanelActionListMapBuilder
 {
+
+    private PanelActionListMap $actionListMap;
     /**
-     * @return PanelActionListMap
      * function - product/customer / webshop etc
      * route -> route names related to processes of a function
      */
-    public function build()
+    public function build() : PanelActionListMapBuilder
     {
-        return new PanelActionListMap(
+        $this->actionListMap = new PanelActionListMap(
             [
                 'functions' => [
                     'product' => [
@@ -39,5 +43,14 @@ class PanelActionListMapBuilder
                 ]
             ]
         );
+        return $this;
+    }
+
+    /**
+     * @return PanelActionListMap
+     */
+    public function getActionListMap(): PanelActionListMap
+    {
+        return $this->actionListMap;
     }
 }

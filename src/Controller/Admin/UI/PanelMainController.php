@@ -18,7 +18,6 @@ class PanelMainController extends AbstractController
     public function admin(): Response
     {
 
-        return $this->render('admin/ui/panel/panel_main.html.twig',
-            ['content' => "This is home"]);
+        return $this->render('admin/ui/panel/panel_main.html.twig');
     }
 }
