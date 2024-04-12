@@ -2,7 +2,7 @@
 
 namespace App\Service\Admin\Action\Exception;
 
-class ActionNotFoundInMap extends \Exception
+class TypeNotFoundInMap extends \Exception
 {
 
     /**

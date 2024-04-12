@@ -15,7 +15,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Category',
                         'items' => [
                             [
-                                'url' => $this->append($adminUrl,'category','list'),
+                                'url' => $this->append($adminUrl,
+                                    'category'),
                                 'text' => 'Categories'
                             ]
                         ]
@@ -24,7 +25,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Product',
                         'items' => [
                             [
-                                'url' => $this->append($adminUrl,'product','list'),
+                                'url' => $this->append($adminUrl,
+                                    'product'),
                                 'text' => 'Product List'
                             ]
                         ]
@@ -33,7 +35,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Customer',
                         'items' => [
                             [
-                                'url' => $this->append($adminUrl,'customer','list'),
+                                'url' => $this->append($adminUrl,
+                                    'customer'),
                                 'text' => 'Customer List'
                             ]
                         ]
@@ -42,7 +45,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Prices',
                         'items' => [
                             [
-                                'url' => $this->append($adminUrl,'base_price','list'),
+                                'url' => $this->append($adminUrl,
+                                    'base_price'),
                                 'text' => 'Prices List'
                             ]
                         ]
@@ -51,7 +55,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'WebShop',
                         'items' => [
                             [
-                                'url' => $this->append($adminUrl,'_target_route=web_shop','list'),
+                                'url' => $this->append($adminUrl,
+                                    '_target_route=web_shop'),
                                 'text' => 'WebShop List'
                             ]
                         ]
@@ -60,7 +65,8 @@ class PanelSideBarListMapBuilder
                         'header_text' => 'Users',
                         'items' =>[
                             [
-                            'url' => $this->append($adminUrl,'_target_route=user','list'),
+                            'url' => $this->append($adminUrl,
+                                '_target_route=user'),
                                 'text' => 'Users List'
                             ]
                         ]
@@ -71,8 +77,9 @@ class PanelSideBarListMapBuilder
         );
     }
 
-    private function append(string $adminUrl,string $function,string $typeOfOperation): string
+    private function append(string $adminUrl,
+                            string $function): string
     {
-      return  $adminUrl . "?function={$function}&type={$typeOfOperation}";
+        return  $adminUrl . "?_function={$function}&_type=listing";
     }
 }

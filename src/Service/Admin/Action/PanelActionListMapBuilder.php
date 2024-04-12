@@ -2,9 +2,6 @@
 
 namespace App\Service\Admin\Action;
 
-/**
- * @method getPanelActionListMap()
- */
 class PanelActionListMapBuilder
 {
 
@@ -49,7 +46,7 @@ class PanelActionListMapBuilder
     /**
      * @return PanelActionListMap
      */
-    public function getActionListMap(): PanelActionListMap
+    public function getPanelActionListMap(): PanelActionListMap
     {
         return $this->actionListMap;
     }

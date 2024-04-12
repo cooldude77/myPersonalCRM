@@ -19,15 +19,15 @@ class PanelContentController extends
     {
 
 
-        $function = $request->get('function');
-        $type = $request->get('type');
+        $function = $request->get('_function');
+        $t = $request->get('_type');
 
         // special case when not calling any function, goto home
-        if($function == null && $type == null)
+        if($function == null && $t == null)
             return $this->render('admin/ui/panel/content/content.html.twig',
                 ['content' => "This is home"]);
 
-        $routeName = $builder->build()->getPanelActionListMap()->getRoute($function,$type);
+        $routeName = $builder->build()->getPanelActionListMap()->getRoute($function,$t);
 
         // call controller
         $callRoute = $router->getRouteCollection()->get($routeName);
