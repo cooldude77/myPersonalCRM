@@ -34,7 +34,7 @@ class PanelContentController extends
 
         $controllerAction = $callRoute->getDefault('_controller');
         $response = $this->forward($controllerAction,
-            [],
+            [ 'request' => $request],
             $request->query->all());
 
         $content = $response->getContent();

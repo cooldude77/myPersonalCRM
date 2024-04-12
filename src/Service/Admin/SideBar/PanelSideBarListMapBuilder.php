@@ -80,6 +80,6 @@ class PanelSideBarListMapBuilder
     private function append(string $adminUrl,
                             string $function): string
     {
-        return  $adminUrl . "?_function={$function}&_type=listing";
+        return  $adminUrl . "?_function={$function}&_type=list";
     }
 }

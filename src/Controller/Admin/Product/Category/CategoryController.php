@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class CategoryController extends AbstractController
+class CategoryController extends
+    AbstractController
 {
     #[Route('/category/create', 'category_create')]
-    public function create(EntityManagerInterface $entityManager, Request $request): Response
+    public function create(EntityManagerInterface $entityManager,
+                           Request                $request): Response
     {
         $category = new Category();
-        $form = $this->createForm(CategoryCreateForm::class, $category);
+        $form = $this->createForm(CategoryCreateForm::class,
+            $category);
 
         $form->handleRequest($request);
 
@@ -28,23 +31,28 @@ class CategoryController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            return $this->render('/common/miscellaneous/success/create.html.twig', ['message' => 'Category successfully created']);
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success', "Category created successfully");
+                return $this->redirect($request->get('_redirect_upon_success_url'));
+            }
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Category successfully created']);
         }
 
-        return $this->render('/admin/category/create.html.twig', ['form' => $form]);
+        return $this->render('/admin/category/create.html.twig',
+            ['form' => $form]);
     }
 
 
     #[\Symfony\Component\Routing\Annotation\Route('/category/edit/{id}', name: 'category_edit')]
-    public function update(CategoryRepository $categoryRepository, int $id): Response
+    public function update(CategoryRepository $categoryRepository,
+                           int                $id): Response
     {
         $category = $categoryRepository->find($id);
 
 
         if (!$category) {
-            throw $this->createNotFoundException(
-                'No category found for id ' . $id
-            );
+            throw $this->createNotFoundException('No category found for id ' . $id);
         }
 
         $category->setDescription('New .... ');
@@ -53,20 +61,21 @@ class CategoryController extends AbstractController
 
         // or render a template
         // in the template, print things with {{ category.name }}
-        return $this->render('category/show.html.twig', ['category' => $category]);
+        return $this->render('category/show.html.twig',
+            ['category' => $category]);
     }
 
     #[Route('/category/display/{id}', name: 'category_display')]
-    public function display(CategoryRepository $categoryRepository, int $id): Response
+    public function display(CategoryRepository $categoryRepository,
+                            int                $id): Response
     {
         $category = $categoryRepository->find($id);
         if (!$category) {
-            throw $this->createNotFoundException(
-                'No category found for id ' . $id
-            );
+            throw $this->createNotFoundException('No category found for id ' . $id);
         }
 
-        return $this->render('admin/category/display.html.twig', ['category' => $category]);
+        return $this->render('admin/category/display.html.twig',
+            ['category' => $category]);
 
     }
 
@@ -74,30 +83,13 @@ class CategoryController extends AbstractController
     public function list(CategoryRepository $categoryRepository): Response
     {
         $displayUrl = '';
-        $listGrid=
-            [
-              'columns'=>[
-                [
-                    'label'=>'Name',
-                  'propertyName'=>'name'
-                ],
-                  [
-                      'label'=>'Description',
-                     'propertyName'=>'description'
-                 ],
+        $listGrid = ['columns' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],
 
-              ],
-                'create_button'=>[
-                    'targetRoute'=>'category_create',
-                    'redirectRoute'=>'admin_panel',
-                    'call_in_redirect_route'=>'category_create'
-                ]
-            ];
+        ], 'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
 
 
         $categories = $categoryRepository->findAll();
-        return $this->render('admin/common/list/list.html.twig', [
-            'entities' => $categories,
-            'listGrid'=> $listGrid]);
+        return $this->render('admin/common/list/list.html.twig',
+            ['entities' => $categories, 'listGrid' => $listGrid]);
     }
 }
