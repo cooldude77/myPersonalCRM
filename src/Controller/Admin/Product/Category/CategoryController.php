@@ -2,7 +2,6 @@
 // src/Controller/LuckyController.php
 namespace App\Controller\Admin\Product\Category;
 
-use App\Config\Admin\CategoryFieldList;
 use App\Entity\Category;
 use App\Form\Admin\Product\Category\CategoryCreateForm;
 use App\Repository\CategoryRepository;
@@ -32,10 +31,11 @@ class CategoryController extends
             $entityManager->flush();
 
             if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash('success', "Category created successfully");
+                $this->addFlash('success',
+                    "Category created successfully");
 
-                $id=$category->getId();
-                $success_url = $request->get('_redirect_upon_success_url')."&id={$id}";
+                $id = $category->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
 
                 return $this->redirect($success_url);
             }
@@ -49,8 +49,10 @@ class CategoryController extends
 
 
     #[\Symfony\Component\Routing\Annotation\Route('/category/edit/{id}', name: 'category_edit')]
-    public function update(CategoryRepository $categoryRepository,
-                           int                $id): Response
+    public function edit(EntityManagerInterface $entityManager,
+                         CategoryRepository     $categoryRepository,
+                         Request                $request,
+                         int                    $id): Response
     {
         $category = $categoryRepository->find($id);
 
@@ -59,14 +61,32 @@ class CategoryController extends
             throw $this->createNotFoundException('No category found for id ' . $id);
         }
 
-        $category->setDescription('New .... ');
-        $categoryRepository->getEntityManager()->flush($category);
+        $form = $this->createForm(CategoryCreateForm::class,
+            $category);
 
+        $form->handleRequest($request);
 
-        // or render a template
-        // in the template, print things with {{ category.name }}
-        return $this->render('category/show.html.twig',
-            ['category' => $category]);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // perform some action...
+            $entityManager->persist($form->getData());
+            $entityManager->flush();
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success',
+                    "Category created successfully");
+
+                $id = $category->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+
+                return $this->redirect($success_url);
+            }
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Category successfully updated']);
+        }
+
+        return $this->render('/admin/category/create.html.twig',
+            ['form' => $form]);
     }
 
     #[Route('/category/display/{id}', name: 'category_display')]

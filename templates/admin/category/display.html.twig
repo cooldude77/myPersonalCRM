@@ -1,4 +1,7 @@
 <div>
+    {% include 'admin/ui/panel/_display_button_in_list.html.twig' with {
+        'function': app.request.get('_function'),
+    'id':app.request.get('id')} %}
     <div>
         {{ category.code }}
 

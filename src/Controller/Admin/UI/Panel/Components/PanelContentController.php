@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin\UI\Panel\Components;
 
+use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
+use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +14,10 @@ class PanelContentController extends
     AbstractController
 {
 
+    /**
+     * @throws FunctionNotFoundInMap
+     * @throws TypeNotFoundInMap
+     */
     public function content(RouterInterface           $router,
                             Request                   $request,
                             PanelActionListMapBuilder $builder): Response

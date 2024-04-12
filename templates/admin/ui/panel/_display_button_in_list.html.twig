@@ -1,6 +1,13 @@
+{% set after =  path(app.session.get('context_route'),
+    {
+        '_function':app.request.get('_function'),
+        '_type':'display',
+        'id':id}) %}
+
 <a href="{{ path(app.session.get('context_route'),
     {
-        'function': app.request.get('function'),
-        'type':'edit',
-        'id':app.request.get('id')
+        '_function': function,
+        '_type':'edit',
+        'id':id,
+        '_redirect_upon_success_url': after
     }) }}">Edit </a>
