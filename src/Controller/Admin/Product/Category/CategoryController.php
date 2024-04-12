@@ -33,7 +33,11 @@ class CategoryController extends
 
             if ($request->get('_redirect_upon_success_url')) {
                 $this->addFlash('success', "Category created successfully");
-                return $this->redirect($request->get('_redirect_upon_success_url'));
+
+                $id=$category->getId();
+                $success_url = $request->get('_redirect_upon_success_url')."&id={$id}";
+
+                return $this->redirect($success_url);
             }
             return $this->render('/common/miscellaneous/success/create.html.twig',
                 ['message' => 'Category successfully created']);
