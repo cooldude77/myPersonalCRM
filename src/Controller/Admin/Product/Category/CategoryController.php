@@ -107,7 +107,10 @@ class CategoryController extends
     public function list(CategoryRepository $categoryRepository): Response
     {
         $displayUrl = '';
-        $listGrid = ['columns' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],
+        $listGrid = ['columns' => [
+            ['label' => 'Name', 'propertyName' => 'code','action'=>'edit'],
+            ['label' => 'Description', 'propertyName' => 'description'],
+
 
         ], 'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
 

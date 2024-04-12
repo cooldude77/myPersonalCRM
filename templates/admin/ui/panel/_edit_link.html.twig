@@ -1,6 +1,6 @@
 {% set after =  path(app.session.get('context_route'),
     {
-        '_function':app.request.get('_function'),
+        '_function':function,
         '_type':'display',
         'id':id}) %}
 
