@@ -15,6 +15,6 @@ class ProductFileDirectoryPathNamerTest  extends KernelTestCase
         $namer = new ProductDirectoryPathProvider(static::$kernel);
 
         $expected =static::$kernel->getProjectDir().'/public/uploads/products/1/images';
-        assertEquals($namer->getFullPathForImages(['id'=>1]),$expected);
+        assertEquals($namer->getFullPathForFiles(['id'=>1]),$expected);
     }
 }

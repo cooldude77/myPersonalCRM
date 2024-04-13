@@ -24,9 +24,10 @@ class GeneralDirectoryPathProvider extends AbstractFileDirectoryPathNamer implem
      * Doesn't include file name
      * will return '/public/uploads/general'
      */
-    public function getFullPathForImages(array $params): string
+    public function getFullPathForFiles(array $params): string
     {
         return $this->getBaseFilePathForFiles() . $this->ownPathSegment;
     }
+
 
 }

@@ -14,7 +14,7 @@ class ProductDirectoryPathProvider extends AbstractFileDirectoryPathNamer implem
 {
 
 
-    public function getFullPathForImages(array $params): string
+    public function getFullPathForFiles(array $params): string
     {
         return $this->getBaseFilePathForFiles(). '/products/'.$params['id'].'/images';
     }

@@ -22,7 +22,7 @@ class FileService
                              string       $fileName,
                              array        $params): File
     {
-        $path = $this->directoryPathProviderInterface->getFullPathForImages($params);
+        $path = $this->directoryPathProviderInterface->getFullPathForFiles([]);
         return $fileHandle->move($path,
             $fileName);
     }
@@ -47,4 +47,10 @@ class FileService
         return $this->fileDTOMapper->mapToFileEntity($fileFormDTO);
     }
 
+
+ public function getFullPhysicalPathForFileByName(string $fileName) :string
+ {
+     return   $this->directoryPathProviderInterface->getFullPathForFiles([]).'/'.$fileName;
+
+ }
 }

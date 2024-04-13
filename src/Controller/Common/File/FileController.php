@@ -63,4 +63,25 @@ class FileController extends
         return $this->render('common/file/list.html.twig',
             ['files' => $files]);
     }
+
+    #[Route('/file/fetch/{id}', name: 'file_fetch')]
+    public function fetch(int            $id,
+                          FileRepository $fileRepository,
+                          GeneralDirectoryPathProvider $directoryPathProvider,
+                          FileService    $fileService): Response
+    {
+
+        $fileEntity = $fileRepository->findOneBy(['id' => $id]);
+        $fileService->setDirectoryPathProviderInterface($directoryPathProvider);
+        $path = $fileService->getFullPhysicalPathForFileByName($fileEntity->getName());
+
+        $file = file_get_contents($path);
+
+        $headers = array('Content-Type' => $fileEntity->getType()->getMimeType(),
+            'Content-Disposition' => 'inline; filename="' . $fileEntity->getName() . '"');
+        return new Response($file,
+            200,
+            $headers);
+
+    }
 }

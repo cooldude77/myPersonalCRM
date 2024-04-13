@@ -14,7 +14,7 @@ class CategoryDirectoryPathProvider extends AbstractFileDirectoryPathNamer imple
 {
 
 
-    public function getFullPathForImages(array $params): string
+    public function getFullPathForFiles(array $params): string
     {
         // category id
         return $this->getBaseFilePathForFiles(). '/categories/'.$params['id'].'/images';

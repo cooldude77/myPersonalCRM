@@ -15,6 +15,6 @@ class FileGeneralDirectoryPathNamerTest extends KernelTestCase
         $namer = new GeneralDirectoryPathProvider(static::$kernel);
 
         $expected = static::$kernel->getProjectDir().'/public/uploads/general';
-        assertEquals($namer->getFullPathForImages([]),$expected);
+        assertEquals($namer->getFullPathForFiles([]),$expected);
     }
 }
