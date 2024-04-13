@@ -3,6 +3,8 @@
 namespace App\Service\File\Base;
 
 use App\Kernel;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 define('DS', DIRECTORY_SEPARATOR);
@@ -15,17 +17,18 @@ class AbstractFileDirectoryPathNamer
      * @var string
      */
     private string $projectDir;
-    private string $publicFilePathSegment = '/public/uploads';
-
-    private string $publicSegment = '/public';
+    private string $baseFilePathSegment;
 
     private string $uploadsSegment ='/uploads';
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel,  #[Autowire(param: 'file_storage_path')]
+    string $fileStoragePathFromParameter)
     {
         $this->kernel = $kernel;
 
         $this->projectDir = $this->kernel->getProjectDir();
+
+        $this->baseFilePathSegment = $fileStoragePathFromParameter.$this->uploadsSegment;
 
     }
 
@@ -46,16 +49,16 @@ class AbstractFileDirectoryPathNamer
     protected function getBaseFilePathForFiles(): string
     {
 
-        return $this->getProjectDir() . $this->getPublicFilePathSegment();
+        return $this->getProjectDir() . $this->getBaseFilePathSegment();
     }
 
     /**
      * @return string
      * Only provides the segment till uploads folder
      */
-    public function getPublicFilePathSegment(): string
+    public function getBaseFilePathSegment(): string
     {
-        return $this->publicFilePathSegment;
+        return $this->baseFilePathSegment;
     }
 
     protected function getEnvironment(): string

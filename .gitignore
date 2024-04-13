@@ -22,5 +22,7 @@
 /.idea
 /tmp
 ### Project Files ###
-
+# App specific file
+# default location of file uploads
+/data
 

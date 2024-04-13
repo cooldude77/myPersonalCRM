@@ -1,0 +1,6 @@
+# This file is used for web shop project
+
+parameters:
+      # One level from %kernel.project_dir%
+      # add slash at start
+      file_storage_path: '/data'

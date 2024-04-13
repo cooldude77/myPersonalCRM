@@ -33,7 +33,7 @@ class FileService
      */
     public function getFilePathSegmentByName($fileName): string
     {
-        return $this->directoryPathProviderInterface->getPublicFilePathSegment() . '/' . $fileName;
+        return $this->directoryPathProviderInterface->getBaseFilePathSegment() . '/' . $fileName;
 
     }
 
