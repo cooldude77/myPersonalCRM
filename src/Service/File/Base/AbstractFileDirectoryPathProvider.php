@@ -9,10 +9,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 define('DS', DIRECTORY_SEPARATOR);
 
-class AbstractFileDirectoryPathNamer
+class AbstractFileDirectoryPathProvider
 {
-    /** @var Kernel */
-    private KernelInterface $kernel;
     /**
      * @var string
      */
@@ -21,12 +19,13 @@ class AbstractFileDirectoryPathNamer
 
     private string $uploadsSegment ='/uploads';
 
-    public function __construct(KernelInterface $kernel,  #[Autowire(param: 'file_storage_path')]
+    public function __construct(
+        #[Autowire(param: 'kernel.project_dir')]
+        string $projectDir,  #[Autowire(param: 'file_storage_path')]
     string $fileStoragePathFromParameter)
     {
-        $this->kernel = $kernel;
 
-        $this->projectDir = $this->kernel->getProjectDir();
+        $this->projectDir = $projectDir;
 
         $this->baseFilePathSegment = $fileStoragePathFromParameter.$this->uploadsSegment;
 
@@ -37,16 +36,11 @@ class AbstractFileDirectoryPathNamer
         return $this->projectDir;
     }
 
-    public function getUploadsSegment(): string
-    {
-        return $this->uploadsSegment;
-    }
-
     /**
      * @return string
      * Provides complete directory path ( but not the file name )
      */
-    protected function getBaseFilePathForFiles(): string
+    protected function getPhysicalFilePathForFiles(): string
     {
 
         return $this->getProjectDir() . $this->getBaseFilePathSegment();
@@ -61,16 +55,5 @@ class AbstractFileDirectoryPathNamer
         return $this->baseFilePathSegment;
     }
 
-    protected function getEnvironment(): string
-    {
-
-        return $this->kernel->getEnvironment();
-    }
-
-
-    public function getPublicSegment():string
-    {
-        return $this->publicSegment;
-    }
 
 }

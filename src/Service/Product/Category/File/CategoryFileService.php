@@ -50,5 +50,10 @@ class CategoryFileService
             ['id' => $categoryFileDTO->categoryId]);
     }
 
+    public function getFullPhysicalPathForFileByName(string $fileName): string
+    {
+        return   $this->fileService->getFullPhysicalPathForFileByName($fileName);
+    }
+
 
 }

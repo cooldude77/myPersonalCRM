@@ -10,14 +10,15 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
  *
  *  Category: Base Kernel Dir/public/files/Categorys/{id}/{filename.extension}
  */
-class CategoryDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
+class CategoryDirectoryImagePathProvider extends CategoryDirectoryPathProvider
 {
 
-    private string $ownPathSegment = '/categories';
 
-
-    public function getBaseFolderPath(): string
+    private string $ownPathSegment = '/images';
+    public function getFullPathForImageFiles($id,$filename): string
     {
-     return    $this->getPhysicalFilePathForFiles(). $this->ownPathSegment;
+        // category id
+        return $this->getPhysicalFilePathForFiles(). $id.$this->ownPathSegment.'/'.$filename;
     }
+
 }

@@ -3,8 +3,14 @@
 namespace App\Controller\Admin\Product\Category\File\Image;
 
 // ...
+use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
+use App\Repository\CategoryFileRepository;
+use App\Repository\CategoryImageFileRepository;
+use App\Repository\FileRepository;
+use App\Service\File\FileService;
+use App\Service\File\Provider\FileDirectoryPathProvider;
 use App\Service\Product\Category\File\Image\CategoryFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,5 +51,26 @@ class CategoryImageController extends AbstractController
             return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
     }
 
+    #[\Symfony\Component\Routing\Attribute\Route('/category/{id}/file/image/fetch', name: 'category_file_fetch')]
+    public function fetch(int                         $id,
+                          CategoryImageFileRepository $categoryImageFileRepository,
+                          CategoryFileImageService    $categoryFileImageService,
+                          Request                     $request): Response
+    {
 
+        /** @var CategoryImageFile $fileEntity */
+        $fileEntity = $categoryImageFileRepository->findOneBy(['id' => $id]);
+        $path = $categoryFileImageService->getFullPhysicalPathForFileByName
+        ($id,$fileEntity->getCategoryFile()->getFile()->getName());
+
+        $file = file_get_contents($path);
+
+        $headers = array('Content-Type' => $fileEntity->getCategoryFile()->getFile()->getType()
+            ->getMimeType(),
+            'Content-Disposition' => 'inline; filename="' . $fileEntity->getCategoryFile()->getFile()->getName() . '"');
+        return new Response($file,
+            200,
+            $headers);
+
+    }
 }

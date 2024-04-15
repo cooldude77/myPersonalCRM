@@ -2,7 +2,7 @@
 
 namespace App\Service\Product\File\Provider;
 
-use App\Service\File\Base\AbstractFileDirectoryPathNamer;
+use App\Service\File\Base\AbstractFileDirectoryPathProvider;
 use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
@@ -10,14 +10,18 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
  *
  *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
  */
-class ProductDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
+class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
 
 
-    public function getFullPathForFiles(array $params): string
+    public function getFullPathForImageFiles(array $params): string
     {
-        return $this->getBaseFilePathForFiles(). '/products/'.$params['id'].'/images';
+        return $this->getPhysicalFilePathForFiles(). '/products/'.$params['id'].'/images';
     }
 
 
+    public function getBaseFolderPath(): string
+    {
+        // TODO: Implement getBaseFolderPath() method.
+    }
 }
