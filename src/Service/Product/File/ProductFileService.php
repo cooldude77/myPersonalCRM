@@ -19,8 +19,6 @@ class ProductFileService
 
     public function __construct(ProductFileRepository        $productFileRepository,
                                 ProductRepository            $productRepository,
-                                ProductDirectoryPathProvider $productDirectoryPathProvider,
-                                FileDTOMapper                $fileDTOMapper,
                                 FileService                  $fileService)
     {
 

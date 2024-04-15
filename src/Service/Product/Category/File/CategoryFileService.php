@@ -20,8 +20,6 @@ class CategoryFileService
 
     public function __construct(CategoryFileRepository        $categoryFileRepository,
                                 CategoryRepository            $categoryRepository,
-                                CategoryDirectoryPathProvider $categoryFileDirectoryPathNamer,
-                                FileDTOMapper                 $fileDTOMapper,
                                 FileService                   $fileService)
     {
 
