@@ -2,35 +2,33 @@
 
 namespace App\Service\File;
 
-use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\Mapper\FileDTOMapper;
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
+use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
-    private FileGeneralDirectoryPathNamer $fileDirectoryPathNamer;
+
     private FileDTOMapper $fileDTOMapper;
 
-
-    /**
-     * @param FileGeneralDirectoryPathNamer $fileDirectoryPathNamer
-     */
     public function __construct(FileDTOMapper $fileDTOMapper)
     {
         $this->fileDTOMapper = $fileDTOMapper;
     }
 
-    public function moveFile(FileDirectoryPathNamerInterface $fileDirectoryPathNamer, UploadedFile $fileHandle, string $fileName, array $params): File
+    public function moveFile(UploadedFile $fileHandle,
+                             string       $fileName,
+                             string $directoryForFileToBeMoved): File
     {
-        $path = $fileDirectoryPathNamer->getFileFullPath($params);
-        return $fileHandle->move($path, $fileName);
+        return $fileHandle->move($directoryForFileToBeMoved, $fileName);
     }
 
-    public function mapDTOToEntity(FileFormDTO $fileFormDTO): \App\Entity\File
-    {
-        return $this->fileDTOMapper->mapFileEntity($fileFormDTO);
 
+
+    public function mapToFileEntity(?\App\Form\Common\File\DTO\FileFormDTO $fileFormDTO): \App\Entity\File
+    {
+        return $this->fileDTOMapper->mapToFileEntity($fileFormDTO);
     }
+
 }

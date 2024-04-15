@@ -45,4 +45,13 @@ class CategoryFileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\File     $file,
+                           \App\Entity\Category $category): CategoryFile
+    {
+
+        $categoryFile = new CategoryFile();
+        $categoryFile->setFile($file);
+        $categoryFile->setCategory($category);
+        return $categoryFile;
+    }
 }

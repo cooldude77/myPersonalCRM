@@ -1,18 +1,32 @@
-{% if items is not null and items|length > 0 %}
-    <div class="container">
-        {% for item in items %}
-            <div class="row">
-                <div class="col-sm-4" style="background-color:lavender;">
-                    <a href="{{ path(app.session.get('context_route'),
-                        {'function':app.request.get('function'),id:item.id,
-                            'type':'display'}) }}">   {{ item.code }}</a>
-                </div>
-                <div class="col-sm-4" style="background-color:lavender;">
-                    <a href="{{ path(app.session.get('context_route'),
-                        {'function':'item',id:item.id,
-                            'type':'edit'}) }}"> Edit</a>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {% include 'admin/ui/panel/_create_link.html.twig' %}
+        </div>
+    </div>
+    <div class="row">
+
+        {% for column in listGrid.columns %}
+            <div class="col-sm-4 p-2" >
+                {{ column.label }}
             </div>
         {% endfor %}
     </div>
-{% endif %}
+    {% if entities is not null and entities|length > 0 %}
+    {% for entity in entities %}
+        <div class="row">
+            {% for column in listGrid.columns %}
+                <div class="col-sm-4" >
+                    {{ attribute(entity, column.propertyName) }}
+                </div>
+            {% endfor %}
+            <div class="col-sm-4" >
+                {% include 'admin/ui/panel/_edit_link.html.twig' with {
+                    'function': app.request.get('_function'),
+                    'id':attribute(entity, 'id')} %}
+            </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+</div>
+

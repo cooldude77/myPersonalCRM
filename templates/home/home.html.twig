@@ -1,7 +1,8 @@
 {# templates/admin/category/create.html.twig #}
-{% extends 'base/admin_base_template.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block content %}
+{% block body %}
+    <img src="{{ asset('core/images/test.jpg') }}"/>
     <a style="margin-left: 75px;" class="navbar-brand space-brand" href="{{ path('category_create') }}">Create
         Category</a>
 {% endblock %}

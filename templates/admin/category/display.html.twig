@@ -1,16 +1,17 @@
 <div>
+    {% include 'admin/ui/panel/_display_button_in_list.html.twig' with {
+        'function': app.request.get('_function'),
+    'id':app.request.get('id')} %}
     <div>
-        {{ product.code }}
+        {{ category.code }}
 
     </div>
     <div>
-        {{ product.description }}
+        {{ category.description }}
     </div>
+
     <div>
-        {{ product.longDescription }}
-    </div>
-    <div>
-        {{ product.isActive }}
+        {{ category.parent }}
     </div>
 
 </div>
