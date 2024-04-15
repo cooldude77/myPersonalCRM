@@ -8,7 +8,7 @@ use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\FileRepository;
 use App\Service\File\FileService;
-use App\Service\File\Provider\GeneralDirectoryPathProvider;
+use App\Service\File\Provider\FileDirectoryPathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +24,11 @@ class FileController extends
     AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function create(EntityManagerInterface       $entityManager,
-                           FileDTOMapper                $fileDTOMapper,
-                           FileService                  $fileService,
-                           GeneralDirectoryPathProvider $directoryPathProvider,
-                           Request                      $request): Response
+    public function create(EntityManagerInterface    $entityManager,
+                           FileDTOMapper             $fileDTOMapper,
+                           FileService               $fileService,
+                           FileDirectoryPathProvider $directoryPathProvider,
+                           Request                   $request): Response
     {
         $fileFormDTO = new FileFormDTO();
         $form = $this->createForm(FileCreateForm::class,
@@ -39,10 +39,10 @@ class FileController extends
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
-            $fileService->setDirectoryPathProviderInterface($directoryPathProvider);
-            $fileService->moveFile($fileFormDTO->uploadedFile,
+            $fileService->moveFile(
+                $fileFormDTO->uploadedFile,
                 $fileEntity->getName(),
-                []);
+                $directoryPathProvider->getBaseFolderPath());
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
@@ -62,5 +62,25 @@ class FileController extends
 
         return $this->render('common/file/list.html.twig',
             ['files' => $files]);
+    }
+
+    #[Route('/file/fetch/{id}', name: 'file_fetch')]
+    public function fetch(int                       $id,
+                          FileRepository            $fileRepository,
+                          FileDirectoryPathProvider $directoryPathProvider,
+                          FileService               $fileService): Response
+    {
+
+        $fileEntity = $fileRepository->findOneBy(['id' => $id]);
+        $path = $directoryPathProvider->getFullPathForImageFile($fileEntity->getName());
+
+        $file = file_get_contents($path);
+
+        $headers = array('Content-Type' => $fileEntity->getType()->getMimeType(),
+            'Content-Disposition' => 'inline; filename="' . $fileEntity->getName() . '"');
+        return new Response($file,
+            200,
+            $headers);
+
     }
 }

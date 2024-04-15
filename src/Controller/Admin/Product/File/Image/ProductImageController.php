@@ -3,8 +3,10 @@
 namespace App\Controller\Admin\Product\File\Image;
 
 // ...
+use App\Entity\ProductImageFile;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
 use App\Form\Admin\Product\File\Form\ProductFileImageCreateForm;
+use App\Repository\ProductImageFileRepository;
 use App\Service\Product\File\Image\ProductFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,20 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductImageController extends AbstractController
 {
-    #[Route('/product/{id}/file/image/create', name: 'create_product_image')]
-    public function createProductImage(EntityManagerInterface  $entityManager,
+    #[Route('/product/{id}/file/image/create', name: 'product_create_file_image')]
+    public function create(EntityManagerInterface  $entityManager,
                                        ProductFileImageService $productFileImageService,
                                        Request                 $request): Response
     {
         $productImageFileDTO = new ProductFileImageDTO();
 
-        $form = $this->createForm(ProductFileImageCreateForm::class, $productImageFileDTO);
-        // $productFileDTO = new ProductFileDTO();
-
-        //   $form = $this->createForm(ProductFileCreateForm::class, $productFileDTO);
+        $form = $this->createForm(ProductFileImageCreateForm::class,
+            $productImageFileDTO);
 
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -42,8 +41,31 @@ class ProductImageController extends AbstractController
 
         }
 
-            return $this->render('admin/product/file/image/create.html.twig', ['form' => $form]);
+        return $this->render('admin/product/file/image/create.html.twig',
+            ['form' => $form]);
     }
 
+    #[\Symfony\Component\Routing\Attribute\Route('/product/{id}/file/image/fetch', name: 'product_file_image_fetch')]
+    public function fetch(int                        $id,
+                          ProductImageFileRepository $productImageFileRepository,
+                          ProductFileImageService    $productFileImageService,
+                          Request                    $request): Response
+    {
 
+        /** @var ProductImageFile $fileEntity */
+        $fileEntity = $productImageFileRepository->findOneBy(['id' => $id]);
+        $path = $productFileImageService->getFullPhysicalPathForFileByName
+        ($id,
+            $fileEntity->getProductFile()->getFile()->getName());
+
+        $file = file_get_contents($path);
+
+        $headers = array('Content-Type' => $fileEntity->getProductFile()->getFile()->getType()
+            ->getMimeType(),
+            'Content-Disposition' => 'inline; filename="' . $fileEntity->getProductFile()->getFile()->getName() . '"');
+        return new Response($file,
+            200,
+            $headers);
+
+    }
 }

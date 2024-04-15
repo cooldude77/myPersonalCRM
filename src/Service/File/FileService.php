@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileService
 {
 
-    private DirectoryPathProviderInterface $directoryPathProviderInterface;
     private FileDTOMapper $fileDTOMapper;
 
     public function __construct(FileDTOMapper $fileDTOMapper)
@@ -20,27 +19,12 @@ class FileService
 
     public function moveFile(UploadedFile $fileHandle,
                              string       $fileName,
-                             array        $params): File
+                             string $directoryForFileToBeMoved): File
     {
-        $path = $this->directoryPathProviderInterface->getFullPathForImages($params);
-        return $fileHandle->move($path,
-            $fileName);
+        return $fileHandle->move($directoryForFileToBeMoved, $fileName);
     }
 
-    /**
-     * @param $fileName
-     * @return string
-     */
-    public function getFilePathSegmentByName($fileName): string
-    {
-        return $this->directoryPathProviderInterface->getPublicFilePathSegment() . '/' . $fileName;
 
-    }
-
-    public function setDirectoryPathProviderInterface(DirectoryPathProviderInterface $directoryPathProviderInterface): void
-    {
-        $this->directoryPathProviderInterface = $directoryPathProviderInterface;
-    }
 
     public function mapToFileEntity(?\App\Form\Common\File\DTO\FileFormDTO $fileFormDTO): \App\Entity\File
     {

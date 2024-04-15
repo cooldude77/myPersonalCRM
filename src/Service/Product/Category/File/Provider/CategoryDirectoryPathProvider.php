@@ -2,7 +2,7 @@
 
 namespace App\Service\Product\Category\File\Provider;
 
-use App\Service\File\Base\AbstractFileDirectoryPathNamer;
+use App\Service\File\Base\AbstractFileDirectoryPathProvider;
 use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
@@ -10,13 +10,25 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
  *
  *  Category: Base Kernel Dir/public/files/Categorys/{id}/{filename.extension}
  */
-class CategoryDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
+class CategoryDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
 
+    private string $ownPathSegment = '/category';
 
-    public function getFullPathForImages(array $params): string
+
+    public function getBaseFolderPath(): string
     {
-        // category id
-        return $this->getBaseFilePathForFiles(). '/categories/'.$params['id'].'/images';
+     return    $this->getPhysicalFilePathForFiles(). $this->ownPathSegment;
     }
+
+    /**
+     * @return string
+     * Provides complete directory path ( but not the file name )
+     */
+    protected function getPhysicalFilePathForFiles(): string
+    {
+
+        return parent::getPhysicalFilePathForFiles().$this->ownPathSegment;
+    }
+
 }

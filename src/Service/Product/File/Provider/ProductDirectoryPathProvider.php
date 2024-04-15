@@ -2,7 +2,7 @@
 
 namespace App\Service\Product\File\Provider;
 
-use App\Service\File\Base\AbstractFileDirectoryPathNamer;
+use App\Service\File\Base\AbstractFileDirectoryPathProvider;
 use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
@@ -10,14 +10,24 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
  *
  *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
  */
-class ProductDirectoryPathProvider extends AbstractFileDirectoryPathNamer implements DirectoryPathProviderInterface
+class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
 
+    private string $ownPathSegment = '/product';
 
-    public function getFullPathForImages(array $params): string
+
+    public function getBaseFolderPath(): string
     {
-        return $this->getBaseFilePathForFiles(). '/products/'.$params['id'].'/images';
+        return $this->getPhysicalFilePathForFiles() . $this->ownPathSegment;
     }
 
+    /**
+     * @return string
+     * Provides complete directory path ( but not the file name )
+     */
+    protected function getPhysicalFilePathForFiles(): string
+    {
 
+        return parent::getPhysicalFilePathForFiles() . $this->ownPathSegment;
+    }
 }

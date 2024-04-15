@@ -20,13 +20,10 @@ class CategoryFileService
 
     public function __construct(CategoryFileRepository        $categoryFileRepository,
                                 CategoryRepository            $categoryRepository,
-                                CategoryDirectoryPathProvider $categoryFileDirectoryPathNamer,
-                                FileDTOMapper                 $fileDTOMapper,
                                 FileService                   $fileService)
     {
 
         $this->fileService = $fileService;
-        $this->fileService->setDirectoryPathProviderInterface($categoryFileDirectoryPathNamer);
         $this->categoryFileRepository = $categoryFileRepository;
         $this->categoryRepository = $categoryRepository;
 
@@ -40,14 +37,6 @@ class CategoryFileService
         return $this->categoryFileRepository->create($file,
             $category);
 
-    }
-
-    public function moveFile(CategoryFileDTO $categoryFileDTO): File
-    {
-
-        return $this->fileService->moveFile($categoryFileDTO->fileFormDTO->uploadedFile,
-            $categoryFileDTO->fileFormDTO->name,
-            ['id' => $categoryFileDTO->categoryId]);
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Form\Admin\Product\File\DTO;
 
 use App\Entity\ProductFile;
 use App\Entity\ProductImageType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProductFileImageDTO
 {
@@ -19,10 +20,27 @@ class ProductFileImageDTO
         $this->productFileDTO = new ProductFileDTO();
     }
 
-    public function create()
+    /**
+     * @return ProductFileImageDTO
+     */
+    public function create() : ProductFileImageDTO
     {
-        return new $P();
+        return new ProductFileImageDTO();
     }
 
+    public function getProductId():int
+    {
+        return $this->productFileDTO->productId;
+    }
+
+    public function getFileName():string
+    {
+        return $this->productFileDTO->fileFormDTO->name;
+    }
+
+    public function getUploadedFile():UploadedFile
+    {
+        return $this->productFileDTO->fileFormDTO->uploadedFile;
+    }
 
 }
