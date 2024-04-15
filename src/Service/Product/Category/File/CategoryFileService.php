@@ -26,7 +26,6 @@ class CategoryFileService
     {
 
         $this->fileService = $fileService;
-        $this->fileService->setDirectoryPathProviderInterface($categoryFileDirectoryPathNamer);
         $this->categoryFileRepository = $categoryFileRepository;
         $this->categoryRepository = $categoryRepository;
 
@@ -40,19 +39,6 @@ class CategoryFileService
         return $this->categoryFileRepository->create($file,
             $category);
 
-    }
-
-    public function moveFile(CategoryFileDTO $categoryFileDTO): File
-    {
-
-        return $this->fileService->moveFile($categoryFileDTO->fileFormDTO->uploadedFile,
-            $categoryFileDTO->fileFormDTO->name,
-            ['id' => $categoryFileDTO->categoryId]);
-    }
-
-    public function getFullPhysicalPathForFileByName(string $fileName): string
-    {
-        return   $this->fileService->getFullPhysicalPathForFileByName($fileName);
     }
 
 

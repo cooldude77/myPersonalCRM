@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryImageController extends AbstractController
 {
-    #[Route('/category/{id}/file/image/create', name: 'create_Category_image')]
+    #[Route('/category/{id}/file/image/create', name: 'category_create_file_image')]
     public function createCategoryImage(EntityManagerInterface  $entityManager,
                                        CategoryFileImageService $categoryFileImageService,
                                        Request                 $request): Response
@@ -28,12 +28,8 @@ class CategoryImageController extends AbstractController
         $categoryImageFileDTO = new CategoryFileImageDTO();
 
         $form = $this->createForm(CategoryFileImageCreateForm::class, $categoryImageFileDTO);
-        // $categoryFileDTO = new CategoryFileDTO();
-
-        //   $form = $this->createForm(CategoryFileCreateForm::class, $categoryFileDTO);
 
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -51,7 +47,7 @@ class CategoryImageController extends AbstractController
             return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/category/{id}/file/image/fetch', name: 'category_file_fetch')]
+    #[\Symfony\Component\Routing\Attribute\Route('/category/{id}/file/image/fetch', name: 'category_file_image_fetch')]
     public function fetch(int                         $id,
                           CategoryImageFileRepository $categoryImageFileRepository,
                           CategoryFileImageService    $categoryFileImageService,

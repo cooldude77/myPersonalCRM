@@ -6,6 +6,7 @@ use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Repository\CategoryImageFileRepository;
 use App\Repository\CategoryImageTypeRepository;
+use App\Service\File\FileService;
 use App\Service\Product\Category\File\CategoryFileService;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\File\File;
@@ -19,11 +20,13 @@ class CategoryFileImageService
     private CategoryImageTypeRepository $categoryImageTypeRepository;
     private CategoryFileService $categoryFileService;
     private CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider;
+    private FileService $fileService;
 
-    public function __construct(CategoryImageFileRepository $categoryImageFileRepository,
-                                CategoryImageTypeRepository $categoryImageTypeRepository,
-                                CategoryFileService         $categoryFileService,
-    CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider)
+    public function __construct(CategoryImageFileRepository        $categoryImageFileRepository,
+                                CategoryImageTypeRepository        $categoryImageTypeRepository,
+                                CategoryFileService                $categoryFileService,
+                                FileService                        $fileService,
+                                CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider)
     {
 
 
@@ -31,6 +34,7 @@ class CategoryFileImageService
         $this->categoryImageTypeRepository = $categoryImageTypeRepository;
         $this->categoryFileService = $categoryFileService;
         $this->categoryDirectoryImagePathProvider = $categoryDirectoryImagePathProvider;
+        $this->fileService = $fileService;
     }
 
     public function mapFormDTO(CategoryFileImageDTO $categoryFileImageDTO): CategoryImageFile
@@ -45,12 +49,21 @@ class CategoryFileImageService
 
     public function moveFile(CategoryFileImageDTO $categoryFileImageDTO): File
     {
-        return $this->categoryFileService->moveFile($categoryFileImageDTO->categoryFileDTO);
+        $dir = $this->categoryDirectoryImagePathProvider->getDirectory($categoryFileImageDTO->getCategoryId());
+
+        $fileName = $categoryFileImageDTO->getFileName();
+
+        return $this->fileService->moveFile(
+            $categoryFileImageDTO->getUploadedFile(),
+            $fileName,
+            $dir);
     }
 
-    public function getFullPhysicalPathForFileByName(int $id,string $fileName): string
+    public function getFullPhysicalPathForFileByName(int    $id,
+                                                     string $fileName): string
     {
-       return $this->categoryDirectoryImagePathProvider->getFullPathForImageFiles($id,$fileName);
+        return $this->categoryDirectoryImagePathProvider->getFullPathForImageFiles($id,
+            $fileName);
     }
 
 
