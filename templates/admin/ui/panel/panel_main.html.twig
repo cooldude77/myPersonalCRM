@@ -1,0 +1,18 @@
+{# templates/admin/ui/panel/panel_admin.html.twig #}
+{% extends 'base/admin_base_template.html.twig' %}
+{% block header %}
+    {{ render(controller(
+        'App\\Controller\\Admin\\UI\\Panel\\Components\\PanelHeaderController::header',{'request':app.request}
+    )) }}
+{% endblock %}
+ {% block sidebar %}
+     {{ render(controller(
+         'App\\Controller\\Admin\\UI\\Panel\\Components\\PanelSideBarController::sideBar',{'request':app.request}
+     )) }}
+ {% endblock %}
+{% block content %}
+    {{ render(controller(
+        'App\\Controller\\Admin\\UI\\Panel\\Components\\PanelContentController::content',{'request':app.request}
+    )) }}
+
+{% endblock %}
