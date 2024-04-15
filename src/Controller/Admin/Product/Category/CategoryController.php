@@ -2,8 +2,9 @@
 // src/Controller/LuckyController.php
 namespace App\Controller\Admin\Product\Category;
 
-use App\Entity\Category;
 use App\Form\Admin\Product\Category\CategoryCreateForm;
+use App\Form\Admin\Product\Category\DTO\CategoryDTO;
+use App\Form\Admin\Product\Category\Mapper\CategoryDTOMapper;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,11 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends
     AbstractController
 {
+    private EntityManagerInterface $entityManager;
+    private CategoryDTOMapper $categoryDTOMapper;
+
+    public function __construct(EntityManagerInterface $entityManager,
+                                CategoryDTOMapper      $categoryDTOMapper)
+    {
+        $this->entityManager = $entityManager;
+        $this->categoryDTOMapper = $categoryDTOMapper;
+    }
+
     #[Route('/category/create', 'category_create')]
-    public function create(EntityManagerInterface $entityManager,
+    public function create(
                            Request                $request): Response
     {
-        $category = new Category();
+        $category = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class,
             $category);
 
@@ -26,15 +37,17 @@ class CategoryController extends
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $categoryEntity = $this->categoryDTOMapper->map($form->getData());
+
             // perform some action...
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
+            $this->entityManager->persist($categoryEntity);
+            $this->entityManager->flush();
 
             if ($request->get('_redirect_upon_success_url')) {
                 $this->addFlash('success',
                     "Category created successfully");
 
-                $id = $category->getId();
+                $id = $categoryEntity->getId();
                 $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
 
                 return $this->redirect($success_url);

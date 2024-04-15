@@ -45,4 +45,8 @@ class CategoryRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create():Category
+    {
+        return new Category();
+    }
 }
