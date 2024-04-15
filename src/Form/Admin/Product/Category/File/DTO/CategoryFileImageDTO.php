@@ -20,7 +20,10 @@ class CategoryFileImageDTO
         $this->categoryFileDTO = new CategoryFileDTO();
     }
 
-    public function create()
+    /**
+     * @return CategoryFileImageDTO
+     */
+    public function create() : CategoryFileImageDTO
     {
         return new CategoryFileImageDTO();
     }

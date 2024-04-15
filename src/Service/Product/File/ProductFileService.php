@@ -13,44 +13,31 @@ use App\Service\Product\File\Provider\ProductDirectoryPathProvider;
 use Symfony\Component\HttpFoundation\File\File;
 
 class ProductFileService
-{
-    private FileService $fileService;
+{    private FileService $fileService;
     private ProductFileRepository $productFileRepository;
     private ProductRepository $productRepository;
-    private FileDTOMapper $fileDTOMapper;
 
     public function __construct(ProductFileRepository        $productFileRepository,
                                 ProductRepository            $productRepository,
-                                ProductDirectoryPathProvider $productFileDirectoryPathNamer,
+                                ProductDirectoryPathProvider $productDirectoryPathProvider,
                                 FileDTOMapper                $fileDTOMapper,
                                 FileService                  $fileService)
     {
 
         $this->fileService = $fileService;
-        $this->fileService->setDirectoryPathProviderInterface($productFileDirectoryPathNamer);
         $this->productFileRepository = $productFileRepository;
         $this->productRepository = $productRepository;
-        $this->fileDTOMapper = $fileDTOMapper;
+
     }
 
-    public function mapFormDTO(ProductFileDTO $productFileDTO): ProductFile
+    public function mapFormDtoToEntity(ProductFileDTO $productFileDTO): ProductFile
     {
         /** @var Product $product */
         $product = $this->productRepository->findOneBy(['id' => $productFileDTO->productId]);
-
-        $file = $this->fileDTOMapper->mapToFileEntity($productFileDTO->fileFormDTO);
-
-        return $this->productFileRepository->create($file, $product);
+        $file = $this->fileService->mapToFileEntity($productFileDTO->fileFormDTO);
+        return $this->productFileRepository->create($file,
+            $product);
 
     }
-
-    public function moveFile(ProductFileDTO $productFileDTO): File
-    {
-
-        return $this->fileService->moveFile($productFileDTO->fileFormDTO->uploadedFile,
-            $productFileDTO->fileFormDTO->name,
-            ['id' => $productFileDTO->productId]);
-    }
-
 
 }

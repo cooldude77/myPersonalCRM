@@ -13,15 +13,21 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
 
-
-    public function getFullPathForImageFiles(array $params): string
-    {
-        return $this->getPhysicalFilePathForFiles(). '/products/'.$params['id'].'/images';
-    }
+    private string $ownPathSegment = '/product';
 
 
     public function getBaseFolderPath(): string
     {
-        // TODO: Implement getBaseFolderPath() method.
+        return $this->getPhysicalFilePathForFiles() . $this->ownPathSegment;
+    }
+
+    /**
+     * @return string
+     * Provides complete directory path ( but not the file name )
+     */
+    protected function getPhysicalFilePathForFiles(): string
+    {
+
+        return parent::getPhysicalFilePathForFiles() . $this->ownPathSegment;
     }
 }
