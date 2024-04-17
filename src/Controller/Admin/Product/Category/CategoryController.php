@@ -37,7 +37,10 @@ class CategoryController extends
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $categoryEntity = $this->categoryDTOMapper->map($form->getData());
+            // IF we do getData on form , it returns the description instead of id
+            // so here we get full parent directly and then use it in the mapper
+            $parent = $form->get('parent')->getData();
+            $categoryEntity = $this->categoryDTOMapper->map($form->getData(),$parent);
 
             // perform some action...
             $this->entityManager->persist($categoryEntity);
@@ -121,7 +124,7 @@ class CategoryController extends
     {
         $displayUrl = '';
         $listGrid = ['columns' => [
-            ['label' => 'Name', 'propertyName' => 'code','action'=>'edit'],
+            ['label' => 'Name', 'propertyName' => 'name','action'=>'edit'],
             ['label' => 'Description', 'propertyName' => 'description'],
 
 

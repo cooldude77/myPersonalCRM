@@ -60,7 +60,7 @@ class Category
         return $this->parent;
     }
 
-    public function setParent(self $parent): static
+    public function setParent(?self $parent ): static
     {
         $this->parent = $parent;
 

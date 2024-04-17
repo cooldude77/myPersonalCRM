@@ -16,16 +16,14 @@ class CategoryDTOMapper
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function map(CategoryDTO $categoryDTO): Category
+    public function map(CategoryDTO $categoryDTO,
+                        ?Category    $parent =null): Category
     {
         $category = $this->categoryRepository->create();
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
-        if ($categoryDTO->parent != 0) {
-            $parent = $this->categoryRepository->findOneBy(['id' => $categoryDTO->parent]);
-            $category->setParent($parent);
-        }
+        $category->setParent($parent);
         return $category;
     }
 }
