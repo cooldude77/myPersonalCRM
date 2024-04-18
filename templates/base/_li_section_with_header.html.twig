@@ -1,10 +1,13 @@
-<li class="nav-link px-0 align-middle">
-    <a href="#"> {{ section.header_text }}</a></li>
-<li>
-    <ul class="nav flex-column ms-2">
+<button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse"
+        data-bs-target="#getting-started-collapse" aria-expanded="false">
+    {{ section.header_text }}
+</button>
+
+<div>
+    <ul class="list-unstyled fw-normal pb-1 small">
         {% for item in section.items %}
 
             {% include 'base/_li_element_with_hyperlink.html.twig' with item %}
         {% endfor %}
     </ul>
-</li>
+</div>

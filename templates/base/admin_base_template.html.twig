@@ -4,7 +4,7 @@
         {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
     {% endblock %}
 {% block body %}
-    <div id="wrapper" class="container">
+    <div id="wrapper" class="container ">
         <div class="row">
             <div id="header" class="col">
                 {% block header %}
@@ -16,7 +16,7 @@
                 {% block sidebar %}
                 {% endblock %}
             </div>
-            <div id="content-wrapper" class="col-sm">
+            <div id="content-wrapper" class="col-sm mt-2">
                 {% block content %}{% endblock %}
             </div>
         </div>

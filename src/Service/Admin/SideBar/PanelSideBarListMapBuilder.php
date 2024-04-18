@@ -12,43 +12,23 @@ class PanelSideBarListMapBuilder
             [
                 'sections' => [
                     [
-                        'header_text' => 'Category',
+                        'header_text' => 'Master Data',
                         'items' => [
                             [
                                 'url' => $this->append($adminUrl,
                                     'category'),
                                 'text' => 'Categories'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Product',
-                        'items' => [
+                            ],
                             [
                                 'url' => $this->append($adminUrl,
                                     'product'),
                                 'text' => 'Product List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Customer',
-                        'items' => [
+                            ],
                             [
                                 'url' => $this->append($adminUrl,
                                     'customer'),
                                 'text' => 'Customer List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Prices',
-                        'items' => [
-                            [
-                                'url' => $this->append($adminUrl,
-                                    'base_price'),
-                                'text' => 'Prices List'
-                            ]
+                            ],
                         ]
                     ],
                     [
@@ -57,7 +37,7 @@ class PanelSideBarListMapBuilder
                             [
                                 'url' => $this->append($adminUrl,
                                     '_target_route=web_shop'),
-                                'text' => 'WebShop List'
+                                'text' => 'Shops'
                             ]
                         ]
                     ],
