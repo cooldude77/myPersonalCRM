@@ -122,13 +122,16 @@ class CategoryController extends
     #[Route('/category/list', name: 'category_list')]
     public function list(CategoryRepository $categoryRepository): Response
     {
-        $displayUrl = '';
-        $listGrid = ['columns' => [
-            ['label' => 'Name', 'propertyName' => 'name','action'=>'edit'],
+
+        $listGrid = [
+            'title'=>'Category',
+            'columns' => [
+            ['label' => 'Name', 'propertyName' => 'name','action'=>'display'],
             ['label' => 'Description', 'propertyName' => 'description'],
 
 
-        ], 'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
+        ],
+            'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
 
 
         $categories = $categoryRepository->findAll();

@@ -1,8 +1,7 @@
 {% set after =  path(app.session.get('context_route'),
     {
         '_function':app.request.get('_function'),
-        '_type':'display'})
-%}
+        '_type':'display'}) %}
 
 {% set href = path(app.session.get('context_route'),
     {
@@ -11,4 +10,9 @@
         '_redirect_upon_success_url': after
 
     }) %}
-<a href="{{ href }}">Create </a>
+
+<div class="d-flex flex">
+    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ href }}">
+        {{ title }}
+        <i class="bi bi-plus-circle-fill"></i></a>
+</div>

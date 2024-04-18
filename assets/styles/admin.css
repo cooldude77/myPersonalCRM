@@ -1,8 +1,6 @@
 #sidebar-wrapper
 {
     min-height: 100vh;
-    border: 1px solid black;
-}
+ }
 #wrapper {
-    border: 1px solid red;
 }

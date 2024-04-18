@@ -1,32 +1,43 @@
 <div class="container">
-    <div class="row">
+    <div class="row py-2 ">
         <div class="col">
-            {% include 'admin/ui/panel/_create_link.html.twig' %}
+            {% include 'admin/ui/panel/_create_link.html.twig' with{'title': listGrid.title} %}
         </div>
     </div>
-    <div class="row">
-
+    <div class="row font-weight-bold py-2 bg-primary text-white">
         {% for column in listGrid.columns %}
-            <div class="col-sm-4 p-2" >
+            <div class="col p-2">
                 {{ column.label }}
             </div>
         {% endfor %}
+        <div class="col p-2">
+            {# for edit column #}
+        </div>
     </div>
     {% if entities is not null and entities|length > 0 %}
-    {% for entity in entities %}
-        <div class="row">
-            {% for column in listGrid.columns %}
-                <div class="col-sm-4" >
-                    {{ attribute(entity, column.propertyName) }}
+        {% for entity in entities %}
+            <div class="row py-2">
+                {% for column in listGrid.columns %}
+                    {% if column.action is defined and column.action == 'display' %}
+                        <div class="col">
+                            {% include 'admin/ui/panel/_display_link.html.twig' with {
+                                'function': app.request.get('_function'),
+                                'name':attribute(entity, 'name'),
+                                'id':attribute(entity, 'id')} %}
+                        </div>
+                    {% else %}
+                        <div class="col">
+                            {{ attribute(entity, column.propertyName) }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="col">
+                    {% include 'admin/ui/panel/_edit_link.html.twig' with {
+                        'function': app.request.get('_function'),
+                        'id':attribute(entity, 'id')} %}
                 </div>
-            {% endfor %}
-            <div class="col-sm-4" >
-                {% include 'admin/ui/panel/_edit_link.html.twig' with {
-                    'function': app.request.get('_function'),
-                    'id':attribute(entity, 'id')} %}
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     {% endif %}
 </div>
 
