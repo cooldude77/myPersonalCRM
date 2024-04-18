@@ -26,7 +26,8 @@ class CategoryCreateForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class);
+        $builder->add('name', TextType::class,
+        );
         $builder->add('description', TextType::class);
      //   $builder->add('parent', TextType::class, ['required' => false])->
        // get('parent')->addModelTransformer($this->categoryToIdTransformer);
