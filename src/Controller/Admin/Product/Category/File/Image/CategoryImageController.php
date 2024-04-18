@@ -46,6 +46,33 @@ class CategoryImageController extends AbstractController
 
             return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
     }
+    #[Route('/category/{id}/file/image/list', name: 'category_create_file_image_list')]
+    public function list( int $id,
+        EntityManagerInterface  $entityManager,
+                                       CategoryFileImageService $categoryFileImageService,
+                                       Request                 $request): Response
+    {
+        $categoryImageFileDTO = new CategoryFileImageDTO();
+
+        $form = $this->createForm(CategoryFileImageCreateForm::class, $categoryImageFileDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $categoryImageEntity = $categoryFileImageService->mapFormDTO($data);
+            $categoryFileImageService->moveFile($data);
+
+            $entityManager->persist($categoryImageEntity);
+            $entityManager->flush();
+            return $this->redirectToRoute('common/file/success_create.html.twig');
+
+
+        }
+
+            return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
+    }
 
     #[\Symfony\Component\Routing\Attribute\Route('/category/{id}/file/image/fetch', name: 'category_file_image_fetch')]
     public function fetch(int                         $id,

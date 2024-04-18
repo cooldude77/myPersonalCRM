@@ -1,0 +1,21 @@
+<div class="row py-2 my-2">
+    <div class="col">
+        {% include 'admin/ui/panel/_display_link.html.twig' with {
+            'function': app.request.get('_function'),
+            'id':app.request.get('id'),
+            'title':params.title} %}
+    </div>
+</div>
+{% for field in params.fields %}
+
+    <div class="row my-1 py-2">
+        <div class="col-sm-3 bg-light">
+            <p class="font-weight-bolder"> {{ field.label }}:</p>
+
+        </div>
+        <div class="col">
+            {{ attribute(entity,field.propertyName) }}
+        </div>
+    </div>
+{% endfor %}
+</div>

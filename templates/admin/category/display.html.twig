@@ -1,17 +1,5 @@
-<div>
-    {% include 'admin/ui/panel/_display_button_in_list.html.twig' with {
-        'function': app.request.get('_function'),
-    'id':app.request.get('id')} %}
-    <div>
-        {{ category.code }}
-
-    </div>
-    <div>
-        {{ category.description }}
-    </div>
-
-    <div>
-        {{ category.parent }}
-    </div>
-
-</div>
+{% include 'admin/common/display/_display.html.twig' with {'params':params} %}
+ {{
+ render(controller(
+     'App\\Controller\\Admin\\Product\\Category\\File\\Image::list',{'request':app.request}
+ ))}}

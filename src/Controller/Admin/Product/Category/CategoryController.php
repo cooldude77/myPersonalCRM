@@ -114,8 +114,18 @@ class CategoryController extends
             throw $this->createNotFoundException('No category found for id ' . $id);
         }
 
+        $displayParams = [
+            'title'=>'Category',
+            'editButtonLinkText'=>'Edit',
+            'fields' => [
+                ['label' => 'Name', 'propertyName' => 'name'],
+                ['label' => 'Description', 'propertyName' => 'description'],
+            ]
+            ];
+
         return $this->render('admin/category/display.html.twig',
-            ['category' => $category]);
+            ['entity' => $category,
+                'params'=> $displayParams]);
 
     }
 
