@@ -32,4 +32,5 @@ class CategoryDTO
     public ?string $description =null;
 
     public ?string $parent = null;
+    public ?int $id = -1;
 }

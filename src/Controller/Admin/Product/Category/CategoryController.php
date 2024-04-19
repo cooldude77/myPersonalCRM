@@ -26,8 +26,7 @@ class CategoryController extends
     }
 
     #[Route('/category/create', 'category_create')]
-    public function create(
-                           Request                $request): Response
+    public function create(Request $request): Response
     {
         $category = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class,
@@ -40,7 +39,8 @@ class CategoryController extends
             // IF we do getData on form , it returns the description instead of id
             // so here we get full parent directly and then use it in the mapper
             $parent = $form->get('parent')->getData();
-            $categoryEntity = $this->categoryDTOMapper->map($form->getData(),$parent);
+            $categoryEntity = $this->categoryDTOMapper->mapToEntity($form->getData(),
+                $parent);
 
             // perform some action...
             $this->entityManager->persist($categoryEntity);
@@ -67,6 +67,7 @@ class CategoryController extends
     #[\Symfony\Component\Routing\Annotation\Route('/category/edit/{id}', name: 'category_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CategoryRepository     $categoryRepository,
+                         CategoryDTOMapper $categoryDTOMapper,
                          Request                $request,
                          int                    $id): Response
     {
@@ -76,9 +77,10 @@ class CategoryController extends
         if (!$category) {
             throw $this->createNotFoundException('No category found for id ' . $id);
         }
+        $categoryDTO = $categoryDTOMapper->mapFromEntity($category);
 
         $form = $this->createForm(CategoryCreateForm::class,
-            $category);
+            $categoryDTO);
 
         $form->handleRequest($request);
 
@@ -114,18 +116,10 @@ class CategoryController extends
             throw $this->createNotFoundException('No category found for id ' . $id);
         }
 
-        $displayParams = [
-            'title'=>'Category',
-            'editButtonLinkText'=>'Edit',
-            'fields' => [
-                ['label' => 'Name', 'propertyName' => 'name'],
-                ['label' => 'Description', 'propertyName' => 'description'],
-            ]
-            ];
+        $displayParams = ['title' => 'Category', 'editButtonLinkText' => 'Edit', 'fields' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],]];
 
         return $this->render('admin/category/display.html.twig',
-            ['entity' => $category,
-                'params'=> $displayParams]);
+            ['entity' => $category, 'params' => $displayParams]);
 
     }
 
@@ -133,15 +127,10 @@ class CategoryController extends
     public function list(CategoryRepository $categoryRepository): Response
     {
 
-        $listGrid = [
-            'title'=>'Category',
-            'columns' => [
-            ['label' => 'Name', 'propertyName' => 'name','action'=>'display'],
-            ['label' => 'Description', 'propertyName' => 'description'],
+        $listGrid = ['title' => 'Category', 'columns' => [['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'], ['label' => 'Description', 'propertyName' => 'description'],
 
 
-        ],
-            'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
+        ], 'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
 
 
         $categories = $categoryRepository->findAll();

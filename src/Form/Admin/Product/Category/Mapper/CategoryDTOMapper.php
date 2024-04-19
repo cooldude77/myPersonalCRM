@@ -16,8 +16,8 @@ class CategoryDTOMapper
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function map(CategoryDTO $categoryDTO,
-                        ?Category    $parent =null): Category
+    public function mapToEntity(CategoryDTO $categoryDTO,
+                                ?Category   $parent = null): Category
     {
         $category = $this->categoryRepository->create();
 
@@ -25,5 +25,15 @@ class CategoryDTOMapper
         $category->setDescription($categoryDTO->description);
         $category->setParent($parent);
         return $category;
+    }
+
+    public function mapFromEntity(?Category $category): CategoryDTO
+    {
+        $categoryDTO = new CategoryDTO();
+        $categoryDTO->id = $category->getId();
+        $categoryDTO->name = $category->getName();
+        $categoryDTO->description = $category->getDescription();
+        return $categoryDTO;
+
     }
 }
