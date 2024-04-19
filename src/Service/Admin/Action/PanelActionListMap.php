@@ -2,8 +2,8 @@
 
 namespace App\Service\Admin\Action;
 
-use App\Service\Admin\Action\Exception\Exception\FunctionNotFoundInMap;
-use App\Service\Admin\Action\Exception\Exception\TypeNotFoundInMap;
+use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
+use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
 
 class PanelActionListMap
 {

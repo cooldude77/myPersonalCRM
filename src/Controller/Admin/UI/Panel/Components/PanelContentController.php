@@ -3,8 +3,8 @@
 namespace App\Controller\Admin\UI\Panel\Components;
 
 use App\Service\Admin\Action\Exception\EmptyActionListMapException;
-use App\Service\Admin\Action\Exception\Exception\FunctionNotFoundInMap;
-use App\Service\Admin\Action\Exception\Exception\TypeNotFoundInMap;
+use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
+use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
