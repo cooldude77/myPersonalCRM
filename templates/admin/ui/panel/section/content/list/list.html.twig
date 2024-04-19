@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col m-0">
-            {% include 'admin/ui/panel/_create_link.html.twig' with{'title': listGrid.title} %}
+            {% include 'admin/ui/panel/section/content/action/top_level/_create_link.html.twig' with{'title': listGrid.title} %}
         </div>
     </div>
     <div class="row font-weight-bold py-2 bg-light">
@@ -20,7 +20,7 @@
                 {% for column in listGrid.columns %}
                     {% if column.action is defined and column.action == 'display' %}
                         <div class="col">
-                            {% include 'admin/ui/panel/_display_link.html.twig' with {
+                            {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
                                 'function': app.request.get('_function'),
                                 'name':attribute(entity, 'name'),
                                 'id':attribute(entity, 'id')} %}
@@ -32,7 +32,7 @@
                     {% endif %}
                 {% endfor %}
                 <div class="col">
-                    {% include 'admin/ui/panel/_edit_link.html.twig' with {
+                    {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
                         'function': app.request.get('_function'),
                         'id':attribute(entity, 'id')} %}
                 </div>

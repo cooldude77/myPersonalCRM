@@ -145,7 +145,7 @@ class CategoryController extends
 
 
         $categories = $categoryRepository->findAll();
-        return $this->render('admin/common/list/list.html.twig',
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $categories, 'listGrid' => $listGrid]);
     }
 }

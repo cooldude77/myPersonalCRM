@@ -8,7 +8,7 @@ class PanelHeaderController extends AbstractController
 {
  public function header(): \Symfony\Component\HttpFoundation\Response
  {
-     return $this->render('admin/ui/panel/header/header.html.twig');
+     return $this->render('admin/ui/panel/section/header/header.html.twig');
  }
 
 }

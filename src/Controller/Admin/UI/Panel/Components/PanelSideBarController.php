@@ -17,7 +17,7 @@ class PanelSideBarController extends AbstractController
         $sideBarBuilder = new PanelSideBarListMapBuilder();
         $sideBar = $sideBarBuilder->build($adminUrl)->getSideBarList();
 
-        return $this->render('admin/ui/panel/sidebar/sidebar.html.twig',['sideBar'=>$sideBar]);
+        return $this->render('admin/ui/panel/section/sidebar/sidebar.html.twig',['sideBar'=>$sideBar]);
 
     }
 }

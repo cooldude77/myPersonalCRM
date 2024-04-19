@@ -10,7 +10,7 @@ class PanelHomeController extends AbstractController
     public function home(): \Symfony\Component\HttpFoundation\Response
     {
 
-        return $this->render('admin/ui/panel/home/home.html.twig');
+        return $this->render('admin/ui/panel/section/home/home.html.twig');
 
     }
 }

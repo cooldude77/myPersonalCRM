@@ -28,7 +28,7 @@ class PanelContentController extends
         $t = $request->get('_type');
 
         // special case when not calling any function, goto home
-        if ($function == null && $t == null) return $this->render('admin/ui/panel/content/content.html.twig',
+        if ($function == null && $t == null) return $this->render('admin/ui/panel/section/content/content.html.twig',
             ['content' => "This is home"]);
 
         $routeName = $builder->build()->getPanelActionListMap()->getRoute($function,
@@ -46,7 +46,7 @@ class PanelContentController extends
 
         $content = $response->getContent();
 
-        return $this->render('admin/ui/panel/content/content.html.twig',
+        return $this->render('admin/ui/panel/section/content/content.html.twig',
             ['content' => $content]);
     }
 
