@@ -36,6 +36,14 @@ class PanelActionListMapBuilder
                             'create' => 'web_shop_create',
                             'edit' => 'web_shop_edit'
                         ]
+                    ],
+                    'file' => [
+                        'routes' => [
+                            'create' => 'file_create',
+                            'edit' => 'file_edit',
+                            'display'=>'file_display',
+                            'list'=>'file_list'
+                        ]
                     ]
                 ]
             ]

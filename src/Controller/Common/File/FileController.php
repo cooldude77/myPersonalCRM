@@ -60,8 +60,18 @@ class FileController extends
 
         $files = $fileRepository->findAll();
 
-        return $this->render('common/file/list.html.twig',
-            ['files' => $files]);
+        $listGrid = [
+            'title'=>'File',
+            'columns' => [
+                ['label' => 'Your fileName', 'propertyName' => 'yourFileName','action'=>'display'],
+                  ['label' => 'FileName', 'propertyName' => 'name'],
+
+
+            ],
+            'create_button' => ['targetRoute' => 'file_create', 'redirectRoute' => 'admin_panel']];
+
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $files, 'listGrid' => $listGrid]);
     }
 
     #[Route('/file/fetch/{id}', name: 'file_fetch')]

@@ -36,7 +36,7 @@ class PanelSideBarListMapBuilder
                         'items' => [
                             [
                                 'url' => $this->append($adminUrl,
-                                    '_target_route=web_shop'),
+                                    'web_shop'),
                                 'text' => 'Shops'
                             ]
                         ]
@@ -46,8 +46,18 @@ class PanelSideBarListMapBuilder
                         'items' =>[
                             [
                             'url' => $this->append($adminUrl,
-                                '_target_route=user'),
+                                'user'),
                                 'text' => 'Users List'
+                            ]
+                        ]
+                    ],
+                    [
+                        'header_text' => 'Files',
+                        'items' =>[
+                            [
+                            'url' => $this->append($adminUrl,
+                                'file'),
+                                'text' => 'files'
                             ]
                         ]
                     ]

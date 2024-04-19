@@ -22,7 +22,7 @@
                         <div class="col">
                             {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
                                 'function': app.request.get('_function'),
-                                'name':attribute(entity, 'name'),
+                                'name':attribute(entity, column.propertyName),
                                 'id':attribute(entity, 'id')} %}
                         </div>
                     {% else %}
