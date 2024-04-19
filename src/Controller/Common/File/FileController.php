@@ -53,6 +53,36 @@ class FileController extends
             ['form' => $form]);
     }
 
+    #[Route('/file/edit/{id}', name: 'file_edit')]
+    public function edit(EntityManagerInterface    $entityManager,
+                           FileDTOMapper             $fileDTOMapper,
+                           FileService               $fileService,
+                           FileDirectoryPathProvider $directoryPathProvider,
+                           Request                   $request): Response
+    {
+        $fileFormDTO = new FileFormDTO();
+        $form = $this->createForm(FileCreateForm::class,
+            $fileFormDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
+            $fileService->moveFile(
+                $fileFormDTO->uploadedFile,
+                $fileEntity->getName(),
+                $directoryPathProvider->getBaseFolderPath());
+
+            $entityManager->persist($fileEntity);
+            $entityManager->flush();
+            return $this->redirectToRoute('common/file/success_create.html.twig');
+        }
+
+        return $this->render('common/file/create.html.twig',
+            ['form' => $form]);
+    }
+
 
     #[Route('/file/list', name: 'file_list')]
     public function list(FileRepository $fileRepository): Response
@@ -72,6 +102,25 @@ class FileController extends
 
         return $this->render('admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $files, 'listGrid' => $listGrid]);
+    }
+
+    #[Route('/file/display/{id}', name: 'file_display')]
+    public function display(FileRepository $fileRepository,
+                            int                $id): Response
+    {
+        $file = $fileRepository->find($id);
+        if (!$file) {
+            throw $this->createNotFoundException('No file found for id ' . $id);
+        }
+
+        $displayParams = ['title' => 'File', 'editButtonLinkText' => 'Edit',
+            'fields' => [
+                ['label' => 'Your File Name', 'propertyName' => 'yourFileName'],
+                ['label' => 'Name', 'propertyName' => 'name'],]];
+
+        return $this->render('common/file/display.html.twig',
+            ['entity' => $file, 'params' => $displayParams]);
+
     }
 
     #[Route('/file/fetch/{id}', name: 'file_fetch')]

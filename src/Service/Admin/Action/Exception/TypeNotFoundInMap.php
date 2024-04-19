@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\Action\Exception;
+namespace App\Service\Admin\Action\Exception\Exception;
 
 class TypeNotFoundInMap extends \Exception
 {

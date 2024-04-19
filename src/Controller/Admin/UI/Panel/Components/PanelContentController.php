@@ -2,8 +2,9 @@
 
 namespace App\Controller\Admin\UI\Panel\Components;
 
-use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
-use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
+use App\Service\Admin\Action\Exception\EmptyActionListMapException;
+use App\Service\Admin\Action\Exception\Exception\FunctionNotFoundInMap;
+use App\Service\Admin\Action\Exception\Exception\TypeNotFoundInMap;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class PanelContentController extends
     /**
      * @throws FunctionNotFoundInMap
      * @throws TypeNotFoundInMap
+     * @throws EmptyActionListMapException
      */
     public function content(RouterInterface           $router,
                             Request                   $request,
@@ -25,14 +27,14 @@ class PanelContentController extends
 
 
         $function = $request->get('_function');
-        $t = $request->get('_type');
+        $type = $request->get('_type');
 
         // special case when not calling any function, goto home
-        if ($function == null && $t == null) return $this->render('admin/ui/panel/section/content/content.html.twig',
+        if ($function == null && $type == null) return $this->render('admin/ui/panel/section/content/content.html.twig',
             ['content' => "This is home"]);
 
         $routeName = $builder->build()->getPanelActionListMap()->getRoute($function,
-            $t);
+            $type);
 
         // call controller
         $callRoute = $router->getRouteCollection()->get($routeName);

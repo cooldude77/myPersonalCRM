@@ -2,6 +2,8 @@
 
 namespace App\Service\Admin\Action;
 
+use App\Service\Admin\Action\Exception\EmptyActionListMapException;
+
 class PanelActionListMapBuilder
 {
 
@@ -56,6 +58,8 @@ class PanelActionListMapBuilder
      */
     public function getPanelActionListMap(): PanelActionListMap
     {
+        if(empty($this->actionListMap))
+            throw new EmptyActionListMapException();
         return $this->actionListMap;
     }
 }
