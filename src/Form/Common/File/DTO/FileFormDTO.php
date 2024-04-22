@@ -18,5 +18,6 @@ class FileFormDTO
      * @Assert\NotBlank 
      */
     public UploadedFile $uploadedFile;
+    public ?int $id = -1;
 
 }
