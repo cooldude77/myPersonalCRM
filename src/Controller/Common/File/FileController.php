@@ -22,43 +22,48 @@ use Symfony\Component\Routing\Attribute\Route;
  *
  *  Carousel :
  */
-class FileController extends
-    AbstractController
+class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
-    public function create(EntityManagerInterface    $entityManager,
-                           FileDTOMapper             $fileDTOMapper,
+    public function create(EntityManagerInterface    $entityManager, FileDTOMapper $fileDTOMapper,
                            FileService               $fileService,
                            FileDirectoryPathProvider $directoryPathProvider,
                            Request                   $request): Response
     {
         $fileFormDTO = new FileFormDTO();
-        $form = $this->createForm(FileCreateForm::class,
-            $fileFormDTO);
+        $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
-            $fileService->moveFile($fileFormDTO->uploadedFile,
-                $fileEntity->getName(),
+            $fileService->moveFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
-            return $this->redirectToRoute('common/file/success_create.html.twig');
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success', "Category created successfully");
+
+                $id = $fileEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+
+                return $this->redirect($success_url);
+            }
+
+
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'File successfully created']);
         }
 
-        return $this->render('common/file/create.html.twig',
-            ['form' => $form]);
+        return $this->render('common/file/create.html.twig', ['form' => $form]);
     }
 
     #[Route('/file/edit/{id}', name: 'file_edit')]
-    public function edit(int                       $id,
-                         EntityManagerInterface    $entityManager,
-                         FileRepository            $fileRepository,
-                         FileDTOMapper             $fileDTOMapper,
+    public function edit(int                       $id, EntityManagerInterface $entityManager,
+                         FileRepository            $fileRepository, FileDTOMapper $fileDTOMapper,
                          FileService               $fileService,
                          FileDirectoryPathProvider $directoryPathProvider,
                          Request                   $request): Response
@@ -66,21 +71,30 @@ class FileController extends
         $fileEntity = $fileRepository->findOneBy(['id' => $id]);
 
         $fileFormDTO = $fileDTOMapper->mapFromEntity($fileEntity);
-        $form = $this->createForm(FileUpdateForm::class,
-            $fileFormDTO);
+        $form = $this->createForm(FileUpdateForm::class, $fileFormDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
-            $fileService->moveFile($fileFormDTO->uploadedFile,
-                $fileEntity->getName(),
+            $fileService->moveFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
             $entityManager->persist($fileEntity);
             $entityManager->flush();
-            return $this->redirectToRoute('common/file/success_create.html.twig');
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success', "Updated created successfully");
+
+                $id = $fileEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+
+                return $this->redirect($success_url);
+            }
+
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'File successfully created']);
         }
 
         return $this->render('common/file/edit.html.twig',
@@ -104,8 +118,7 @@ class FileController extends
     }
 
     #[Route('/file/display/{id}', name: 'file_display')]
-    public function display(FileRepository $fileRepository,
-                            int            $id): Response
+    public function display(FileRepository $fileRepository, int $id): Response
     {
         $file = $fileRepository->find($id);
         if (!$file) {
@@ -120,8 +133,7 @@ class FileController extends
     }
 
     #[Route('/file/fetch/{id}', name: 'file_fetch')]
-    public function fetch(int                       $id,
-                          FileRepository            $fileRepository,
+    public function fetch(int                       $id, FileRepository $fileRepository,
                           FileDirectoryPathProvider $directoryPathProvider,
                           FileService               $fileService): Response
     {
@@ -131,15 +143,12 @@ class FileController extends
         $file = file_get_contents($path);
 
         $headers = array('Content-Type' => $fileEntity->getType()->getMimeType(), 'Content-Disposition' => 'inline; filename="' . $fileEntity->getName() . '"');
-        return new Response($file,
-            200,
-            $headers);
+        return new Response($file, 200, $headers);
 
     }
 
     #[Route('/file/path/{name}', name: 'file_path_by_name')]
-    public function getFilePath(string                       $name,
-                                FileRepository            $fileRepository,
+    public function getFilePath(string                    $name, FileRepository $fileRepository,
                                 FileDirectoryPathProvider $directoryPathProvider,
                                 FileService               $fileService): Response
     {
@@ -152,4 +161,5 @@ class FileController extends
         return new BinaryFileResponse($path);
 
     }
+    
 }

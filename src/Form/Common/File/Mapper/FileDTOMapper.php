@@ -24,14 +24,16 @@ class FileDTOMapper
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
-        $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
-        $fileFormDTO->name = $fileName;
 
         if($fileEntity == null) {
             $fileEntity = $this->fileRepository->create();
-        }
 
-        $fileEntity->setName($fileFormDTO->name);
+            $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
+            $fileFormDTO->name = $fileName;
+
+            $fileEntity->setName($fileFormDTO->name);
+
+        }
 
         $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
 

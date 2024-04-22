@@ -25,7 +25,7 @@ class FileUpdateForm extends
 
         $builder->add('name',
             TextType::class,
-            ['attr' => ['read_only' => true]]);
+            ['attr' => ['readOnly' => 'read_only']]);
 
         $builder->add('yourFileName',
             TextType::class);
@@ -39,17 +39,6 @@ class FileUpdateForm extends
             FileType::class,
             ['label' => 'File', 'required' => false]);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
-
-                /** @var FileFormDTO $fileFormDTO */
-                $fileFormDTO = $event->getData();
-
-                if ($fileFormDTO->name == null) $fileFormDTO->name = uniqid(rand(),
-                    true);
-
-                $event->setData($fileFormDTO);
-            });
         $builder->add('save',
             SubmitType::class);
 
