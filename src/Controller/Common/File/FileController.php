@@ -77,7 +77,7 @@ class FileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
+            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData(),$fileEntity);
             $fileService->moveFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
@@ -161,5 +161,5 @@ class FileController extends AbstractController
         return new BinaryFileResponse($path);
 
     }
-    
+
 }
