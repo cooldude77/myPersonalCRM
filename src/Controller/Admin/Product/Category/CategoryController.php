@@ -127,11 +127,16 @@ class CategoryController extends
     public function list(CategoryRepository $categoryRepository): Response
     {
 
-        $listGrid = ['title' => 'Category', 'columns' => [['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'], ['label' => 'Description', 'propertyName' => 'description'],
-
-
-        ], 'create_button' => ['targetRoute' => 'category_create', 'redirectRoute' => 'admin_panel', 'call_in_redirect_route' => 'category_create']];
-
+        $listGrid = [
+            'title' => 'Category',
+            'columns' => [
+                ['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'],
+                ['label' => 'Description', 'propertyName' => 'description'],
+            ],
+            'createButtonConfig' => [
+                'function' => 'category_create',
+                'anchorText' => 'Create Category'
+            ]];
 
         $categories = $categoryRepository->findAll();
         return $this->render('admin/ui/panel/section/content/list/list.html.twig',

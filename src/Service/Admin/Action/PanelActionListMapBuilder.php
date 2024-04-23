@@ -46,6 +46,14 @@ class PanelActionListMapBuilder
                             'display'=>'file_display',
                             'list'=>'file_list'
                         ]
+                    ],
+                    'category_file_image'=>[
+                        'routes' => [
+                            'create' => 'category_file_image_create',
+                            'edit' => 'category_file_image_edit',
+                            'display'=>'category_file_image_display',
+                            'list'=>'category_file_image_list'
+                        ]
                     ]
                 ]
             ]

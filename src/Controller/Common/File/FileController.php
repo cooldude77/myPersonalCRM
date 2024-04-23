@@ -108,10 +108,17 @@ class FileController extends AbstractController
 
         $files = $fileRepository->findAll();
 
-        $listGrid = ['title' => 'File', 'columns' => [['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'], ['label' => 'FileName', 'propertyName' => 'name'],
-
-
-        ], 'create_button' => ['targetRoute' => 'file_create', 'redirectRoute' => 'admin_panel']];
+        $listGrid = ['title' => "Files",
+            'function' => 'file',
+            'columns' => [
+                ['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'],
+                ['label' => 'FileName', 'propertyName' => 'name'],
+            ],
+            'createButtonConfig' => [
+                'function' => 'file',
+                'anchorText' => 'File'
+            ]
+        ];
 
         return $this->render('admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $files, 'listGrid' => $listGrid]);

@@ -21,8 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryImageController extends AbstractController
 {
-    #[Route('/category/{id}/file/image/create', name: 'category_create_file_image')]
-    public function createCategoryImage(EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, Request $request): Response
+    #[Route('/category/{id}/file/image/create', name: 'category_file_image_create')]
+    public function create(EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, Request $request): Response
     {
         $categoryImageFileDTO = new CategoryFileImageDTO();
 
@@ -66,19 +66,20 @@ class CategoryImageController extends AbstractController
         }
 
         $listGrid = ['title' => "Category Files",
-            'function' => 'category_file_image_create',
+            'function' => 'category_file_image',
             'columns' => [
                 ['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'],
                 ['label' => 'FileName', 'propertyName' => 'name'],
         ],
             'createButtonConfig' => [
-                'function' => 'category_file_image_create',
+                'function' => 'category_file_image',
                 'id'=>$id,
                 'anchorText' => 'Category File'
             ]
         ];
 
-        return $this->render('admin/ui/panel/section/content/list/list.html.twig', ['entities' => $entities, 'listGrid' => $listGrid]);
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $entities, 'listGrid' => $listGrid]);
 
     }
 

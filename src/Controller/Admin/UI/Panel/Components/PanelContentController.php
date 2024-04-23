@@ -9,6 +9,7 @@ use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 class PanelContentController extends
@@ -38,6 +39,9 @@ class PanelContentController extends
 
         // call controller
         $callRoute = $router->getRouteCollection()->get($routeName);
+
+        if($callRoute == null)
+            throw  new RouteNotFoundException($routeName);
 
         $controllerAction = $callRoute->getDefault('_controller');
         $params = ['request' => $request];
