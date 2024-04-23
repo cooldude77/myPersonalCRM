@@ -9,6 +9,9 @@ use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
+use App\Service\Admin\List\ListGrid;
+use App\Service\Common\List\Column\ListGridColumn;
+use App\Service\Common\List\ListGridConfig;
 use App\Service\Product\Category\File\Image\CategoryFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,12 +65,17 @@ class CategoryImageController extends AbstractController
             }
         }
 
-        $listGrid = ['title' => 'Category File',
+        $listGrid = ['title' => "Category Files",
+            'function' => 'category_file_image_create',
             'columns' => [
                 ['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'],
                 ['label' => 'FileName', 'propertyName' => 'name'],
         ],
-            'create_button' => ['targetRoute' => 'category_file_image_create', 'redirectRoute' => 'admin_panel']
+            'createButtonConfig' => [
+                'function' => 'category_file_image_create',
+                'id'=>$id,
+                'anchorText' => 'Category File'
+            ]
         ];
 
         return $this->render('admin/ui/panel/section/content/list/list.html.twig', ['entities' => $entities, 'listGrid' => $listGrid]);
