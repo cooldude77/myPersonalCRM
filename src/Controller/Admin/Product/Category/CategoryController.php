@@ -118,7 +118,7 @@ class CategoryController extends
 
         $displayParams = ['title' => 'Category', 'editButtonLinkText' => 'Edit', 'fields' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],]];
 
-        return $this->render('admin/category/display.html.twig',
+        return $this->render('admin/category/category_display.html.twig',
             ['entity' => $category, 'params' => $displayParams]);
 
     }

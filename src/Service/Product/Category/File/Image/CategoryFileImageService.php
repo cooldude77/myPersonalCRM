@@ -25,7 +25,7 @@ class CategoryFileImageService
     public function __construct(CategoryImageFileRepository        $categoryImageFileRepository,
                                 CategoryImageTypeRepository        $categoryImageTypeRepository,
                                 CategoryFileService                $categoryFileService,
-                                FileService                        $fileService,
+                                FileService                       $fileService,
                                 CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider)
     {
 
