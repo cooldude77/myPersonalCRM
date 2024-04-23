@@ -70,4 +70,15 @@ class CategoryImageFileRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
 
     }
+
+    public function findByFileId(int $id): CategoryImageFile
+    {
+        return $this->createQueryBuilder("cif")
+            ->addSelect("cf","f")
+            ->join("cif.categoryFile", "cf")
+            ->join("cf.file","f")
+            ->andWhere("f.id = :id")
+            ->setParameter("id",$id)
+            ->getQuery()->getSingleResult();
+    }
 }

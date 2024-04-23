@@ -9,6 +9,7 @@ use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
+use App\Repository\FileRepository;
 use App\Service\Admin\List\ListGrid;
 use App\Service\Common\List\Column\ListGridColumn;
 use App\Service\Common\List\ListGridConfig;
@@ -97,4 +98,32 @@ class CategoryImageController extends AbstractController
         return new Response($file, 200, $headers);
 
     }
+
+    #[\Symfony\Component\Routing\Attribute\Route('/category/image/file/{$id}/display/', name: 'category_file_image_display')]
+    public function display(CategoryImageFileRepository $categoryImageFileRepository, int $id): Response
+    {
+        $categoryImageFile = $categoryImageFileRepository->findByFileId($id);
+        if (!$categoryImageFile) {
+            throw $this->createNotFoundException('No Category ImageFile found for file id ' . $id);
+        }
+        $entity = [
+            'id'=>$categoryImageFile->getCategoryFile()->getFile()->getId(),
+            'name'=> $categoryImageFile->getCategoryFile()->getFile()->getName(),
+            'yourFileName'=>$categoryImageFile->getCategoryFile()->getFile()->getYourFileName(),
+            'categoryImageFileType'=>$categoryImageFile->getCategoryImageType()->getDescription()
+        ];
+
+        $displayParams = ['title' => 'CategoryImageFile',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [
+                ['label' => 'Your Name', 'propertyName' => 'yourFileName'],
+                ['label' => 'Name', 'propertyName' => 'name'],
+                ['label' => 'Image File Type', 'propertyName' => 'categoryImageFileType']
+            ]];
+
+        return $this->render('admin/category/file/image/category_file_image_display.html.twig',
+            ['entity' => $entity, 'params' => $displayParams]);
+
+    }
+
 }

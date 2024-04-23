@@ -3,6 +3,7 @@
 namespace App\Controller\Common\File;
 
 // ...
+use App\Entity\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\FileUpdateForm;
@@ -154,17 +155,15 @@ class FileController extends AbstractController
 
     }
 
-    #[Route('/file/path/{name}', name: 'file_path_by_name')]
-    public function getFilePath(string                    $name, FileRepository $fileRepository,
-                                FileDirectoryPathProvider $directoryPathProvider,
-                                FileService               $fileService): Response
+    #[Route('/file/path/{id}', name: 'file_path_by_id')]
+    public function getFileContentsById(int $id, FileRepository $fileRepository,
+                                FileDirectoryPathProvider $directoryPathProvider): Response
     {
 
-        $fileEntity = $fileRepository->findOneBy(['name' => $name]);
-        $path = $directoryPathProvider->getFullPathForImageFile($name);
-
-        $file = file_get_contents($path);
-
+        /** @var File $fileEntity */
+        $fileEntity = $fileRepository->findOneBy(['id' => $id]);
+        $path = $directoryPathProvider->getFullPathForImageFile($fileEntity->getName());
+        
         return new BinaryFileResponse($path);
 
     }
