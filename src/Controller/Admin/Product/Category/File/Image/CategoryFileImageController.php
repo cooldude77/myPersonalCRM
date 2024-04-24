@@ -4,19 +4,13 @@ namespace App\Controller\Admin\Product\Category\File\Image;
 
 // ...
 use App\Controller\Admin\Product\Category\File\ListObject\CategoryImageFileObject;
+use App\Controller\Common\Identification\CommonIdentificationConstants;
+use App\Controller\Common\Utility\CommonUtility;
 use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
-use App\Form\Common\File\FileUpdateForm;
-use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
-use App\Repository\FileRepository;
-use App\Service\Admin\List\ListGrid;
-use App\Service\Common\List\Column\ListGridColumn;
-use App\Service\Common\List\ListGridConfig;
-use App\Service\File\FileService;
-use App\Service\File\Provider\FileDirectoryPathProvider;
 use App\Service\Product\Category\File\Image\CategoryFileImageService;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,10 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategoryImageController extends AbstractController
+class CategoryFileImageController extends AbstractController
 {
     #[Route('/category/{id}/file/image/create', name: 'category_file_image_create')]
-    public function create(int $id, EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, Request $request): Response
+    public function create(int $id, EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, CommonUtility $commonUtility, Request $request): Response
     {
         $categoryImageFileDTO = new CategoryFileImageDTO();
         $categoryImageFileDTO->setCategoryId($id);
@@ -43,10 +37,14 @@ class CategoryImageController extends AbstractController
             $categoryImageEntity = $categoryFileImageService->mapFormDTO($data);
             $categoryFileImageService->moveFile($data);
 
+
             $entityManager->persist($categoryImageEntity);
             $entityManager->flush();
-            return $this->redirectToRoute('common/file/success_create.html.twig');
 
+            $redirect = $request->get(CommonIdentificationConstants::REDIRECT_UPON_SUCCESS_URL);
+
+            if ($redirect != null) return $this->redirect($commonUtility->addIdToUrl($redirect, $categoryImageEntity->getId())); else
+                return $this->redirectToRoute('common/file/success_create.html.twig');
 
         }
 
@@ -61,32 +59,20 @@ class CategoryImageController extends AbstractController
         $categoryImageFiles = $categoryImageFileRepository->findAllByCategoryId($id);
 
         $entities = [];
-        if($categoryImageFiles != null){
+        if ($categoryImageFiles != null) {
             /** @var CategoryImageFile $categoryImageFile */
-            foreach ($categoryImageFiles as $categoryImageFile){
+            foreach ($categoryImageFiles as $categoryImageFile) {
                 $f = new CategoryImageFileObject();
-                $f->id = $categoryImageFile->getCategoryFile()->getFile()->getId();
+                $f->id = $categoryImageFile->getId();
                 $f->yourFileName = $categoryImageFile->getCategoryFile()->getFile()->getYourFileName();
                 $f->name = $categoryImageFile->getCategoryFile()->getFile()->getName();
                 $entities[] = $f;
             }
         }
 
-        $listGrid = ['title' => "Category Files",
-            'function' => 'category_file_image',
-            'columns' => [
-                ['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'],
-                ['label' => 'FileName', 'propertyName' => 'name'],
-        ],
-            'createButtonConfig' => [
-                'function' => 'category_file_image',
-                'id'=>$id,
-                'anchorText' => 'Category File'
-            ]
-        ];
+        $listGrid = ['title' => "Category Files", 'function' => 'category_file_image', 'columns' => [['label' => 'Your fileName', 'propertyName' => 'yourFileName', 'action' => 'display'], ['label' => 'FileName', 'propertyName' => 'name'],], 'createButtonConfig' => ['function' => 'category_file_image', 'id' => $id, 'anchorText' => 'Category File']];
 
-        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $entities, 'listGrid' => $listGrid]);
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig', ['entities' => $entities, 'listGrid' => $listGrid]);
 
     }
 
@@ -108,38 +94,24 @@ class CategoryImageController extends AbstractController
     #[\Symfony\Component\Routing\Attribute\Route('/category/image/file/{$id}/display/', name: 'category_file_image_display')]
     public function display(CategoryImageFileRepository $categoryImageFileRepository, int $id): Response
     {
-        $categoryImageFile = $categoryImageFileRepository->findByFileId($id);
+        $categoryImageFile = $categoryImageFileRepository->findOneBy(['id'=>$id]);
         if (!$categoryImageFile) {
             throw $this->createNotFoundException('No Category ImageFile found for file id ' . $id);
         }
-        $entity = [
-            'id'=>$categoryImageFile->getCategoryFile()->getFile()->getId(),
-            'name'=> $categoryImageFile->getCategoryFile()->getFile()->getName(),
-            'yourFileName'=>$categoryImageFile->getCategoryFile()->getFile()->getYourFileName(),
-            'categoryImageFileType'=>$categoryImageFile->getCategoryImageType()->getDescription()
-        ];
+        $entity = ['id' => $categoryImageFile->getId(), 'name' => $categoryImageFile->getCategoryFile()->getFile()->getName(), 'yourFileName' => $categoryImageFile->getCategoryFile()->getFile()->getYourFileName(), 'categoryImageFileType' => $categoryImageFile->getCategoryImageType()->getDescription()];
 
-        $displayParams = ['title' => 'CategoryImageFile',
-            'editButtonLinkText' => 'Edit',
-            'fields' => [
-                ['label' => 'Your Name', 'propertyName' => 'yourFileName'],
-                ['label' => 'Name', 'propertyName' => 'name'],
-                ['label' => 'Image File Type', 'propertyName' => 'categoryImageFileType']
-            ]];
+        $displayParams = ['title' => 'CategoryImageFile', 'editButtonLinkText' => 'Edit', 'fields' => [['label' => 'Your Name', 'propertyName' => 'yourFileName'], ['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Image File Type', 'propertyName' => 'categoryImageFileType']]];
 
-        return $this->render('admin/category/file/image/category_file_image_display.html.twig',
-            ['entity' => $entity, 'params' => $displayParams]);
+        return $this->render('admin/category/file/image/category_file_image_display.html.twig', [
+            'entity' => $entity,
+            'fileId'=>$categoryImageFile->getCategoryFile()->getFile()->getId(),
+            'params' => $displayParams]);
 
     }
 
 
     #[\Symfony\Component\Routing\Attribute\Route('/category/file/image/{id}/edit', name: 'category_file_image_edit')]
-    public function edit(int                       $id, EntityManagerInterface $entityManager,
-                         CategoryImageFileRepository            $categoryImageFileRepository,
-                         CategoryImageFileDTOMapper $categoryImageFileDTOMapper,
-                         CategoryFileImageService               $categoryImageFileService,
-                         CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider,
-                         Request                   $request): Response
+    public function edit(int $id, EntityManagerInterface $entityManager, CategoryImageFileRepository $categoryImageFileRepository, CategoryImageFileDTOMapper $categoryImageFileDTOMapper, CategoryFileImageService $categoryImageFileService, CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider, Request $request): Response
     {
         $categoryImageFileEntity = $categoryImageFileRepository->findOneBy(['id' => $id]);
 
@@ -150,7 +122,7 @@ class CategoryImageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $categoryImageFileEntity = $categoryImageFileDTOMapper->mapToCategoryImageFileEntity($form->getData(),$categoryImageFileEntity);
+            $categoryImageFileEntity = $categoryImageFileDTOMapper->mapToCategoryImageFileEntity($form->getData(), $categoryImageFileEntity);
             $categoryImageFileService->moveFile($categoryImageFileFormDTO->uploadedCategoryImageFile);
 
             $entityManager->persist($categoryImageFileEntity);
@@ -165,11 +137,9 @@ class CategoryImageController extends AbstractController
                 return $this->redirect($success_url);
             }
 
-            return $this->render('/common/miscellaneous/success/create.html.twig',
-                ['message' => 'CategoryImageFile successfully created']);
+            return $this->render('/common/miscellaneous/success/create.html.twig', ['message' => 'CategoryImageFile successfully created']);
         }
 
-        return $this->render('common/categoryImageFile/edit.html.twig',
-            ['form' => $form, 'entity' => $categoryImageFileEntity]);
+        return $this->render('common/categoryImageFile/edit.html.twig', ['form' => $form, 'entity' => $categoryImageFileEntity]);
     }
 }

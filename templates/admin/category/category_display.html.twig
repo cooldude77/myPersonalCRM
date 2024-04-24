@@ -1,6 +1,6 @@
 
 {% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 {{
-    render(controller(  'App\\Controller\\Admin\\Product\\Category\\File\\Image\\CategoryImageController::list',
+    render(controller(  'App\\Controller\\Admin\\Product\\Category\\File\\Image\\CategoryFileImageController::list',
         {'id':attribute(entity,"id"),'request':app.request}))
 }}
