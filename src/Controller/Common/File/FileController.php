@@ -155,7 +155,7 @@ class FileController extends AbstractController
 
     }
 
-    #[Route('/file/path/{id}', name: 'file_path_by_id')]
+    #[Route('/file/path/{id}', name: 'image_file_for_img_tag')]
     public function getFileContentsById(int $id, FileRepository $fileRepository,
                                 FileDirectoryPathProvider $directoryPathProvider): Response
     {

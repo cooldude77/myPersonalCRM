@@ -7,14 +7,18 @@ use App\Controller\Admin\Product\Category\File\ListObject\CategoryImageFileObjec
 use App\Controller\Common\Identification\CommonIdentificationConstants;
 use App\Controller\Common\Utility\CommonUtility;
 use App\Entity\CategoryImageFile;
+use App\Entity\File;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
+use App\Repository\FileRepository;
+use App\Service\File\Provider\FileDirectoryPathProvider;
 use App\Service\Product\Category\File\Image\CategoryFileImageService;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,17 +80,26 @@ class CategoryFileImageController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/category/{id}/file/image/fetch', name: 'category_file_image_fetch')]
+    /**
+     *
+     * Fetch is to display image standalone ( call by URL at the top )
+     * @param int $id
+     * @param CategoryImageFileRepository $categoryImageFileRepository
+     * @param CategoryFileImageService $categoryFileImageService
+     * @param Request $request
+     * @return Response
+     */
+    #[\Symfony\Component\Routing\Attribute\Route('/category/file/image/{id}/fetch', name: 'category_file_image_fetch')]
     public function fetch(int $id, CategoryImageFileRepository $categoryImageFileRepository, CategoryFileImageService $categoryFileImageService, Request $request): Response
     {
 
-        /** @var CategoryImageFile $fileEntity */
-        $fileEntity = $categoryImageFileRepository->findOneBy(['id' => $id]);
-        $path = $categoryFileImageService->getFullPhysicalPathForFileByName($id, $fileEntity->getCategoryFile()->getFile()->getName());
+        /** @var CategoryImageFile $categoryImageFile */
+        $categoryImageFile = $categoryImageFileRepository->findOneBy(['id' => $id]);
+        $path = $categoryFileImageService->getFullPhysicalPathForFileByName($id, $categoryImageFile->getCategoryFile()->getFile()->getName());
 
         $file = file_get_contents($path);
 
-        $headers = array('Content-Type' => $fileEntity->getCategoryFile()->getFile()->getType()->getMimeType(), 'Content-Disposition' => 'inline; filename="' . $fileEntity->getCategoryFile()->getFile()->getName() . '"');
+        $headers = array('Content-Type' => $categoryImageFile->getMimeType(), 'Content-Disposition' => 'inline; filename="' . $categoryImageFile->getCategoryFile()->getFile()->getName() . '"');
         return new Response($file, 200, $headers);
 
     }
@@ -142,4 +155,28 @@ class CategoryFileImageController extends AbstractController
 
         return $this->render('common/categoryImageFile/edit.html.twig', ['form' => $form, 'entity' => $categoryImageFileEntity]);
     }
+
+
+    /**
+     * @param int $id
+     * @param FileRepository $categoryFileRepository
+     * @param FileDirectoryPathProvider $directoryPathProvider
+     * @return Response
+     *
+     * To be displayed in img tag
+     */
+    #[\Symfony\Component\Routing\Attribute\Route('category/file/image/img-tag/{id}', name: 'category_image_file_for_img_tag')]
+    public function getFileContentsById(int                       $id,
+                                        CategoryImageFileRepository $categoryImageFileRepository,
+                                        CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider): Response
+    {
+
+        /** @var CategoryImageFile $categoryImageFile */
+        $categoryImageFile = $categoryImageFileRepository->findOneBy(['id' => $id]);
+        $path = $categoryDirectoryImagePathProvider->getFullPathForImageFiles($id,$categoryImageFile->getName());
+
+        return new BinaryFileResponse($path);
+
+    }
+
 }
