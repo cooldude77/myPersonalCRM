@@ -7,13 +7,18 @@ use App\Controller\Admin\Product\Category\File\ListObject\CategoryImageFileObjec
 use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Form\Admin\Product\Category\File\Form\CategoryFileImageCreateForm;
+use App\Form\Common\File\FileUpdateForm;
+use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
 use App\Repository\FileRepository;
 use App\Service\Admin\List\ListGrid;
 use App\Service\Common\List\Column\ListGridColumn;
 use App\Service\Common\List\ListGridConfig;
+use App\Service\File\FileService;
+use App\Service\File\Provider\FileDirectoryPathProvider;
 use App\Service\Product\Category\File\Image\CategoryFileImageService;
+use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +28,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryImageController extends AbstractController
 {
     #[Route('/category/{id}/file/image/create', name: 'category_file_image_create')]
-    public function create(EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, Request $request): Response
+    public function create(int $id, EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, Request $request): Response
     {
         $categoryImageFileDTO = new CategoryFileImageDTO();
+        $categoryImageFileDTO->setCategoryId($id);
 
         $form = $this->createForm(CategoryFileImageCreateForm::class, $categoryImageFileDTO);
 
@@ -126,4 +132,44 @@ class CategoryImageController extends AbstractController
 
     }
 
+
+    #[\Symfony\Component\Routing\Attribute\Route('/category/file/image/{id}/edit', name: 'category_file_image_edit')]
+    public function edit(int                       $id, EntityManagerInterface $entityManager,
+                         CategoryImageFileRepository            $categoryImageFileRepository,
+                         CategoryImageFileDTOMapper $categoryImageFileDTOMapper,
+                         CategoryFileImageService               $categoryImageFileService,
+                         CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider,
+                         Request                   $request): Response
+    {
+        $categoryImageFileEntity = $categoryImageFileRepository->findOneBy(['id' => $id]);
+
+        $categoryImageFileFormDTO = $categoryImageFileDTOMapper->mapFromEntity($categoryImageFileEntity);
+        $form = $this->createForm(CategoryImageFileUpdateForm::class, $categoryImageFileFormDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $categoryImageFileEntity = $categoryImageFileDTOMapper->mapToCategoryImageFileEntity($form->getData(),$categoryImageFileEntity);
+            $categoryImageFileService->moveFile($categoryImageFileFormDTO->uploadedCategoryImageFile);
+
+            $entityManager->persist($categoryImageFileEntity);
+            $entityManager->flush();
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success', "Updated created successfully");
+
+                $id = $categoryImageFileEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+
+                return $this->redirect($success_url);
+            }
+
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'CategoryImageFile successfully created']);
+        }
+
+        return $this->render('common/categoryImageFile/edit.html.twig',
+            ['form' => $form, 'entity' => $categoryImageFileEntity]);
+    }
 }

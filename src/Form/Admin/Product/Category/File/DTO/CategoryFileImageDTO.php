@@ -32,6 +32,10 @@ class CategoryFileImageDTO
     {
         return $this->categoryFileDTO->categoryId;
     }
+   public function setCategoryId(int $categoryId):void
+    {
+         $this->categoryFileDTO->categoryId = $categoryId;
+    }
 
     public function getFileName():string
     {

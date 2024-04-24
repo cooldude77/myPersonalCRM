@@ -1,15 +1,19 @@
 {% set after =  path(app.session.get('context_route'),
     {
         '_function':config.function is defined ? config.function: app.request.get('_function'),
-        '_type':'display'}) %}
-
-{% set href = path(app.session.get('context_route'),
-    {
-        '_function':config.function is defined ? config.function: app.request.get('_function'),
-        '_type':'create',
-        '_redirect_upon_success_url': after
-
+        '_type':'display'
     }) %}
+
+{% set parameterList = {
+    '_function':config.function is defined ? config.function: app.request.get('_function'),
+    '_type':'create'
+} %}
+{% if config.id is defined %}
+    {% set parameterList = parameterList|merge({'id':config.id}) %}
+{% endif %}
+{% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
+
+{% set href = path(app.session.get('context_route'),parameterList) %}
 
 <div class="d-flex flex mb-1 ml-0 ">
     <a class="link-primary" href="{{ href }}">
