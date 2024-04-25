@@ -8,18 +8,18 @@ use App\Form\Admin\Product\File\DTO\ProductFileDTO;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\ProductFileRepository;
 use App\Repository\ProductRepository;
-use App\Service\File\FileService;
+use App\Service\File\FilePhysicalOperation;
 use App\Service\Product\File\Provider\ProductDirectoryPathProvider;
 use Symfony\Component\HttpFoundation\File\File;
 
 class ProductFileService
-{    private FileService $fileService;
+{    private FilePhysicalOperation $fileService;
     private ProductFileRepository $productFileRepository;
     private ProductRepository $productRepository;
 
-    public function __construct(ProductFileRepository        $productFileRepository,
-                                ProductRepository            $productRepository,
-                                FileService                  $fileService)
+    public function __construct(ProductFileRepository $productFileRepository,
+                                ProductRepository     $productRepository,
+                                FilePhysicalOperation $fileService)
     {
 
         $this->fileService = $fileService;

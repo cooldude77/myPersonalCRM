@@ -6,6 +6,7 @@ use App\Entity\CategoryImageFile;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
 use App\Repository\CategoryImageFileRepository;
 use App\Repository\CategoryImageTypeRepository;
+use App\Service\File\FilePhysicalOperation;
 use App\Service\File\FileService;
 use App\Service\Product\Category\File\CategoryFileService;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
@@ -20,12 +21,12 @@ class CategoryFileImageService
     private CategoryImageTypeRepository $categoryImageTypeRepository;
     private CategoryFileService $categoryFileService;
     private CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider;
-    private FileService $fileService;
+    private FilePhysicalOperation $filePhysicalOperation;
 
     public function __construct(CategoryImageFileRepository        $categoryImageFileRepository,
                                 CategoryImageTypeRepository        $categoryImageTypeRepository,
                                 CategoryFileService                $categoryFileService,
-                                FileService                       $fileService,
+                                FilePhysicalOperation $filePhysicalOperation,
                                 CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider)
     {
 
@@ -34,7 +35,7 @@ class CategoryFileImageService
         $this->categoryImageTypeRepository = $categoryImageTypeRepository;
         $this->categoryFileService = $categoryFileService;
         $this->categoryDirectoryImagePathProvider = $categoryDirectoryImagePathProvider;
-        $this->fileService = $fileService;
+        $this->filePhysicalOperation = $filePhysicalOperation;
     }
 
     public function mapFormDTO(CategoryFileImageDTO $categoryFileImageDTO): CategoryImageFile
@@ -53,7 +54,7 @@ class CategoryFileImageService
 
         $fileName = $categoryFileImageDTO->getFileName();
 
-        return $this->fileService->moveFile(
+        return $this->filePhysicalOperation->moveFile(
             $categoryFileImageDTO->getUploadedFile(),
             $fileName,
             $dir);

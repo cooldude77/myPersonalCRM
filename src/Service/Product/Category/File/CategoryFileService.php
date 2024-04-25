@@ -8,19 +8,19 @@ use App\Form\Admin\Product\Category\File\DTO\CategoryFileDTO;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryRepository;
-use App\Service\File\FileService;
+use App\Service\File\FilePhysicalOperation;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryPathProvider;
 use Symfony\Component\HttpFoundation\File\File;
 
 class CategoryFileService
 {
-    private FileService $fileService;
+    private FilePhysicalOperation $fileService;
     private CategoryFileRepository $categoryFileRepository;
     private CategoryRepository $categoryRepository;
 
-    public function __construct(CategoryFileRepository        $categoryFileRepository,
-                                CategoryRepository            $categoryRepository,
-                                FileService                   $fileService)
+    public function __construct(CategoryFileRepository $categoryFileRepository,
+                                CategoryRepository     $categoryRepository,
+                                FilePhysicalOperation  $fileService)
     {
 
         $this->fileService = $fileService;

@@ -9,7 +9,7 @@ use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\FileUpdateForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\FileRepository;
-use App\Service\File\FileService;
+use App\Service\File\FilePhysicalOperation;
 use App\Service\File\Provider\FileDirectoryPathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class FileController extends AbstractController
 {
     #[Route('/file/create', name: 'file_create')]
     public function create(EntityManagerInterface    $entityManager, FileDTOMapper $fileDTOMapper,
-                           FileService               $fileService,
+                           FilePhysicalOperation     $filePhysicalOperation,
                            FileDirectoryPathProvider $directoryPathProvider,
                            Request                   $request): Response
     {
@@ -39,7 +39,7 @@ class FileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
-            $fileService->moveFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
+            $filePhysicalOperation->createOrReplaceFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
             $entityManager->persist($fileEntity);
@@ -65,7 +65,7 @@ class FileController extends AbstractController
     #[Route('/file/edit/{id}', name: 'file_edit')]
     public function edit(int                       $id, EntityManagerInterface $entityManager,
                          FileRepository            $fileRepository, FileDTOMapper $fileDTOMapper,
-                         FileService               $fileService,
+                         FilePhysicalOperation     $filePhysicalOperation,
                          FileDirectoryPathProvider $directoryPathProvider,
                          Request                   $request): Response
     {
@@ -79,7 +79,7 @@ class FileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData(),$fileEntity);
-            $fileService->moveFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
+            $filePhysicalOperation->createOrReplaceFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
             $entityManager->persist($fileEntity);
@@ -143,7 +143,7 @@ class FileController extends AbstractController
     #[Route('/file/fetch/{id}', name: 'file_fetch')]
     public function fetch(int                       $id, FileRepository $fileRepository,
                           FileDirectoryPathProvider $directoryPathProvider,
-                          FileService               $fileService): Response
+                          FilePhysicalOperation     $fileService): Response
     {
         $fileEntity = $fileRepository->findOneBy(['id' => $id]);
         $path = $directoryPathProvider->getFullPathForImageFile($fileEntity->getName());

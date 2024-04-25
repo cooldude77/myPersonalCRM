@@ -6,7 +6,7 @@ use App\Entity\ProductImageFile;
 use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
 use App\Repository\ProductImageFileRepository;
 use App\Repository\ProductImageTypeRepository;
-use App\Service\File\FileService;
+use App\Service\File\FilePhysicalOperation;
 use App\Service\Product\File\ProductFileService;
 use App\Service\Product\File\Provider\ProductDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,12 +18,12 @@ class ProductFileImageService
     private ProductImageTypeRepository $productImageTypeRepository;
     private ProductFileService $productFileService;
     private ProductDirectoryImagePathProvider $productDirectoryImagePathProvider;
-    private FileService $fileService;
+    private FilePhysicalOperation $fileService;
 
     public function __construct(ProductImageFileRepository        $productImageFileRepository,
                                 ProductImageTypeRepository        $productImageTypeRepository,
                                 ProductFileService                $productFileService,
-                                FileService                        $fileService,
+                                FilePhysicalOperation             $fileService,
                                 ProductDirectoryImagePathProvider $productDirectoryImagePathProvider)
     {
 
@@ -51,7 +51,7 @@ class ProductFileImageService
 
         $fileName = $productFileImageDTO->getFileName();
 
-        return $this->fileService->moveFile(
+        return $this->fileService->createOrReplaceFile(
             $productFileImageDTO->getUploadedFile(),
             $fileName,
             $dir);

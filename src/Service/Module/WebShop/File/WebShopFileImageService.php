@@ -10,7 +10,7 @@ use App\Repository\WebShopFileRepository;
 use App\Repository\WebShopImageFileRepository;
 use App\Repository\WebShopImageTypeRepository;
 use App\Repository\WebShopRepository;
-use App\Service\File\FileService;
+use App\Service\File\FilePhysicalOperation;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebShopFileImageService
