@@ -20,15 +20,20 @@ class FileDTOMapper
         $this->fileRepository = $fileRepository;
     }
 
-    public function mapToFileEntity(FileFormDTO $fileFormDTO): File
+    public function mapToFileEntity(FileFormDTO $fileFormDTO,?File $fileEntity =null): File
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
-        $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
-        $fileFormDTO->name = $fileName;
 
-        $fileEntity = $this->fileRepository->create();
-        $fileEntity->setName($fileFormDTO->name);
+        if($fileEntity == null) {
+            $fileEntity = $this->fileRepository->create();
+
+            $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
+            $fileFormDTO->name = $fileName;
+
+            $fileEntity->setName($fileFormDTO->name);
+
+        }
 
         $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
 
@@ -37,6 +42,17 @@ class FileDTOMapper
         $fileEntity->setYourFileName($fileFormDTO->yourFileName);
 
         return $fileEntity;
+
+    }
+
+    public function mapFromEntity(File $file): FileFormDTO
+    {
+        $fileDTO = new FileFormDTO();
+        $fileDTO->id = $file->getId();
+        $fileDTO->yourFileName = $file->getYourFileName();
+        $fileDTO->name = $file->getName();
+        return $fileDTO;
+
     }
 
 }

@@ -12,64 +12,64 @@ class PanelSideBarListMapBuilder
             [
                 'sections' => [
                     [
-                        'header_text' => 'Category',
+                        'header_text' => 'Master Data',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?function=category&type=list',
+                                'url' => $this->append($adminUrl,
+                                    'category'),
                                 'text' => 'Categories'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Product',
-                        'items' => [
+                            ],
                             [
-                                'url' => $adminUrl . '?function=product&type=list',
+                                'url' => $this->append($adminUrl,
+                                    'product'),
                                 'text' => 'Product List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Customer',
-                        'items' => [
+                            ],
                             [
-                                'url' => $adminUrl . '?load_next=customer_list&type=list',
+                                'url' => $this->append($adminUrl,
+                                    'customer'),
                                 'text' => 'Customer List'
-                            ]
-                        ]
-                    ],
-                    [
-                        'header_text' => 'Prices',
-                        'items' => [
-                            [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
-                                'text' => 'Prices List'
-                            ]
+                            ],
                         ]
                     ],
                     [
                         'header_text' => 'WebShop',
                         'items' => [
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
-                                'text' => 'WebShop List'
+                                'url' => $this->append($adminUrl,
+                                    'web_shop'),
+                                'text' => 'Shops'
                             ]
                         ]
-                    ], [
+                    ],
+                    [
                         'header_text' => 'Users',
-                        'items' => [
+                        'items' =>[
                             [
-                                'url' => $adminUrl . '?load_next=web_shop_list&type=list',
+                            'url' => $this->append($adminUrl,
+                                'user'),
                                 'text' => 'Users List'
                             ]
                         ]
                     ],
-
-
-                ],
-
+                    [
+                        'header_text' => 'Files',
+                        'items' =>[
+                            [
+                            'url' => $this->append($adminUrl,
+                                'file'),
+                                'text' => 'files'
+                            ]
+                        ]
+                    ]
+               ]
             ]
 
         );
+    }
+
+    private function append(string $adminUrl,
+                            string $function): string
+    {
+        return  $adminUrl . "?_function={$function}&_type=list";
     }
 }

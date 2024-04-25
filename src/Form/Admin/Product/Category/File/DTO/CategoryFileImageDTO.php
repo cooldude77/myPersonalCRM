@@ -4,6 +4,7 @@ namespace App\Form\Admin\Product\Category\File\DTO;
 
 use App\Entity\CategoryImageFile;
 use App\Entity\CategoryImageType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CategoryFileImageDTO
 {
@@ -19,9 +20,31 @@ class CategoryFileImageDTO
         $this->categoryFileDTO = new CategoryFileDTO();
     }
 
-    public function create()
+    /**
+     * @return CategoryFileImageDTO
+     */
+    public function create() : CategoryFileImageDTO
     {
         return new CategoryFileImageDTO();
+    }
+
+    public function getCategoryId():int
+    {
+        return $this->categoryFileDTO->categoryId;
+    }
+   public function setCategoryId(int $categoryId):void
+    {
+         $this->categoryFileDTO->categoryId = $categoryId;
+    }
+
+    public function getFileName():string
+    {
+        return $this->categoryFileDTO->fileFormDTO->name;
+    }
+
+    public function getUploadedFile():UploadedFile
+    {
+        return $this->categoryFileDTO->fileFormDTO->uploadedFile;
     }
 
 

@@ -2,10 +2,8 @@
 
 namespace App\Twig;
 
-use App\Service\File\Interfaces\FileDirectoryPathNamerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 class RemovePublicPathService extends AbstractExtension
 {

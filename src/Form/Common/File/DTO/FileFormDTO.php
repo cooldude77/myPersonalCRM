@@ -2,6 +2,8 @@
 
 namespace App\Form\Common\File\DTO;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class FileFormDTO
 {
     /** @var string
@@ -12,9 +14,10 @@ class FileFormDTO
     public ?string $yourFileName = null;
 
     /**
-     * @var mixed
+     * @var UploadedFile
      * @Assert\NotBlank 
      */
-    public mixed $uploadedFile;
+    public UploadedFile $uploadedFile;
+    public ?int $id = -1;
 
 }

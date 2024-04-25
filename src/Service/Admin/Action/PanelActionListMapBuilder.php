@@ -2,12 +2,19 @@
 
 namespace App\Service\Admin\Action;
 
+use App\Service\Admin\Action\Exception\EmptyActionListMapException;
+
 class PanelActionListMapBuilder
 {
 
-    public function build()
+    private PanelActionListMap $actionListMap;
+    /**
+     * function - product/customer / webshop etc
+     * route -> route names related to processes of a function
+     */
+    public function build() : PanelActionListMapBuilder
     {
-        return new PanelActionListMap(
+        $this->actionListMap = new PanelActionListMap(
             [
                 'functions' => [
                     'product' => [
@@ -31,9 +38,36 @@ class PanelActionListMapBuilder
                             'create' => 'web_shop_create',
                             'edit' => 'web_shop_edit'
                         ]
+                    ],
+                    'file' => [
+                        'routes' => [
+                            'create' => 'file_create',
+                            'edit' => 'file_edit',
+                            'display'=>'file_display',
+                            'list'=>'file_list'
+                        ]
+                    ],
+                    'category_file_image'=>[
+                        'routes' => [
+                            'create' => 'category_file_image_create',
+                            'edit' => 'category_file_image_edit',
+                            'display'=>'category_file_image_display',
+                            'list'=>'category_file_image_list'
+                        ]
                     ]
                 ]
             ]
         );
+        return $this;
+    }
+
+    /**
+     * @return PanelActionListMap
+     */
+    public function getPanelActionListMap(): PanelActionListMap
+    {
+        if(empty($this->actionListMap))
+            throw new EmptyActionListMapException();
+        return $this->actionListMap;
     }
 }

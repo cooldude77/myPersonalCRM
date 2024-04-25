@@ -5,22 +5,14 @@
 {% endblock %}
 {% block content %}
     This is a new shop
-    {{ webShopHome.name }}
-    {% for section in webShopHomeSection %}
+    {{ webShop.name }}
+    {% for section in webShopSection %}
         <h2>
-            {{ section.header }}
+            {{ section.description }}
             <div>
                 Section content
             </div>
         </h2>
     {% endfor %}
-    {% for category in categories %}
-    {{ category.name }}
-    {% endfor %}
-
-    {% for product in products %}
-    {{ product.name }}
-    {% endfor %}
-
 
 {% endblock %}

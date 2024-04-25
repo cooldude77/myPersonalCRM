@@ -56,4 +56,15 @@ class CategoryImageFile
 
         return $this;
     }
+
+    public function getMimeType():FileType
+    {
+        return $this->categoryFile->getFile()->getType();
+
+    }
+
+    public function getName():string
+    {
+        return $this->categoryFile->getFile()->getName();
+    }
 }

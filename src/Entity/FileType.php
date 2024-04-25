@@ -29,6 +29,9 @@ class FileType
     #[ORM\JoinColumn(nullable: false)]
     private ?FileBaseType $baseType = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $mimeType = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,5 +75,17 @@ class FileType
     public function __toString(): string
     {
        return $this->type;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?string $mimeType): static
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
     }
 }

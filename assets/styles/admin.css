@@ -1,0 +1,10 @@
+#sidebar-wrapper
+{
+    min-height: 100vh;
+    border-right:1px dashed lightblue;
+ }
+#wrapper {
+}
+a{
+    text-decoration:none;
+}

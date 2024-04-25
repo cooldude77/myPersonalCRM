@@ -1,9 +1,12 @@
-<li>{{ section.header_text }}</li>
-<li>
-    <ul>
+<button class="btn d-inline-flex align-items-center rounded">
+    {{ section.header_text }}
+</button>
+
+<div>
+    <ul class="list-unstyled fw-normal pb-1 small">
         {% for item in section.items %}
 
             {% include 'base/_li_element_with_hyperlink.html.twig' with item %}
         {% endfor %}
     </ul>
-</li>
+</div>

@@ -2,9 +2,8 @@
 
 namespace App\Form\Module\WebShop\Admin\Section;
 
-use App\Form\Module\WebShop\Admin\DTO\WebShopDTO;
 use App\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
-use SebastianBergmann\CodeCoverage\Report\Text;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

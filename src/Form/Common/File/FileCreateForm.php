@@ -6,6 +6,7 @@ use App\Form\Common\File\DTO\FileFormDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -16,13 +17,14 @@ class FileCreateForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class);
+        $builder->add('name', TextType::class,
+            ['help' => 'System generated file name', 'attr' => ['readOnly' => 'read_only']]);
+
         $builder->add('yourFileName', TextType::class);
 
-        $builder->add('type', EntityType::class, [// validation message if the data transformer fails
-            'invalid_message' => 'That is not a valid file Type id', 'class' => \App\Entity\FileType::class, 'choice_label' => 'description', 'choice_value' => 'id'
-
-        ]);
+        $builder->add('type', EntityType::class,
+            [// validation message if the data transformer fails
+                'invalid_message' => 'That is not a valid file Type id', 'class' => \App\Entity\FileType::class, 'choice_label' => 'description', 'choice_value' => 'id']);
 
         $builder->add('uploadedFile', FileType::class, ['label' => 'File', 'required' => false]);
 
@@ -36,6 +38,8 @@ class FileCreateForm extends AbstractType
             $event->setData($fileFormDTO);
         });
 
+
+        $builder->add('save', SubmitType::class);
 
     }
 
