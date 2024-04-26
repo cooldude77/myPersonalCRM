@@ -56,4 +56,33 @@ class ProductImageFile
 
         return $this;
     }
+
+    /**
+     * @return FileType
+     * Helper
+     */
+    public function getMimeType():FileType
+    {
+        return $this->productFile->getFile()->getType();
+
+    }
+
+    /**
+     * @return string
+     * Helper
+     */
+    public function getName():string
+    {
+        return $this->productFile->getFile()->getName();
+    }
+
+
+    /**
+     * @return Product
+     * Helpers
+     */
+    public function getProduct():Product
+    {
+        return $this->getProductFile()->getProduct();
+    }
 }

@@ -85,6 +85,7 @@ class CategoryImageFile
 
     /**
      * @return FileType
+     * Helper
      */
     public function getMimeType():FileType
     {
@@ -94,6 +95,7 @@ class CategoryImageFile
 
     /**
      * @return string
+     * Helper
      */
     public function getName():string
     {
