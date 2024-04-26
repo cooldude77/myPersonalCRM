@@ -4,8 +4,8 @@ namespace App\Controller\Admin\Product\Category;
 
 use App\Form\Admin\Product\Category\CategoryCreateForm;
 use App\Form\Admin\Product\Category\DTO\CategoryDTO;
-use App\Form\Admin\Product\Category\Mapper\CategoryDTOMapper;
 use App\Repository\CategoryRepository;
+use App\Service\Product\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
