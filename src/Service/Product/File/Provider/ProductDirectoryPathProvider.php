@@ -8,7 +8,7 @@ use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 /**
  *  Directory Structure:
  *
- *  Product: Base Kernel Dir/public/files/products/{id}/{filename.extension}
+ *  Product: Base Kernel Dir/public/files/Products/{id}/{filename.extension}
  */
 class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
@@ -18,7 +18,7 @@ class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider imp
 
     public function getBaseFolderPath(): string
     {
-        return $this->getPhysicalFilePathForFiles() . $this->ownPathSegment;
+     return    $this->getPhysicalFilePathForFiles(). $this->ownPathSegment;
     }
 
     /**
@@ -28,6 +28,7 @@ class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider imp
     protected function getPhysicalFilePathForFiles(): string
     {
 
-        return parent::getPhysicalFilePathForFiles() . $this->ownPathSegment;
+        return parent::getPhysicalFilePathForFiles().$this->ownPathSegment;
     }
+
 }

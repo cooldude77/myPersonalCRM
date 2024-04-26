@@ -2,10 +2,14 @@
 
 namespace App\Service\Product\File\Provider;
 
+use App\Entity\Product;
+use App\Service\File\Base\AbstractFileDirectoryPathProvider;
+use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
+
 /**
  *  Directory Structure:
  *
- *  Product: Base Kernel Dir/public/files/Product/{id}/{filename.extension}
+ *  Product: Base Kernel Dir/public/files/Products/{id}/{filename.extension}
  */
 class ProductDirectoryImagePathProvider extends ProductDirectoryPathProvider
 {
@@ -13,20 +17,17 @@ class ProductDirectoryImagePathProvider extends ProductDirectoryPathProvider
 
     private string $ownPathSegment = '/images';
 
-    /**
-     * @param $id
-     * @param $filename
-     * @return string
-     * includes filename
-     */
-    public function getFullPathForImageFiles($id,$filename): string
+
+    public function getImageDirectoryPath(int $id):string
     {
-        // product id
-        return $this->getDirectory($id).$filename;
+        // product/id/images/
+        return  $this->getPhysicalFilePathForFiles(). "/{$id}{$this->ownPathSegment}/";
     }
 
-    public function getDirectory(int $id):string
+    public function getFullPhysicalPathForFileByName(Product $product, string $fileName): string
     {
-        return  $this->getPhysicalFilePathForFiles(). '/'.$id.$this->ownPathSegment.'/';
+        // product/id/images/filename
+        return $this->getImageDirectoryPath($product->getId()).$fileName;
     }
+
 }
