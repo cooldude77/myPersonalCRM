@@ -2,6 +2,7 @@
 
 namespace App\Service\Product\Category\File\Provider;
 
+use App\Entity\Category;
 use App\Service\File\Base\AbstractFileDirectoryPathProvider;
 use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
@@ -16,20 +17,17 @@ class CategoryDirectoryImagePathProvider extends CategoryDirectoryPathProvider
 
     private string $ownPathSegment = '/images';
 
-    /**
-     * @param $id
-     * @param $filename
-     * @return string
-     * includes filename
-     */
-    public function getFullPathForImageFiles($id,$filename): string
+
+    public function getImageDirectoryPath(int $id):string
     {
-        // category id
-        return $this->getDirectory($id).$filename;
+        // category/id/images/
+        return  $this->getPhysicalFilePathForFiles(). "/{$id}{$this->ownPathSegment}/";
     }
 
-    public function getDirectory(int $id):string
+    public function getFullPhysicalPathForFileByName(Category $category, string $fileName): string
     {
-        return  $this->getPhysicalFilePathForFiles(). '/'.$id.$this->ownPathSegment.'/';
+        // category/id/images/filename
+        return $this->getImageDirectoryPath($category->getId()).$fileName;
     }
+
 }

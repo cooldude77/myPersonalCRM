@@ -67,4 +67,10 @@ class CategoryImageFile
     {
         return $this->categoryFile->getFile()->getName();
     }
+
+
+    public function getCategory():Category
+    {
+        return $this->getCategoryFile()->getCategory();
+    }
 }

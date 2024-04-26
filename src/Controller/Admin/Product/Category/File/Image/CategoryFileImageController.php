@@ -14,7 +14,8 @@ use App\Repository\CategoryFileRepository;
 use App\Repository\CategoryImageFileRepository;
 use App\Repository\FileRepository;
 use App\Service\File\Provider\FileDirectoryPathProvider;
-use App\Service\Product\Category\File\Image\CategoryFileImageService;
+use App\Service\Product\Category\File\Image\CategoryFileImageOperation;
+use App\Service\Product\Category\File\Image\Mapper\CategoryImageFileDTOMapper;
 use App\Service\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryFileImageController extends AbstractController
 {
     #[Route('/category/{id}/file/image/create', name: 'category_file_image_create')]
-    public function create(int $id, EntityManagerInterface $entityManager, CategoryFileImageService $categoryFileImageService, CommonUtility $commonUtility, Request $request): Response
+    public function create(int                        $id, EntityManagerInterface $entityManager,
+                           CategoryImageFileDTOMapper $categoryImageFileMapper,
+                           CategoryFileImageOperation $categoryFileImageOperation,
+                           CommonUtility              $commonUtility, Request $request): Response
     {
         $categoryImageFileDTO = new CategoryFileImageDTO();
         $categoryImageFileDTO->setCategoryId($id);
@@ -38,8 +42,8 @@ class CategoryFileImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $categoryImageEntity = $categoryFileImageService->mapFormDTO($data);
-            $categoryFileImageService->moveFile($data);
+            $categoryImageEntity = $categoryImageFileMapper->mapFormDTO($data);
+            $categoryFileImageOperation->createOrReplace($data);
 
 
             $entityManager->persist($categoryImageEntity);
@@ -56,7 +60,7 @@ class CategoryFileImageController extends AbstractController
     }
 
     #[Route('/category/{id}/file/image/list', name: 'category_create_file_image_list')]
-    public function list(int $id, EntityManagerInterface $entityManager, CategoryImageFileRepository $categoryImageFileRepository, CategoryFileRepository $categoryFileRepository, CategoryFileImageService $categoryFileImageService, Request $request): Response
+    public function list(int $id, EntityManagerInterface $entityManager, CategoryImageFileRepository $categoryImageFileRepository, CategoryFileRepository $categoryFileRepository, CategoryFileImageOperation $categoryFileImageService, Request $request): Response
     {
 
 
@@ -85,17 +89,18 @@ class CategoryFileImageController extends AbstractController
      * Fetch is to display image standalone ( call by URL at the top )
      * @param int $id
      * @param CategoryImageFileRepository $categoryImageFileRepository
-     * @param CategoryFileImageService $categoryFileImageService
+     * @param CategoryFileImageOperation $categoryDirectoryImagePathProvider
      * @param Request $request
      * @return Response
      */
     #[\Symfony\Component\Routing\Attribute\Route('/category/file/image/{id}/fetch', name: 'category_file_image_fetch')]
-    public function fetch(int $id, CategoryImageFileRepository $categoryImageFileRepository, CategoryFileImageService $categoryFileImageService, Request $request): Response
+    public function fetch(int                                $id, CategoryImageFileRepository $categoryImageFileRepository,
+                          CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider, Request $request): Response
     {
 
         /** @var CategoryImageFile $categoryImageFile */
         $categoryImageFile = $categoryImageFileRepository->findOneBy(['id' => $id]);
-        $path = $categoryFileImageService->getFullPhysicalPathForFileByName($id, $categoryImageFile->getCategoryFile()->getFile()->getName());
+        $path = $categoryDirectoryImagePathProvider->getFullPhysicalPathForFileByName($id, $categoryImageFile->getCategoryFile()->getFile()->getName());
 
         $file = file_get_contents($path);
 
@@ -117,26 +122,25 @@ class CategoryFileImageController extends AbstractController
 
         return $this->render('admin/category/file/image/category_file_image_display.html.twig', [
             'entity' => $entity,
-            'fileId'=>$categoryImageFile->getCategoryFile()->getFile()->getId(),
             'params' => $displayParams]);
 
     }
 
 
     #[\Symfony\Component\Routing\Attribute\Route('/category/file/image/{id}/edit', name: 'category_file_image_edit')]
-    public function edit(int $id, EntityManagerInterface $entityManager, CategoryImageFileRepository $categoryImageFileRepository, CategoryImageFileDTOMapper $categoryImageFileDTOMapper, CategoryFileImageService $categoryImageFileService, CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider, Request $request): Response
+    public function edit(int $id, EntityManagerInterface $entityManager, CategoryImageFileRepository $categoryImageFileRepository, CategoryImageFileDTOMapper $categoryImageFileDTOMapper, CategoryFileImageOperation $categoryImageFileService, CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider, Request $request): Response
     {
         $categoryImageFileEntity = $categoryImageFileRepository->findOneBy(['id' => $id]);
 
-        $categoryImageFileFormDTO = $categoryImageFileDTOMapper->mapFromEntity($categoryImageFileEntity);
+        $categoryImageFileFormDTO = $categoryImageFileDTOMapper->mapFormDTO($categoryImageFileEntity);
         $form = $this->createForm(CategoryImageFileUpdateForm::class, $categoryImageFileFormDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $categoryImageFileEntity = $categoryImageFileDTOMapper->mapToCategoryImageFileEntity($form->getData(), $categoryImageFileEntity);
-            $categoryImageFileService->moveFile($categoryImageFileFormDTO->uploadedCategoryImageFile);
+            $categoryImageFileEntity = $categoryImageFileDTOMapper->mapFormDTO($form->getData(), $categoryImageFileEntity);
+            $categoryImageFileService->createOrReplace($categoryImageFileFormDTO->uploadedCategoryImageFile);
 
             $entityManager->persist($categoryImageFileEntity);
             $entityManager->flush();
@@ -158,7 +162,7 @@ class CategoryFileImageController extends AbstractController
 
 
     /**
-     * @param int $id
+     * @param int $id from CategoryImageFile->getId()
      * @param FileRepository $categoryFileRepository
      * @param FileDirectoryPathProvider $directoryPathProvider
      * @return Response
@@ -173,7 +177,7 @@ class CategoryFileImageController extends AbstractController
 
         /** @var CategoryImageFile $categoryImageFile */
         $categoryImageFile = $categoryImageFileRepository->findOneBy(['id' => $id]);
-        $path = $categoryDirectoryImagePathProvider->getFullPathForImageFiles($id,$categoryImageFile->getName());
+        $path = $categoryDirectoryImagePathProvider->getFullPhysicalPathForFileByName($categoryImageFile->getCategory(),$categoryImageFile->getName());
 
         return new BinaryFileResponse($path);
 
