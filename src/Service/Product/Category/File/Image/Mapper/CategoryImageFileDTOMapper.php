@@ -22,12 +22,38 @@ class CategoryImageFileDTOMapper
         $this->categoryImageFileRepository = $categoryImageFileRepository;
     }
 
-    public function mapFormDTO(CategoryFileImageDTO $categoryFileImageDTO): CategoryImageFile
+    public function mapDtoToEntityForCreate(CategoryFileImageDTO $categoryFileImageDTO): CategoryImageFile
     {
-        $categoryFile = $this->categoryFileDTOMapper->mapFormDtoToEntity($categoryFileImageDTO->categoryFileDTO);
-        $imageType = $this->categoryImageTypeRepository->findOneBy(['type' => $categoryFileImageDTO->imageType]);
 
+
+        $categoryFile = $this->categoryFileDTOMapper->mapFormDtoToEntityForCreate($categoryFileImageDTO->categoryFileDTO);
+        $imageType = $this->categoryImageTypeRepository->findOneBy(['type' => $categoryFileImageDTO->imageType]);
         return $this->categoryImageFileRepository->create($categoryFile, $imageType);
+
+    }
+
+    public function mapDtoToEntityForEdit(CategoryFileImageDTO $categoryFileImageDTO, CategoryImageFile $categoryImageFile): CategoryImageFile
+    {
+
+
+        $categoryFile = $this->categoryFileDTOMapper->mapFormDtoToEntityForEdit($categoryFileImageDTO->categoryFileDTO, $categoryImageFile->getCategoryFile());
+
+        $categoryImageFile->setCategoryFile($categoryFile);
+
+        return $categoryImageFile;
+
+
+    }
+
+    public function mapEntityToDto(CategoryImageFile $categoryImageFile): CategoryFileImageDTO
+    {
+        $dto = new CategoryFileImageDTO();
+
+        $dto->categoryFileDTO = $this->categoryFileDTOMapper->mapEntityToDto($categoryImageFile->getCategoryFile());
+
+        $dto->imageType = $categoryImageFile->getCategoryImageType()->getType();
+
+        return $dto;
 
     }
 

@@ -1,3 +1,2 @@
-{{ form_start(form) }}
-    {{ form_end(form) }}
-{% include 'common/file/_file_display.html.twig' with{'name':attribute(entity,'name')}%}
+{{ form(form) }}
+{% include 'common/file/_file_display_with_img_tag.html.twig' with{route:'image_file_for_img_tag','id':attribute(entity,'id')}%}

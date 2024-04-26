@@ -6,6 +6,10 @@ use App\Entity\CategoryImageFile;
 use App\Entity\CategoryImageType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+
+/**
+ * DTO should contain no objects of entity type
+ */
 class CategoryFileImageDTO
 {
 
@@ -20,13 +24,6 @@ class CategoryFileImageDTO
         $this->categoryFileDTO = new CategoryFileDTO();
     }
 
-    /**
-     * @return CategoryFileImageDTO
-     */
-    public function create() : CategoryFileImageDTO
-    {
-        return new CategoryFileImageDTO();
-    }
 
     public function getCategoryId():int
     {

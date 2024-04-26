@@ -6,7 +6,7 @@ namespace App\Controller\Common\File;
 use App\Entity\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Form\Common\File\FileCreateForm;
-use App\Form\Common\File\FileUpdateForm;
+use App\Form\Common\File\FileEditForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Repository\FileRepository;
 use App\Service\File\FilePhysicalOperation;
@@ -25,6 +25,14 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class FileController extends AbstractController
 {
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param FileDTOMapper $fileDTOMapper
+     * @param FilePhysicalOperation $filePhysicalOperation
+     * @param FileDirectoryPathProvider $directoryPathProvider
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/file/create', name: 'file_create')]
     public function create(EntityManagerInterface    $entityManager, FileDTOMapper $fileDTOMapper,
                            FilePhysicalOperation     $filePhysicalOperation,
@@ -38,7 +46,7 @@ class FileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData());
+            $fileEntity = $fileDTOMapper->mapToFileEntityForCreate($form->getData());
             $filePhysicalOperation->createOrReplaceFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
@@ -62,6 +70,16 @@ class FileController extends AbstractController
         return $this->render('common/file/create.html.twig', ['form' => $form]);
     }
 
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $entityManager
+     * @param FileRepository $fileRepository
+     * @param FileDTOMapper $fileDTOMapper
+     * @param FilePhysicalOperation $filePhysicalOperation
+     * @param FileDirectoryPathProvider $directoryPathProvider
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/file/edit/{id}', name: 'file_edit')]
     public function edit(int                       $id, EntityManagerInterface $entityManager,
                          FileRepository            $fileRepository, FileDTOMapper $fileDTOMapper,
@@ -71,14 +89,14 @@ class FileController extends AbstractController
     {
         $fileEntity = $fileRepository->findOneBy(['id' => $id]);
 
-        $fileFormDTO = $fileDTOMapper->mapFromEntity($fileEntity);
-        $form = $this->createForm(FileUpdateForm::class, $fileFormDTO);
+        $fileFormDTO = $fileDTOMapper->mapEntityToFileDto($fileEntity);
+        $form = $this->createForm(FileEditForm::class, $fileFormDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fileEntity = $fileDTOMapper->mapToFileEntity($form->getData(),$fileEntity);
+            $fileEntity = $fileDTOMapper->mapToFileEntityForEdit($form->getData(),$fileEntity);
             $filePhysicalOperation->createOrReplaceFile($fileFormDTO->uploadedFile, $fileEntity->getName(),
                 $directoryPathProvider->getBaseFolderPath());
 
@@ -103,6 +121,10 @@ class FileController extends AbstractController
     }
 
 
+    /**
+     * @param FileRepository $fileRepository
+     * @return Response
+     */
     #[Route('/file/list', name: 'file_list')]
     public function list(FileRepository $fileRepository): Response
     {
@@ -125,6 +147,11 @@ class FileController extends AbstractController
             ['entities' => $files, 'listGrid' => $listGrid]);
     }
 
+    /**
+     * @param FileRepository $fileRepository
+     * @param int $id
+     * @return Response
+     */
     #[Route('/file/display/{id}', name: 'file_display')]
     public function display(FileRepository $fileRepository, int $id): Response
     {
@@ -140,6 +167,15 @@ class FileController extends AbstractController
 
     }
 
+    /**
+     * @param int $id
+     * @param FileRepository $fileRepository
+     * @param FileDirectoryPathProvider $directoryPathProvider
+     * @param FilePhysicalOperation $fileService
+     * @return Response
+     *
+     * To be used to fetch image with just URL
+     */
     #[Route('/file/fetch/{id}', name: 'file_fetch')]
     public function fetch(int                       $id, FileRepository $fileRepository,
                           FileDirectoryPathProvider $directoryPathProvider,
@@ -155,6 +191,14 @@ class FileController extends AbstractController
 
     }
 
+    /**
+     * @param int $id
+     * @param FileRepository $fileRepository
+     * @param FileDirectoryPathProvider $directoryPathProvider
+     * @return Response
+     *
+     * To be used in IMG tag (in display and edit templates)
+     */
     #[Route('/file/path/{id}', name: 'image_file_for_img_tag')]
     public function getFileContentsById(int $id, FileRepository $fileRepository,
                                 FileDirectoryPathProvider $directoryPathProvider): Response

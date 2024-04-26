@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Form\Admin\Product\Category\File\Form;
+namespace App\Form\Admin\Product\Category\File\Image\Form;
 
 use App\Entity\CategoryImageType;
 use App\Form\Admin\Product\Category\File\DTO\CategoryFileImageDTO;
+use App\Form\Admin\Product\Category\File\Form\CategoryFileCreateForm;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CategoryFileImageCreateForm extends AbstractType
+class CategoryImageFileCreateForm extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
