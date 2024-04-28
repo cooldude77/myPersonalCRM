@@ -77,11 +77,13 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-          "require": "7.0.*"
+            "allow-contrib": true,
+            "require": "7.0.*"
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^8.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.5",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
@@ -89,6 +91,7 @@
         "symfony/phpunit-bridge": "^7.0",
         "symfony/stopwatch": "7.0.*",
         "symfony/var-dumper": "7.0.*",
-        "symfony/web-profiler-bundle": "7.0.*"
+        "symfony/web-profiler-bundle": "7.0.*",
+        "zenstruck/foundry": "^1.37"
     }
 }
