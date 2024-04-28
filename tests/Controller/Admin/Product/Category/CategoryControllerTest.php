@@ -3,9 +3,9 @@
 namespace App\Tests\Controller\Admin\Product\Category;
 
 use App\Service\Testing\AbstractDoctrineWithMigrationTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CategoryControllerTest extends
-    AbstractDoctrineWithMigrationTestCase
+class CategoryControllerTest extends WebTestCase
 {
 
     public function testCreate()
