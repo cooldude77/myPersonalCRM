@@ -51,7 +51,7 @@ class CategoryController extends
                     "Category created successfully");
 
                 $id = $categoryEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
 
                 return $this->redirect($success_url);
             }
@@ -95,7 +95,7 @@ class CategoryController extends
                     "Category created successfully");
 
                 $id = $category->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id={$id}";
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
 
                 return $this->redirect($success_url);
             }
@@ -134,7 +134,7 @@ class CategoryController extends
                 ['label' => 'Description', 'propertyName' => 'description'],
             ],
             'createButtonConfig' => [
-                'function' => 'category_create',
+                'function' => 'category',
                 'anchorText' => 'Create Category'
             ]];
 

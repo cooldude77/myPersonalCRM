@@ -74,11 +74,23 @@ class ProductController extends AbstractController
 
     }
 
-    #[Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository,
-                         ProductFieldList  $fieldList): Response
+    #[\Symfony\Component\Routing\Attribute\Route('/product/list', name: 'product_list')]
+    public function list(ProductRepository $productRepository): Response
     {
+
+        $listGrid = [
+            'title' => 'Product',
+            'columns' => [
+                ['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'],
+                ['label' => 'Description', 'propertyName' => 'description'],
+            ],
+            'createButtonConfig' => [
+                'function' => 'product',
+                'anchorText' => 'Create Product'
+            ]];
+
         $products = $productRepository->findAll();
-        return $this->render('admin/product/list.html.twig', ['products' => $products]);
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $products, 'listGrid' => $listGrid]);
     }
 }
