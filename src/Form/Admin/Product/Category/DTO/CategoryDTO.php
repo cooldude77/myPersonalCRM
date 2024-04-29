@@ -9,7 +9,7 @@ class CategoryDTO
     /**
      * @var string|null
      */
-    #[Assert\Length(
+/*    #[Assert\Length(
         min: 1,
         max: 200,
         maxMessage: 'Length cannot exceed 200 '
@@ -19,17 +19,19 @@ class CategoryDTO
         match:true,
         message: 'Only characters and numbers are allowed'
     )]
+ */
     public ?string $name =null;
 
     /**
      * @var string|null
      */
 
-    #[Assert\Length(
+   /* #[Assert\Length(
         min: 1,
         max: 200,
         maxMessage: 'Length cannot exceed 200 '
     )]
+   */
     public ?string $description =null;
 
     public ?string $parent = null;

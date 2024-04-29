@@ -27,7 +27,7 @@ class CategoryController extends AbstractController
 
             // IF we do getData on form , it returns the description instead of id
             // so here we get full parent directly and then use it in the mapper
-            $data = $form->get('parent')->getData();
+            $data = $form->getData();
             $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($data);
 
             // perform some action...
