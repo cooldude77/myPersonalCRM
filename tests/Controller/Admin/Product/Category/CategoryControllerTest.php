@@ -3,11 +3,25 @@
 namespace App\Tests\Controller\Admin\Product\Category;
 
 use App\Service\Testing\AbstractDoctrineWithMigrationTestCase;
+use Zenstruck\Browser\Test\HasBrowser;
 
 class CategoryControllerTest extends
     AbstractDoctrineWithMigrationTestCase
 {
 
+    use HasBrowser;
+
+    /**
+     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
+     */
+    public function test_using_kernel_browser(): void
+    {
+        $this->browser()
+            ->visit('/category/create')
+            ->assertStatus(200)
+            ->assertSuccessful();
+    }
     public function testCreate()
     {
         // This calls KernelTestCase::bootKernel(), and creates a
