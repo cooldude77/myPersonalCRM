@@ -18,10 +18,11 @@ class CategoryController extends AbstractController
     #[Route('/category/create', 'category_create')]
     public function create(CategoryDTOMapper $categoryDTOMapper, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $category = new CategoryDTO();
-        $form = $this->createForm(CategoryCreateForm::class, $category);
+        $categoryDTO = new CategoryDTO();
+        $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 

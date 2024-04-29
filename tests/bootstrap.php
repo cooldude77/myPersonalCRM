@@ -30,23 +30,11 @@ function bootstrap(): void
     $application->setCatchExceptions(false);
     $application->setAutoExit(false);
 
-        // check if existing DB is up-to-date
-        // if not drop it, recreate and migrate
-        $output = $application->run(new ArrayInput(['command' => 'doctrine:migrations:up-to-date', '--no-interaction' => true]));
-
-        // some error
-        if ($output == 1) loadDatabaseAndMigrate($application);
-
-
-    $kernel->shutdown();
-}
-
-function loadDatabaseAndMigrate($application): void
-{
     $application->run(new ArrayInput(['command' => 'doctrine:database:drop', '--if-exists' => '1', '--force' => '1',]));
 
     $application->run(new ArrayInput(['command' => 'doctrine:database:create', '--no-interaction' => true]));
 
     $application->run(new ArrayInput(['command' => 'doctrine:migrations:migrate', '--no-interaction' => true]));
 
+    $kernel->shutdown();
 }
