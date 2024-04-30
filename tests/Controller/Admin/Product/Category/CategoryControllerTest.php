@@ -17,8 +17,7 @@ class CategoryControllerTest extends WebTestCase
     public function testCreate()
     {
 
-        $createUrl = 'admin?_function=category&_type=create
-        &_redirect_upon_success_url=/project/master_data/public/index.php/admin?_function%3Dcategory%26_type%3Ddisplay';
+        $createUrl = '/category/create';
         $this->browser()
             ->visit($createUrl)
             ->fillField(
@@ -54,7 +53,15 @@ class CategoryControllerTest extends WebTestCase
 
 
 
+    public function testList()
+    {
+
+        $url = '/category/list';
+        $this->browser()
+            ->visit($url)
+            ->assertSuccessful();
+
+    }
 
 
-
-}
+    }
