@@ -6,6 +6,8 @@ namespace App\Controller\Admin\Product\Product;
 use App\Config\Admin\ProductFieldList;
 use App\Entity\Product;
 use App\Form\Admin\Product\ProductCreateForm;
+use App\Form\Admin\Product\DTO\ProductDTO;
+use App\Form\Admin\Product\Mapper\ProductDTOMapper;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,12 +17,63 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product/create', name: 'product_create')]
-    public function createProduct(EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $type = new Product();
 
-        $form = $this->createForm(ProductCreateForm::class, $type);
+    #[\Symfony\Component\Routing\Attribute\Route('/product/create', 'product_create')]
+    public function create(ProductDTOMapper $productDTOMapper,EntityManagerInterface $entityManager,Request $request): Response
+    {
+        $product = new ProductDTO();
+        $form = $this->createForm(ProductCreateForm::class,
+            $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // IF we do getData on form , it returns the description instead of id
+            // so here we get full parent directly and then use it in the mapper
+            $parent = $form->get('parent')->getData();
+            $productEntity = $productDTOMapper->mapToEntity($form->getData(),
+                $parent);
+
+            // perform some action...
+            $entityManager->persist($productEntity);
+            $entityManager->flush();
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success',
+                    "Product created successfully");
+
+                $id = $productEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+
+                return $this->redirect($success_url);
+            }
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Product successfully created']);
+        }
+
+        return $this->render('/admin/product/create.html.twig',
+            ['form' => $form]);
+    }
+
+
+    #[\Symfony\Component\Routing\Annotation\Route('/product/edit/{id}', name: 'product_edit')]
+    public function edit(EntityManagerInterface $entityManager,
+                         ProductRepository     $productRepository,
+                         ProductDTOMapper $productDTOMapper,
+                         Request                $request,
+                         int                    $id): Response
+    {
+        $product = $productRepository->find($id);
+
+
+        if (!$product) {
+            throw $this->createNotFoundException('No product found for id ' . $id);
+        }
+        $productDTO = $productDTOMapper->mapFromEntity($product);
+
+        $form = $this->createForm(ProductCreateForm::class,
+            $productDTO);
 
         $form->handleRequest($request);
 
@@ -30,55 +83,56 @@ class ProductController extends AbstractController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            $response = $this->render('admin/product/success.html.twig');
-            $response->setStatusCode(401);
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash('success',
+                    "Product created successfully");
 
-            return $response;
-        }
-        return $this->render('admin/product/create.html.twig', ['form' => $form]);
-    }
+                $id = $product->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
 
-
-    #[Route('/product/edit/{id}', name: 'product_edit')]
-    public function update(ProductRepository $productRepository, int $id): Response
-    {
-        $product = $productRepository->find($id);
-
-
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
+                return $this->redirect($success_url);
+            }
+            return $this->render('/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Product successfully updated']);
         }
 
-        $product->setDescription('New .... ');
-        $productRepository->getEntityManager()->flush($product);
-
-
-        // or render a template
-        // in the template, print things with {{ product.name }}
-        return $this->render('product/show.html.twig', ['product' => $product]);
+        return $this->render('/admin/product/create.html.twig',
+            ['form' => $form]);
     }
 
     #[Route('/product/display/{id}', name: 'product_display')]
-    public function display(ProductRepository $productRepository, int $id): Response
+    public function display(ProductRepository $productRepository,
+                            int                $id): Response
     {
         $product = $productRepository->find($id);
         if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
+            throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        return $this->render('admin/product/display.html.twig', ['product' => $product]);
+        $displayParams = ['title' => 'Product', 'editButtonLinkText' => 'Edit', 'fields' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],]];
+
+        return $this->render('admin/product/product_display.html.twig',
+            ['entity' => $product, 'params' => $displayParams]);
 
     }
 
-    #[Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository,
-                         ProductFieldList  $fieldList): Response
+    #[\Symfony\Component\Routing\Attribute\Route('/product/list', name: 'product_list')]
+    public function list(ProductRepository $productRepository): Response
     {
+
+        $listGrid = [
+            'title' => 'Product',
+            'columns' => [
+                ['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'],
+                ['label' => 'Description', 'propertyName' => 'description'],
+            ],
+            'createButtonConfig' => [
+                'function' => 'product',
+                'anchorText' => 'Create Product'
+            ]];
+
         $products = $productRepository->findAll();
-        return $this->render('admin/product/list.html.twig', ['products' => $products]);
+        return $this->render('admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $products, 'listGrid' => $listGrid]);
     }
 }

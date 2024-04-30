@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\Product\Category\Mapper;
+namespace App\Service\Product\Category\Mapper;
 
 use App\Entity\Category;
 use App\Form\Admin\Product\Category\DTO\CategoryDTO;
@@ -16,14 +16,26 @@ class CategoryDTOMapper
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function mapToEntity(CategoryDTO $categoryDTO,
-                                ?Category   $parent = null): Category
+    public function mapToEntityForCreate(CategoryDTO $categoryDTO): Category
     {
         $category = $this->categoryRepository->create();
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
-        $category->setParent($parent);
+
+        $category->setParent($this->categoryRepository->findOneBy(['name' => $categoryDTO->parent]));
+        return $category;
+    }
+
+    public function mapToEntityForEdit(CategoryDTO $categoryDTO, ?Category $category = null): Category
+    {
+
+        $category->setName($categoryDTO->name);
+        $category->setDescription($categoryDTO->description);
+        if ($category->getParent()->getName() != $categoryDTO->parent)
+            $category->setParent($this->categoryRepository->findOneBy(['name' => $categoryDTO->parent]));
+
+
         return $category;
     }
 

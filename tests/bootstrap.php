@@ -15,10 +15,12 @@ if (method_exists(Dotenv::class, 'bootEnv')) {
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 }
+
 if (class_exists(Deprecation::class)) {
     Deprecation::enableWithTriggerError();
 }
 
+bootstrap();
 function bootstrap(): void
 {
     $kernel = new Kernel('test', true);
@@ -28,16 +30,11 @@ function bootstrap(): void
     $application->setCatchExceptions(false);
     $application->setAutoExit(false);
 
-    $application->run(new ArrayInput([
-        'command' => 'doctrine:database:drop',
-        '--if-exists' => '1',
-        '--force' => '1',
-    ]));
+    $application->run(new ArrayInput(['command' => 'doctrine:database:drop', '--if-exists' => '1', '--force' => '1',]));
 
-    $application->run(new ArrayInput([
-        'command' => 'doctrine:database:create',
-    ]));
+    $application->run(new ArrayInput(['command' => 'doctrine:database:create', '--no-interaction' => true]));
 
+    $application->run(new ArrayInput(['command' => 'doctrine:migrations:migrate', '--no-interaction' => true]));
+
+    $kernel->shutdown();
 }
-
-bootstrap();
