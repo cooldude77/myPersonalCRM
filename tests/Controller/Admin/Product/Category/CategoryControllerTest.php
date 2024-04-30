@@ -17,8 +17,10 @@ class CategoryControllerTest extends WebTestCase
     public function testCreate()
     {
 
+        $createUrl = 'admin?_function=category&_type=create
+        &_redirect_upon_success_url=/project/master_data/public/index.php/admin?_function%3Dcategory%26_type%3Ddisplay';
         $this->browser()
-            ->visit('/category/create')
+            ->visit($createUrl)
             ->fillField(
                 'category_create_form[name]', 'Cat1'
             )
@@ -29,7 +31,7 @@ class CategoryControllerTest extends WebTestCase
 
         // The value of category->getId() will be  1
 
-        $visit = $this->browser()->visit('/category/create');
+        $visit = $this->browser()->visit($createUrl);
 
         $crawler = $visit->client()->getCrawler();
 
@@ -48,6 +50,11 @@ class CategoryControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-
     }
+
+
+
+
+
+
 }
