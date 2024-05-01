@@ -19,6 +19,10 @@ if ($_SERVER['APP_DEBUG']) {
 if (class_exists(Deprecation::class)) {
     Deprecation::enableWithTriggerError();
 }
+// This has been enhanced on the base of DamaDoctrineTestBundle
+// Since it does not commit, the entities will not be seen in database
+// but the auto increments will continue to increase in tests
+// So beware of that scenario
 
 bootstrap();
 function bootstrap(): void

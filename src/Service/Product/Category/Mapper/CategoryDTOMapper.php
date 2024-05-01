@@ -5,6 +5,8 @@ namespace App\Service\Product\Category\Mapper;
 use App\Entity\Category;
 use App\Form\Admin\Product\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 
 class CategoryDTOMapper
 {
@@ -16,14 +18,18 @@ class CategoryDTOMapper
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function mapToEntityForCreate(CategoryDTO $categoryDTO): Category
+    public function mapToEntityForCreate(FormInterface $form): Category
     {
+        $parentCategory = $form->get('parent')->getData();
+
+        $categoryDTO = $form->getData();
+
         $category = $this->categoryRepository->create();
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
 
-        $category->setParent($this->categoryRepository->findOneBy(['name' => $categoryDTO->parent]));
+        $category->setParent($parentCategory);
         return $category;
     }
 

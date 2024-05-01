@@ -14,6 +14,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoryCreateForm extends AbstractType
 {
+    private CategoryToIdTransformer $categoryToIdTransformer;
+
+    public function __construct(
+        CategoryToIdTransformer $categoryToIdTransformer)
+    {
+
+        $this->categoryToIdTransformer = $categoryToIdTransformer;
+    }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -23,7 +31,6 @@ class CategoryCreateForm extends AbstractType
         $builder->add('description', TextType::class);
 
         $builder->add('parent', CategoryAutoCompleteField::class,['required'=>false]);
-
 
         $builder->add('save', SubmitType::class);
 
