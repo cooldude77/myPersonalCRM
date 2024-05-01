@@ -4,6 +4,7 @@ namespace App\Tests\Controller\Admin\Product\Category;
 
 use App\Entity\Category;
 use App\Factory\CategoryFactory;
+use App\Tests\AbstractWebTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
