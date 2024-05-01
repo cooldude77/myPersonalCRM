@@ -22,11 +22,10 @@ class ProductCreateForm extends AbstractType
         $this->categoryToIdTransformer = $categoryToIdTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options):void
     {
-        $builder->add('code', TextType::class);
+        $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
-        $builder->add('longDescription', TextareaType::class);
         $builder->add('category', CategoryAutoCompleteField::class,['required'=>false]);
         $builder->add('isActive', CheckboxType::class);
 

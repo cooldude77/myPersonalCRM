@@ -52,16 +52,13 @@ class CategoryControllerTest extends WebTestCase
     }
 
 
-
     public function testList()
     {
 
         $url = '/category/list';
-        $this->browser()
-            ->visit($url)
-            ->assertSuccessful();
+        $this->browser()->visit($url)->assertSuccessful();
 
     }
 
 
-    }
+}

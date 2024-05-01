@@ -4,11 +4,12 @@ namespace App\Controller\Admin\Product\Product;
 
 // ...
 use App\Config\Admin\ProductFieldList;
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\Admin\Product\ProductCreateForm;
 use App\Form\Admin\Product\DTO\ProductDTO;
-use App\Form\Admin\Product\Mapper\ProductDTOMapper;
 use App\Repository\ProductRepository;
+use App\Service\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,19 +22,22 @@ class ProductController extends AbstractController
     #[\Symfony\Component\Routing\Attribute\Route('/product/create', 'product_create')]
     public function create(ProductDTOMapper $productDTOMapper,EntityManagerInterface $entityManager,Request $request): Response
     {
-        $product = new ProductDTO();
+        $productDTO = new ProductDTO();
         $form = $this->createForm(ProductCreateForm::class,
-            $product);
+            $productDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // IF we do getData on form , it returns the description instead of id
-            // so here we get full parent directly and then use it in the mapper
-            $parent = $form->get('parent')->getData();
-            $productEntity = $productDTOMapper->mapToEntity($form->getData(),
-                $parent);
+
+            /** @var Category $category */
+            $category = $form->get('category');
+            $data = $form->getData();
+            $data->categoryId = $category->getId();
+
+            $productEntity = $productDTOMapper->mapToEntityForCreate($data);
+
 
             // perform some action...
             $entityManager->persist($productEntity);
@@ -52,8 +56,8 @@ class ProductController extends AbstractController
                 ['message' => 'Product successfully created']);
         }
 
-        return $this->render('/admin/product/create.html.twig',
-            ['form' => $form]);
+        $formErrors = $form->getErrors(true);
+        return $this->render('/admin/product/product_create.html.twig', ['form' => $form]);
     }
 
 
@@ -96,7 +100,7 @@ class ProductController extends AbstractController
                 ['message' => 'Product successfully updated']);
         }
 
-        return $this->render('/admin/product/create.html.twig',
+        return $this->render('/admin/product/product_edit.html.twig',
             ['form' => $form]);
     }
 

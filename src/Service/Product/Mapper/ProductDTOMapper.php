@@ -4,27 +4,32 @@ namespace App\Service\Product\Mapper;
 
 use App\Entity\Product;
 use App\Form\Admin\Product\DTO\ProductDTO;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 
 class ProductDTOMapper
 {
     private ProductRepository $productRepository;
+    private CategoryRepository $categoryRepository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository,
+        CategoryRepository $categoryRepository)
     {
 
         $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
-    public function mapToEntity(ProductDTO $productDTO): Product
+    public function mapToEntityForCreate(ProductDTO $productDTO): Product
     {
-        $product = $this->productRepository->create();
+
+        $category = $this->categoryRepository->findOneBy(['id'=>$productDTO->category]);
+        $product = $this->productRepository->create($category);
 
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
 
 
-        $product->setParent();
         return $product;
     }
 

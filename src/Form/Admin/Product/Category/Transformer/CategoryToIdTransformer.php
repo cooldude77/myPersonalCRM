@@ -18,15 +18,17 @@ class CategoryToIdTransformer implements DataTransformerInterface
     /**
      * Transforms an object (category) to a string (number).
      *
-     * @param Category|null $category
+     * @param  $value
+     *
+     * @return string
      */
-    public function transform($category): string
+    public function transform($value): string
     {
-        if (null === $category) {
+        if (null === $value) {
             return '';
         }
 
-        return $category->getId();
+        return $value->getId();
     }
 
     /**
@@ -35,17 +37,17 @@ class CategoryToIdTransformer implements DataTransformerInterface
      * @param string $id
      * @throws TransformationFailedException if object (category) is not found.
      */
-    public function reverseTransform($id): ?Category
+    public function reverseTransform($value): ?Category
     {
         // no category number? It's optional, so that's ok
-        if (!$id) {
+        if ($value) {
             return null;
         }
 
         $category = $this->entityManager
             ->getRepository(Category::class)
             // query for the category with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $category) {
             // causes a validation error
@@ -53,7 +55,7 @@ class CategoryToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An category with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 

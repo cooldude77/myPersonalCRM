@@ -16,8 +16,9 @@ class CategoryController extends AbstractController
 {
 
     #[Route('/category/create', 'category_create')]
-    public function create(CategoryDTOMapper $categoryDTOMapper, EntityManagerInterface $entityManager, Request $request): Response
-    {
+    public function create(CategoryDTOMapper $categoryDTOMapper,
+        EntityManagerInterface $entityManager, Request $request
+    ): Response {
         $categoryDTO = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
@@ -43,21 +44,30 @@ class CategoryController extends AbstractController
 
                 return $this->redirect($success_url);
             }
-            return $this->render('/common/miscellaneous/success/create.html.twig', ['message' => 'Category successfully created']);
+            return $this->render(
+                '/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Category successfully created']
+            );
         }
 
-        return $this->render('/admin/category/create.html.twig', ['form' => $form]);
+        return $this->render(
+            '/admin/category/category_create.html.twig', ['form' => $form]
+        );
     }
 
 
     #[\Symfony\Component\Routing\Annotation\Route('/category/edit/{id}', name: 'category_edit')]
-    public function edit(EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, CategoryDTOMapper $categoryDTOMapper, Request $request, int $id): Response
-    {
+    public function edit(EntityManagerInterface $entityManager,
+        CategoryRepository $categoryRepository, CategoryDTOMapper $categoryDTOMapper,
+        Request $request, int $id
+    ): Response {
         $category = $categoryRepository->find($id);
 
 
         if (!$category) {
-            throw $this->createNotFoundException('No category found for id ' . $id);
+            throw $this->createNotFoundException(
+                'No category found for id ' . $id
+            );
         }
         $categoryDTO = $categoryDTOMapper->mapFromEntity($category);
 
@@ -68,7 +78,9 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $category = $categoryDTOMapper->mapToEntityForEdit($data, $category);
+            $category = $categoryDTOMapper->mapToEntityForEdit(
+                $data, $category
+            );
 
 
             // perform some action...
@@ -83,10 +95,15 @@ class CategoryController extends AbstractController
 
                 return $this->redirect($success_url);
             }
-            return $this->render('/common/miscellaneous/success/create.html.twig', ['message' => 'Category successfully updated']);
+            return $this->render(
+                '/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Category successfully updated']
+            );
         }
 
-        return $this->render('/admin/category/create.html.twig', ['form' => $form]);
+        return $this->render(
+            '/admin/category/category_edit.html.twig', ['form' => $form]
+        );
     }
 
     #[Route('/category/display/{id}', name: 'category_display')]
@@ -94,12 +111,22 @@ class CategoryController extends AbstractController
     {
         $category = $categoryRepository->find($id);
         if (!$category) {
-            throw $this->createNotFoundException('No category found for id ' . $id);
+            throw $this->createNotFoundException(
+                'No category found for id ' . $id
+            );
         }
 
-        $displayParams = ['title' => 'Category', 'editButtonLinkText' => 'Edit', 'fields' => [['label' => 'Name', 'propertyName' => 'name'], ['label' => 'Description', 'propertyName' => 'description'],]];
+        $displayParams = ['title' => 'Category',
+                          'editButtonLinkText' => 'Edit',
+                          'fields' => [['label' => 'Name',
+                                        'propertyName' => 'name'],
+                                       ['label' => 'Description',
+                                        'propertyName' => 'description'],]];
 
-        return $this->render('admin/category/category_display.html.twig', ['entity' => $category, 'params' => $displayParams]);
+        return $this->render(
+            'admin/category/category_display.html.twig',
+            ['entity' => $category, 'params' => $displayParams]
+        );
 
     }
 
@@ -107,9 +134,19 @@ class CategoryController extends AbstractController
     public function list(CategoryRepository $categoryRepository): Response
     {
 
-        $listGrid = ['title' => 'Category', 'columns' => [['label' => 'Name', 'propertyName' => 'name', 'action' => 'display'], ['label' => 'Description', 'propertyName' => 'description'],], 'createButtonConfig' => ['function' => 'category', 'anchorText' => 'Create Category']];
+        $listGrid = ['title' => 'Category',
+                     'columns' => [['label' => 'Name',
+                                    'propertyName' => 'name',
+                                    'action' => 'display'],
+                                   ['label' => 'Description',
+                                    'propertyName' => 'description'],],
+                     'createButtonConfig' => ['function' => 'category',
+                                              'anchorText' => 'Create Category']];
 
         $categories = $categoryRepository->findAll();
-        return $this->render('admin/ui/panel/section/content/list/list.html.twig', ['entities' => $categories, 'listGrid' => $listGrid]);
+        return $this->render(
+            'admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $categories, 'listGrid' => $listGrid]
+        );
     }
 }
