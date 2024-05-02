@@ -28,7 +28,7 @@ class Product
     private ?ProductType $type = null;
 
     #[ORM\Column]
-    private ?bool $isActive = null;
+    private ?bool $isActive = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $longDescription = null;

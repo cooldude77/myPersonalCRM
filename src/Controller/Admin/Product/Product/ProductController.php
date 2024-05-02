@@ -31,12 +31,8 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            /** @var Category $category */
-            $category = $form->get('category');
-            $data = $form->getData();
-            $data->categoryId = $category->getId();
 
-            $productEntity = $productDTOMapper->mapToEntityForCreate($data);
+            $productEntity = $productDTOMapper->mapToEntityForCreate($form);
 
 
             // perform some action...

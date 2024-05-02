@@ -46,10 +46,11 @@ class ProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(Category $category):Product
+    public function create(Category $category): Product
     {
 
         $product = new Product();
         $product->setCategory($category);
+        return $product;
     }
 }

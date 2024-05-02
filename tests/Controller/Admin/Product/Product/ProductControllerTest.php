@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Admin\Product\Product;
 
 use App\Factory\CategoryFactory;
+use App\Factory\ProductFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -19,6 +20,8 @@ class ProductControllerTest extends WebTestCase
     {
         $category = CategoryFactory::createOne(['name'=>'Cat1',
                                                 'description'=>'Category 1']);
+
+        $id = $category->getId();
         $createUrl = '/product/create';
 
         $visit = $this->browser()->visit($createUrl);
@@ -32,47 +35,28 @@ class ProductControllerTest extends WebTestCase
         $selectElement = $crawler->filter('select')->getNode(0);
         $selectElement->appendChild($option);
 
-        $visit->fillField('product_create_form[name]', 'Product 1')
+        $visit->fillField('product_create_form[name]', 'Prod1')
             ->fillField(
                 'product_create_form[description]', 'Product 1'
             )
-            ->fillField('product_create_form[category]', $category->getId())
+            ->fillField('product_create_form[category]', $id)
             ->click('Save')
             ->assertSuccessful();
 
+        $created = ProductFactory::find(array('name'=>"Prod1"));
+
+        $this->assertEquals("Prod1", $created->getName());
 
 
-        // The value of product->getId() will be  1
-/*
-        $visit = $this->browser()->visit($createUrl);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', 1);
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('product_create_form[name]', 'Cat2')
-            ->fillField(
-                'product_create_form[description]', 'product 2'
-            )
-            ->fillField('product_create_form[parent]', "1")
-            ->click('Save')
-            ->assertSuccessful();
-*/
     }
 
-/*
-    public function testList()
+  public function testList()
     {
 
         $url = '/product/list';
         $this->browser()->visit($url)->assertSuccessful();
 
     }
-*/
+
 
 }

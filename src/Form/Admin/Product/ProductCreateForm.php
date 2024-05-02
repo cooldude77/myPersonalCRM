@@ -13,14 +13,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ProductCreateForm extends AbstractType
 {
-    private CategoryToIdTransformer $categoryToIdTransformer;
 
-    public function __construct(
-        CategoryToIdTransformer $categoryToIdTransformer)
-    {
-
-        $this->categoryToIdTransformer = $categoryToIdTransformer;
-    }
+    // If one uses model transformer then only category id is provided in controller
+    // instead, do not use it. You get a category entity object in mapper directly
 
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
@@ -28,8 +23,6 @@ class ProductCreateForm extends AbstractType
         $builder->add('description', TextType::class);
         $builder->add('category', CategoryAutoCompleteField::class,['required'=>false]);
         $builder->add('isActive', CheckboxType::class);
-
-        $builder->get('category')->addModelTransformer($this->categoryToIdTransformer);
 
         $builder->add('save', SubmitType::class);
 
