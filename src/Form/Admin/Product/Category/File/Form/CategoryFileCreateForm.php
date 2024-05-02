@@ -28,12 +28,11 @@ class CategoryFileCreateForm extends AbstractType
             $fileForm = $form->get("fileFormDTO");
             $fileForm->remove("save");
         });
-        ;
     }
 
 
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class'=>CategoryFileDTO::class]);
     }
