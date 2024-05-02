@@ -21,7 +21,7 @@ class OrderHeaderCreateForm extends AbstractType
         $this->customerToIdTransformer = $customerToIdTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('dateTimeOfOrder', DateType::class);
         $builder->add('customer', TextType::class, [

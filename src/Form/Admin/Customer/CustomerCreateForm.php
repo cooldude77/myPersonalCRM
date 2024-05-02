@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CustomerCreateForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customerCode', TextType::class);
         $builder->add('save', SubmitType::class);

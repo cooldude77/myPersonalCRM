@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\ProductAttributeTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Example SINGLE SELECT
+ * OR MULTI SELECT
+ */
 #[ORM\Entity(repositoryClass: ProductAttributeTypeRepository::class)]
 class ProductAttributeType
 {

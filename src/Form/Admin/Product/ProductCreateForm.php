@@ -17,7 +17,7 @@ class ProductCreateForm extends AbstractType
     // If one uses model transformer then only category id is provided in controller
     // instead, do not use it. You get a category entity object in mapper directly
 
-    public function buildForm(FormBuilderInterface $builder, array $options):void
+   function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);

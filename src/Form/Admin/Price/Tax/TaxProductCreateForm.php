@@ -21,7 +21,7 @@ class TaxProductCreateForm extends AbstractType
         $this->productToIdTransformer = $productToIdTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('product', TextType::class);
         $builder->add('taxRate', TextType::class);

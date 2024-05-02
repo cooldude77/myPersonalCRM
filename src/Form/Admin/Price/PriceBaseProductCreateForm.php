@@ -13,7 +13,7 @@ class PriceBaseProductCreateForm extends AbstractType
 {
 
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('productId', TextType::class);
         $builder->add('price', TextType::class);

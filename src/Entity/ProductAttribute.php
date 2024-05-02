@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\ProductAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Product Attributes are independent
+ * and can be connected to product
+ */
 #[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]
 class ProductAttribute
 {
@@ -19,13 +23,9 @@ class ProductAttribute
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ProductType $productType = null;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductAttributeType $valueType = null;
+    private ?ProductAttributeType   $attributeType = null;
 
 
     public function getId(): ?int
@@ -57,26 +57,14 @@ class ProductAttribute
         return $this;
     }
 
-    public function getProductType(): ?ProductType
+    public function getAttributeType(): ?ProductAttributeType
     {
-        return $this->productType;
+        return $this->attributeType;
     }
 
-    public function setProductType(?ProductType $productType): static
+    public function setAttributeType(ProductAttributeType $attributeType): static
     {
-        $this->productType = $productType;
-
-        return $this;
-    }
-
-    public function getValueType(): ?ProductAttributeType
-    {
-        return $this->valueType;
-    }
-
-    public function setValueType(ProductAttributeType $valueType): static
-    {
-        $this->valueType = $valueType;
+        $this->attributeType = $attributeType;
 
         return $this;
     }

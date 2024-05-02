@@ -9,11 +9,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ProductTypeUpdateForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('type', TextType::class);
         $builder->add('description', TextType::class);
 
-        $builder->add('save', SubmitType::class);
+        $builder->add('Save', SubmitType::class);
     }
 }

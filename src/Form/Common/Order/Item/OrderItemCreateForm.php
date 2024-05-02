@@ -23,7 +23,7 @@ class OrderItemCreateForm extends AbstractType
         $this->orderHeaderToIdTransformer = $orderHeaderToIdTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('product', TextType::class, [
             // validation message if the data transformer fails
