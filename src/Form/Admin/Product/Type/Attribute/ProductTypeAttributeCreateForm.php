@@ -15,7 +15,7 @@ class ProductTypeAttributeCreateForm extends AbstractType
         $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
         $builder->add('valueType', EntityType::class, [
-                'class' => 'App\Entity\ProductAttributeValueType',
+                'class' => 'App\Entity\ProductAttributeType',
                 'choice_label' => 'description'
             ]
         );

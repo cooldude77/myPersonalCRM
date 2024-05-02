@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductAttributeValueTypeRepository;
+use App\Repository\ProductAttributeTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductAttributeValueTypeRepository::class)]
-class ProductAttributeValueType
+#[ORM\Entity(repositoryClass: ProductAttributeTypeRepository::class)]
+class ProductAttributeType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

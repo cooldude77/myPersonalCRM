@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductTypeAttributeValue;
+use App\Entity\ProductAttributeType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductTypeAttributeValue>
+ * @extends ServiceEntityRepository<ProductAttributeType>
  *
- * @method ProductTypeAttributeValue|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductTypeAttributeValue|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductTypeAttributeValue[]    findAll()
- * @method ProductTypeAttributeValue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductAttributeType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductAttributeType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductAttributeType[]    findAll()
+ * @method ProductAttributeType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductTypeAttributeValueRepository extends ServiceEntityRepository
+class ProductAttributeTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductTypeAttributeValue::class);
+        parent::__construct($registry, ProductAttributeType::class);
     }
 
     //    /**
-    //     * @return ProductTypeAttributeValue[] Returns an array of ProductTypeAttributeValue objects
+    //     * @return ProductAttributeValueType[] Returns an array of ProductAttributeValueType objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class ProductTypeAttributeValueRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductTypeAttributeValue
+    //    public function findOneBySomeField($value): ?ProductAttributeValueType
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

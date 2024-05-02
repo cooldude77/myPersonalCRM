@@ -3,7 +3,7 @@
 namespace App\Controller\Admin\Product\Type\Attribute;
 
 // ...
-use App\Entity\ProductTypeAttribute;
+use App\Entity\ProductAttribute;
 use App\Form\Admin\Product\Type\ProductTypeCreateForm;
 use App\Repository\ProductTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +17,7 @@ class ProductTypeAttributeController extends AbstractController
     #[Route('/product/type/{$type}/attribute/create', name: 'product_type_attribute_create')]
     public function createProductTypeAttribute($type, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $productTypeAttribute = new ProductTypeAttribute();
+        $productTypeAttribute = new ProductAttribute();
 
         $form = $this->createForm(ProductTypeCreateForm::class, $type);
 

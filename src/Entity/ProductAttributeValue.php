@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductTypeAttributeValueRepository;
+use App\Repository\ProductAttributeValueRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductTypeAttributeValueRepository::class)]
-class ProductTypeAttributeValue
+#[ORM\Entity(repositoryClass: ProductAttributeValueRepository::class)]
+class ProductAttributeValue
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class ProductTypeAttributeValue
 
     #[ORM\ManyToOne(inversedBy: 'productTypeAttributeValues')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductTypeAttribute $attribute = null;
+    private ?ProductAttribute $attribute = null;
 
     public function getId(): ?int
     {
@@ -37,12 +37,12 @@ class ProductTypeAttributeValue
         return $this;
     }
 
-    public function getAttribute(): ?ProductTypeAttribute
+    public function getAttribute(): ?ProductAttribute
     {
         return $this->attribute;
     }
 
-    public function setAttribute(?ProductTypeAttribute $attribute): static
+    public function setAttribute(?ProductAttribute $attribute): static
     {
         $this->attribute = $attribute;
 
