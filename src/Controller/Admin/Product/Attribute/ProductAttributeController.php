@@ -3,9 +3,10 @@
 namespace App\Controller\Admin\Product\Attribute;
 
 // ...
-use App\Entity\ProductAttribute;
-use App\Form\Admin\Product\Type\ProductTypeCreateForm;
+use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
+use App\Form\Admin\Product\Attribute\ProductAttributeCreateForm;
 use App\Repository\ProductTypeRepository;
+use App\Service\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,23 +16,42 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductAttributeController extends AbstractController
 {
     #[Route('/product/attribute/create', name: 'product_attribute_create')]
-    public function create($type, EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $productAttribute = new ProductAttribute();
+    public function create(ProductAttributeDTOMapper $mapper, EntityManagerInterface $entityManager,
+        Request $request
+    ): Response {
+        $productAttributeDTO = new ProductAttributeDTO();
 
-        $form = $this->createForm(ProductTypeCreateForm::class, $type);
+        $form = $this->createForm(ProductAttributeCreateForm::class, $productAttributeDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // perform some action...
-            $entityManager->persist($form->getData());
+            $productAttribute = $mapper->mapDtoToEntity($form);
+
+            $entityManager->persist($productAttribute);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin/product/type/success_create.html.twig');
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash(
+                    'success', "Product created successfully"
+                );
+
+                $id = $productAttribute->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+
+                return $this->redirect($success_url);
+            }
+            return $this->render(
+                '/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Product successfully created']
+            );
         }
-        return $this->render('admin/product/type/create.html.twig', ['form' => $form]);
+
+        $formErrors = $form->getErrors(true);
+        return $this->render(
+            '/admin/panel/section/content/create/create.html.twig', ['form' => $form]
+        );
 
     }
 
