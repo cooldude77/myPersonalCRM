@@ -45,4 +45,8 @@ class ProductTypeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create():ProductType
+    {
+        return new ProductType();
+    }
 }

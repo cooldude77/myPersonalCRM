@@ -14,42 +14,42 @@ class ProductType
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $value = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getName(): ?string
     {
-        return $this->type;
+        return $this->name;
     }
 
-    public function setType(string $type): static
+    public function setName(string $name): static
     {
-        $this->type = $type;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getValue(): ?string
     {
-        return $this->description;
+        return $this->value;
     }
 
-    public function setDescription(string $description): static
+    public function setValue(string $value): static
     {
-        $this->description = $description;
+        $this->value = $value;
 
         return $this;
     }
 
     public function __toString()
     {
-        return $this->description; //or anything else
+        return $this->value; //or anything else
     }
 }

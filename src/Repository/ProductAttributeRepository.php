@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\ProductAttribute;
-use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
