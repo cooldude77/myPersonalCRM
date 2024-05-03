@@ -14,11 +14,14 @@ class ProductAttributeValue
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'productTypeAttributeValues')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductAttribute $attribute = null;
+    private ?ProductAttribute $productAttribute = null;
 
     public function getId(): ?int
     {
@@ -37,15 +40,25 @@ class ProductAttributeValue
         return $this;
     }
 
-    public function getAttribute(): ?ProductAttribute
+    public function getProductAttribute(): ?ProductAttribute
     {
-        return $this->attribute;
+        return $this->productAttribute;
     }
 
-    public function setAttribute(?ProductAttribute $attribute): static
+    public function setProductAttribute(?ProductAttribute $productAttribute): static
     {
-        $this->attribute = $attribute;
+        $this->productAttribute = $productAttribute;
 
         return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }
