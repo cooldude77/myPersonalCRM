@@ -32,20 +32,21 @@ class CustomerToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (customer).
      *
-     * @param string $id
+     * @param string $value
+     *
      * @throws TransformationFailedException if object (customer) is not found.
      */
-    public function reverseTransform($id): ?Customer
+    public function reverseTransform($value): ?Customer
     {
         // no customer number? It's optional, so that's ok
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
         $customer = $this->entityManager
             ->getRepository(Customer::class)
             // query for the customer with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $customer) {
             // causes a validation error
@@ -53,7 +54,7 @@ class CustomerToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An customer with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 

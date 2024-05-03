@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Product\Attribute;
 
 // ...
+use App\Entity\ProductAttribute;
 use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
 use App\Form\Admin\Product\Attribute\ProductAttributeCreateForm;
 use App\Repository\ProductTypeRepository;
@@ -20,6 +21,8 @@ class ProductAttributeController extends AbstractController
         Request $request
     ): Response {
         $productAttributeDTO = new ProductAttributeDTO();
+if($request->get('type')==3)
+    $productAttributeDTO->type=3;
 
         $form = $this->createForm(ProductAttributeCreateForm::class, $productAttributeDTO);
 
@@ -27,7 +30,7 @@ class ProductAttributeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttribute = $mapper->mapDtoToEntity($form);
+            $productAttribute = $mapper->mapDtoToEntity($form->getData());
 
             $entityManager->persist($productAttribute);
             $entityManager->flush();
@@ -50,7 +53,7 @@ class ProductAttributeController extends AbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            '/admin/panel/section/content/create/create.html.twig', ['form' => $form]
+            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }

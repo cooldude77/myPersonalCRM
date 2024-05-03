@@ -32,20 +32,21 @@ class FileTypeToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (fileType).
      *
-     * @param string $id
+     * @param string $value
+     *
      * @throws TransformationFailedException if object (fileType) is not found.
      */
-    public function reverseTransform($id): ?FileType
+    public function reverseTransform($value): ?FileType
     {
         // no fileType number? It's optional, so that's ok
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
         $fileType = $this->entityManager
             ->getRepository(FileType::class)
             // query for the fileType with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $fileType) {
             // causes a validation error
@@ -53,7 +54,7 @@ class FileTypeToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An fileType with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 

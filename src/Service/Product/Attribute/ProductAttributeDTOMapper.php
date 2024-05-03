@@ -5,29 +5,27 @@ namespace App\Service\Product\Attribute;
 use App\Entity\ProductAttributeType;
 use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
 use App\Repository\ProductAttributeRepository;
+use App\Repository\ProductAttributeTypeRepository;
 
 class ProductAttributeDTOMapper
 {
 
-    private ProductAttributeRepository $attributeRepository;
-
-    public function __construct(ProductAttributeRepository $attributeRepository)
+    public function __construct(private ProductAttributeTypeRepository
+    $productAttributeTypeRepository,
+ private   ProductAttributeRepository $productAttributeRepository)
     {
-        $this->attributeRepository = $attributeRepository;
     }
 
-    public function mapDtoToEntity(\Symfony\Component\Form\FormInterface $form): \App\Entity\ProductAttribute
+    public function mapDtoToEntity(ProductAttributeDTO $productAttributeDTO): \App\Entity\ProductAttribute
     {
-        $attribute = $this->attributeRepository->create();
-        /** @var ProductAttributeDTO $dto */
-        $dto = $form->getData();
+        $attribute = $this->productAttributeRepository->create();
         /** @var ProductAttributeType $type */
-        $type  = $form->get('attributeType')->getData();
+        $type  = $this->productAttributeTypeRepository->findOneBy(['id'=>$productAttributeDTO->productAttributeTypeId]);
 
-        $attribute->setName($dto->name);
-        $attribute->setDescription($dto->description);
+        $attribute->setName($productAttributeDTO->name);
+        $attribute->setDescription($productAttributeDTO->description);
 
-        $attribute->setAttributeType($type);
+        $attribute->setProductAttributeType($type);
 
         return $attribute;
 

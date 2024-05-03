@@ -47,7 +47,7 @@ final class ProductAttributeFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'attributeType' => ProductAttributeTypeFactory::new(),
+            'productAttributeType' => ProductAttributeTypeFactory::new(),
             'description' => self::faker()->text(255),
             'name' => self::faker()->text(255),
         ];

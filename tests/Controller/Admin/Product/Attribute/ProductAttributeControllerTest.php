@@ -23,7 +23,8 @@ class ProductAttributeControllerTest extends WebTestCase
                 'product_attribute_create_form[name]', 'Attribute 1'
             )
             ->fillField('product_attribute_create_form[description]', 'product_attribute 1')
-            ->fillField('product_attribute_create_form[attributeType]', $attributeType->getId())
+            ->fillField('product_attribute_create_form[productAttributeType]',
+                $attributeType->getId())
             ->click('Save')
             ->assertSuccessful();
 

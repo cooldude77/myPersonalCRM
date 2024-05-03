@@ -51,4 +51,6 @@ class ProductAttributeType
 
         return $this;
     }
+
+
 }

@@ -25,7 +25,7 @@ class ProductAttribute
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductAttributeType   $attributeType = null;
+    private ?ProductAttributeType   $productAttributeType = null;
 
 
     public function getId(): ?int
@@ -57,14 +57,14 @@ class ProductAttribute
         return $this;
     }
 
-    public function getAttributeType(): ?ProductAttributeType
+    public function getProductAttributeType(): ?ProductAttributeType
     {
-        return $this->attributeType;
+        return $this->productAttributeType;
     }
 
-    public function setAttributeType(ProductAttributeType $attributeType): static
+    public function setProductAttributeType(ProductAttributeType $productAttributeType): static
     {
-        $this->attributeType = $attributeType;
+        $this->productAttributeType = $productAttributeType;
 
         return $this;
     }

@@ -32,20 +32,21 @@ class ProductToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (product).
      *
-     * @param string $id
+     * @param string $value
+     *
      * @throws TransformationFailedException if object (product) is not found.
      */
-    public function reverseTransform($id): ?Product
+    public function reverseTransform($value): ?Product
     {
         // no product number? It's optional, so that's ok
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
         $product = $this->entityManager
             ->getRepository(Product::class)
             // query for the product with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $product) {
             // causes a validation error
@@ -53,7 +54,7 @@ class ProductToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An product with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 
