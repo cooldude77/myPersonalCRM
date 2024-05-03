@@ -2,8 +2,11 @@
 
 namespace App\Form\Admin\Product\Attribute\Value;
 
+use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
 use App\Form\Admin\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
+use App\Repository\ProductAttributeTypeRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
