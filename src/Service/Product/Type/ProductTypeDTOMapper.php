@@ -18,9 +18,21 @@ class ProductTypeDTOMapper
         $type = $this->productTypeRepository->create();
 
         $type->setName($productTypeDTO->name);
-        $type->setValue($productTypeDTO->value);
+        $type->setDescription($productTypeDTO->value);
 
         return $type;
+
+    }
+
+    public function mapDtoToEntityForUpdate(ProductTypeDTO $productTypeDTO,
+        ProductType $productTypeEntity
+    ) {
+
+        $productTypeEntity->setName($productTypeDTO->name);
+        $productTypeEntity->setDescription($productTypeDTO->value);
+
+
+        return $productTypeEntity;
 
     }
 

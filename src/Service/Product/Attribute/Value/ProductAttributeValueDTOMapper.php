@@ -8,11 +8,11 @@ use App\Form\Admin\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
 use App\Repository\ProductAttributeRepository;
 use App\Repository\ProductAttributeValueRepository;
 
-class ProductAttributeValueDTOMapper
+readonly class ProductAttributeValueDTOMapper
 {
 
-    public function __construct(private readonly ProductAttributeRepository $productAttributeRepository,
-        private readonly ProductAttributeValueRepository $productAttributeValueRepository
+    public function __construct(private ProductAttributeRepository $productAttributeRepository,
+        private ProductAttributeValueRepository $productAttributeValueRepository
     ) {
     }
 
@@ -27,12 +27,22 @@ class ProductAttributeValueDTOMapper
         $attribute = $this->productAttributeValueRepository->create($productAttribute);
 
         $attribute->setName($productAttributeValueDTO->name);
-        $attribute->setValue($productAttributeValueDTO->description);
+        $attribute->setValue($productAttributeValueDTO->value);
 
         $attribute->setProductAttribute($productAttribute);
 
         return $attribute;
 
+    }
+
+    public function mapDtoToEntityForUpdate(ProductAttributeValueDTO $productAttributeValueDTO,
+        ProductAttributeValue $productAttributeValueEntity): ProductAttributeValue
+    {
+
+        $productAttributeValueEntity->setName($productAttributeValueDTO->name);
+        $productAttributeValueEntity->setValue($productAttributeValueDTO->value);
+
+        return $productAttributeValueEntity;
     }
 
 }

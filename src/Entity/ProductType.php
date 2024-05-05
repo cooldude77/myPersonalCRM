@@ -17,7 +17,7 @@ class ProductType
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $value = null;
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -36,20 +36,20 @@ class ProductType
         return $this;
     }
 
-    public function getValue(): ?string
+    public function getDescription(): ?string
     {
-        return $this->value;
+        return $this->description;
     }
 
-    public function setValue(string $value): static
+    public function setDescription(string $description): static
     {
-        $this->value = $value;
+        $this->description = $description;
 
         return $this;
     }
 
     public function __toString()
     {
-        return $this->value; //or anything else
+        return $this->description; //or anything else
     }
 }

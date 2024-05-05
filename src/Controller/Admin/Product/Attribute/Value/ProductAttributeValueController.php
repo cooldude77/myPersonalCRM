@@ -4,6 +4,8 @@ namespace App\Controller\Admin\Product\Attribute\Value;
 
 use App\Form\Admin\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
 use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueCreateForm;
+use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueEditForm;
+use App\Repository\ProductAttributeValueRepository;
 use App\Repository\ProductTypeRepository;
 use App\Service\Product\Attribute\Value\ProductAttributeValueDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,15 +61,72 @@ class ProductAttributeValueController extends AbstractController
     }
 
 
-    #[Route('/product/{type}/attribute/list', name: 'product_type_attribute_list')]
-    public function listProductTypeAttribute(ProductTypeRepository $productTypeRepository): Response
-    {
 
-        $list = $productTypeRepository->findAll();
+    #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/value/{id}/edit',
+        name: 'product_attribute_value_edit')]
+    public function edit(
+        int $id,
+        ProductAttributeValueDTOMapper $mapper, EntityManagerInterface $entityManager,
+        ProductAttributeValueRepository $productAttributeValueRepository,
+        Request $request
+    ): Response {
+        $productAttributeValueDTO = new ProductAttributeValueDTO();
 
-        return $this->render('admin/product/type/attribute/list.html.twig', ['list' => $list]);
+        $productAttributeValueEntity =  $productAttributeValueRepository->find($id);
+
+        $form = $this->createForm(ProductAttributeValueEditForm::class, $productAttributeValueDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $productAttributeEntity = $mapper->mapDtoToEntityForUpdate($form->getData(),$productAttributeValueEntity);
+
+            $entityManager->persist($productAttributeEntity);
+            $entityManager->flush();
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash(
+                    'success', "Product created successfully"
+                );
+
+                $id = $productAttributeEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+
+                return $this->redirect($success_url);
+            }
+            return $this->render(
+                '/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Product successfully created']
+            );
+        }
+
+        return $this->render(
+            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+        );
 
     }
 
+
+    #[Route('/product/attribute/{$id}/value/list', name: 'product_attribute_value_list')]
+    public function list(int $id,ProductAttributeValueRepository $productAttributeRepository):
+Response
+    {
+
+        $listGrid = ['title' => 'ProductAttribute',
+                     'columns' => [['label' => 'Name',
+                                    'propertyName' => 'name',
+                                    'action' => 'display'],
+                                   ['label' => 'Description',
+                                    'propertyName' => 'description'],],
+                     'createButtonConfig' => ['function' => 'productAttribute',
+                                              'anchorText' => 'Create ProductAttribute']];
+
+        $productAttributes = $productAttributeRepository->findBy(['productAttributeId'=>$id]);
+        return $this->render(
+            'admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $productAttributes, 'listGrid' => $listGrid]
+        );
+    }
 
 }

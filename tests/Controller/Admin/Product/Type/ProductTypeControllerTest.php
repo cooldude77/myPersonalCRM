@@ -28,4 +28,34 @@ class ProductTypeControllerTest extends WebTestCase
         $this->assertEquals("Type 1", $created->getName());
     }
 
+
+    public function testUpdate()
+    {
+
+        $type = ProductTypeFactory::createOne(['name'=>'Type 1',
+        'description'=>'product_type 1']);
+        $id = $type->getId();
+
+        $uri = "/product/type/{$id}/edit";
+        $this->browser()
+            ->visit($uri)
+            ->fillField(
+                'product_type_edit_form[name]', 'Type 1'
+            )
+            ->fillField('product_type_edit_form[value]', 'product_type 1')
+            ->click('Save')
+            ->assertSuccessful();
+
+        $created = ProductTypeFactory::find(array('name' => "Type 1"));
+
+        $this->assertEquals("Type 1", $created->getName());
+    }
+
+    public function testList()
+    {
+
+        $url = '/product/type/list';
+        $this->browser()->visit($url)->assertSuccessful();
+
+    }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductAttributeCreateForm extends AbstractType
+class ProductAttributeEditForm extends AbstractType
 {
     public function __construct(private ProductAttributeTypeRepository $productAttributeTypeRepository
     ) {
@@ -19,12 +19,9 @@ class ProductAttributeCreateForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class);
+        $builder->add('id', TextType::class);
+       $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
-        $builder->add(
-            'productAttributeTypeId', ChoiceType::class, [// validation message if the data transformer fails
-                                        'choices' => $this->fill()]
-        );
 
         $builder->add('save', SubmitType::class);
     }
@@ -45,8 +42,9 @@ class ProductAttributeCreateForm extends AbstractType
         $resolver->setDefaults(['data_class' => ProductAttributeDTO::class]);
     }
 
+
     public function getBlockPrefix(): string
     {
-        return 'product_attribute_create_form';
+        return 'product_attribute_edit_form';
     }
 }

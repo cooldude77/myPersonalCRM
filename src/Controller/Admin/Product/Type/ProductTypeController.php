@@ -5,6 +5,8 @@ namespace App\Controller\Admin\Product\Type;
 // ...
 use App\Form\Admin\Product\Type\DTO\ProductTypeDTO;
 use App\Form\Admin\Product\Type\ProductTypeCreateForm;
+use App\Form\Admin\Product\Type\ProductTypeUpdateForm;
+use App\Repository\ProductTypeRepository;
 use App\Service\Product\Type\ProductTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,5 +55,70 @@ class ProductTypeController extends AbstractController
 
     }
 
+
+  #[Route('/product/type/{id}/edit', name: 'product_type_edit')]
+    public function edit(
+        int $id,
+        ProductTypeDTOMapper $mapper, EntityManagerInterface $entityManager,
+        ProductTypeRepository $productTypeRepository,
+        Request $request
+    ): Response {
+        $productTypeDTO = new ProductTypeDTO();
+
+        $productTypeEntity =  $productTypeRepository->find($id);
+
+        $form = $this->createForm(ProductTypeUpdateForm::class, $productTypeDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $productTypeEntity = $mapper->mapDtoToEntityForUpdate($form->getData(),$productTypeEntity);
+
+            $entityManager->persist($productTypeEntity);
+            $entityManager->flush();
+
+            if ($request->get('_redirect_upon_success_url')) {
+                $this->addFlash(
+                    'success', "Product created successfully"
+                );
+
+                $id = $productTypeEntity->getId();
+                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+
+                return $this->redirect($success_url);
+            }
+            return $this->render(
+                '/common/miscellaneous/success/create.html.twig',
+                ['message' => 'Product successfully created']
+            );
+        }
+
+        return $this->render(
+            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+        );
+
+    }
+
+
+    #[Route('/product/type/list', name: 'product_type_list')]
+    public function list(ProductTypeRepository $productTypeRepository): Response
+    {
+
+        $listGrid = ['title' => 'ProductType',
+                     'columns' => [['label' => 'Name',
+                                    'propertyName' => 'name',
+                                    'action' => 'display'],
+                                   ['label' => 'Description',
+                                    'propertyName' => 'description'],],
+                     'createButtonConfig' => ['function' => 'productType',
+                                              'anchorText' => 'Create ProductType']];
+
+        $productTypes = $productTypeRepository->findAll();
+        return $this->render(
+            'admin/ui/panel/section/content/list/list.html.twig',
+            ['entities' => $productTypes, 'listGrid' => $listGrid]
+        );
+    }
 
 }

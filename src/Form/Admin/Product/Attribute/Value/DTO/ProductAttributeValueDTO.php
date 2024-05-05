@@ -10,7 +10,7 @@ class ProductAttributeValueDTO
 {
     public int $id = 0;
     public ?string $name =null;
-    public ?string $description = null;
+    public ?string $value = null;
     public ?int $productAttributeId = 0;
 
 }

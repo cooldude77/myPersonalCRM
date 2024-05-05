@@ -2,8 +2,10 @@
 
 namespace App\Tests\Controller\Admin\Product\Attribute;
 
+use App\Entity\ProductAttribute;
 use App\Factory\ProductAttributeFactory;
 use App\Factory\ProductAttributeTypeFactory;
+use App\Factory\ProductTypeFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -33,4 +35,38 @@ class ProductAttributeControllerTest extends WebTestCase
         $this->assertEquals("Attribute 1", $created->getName());
 
     }
+
+    public function testUpdate()
+    {
+
+        $attributeType = ProductAttributeTypeFactory::find(['name' => 'SINGLE_SELECT']);
+
+        $attributeType =  ProductAttributeFactory::createOne
+    (['productAttributeType'=>$attributeType]);
+
+        $id = $attributeType->getId();
+
+        $uri = "/product/attribute/{$id}/edit";
+        $this->browser()
+            ->visit($uri)
+            ->fillField(
+                'product_attribute_edit_form[name]', 'Attribute 1'
+            )
+            ->fillField('product_attribute_edit_form[description]', 'Attribute Desc 1')
+            ->click('Save')
+            ->assertSuccessful();
+
+        $created = ProductAttributeFactory::find(array('name' => "Attribute 1"));
+
+        $this->assertEquals('Attribute 1', $created->getName());
+    }
+
+    public function testList()
+    {
+
+        $url = '/product/attribute/list';
+        $this->browser()->visit($url)->assertSuccessful();
+
+    }
+
 }
