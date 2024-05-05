@@ -19,7 +19,7 @@ class ProductAttributeValueCreateForm extends AbstractType
     {
         $builder->add('id', TextType::class);
         $builder->add('name', TextType::class);
-        $builder->add('description', TextType::class);
+        $builder->add('value', TextType::class);
         $builder->add(
             'productAttributeId', TextType::class
         );

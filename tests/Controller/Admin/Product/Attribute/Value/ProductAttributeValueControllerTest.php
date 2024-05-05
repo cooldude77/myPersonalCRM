@@ -24,22 +24,22 @@ class ProductAttributeValueControllerTest extends WebTestCase
         $this->browser()
             ->visit($uri)
             ->fillField(
-                'product_attribute_value_create_form[name]', 'Attribute Value 1'
+                'product_attribute_value_create_form[name]', 'Attribute Val 1'
             )
-            ->fillField('product_attribute_value_create_form[description]', 'Attribute Value 1')
+            ->fillField('product_attribute_value_create_form[value]', 'Attribute Value 1')
             ->fillField(
                 'product_attribute_value_create_form[productAttributeId]', $attribute->getId())
             ->click('Save')
             ->assertSuccessful();
 
-        $created = ProductAttributeValueFactory::find(array('name' => "Attribute Value 1"));
+        $created = ProductAttributeValueFactory::find(array('name' => 'Attribute Val 1'));
 
-        $this->assertEquals("Attribute Value 1", $created->getName());
+        $this->assertEquals('Attribute Val 1', $created->getName());
 
     }
 
 
-    public function testUpdate()
+    public function testEdit()
     {
 
         $attributeType = ProductAttributeTypeFactory::find(['name' => 'SINGLE_SELECT']);
@@ -54,15 +54,15 @@ class ProductAttributeValueControllerTest extends WebTestCase
         $this->browser()
             ->visit($uri)
             ->fillField(
-                'product_attribute_value_edit_form[name]', 'Attribute Value 1'
+                'product_attribute_value_edit_form[name]', 'Attribute Val 1'
             )
-            ->fillField('product_attribute_value_edit_form[value]', 'Attribute Value Description 1')
+            ->fillField('product_attribute_value_edit_form[value]', 'Attribute Value 1')
             ->click('Save')
             ->assertSuccessful();
 
-        $created = ProductAttributeFactory::find(array('name' => "Attribute Value 1"));
+        $created = ProductAttributeValueFactory::find(array('name' => "Attribute Value 1"));
 
-        $this->assertEquals("Attribute Value 1", $created->getName());
+        $this->assertEquals('Attribute Val 1', $created->getName());
     }
 
     public function testList()
@@ -70,7 +70,7 @@ class ProductAttributeValueControllerTest extends WebTestCase
 
         $attributeType = ProductAttributeTypeFactory::find(['name' => 'SINGLE_SELECT']);
         $attribute = ProductAttributeFactory::createOne(['productAttributeType' => $attributeType]);
-        $attributeValue = ProductAttributeValueFactory::createOne(['productAttribute'=>$attribute]);
+        ProductAttributeValueFactory::createOne(['productAttribute'=>$attribute]);
 
         $id = $attribute->getId();
         $url = "/product/attribute/{$id}/value/list";

@@ -36,15 +36,14 @@ class ProductAttributeControllerTest extends WebTestCase
 
     }
 
-    public function testUpdate()
+    public function testEdit()
     {
 
         $attributeType = ProductAttributeTypeFactory::find(['name' => 'SINGLE_SELECT']);
 
-        $attributeType =  ProductAttributeFactory::createOne
-    (['productAttributeType'=>$attributeType]);
+        $attribute=  ProductAttributeFactory::createOne(['productAttributeType'=>$attributeType]);
 
-        $id = $attributeType->getId();
+        $id = $attribute->getId();
 
         $uri = "/product/attribute/{$id}/edit";
         $this->browser()

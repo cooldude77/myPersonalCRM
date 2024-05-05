@@ -108,21 +108,21 @@ class ProductAttributeValueController extends AbstractController
     }
 
 
-    #[Route('/product/attribute/{$id}/value/list', name: 'product_attribute_value_list')]
+    #[Route("/product/attribute/{id}/value/list", name: 'product_attribute_value_list')]
     public function list(int $id,ProductAttributeValueRepository $productAttributeRepository):
 Response
     {
 
-        $listGrid = ['title' => 'ProductAttribute',
+        $listGrid = ['title' => 'Product Attribute Values',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display'],
-                                   ['label' => 'Description',
-                                    'propertyName' => 'description'],],
-                     'createButtonConfig' => ['function' => 'productAttribute',
-                                              'anchorText' => 'Create ProductAttribute']];
+                                   ['label' => 'value',
+                                    'propertyName' => 'value'],],
+                     'createButtonConfig' => ['function' => 'product_attribute_value',
+                                              'anchorText' => 'Create Product Attribute Value']];
 
-        $productAttributes = $productAttributeRepository->findBy(['productAttributeId'=>$id]);
+        $productAttributes = $productAttributeRepository->findBy(['productAttribute'=>$id]);
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $productAttributes, 'listGrid' => $listGrid]
