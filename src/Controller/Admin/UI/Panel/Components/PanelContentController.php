@@ -6,7 +6,6 @@ use App\Service\Admin\Action\Exception\EmptyActionListMapException;
 use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
 use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
-use PHPUnit\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +58,7 @@ class PanelContentController extends AbstractController
         $content = $response->getContent();
 
         try {
+            // if the content is a twig template, unserialize will throw exception
             $unserialized = unserialize($content);
 
             if (!empty($unserialized['id'])) {
@@ -66,8 +66,8 @@ class PanelContentController extends AbstractController
                     . $unserialized['id'];
                 return $this->redirect($success_url);
             }
-        } catch (Exception $e){
-
+        } catch (\Exception $e) {
+        // do nothing
         }
         return $this->render(
             'admin/ui/panel/section/content/content.html.twig', ['content' => $content]
