@@ -128,6 +128,7 @@ class CategoryController extends AbstractController
 
         $displayParams = ['title' => 'Category',
                           'editButtonLinkText' => 'Edit',
+                          'link_id' => 'id-category',
                           'fields' => [['label' => 'Name',
                                         'propertyName' => 'name',
                                         'link_id' => 'id-display-category',],
@@ -147,8 +148,7 @@ class CategoryController extends AbstractController
 
         $listGrid = ['title' => 'Category',
                      'link_id' => 'id-category',
-                     'columns' => [
-                         ['label' => 'Name',
+                     'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display',],
                                    ['label' => 'Description',

@@ -143,13 +143,14 @@ class FileController extends AbstractController
 
         $listGrid = ['title' => "Files",
                      'function' => 'file',
-                     'link_id'=>'id-file',
+                     'link_id' => 'id-file',
                      'columns' => [['label' => 'Your fileName',
                                     'propertyName' => 'yourFileName',
                                     'action' => 'display'],
                                    ['label' => 'FileName', 'propertyName' => 'name'],],
                      'createButtonConfig' => ['function' => 'file',
-                                              'anchorText' => 'File']];
+                                              'anchorText' => 'File',
+                                              'link_id' => 'id-file']];
 
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
@@ -173,8 +174,9 @@ class FileController extends AbstractController
 
         $displayParams = ['title' => 'File',
                           'editButtonLinkText' => 'Edit',
+                          'link_id'=>'id-file',
                           'fields' => [['label' => 'Your File Name',
-                                        'link_id'=>'id-display-file',
+                                        'link_id' => 'id-display-file',
                                         'propertyName' => 'yourFileName'],
                                        ['label' => 'Name', 'propertyName' => 'name'],]];
 

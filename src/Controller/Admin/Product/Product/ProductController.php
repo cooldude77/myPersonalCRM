@@ -114,6 +114,7 @@ class ProductController extends AbstractController
         }
 
         $displayParams = ['title' => 'Product',
+                          'link_id'=>'id-product',
                           'editButtonLinkText' => 'Edit',
                           'fields' => [['label' => 'Name', 'propertyName' => 'name',
                                         'link_id'=>'id-display-product'],

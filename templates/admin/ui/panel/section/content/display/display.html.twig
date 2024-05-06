@@ -3,7 +3,8 @@
         {% include 'admin/ui/panel/section/content/action/top_level/_edit_link.html.twig' with {
             'function': app.request.get('_function'),
             'id':app.request.get('id'),
-            'title':params.title} %}
+            'title':params.title,
+            'link_id':params.link_id} %}
     </div>
 </div>
 {% for field in params.fields %}
