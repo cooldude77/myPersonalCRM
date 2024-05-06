@@ -48,7 +48,7 @@ final class ProductFactory extends ModelFactory
     {
         return [
             'category' => CategoryFactory::new(),
-            'code' => self::faker()->text(255),
+            'name' => self::faker()->text(255),
             'description' => self::faker()->text(5000),
             'isActive' => self::faker()->boolean(),
         ];

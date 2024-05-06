@@ -2,18 +2,17 @@
 
 namespace App\Form\Admin\Product;
 
-use App\Form\Admin\Product\Category\Transformer\CategoryToIdTransformer;
+use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
 use App\Form\Admin\Product\DTO\ProductDTO;
 use App\Form\CategoryAutoCompleteField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductCreateForm extends AbstractType
+class ProductEditForm extends AbstractType
 {
 
     // If one uses model transformer then only category id is provided in controller
@@ -38,6 +37,6 @@ class ProductCreateForm extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'product_create_form';
+        return 'product_edit_form';
     }
 }

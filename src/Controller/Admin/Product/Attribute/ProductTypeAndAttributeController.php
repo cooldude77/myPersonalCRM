@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Product\Type;
+namespace App\Controller\Admin\Product\Attribute;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

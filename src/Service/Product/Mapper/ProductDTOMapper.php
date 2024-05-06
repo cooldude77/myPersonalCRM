@@ -33,13 +33,20 @@ class ProductDTOMapper
         return $product;
     }
 
-    public function mapFromEntity(?Product $product): ProductDTO
+
+    public function mapToEntityForEdit(FormInterface $form, Product $product)
     {
-        $productDTO = new ProductDTO();
-        $productDTO->id = $product->getId();
-        $productDTO->name = $product->getName();
-        $productDTO->description = $product->getDescription();
-        return $productDTO;
+        /** @var Category $category */
+        $category = $form->get('category')->getData();
+        $productDTO = $form->getData();
+
+        $product = $this->productRepository->create($category);
+
+        $product->setName($productDTO->name);
+        $product->setDescription($productDTO->description);
+
+
+        return $product;
 
     }
 }

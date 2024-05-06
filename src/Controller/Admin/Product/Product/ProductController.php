@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\Admin\Product\ProductCreateForm;
 use App\Form\Admin\Product\DTO\ProductDTO;
+use App\Form\Admin\Product\ProductEditForm;
 use App\Repository\ProductRepository;
 use App\Service\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,7 +58,7 @@ class ProductController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Annotation\Route('/product/edit/{id}', name: 'product_edit')]
+    #[\Symfony\Component\Routing\Annotation\Route('/product/{id}/edit', name: 'product_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          ProductRepository     $productRepository,
                          ProductDTOMapper $productDTOMapper,
@@ -70,17 +71,20 @@ class ProductController extends AbstractController
         if (!$product) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
-        $productDTO = $productDTOMapper->mapFromEntity($product);
 
-        $form = $this->createForm(ProductCreateForm::class,
-            $productDTO);
+        $productDTO = new ProductDTO();
+        $productDTO->id = $id;
+
+        $form = $this->createForm(ProductEditForm::class, $productDTO);
+
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $product = $productDTOMapper->mapToEntityForEdit($form,$product);
             // perform some action...
-            $entityManager->persist($form->getData());
+            $entityManager->persist($product);
             $entityManager->flush();
 
             if ($request->get('_redirect_upon_success_url')) {
@@ -100,7 +104,7 @@ class ProductController extends AbstractController
             ['form' => $form]);
     }
 
-    #[Route('/product/display/{id}', name: 'product_display')]
+    #[Route('/product/{id}/display', name: 'product_display')]
     public function display(ProductRepository $productRepository,
                             int                $id): Response
     {
