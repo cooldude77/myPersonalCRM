@@ -33,19 +33,13 @@ class ProductAttributeDTOMapper
 
     }
 
-    public function mapDtoToEntityForUpdate(ProductAttributeDTO $productAttributeDTO,
+    public function mapDtoToEntityForEdit(ProductAttributeDTO $productAttributeDTO,
         ProductAttribute $productAttributeEntity
     ) {
 
-        /** @var ProductAttributeType $type */
-        $type = $this->productAttributeTypeRepository->findOneBy(
-            ['id' => $productAttributeDTO->productAttributeTypeId]
-        );
 
         $productAttributeEntity->setName($productAttributeDTO->name);
         $productAttributeEntity->setDescription($productAttributeDTO->description);
-
-        $productAttributeEntity->setProductAttributeType($type);
 
         return $productAttributeEntity;
 

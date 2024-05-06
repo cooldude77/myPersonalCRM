@@ -23,6 +23,7 @@ class ProductAttributeEditForm extends AbstractType
        $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
 
+
         $builder->add('save', SubmitType::class);
     }
 

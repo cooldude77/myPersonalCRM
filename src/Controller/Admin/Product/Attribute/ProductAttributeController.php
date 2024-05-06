@@ -74,7 +74,7 @@ class ProductAttributeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttributeEntity = $mapper->mapDtoToEntityForUpdate($form->getData(),$productAttributeEntity);
+            $productAttributeEntity = $mapper->mapDtoToEntityForEdit($form->getData(),$productAttributeEntity);
 
             $entityManager->persist($productAttributeEntity);
             $entityManager->flush();

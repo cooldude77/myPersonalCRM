@@ -6,7 +6,6 @@ use App\Form\Admin\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
 use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueCreateForm;
 use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueEditForm;
 use App\Repository\ProductAttributeValueRepository;
-use App\Repository\ProductTypeRepository;
 use App\Service\Product\Attribute\Value\ProductAttributeValueDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,18 +60,14 @@ class ProductAttributeValueController extends AbstractController
     }
 
 
-
-    #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/value/{id}/edit',
-        name: 'product_attribute_value_edit')]
-    public function edit(
-        int $id,
-        ProductAttributeValueDTOMapper $mapper, EntityManagerInterface $entityManager,
-        ProductAttributeValueRepository $productAttributeValueRepository,
-        Request $request
+    #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/value/{id}/edit', name: 'product_attribute_value_edit')]
+    public function edit(int $id, ProductAttributeValueDTOMapper $mapper,
+        EntityManagerInterface $entityManager,
+        ProductAttributeValueRepository $productAttributeValueRepository, Request $request
     ): Response {
         $productAttributeValueDTO = new ProductAttributeValueDTO();
 
-        $productAttributeValueEntity =  $productAttributeValueRepository->find($id);
+        $productAttributeValueEntity = $productAttributeValueRepository->find($id);
 
         $form = $this->createForm(ProductAttributeValueEditForm::class, $productAttributeValueDTO);
 
@@ -80,7 +75,9 @@ class ProductAttributeValueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttributeEntity = $mapper->mapDtoToEntityForUpdate($form->getData(),$productAttributeValueEntity);
+            $productAttributeEntity = $mapper->mapDtoToEntityForUpdate(
+                $form->getData(), $productAttributeValueEntity
+            );
 
             $entityManager->persist($productAttributeEntity);
             $entityManager->flush();
@@ -109,23 +106,28 @@ class ProductAttributeValueController extends AbstractController
 
 
     #[Route("/product/attribute/{id}/value/list", name: 'product_attribute_value_list')]
-    public function list(int $id,ProductAttributeValueRepository $productAttributeRepository):
-Response
-    {
+    public function list(int $id, ProductAttributeValueRepository $productAttributeValueRepository
+    ): Response {
 
         $listGrid = ['title' => 'Product Attribute Values',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display'],
-                                   ['label' => 'value',
-                                    'propertyName' => 'value'],],
-                     'createButtonConfig' => ['function' => 'product_attribute_value',
-                                              'anchorText' => 'Create Product Attribute Value']];
+                     'columns' => [
+                         ['label' => 'Name',
+                          'propertyName' => 'name',
+                          'action' => 'display'],
+                         ['label' => 'value',
+                          'propertyName' => 'value'],
+                     ],
+                     'createButtonConfig' => [
+                         'function' => 'product_attribute_value',
+                         'anchorText' => 'Create Product Attribute Value']
+        ];
 
-        $productAttributes = $productAttributeRepository->findBy(['productAttribute'=>$id]);
+        $productAttributeValues = $productAttributeValueRepository->findBy(
+            ['productAttribute' => $id]
+        );
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $productAttributes, 'listGrid' => $listGrid]
+            ['entities' => $productAttributeValues, 'listGrid' => $listGrid]
         );
     }
 

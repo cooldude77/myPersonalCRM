@@ -60,7 +60,7 @@ class ProductAttributeValueControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = ProductAttributeValueFactory::find(array('name' => "Attribute Value 1"));
+        $created = ProductAttributeValueFactory::find(array('name' => "Attribute Val 1"));
 
         $this->assertEquals('Attribute Val 1', $created->getName());
     }
