@@ -16,13 +16,27 @@ class PanelMainControllerTest extends WebTestCase
 
         $this->browser()
             ->visit($uri)
+            ->click('a#sidebar-link-category-list')
+            ->followRedirects()
+            ->assertSuccessful();
+
+        $this->browser()
+            ->visit($uri)
             ->click('a#sidebar-link-product-list')
             ->followRedirects()
             ->assertSuccessful();
 
+        $this->browser()
+            ->visit($uri)
+            ->click('a#sidebar-link-product-type-list')
+            ->followRedirects()
+            ->assertSuccessful();
 
-
-
+        $this->browser()
+            ->visit($uri)
+            ->click('a#sidebar-link-product-attribute-list')
+            ->followRedirects()
+            ->assertSuccessful();
 
 
         /*
