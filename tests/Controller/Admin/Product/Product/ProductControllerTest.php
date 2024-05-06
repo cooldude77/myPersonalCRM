@@ -18,8 +18,8 @@ class ProductControllerTest extends WebTestCase
      */
     public function testCreate()
     {
-        $category = CategoryFactory::createOne(['name'=>'Cat1',
-                                                'description'=>'Category 1']);
+        $category = CategoryFactory::createOne(['name' => 'Cat1',
+                                                'description' => 'Category 1']);
 
         $id = $category->getId();
         $createUrl = '/product/create';
@@ -35,34 +35,31 @@ class ProductControllerTest extends WebTestCase
         $selectElement = $crawler->filter('select')->getNode(0);
         $selectElement->appendChild($option);
 
-        $visit->fillField('product_create_form[name]', 'Prod1')
-            ->fillField(
+        $visit->fillField('product_create_form[name]', 'Prod1')->fillField(
                 'product_create_form[description]', 'Product 1'
-            )
-            ->fillField('product_create_form[category]', $id)
-            ->click('Save')
-            ->assertSuccessful();
+            )->fillField('product_create_form[category]', $id)->click('Save')->assertSuccessful();
 
-        $created = ProductFactory::find(array('name'=>"Prod1"));
+        $created = ProductFactory::find(array('name' => "Prod1"));
 
         $this->assertEquals("Prod1", $created->getName());
 
 
     }
+
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
      */
     public function testEdit()
     {
-        $category1 = CategoryFactory::createOne(['name'=>'Cat1',
-                                                'description'=>'Category 1']);
+        $category1 = CategoryFactory::createOne(['name' => 'Cat1',
+                                                 'description' => 'Category 1']);
 
-        $category2 = CategoryFactory::createOne(['name'=>'Cat2',
-                                                'description'=>'Category 2']);
+        $category2 = CategoryFactory::createOne(['name' => 'Cat2',
+                                                 'description' => 'Category 2']);
 
 
-        $product = ProductFactory::createOne(['category'=>$category1]);
+        $product = ProductFactory::createOne(['category' => $category1]);
 
         $id = $product->getId();
 
@@ -92,14 +89,34 @@ class ProductControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = ProductFactory::find(array('name'=>"Prod1"));
+        $created = ProductFactory::find(array('name' => "Prod1"));
 
         $this->assertEquals("Prod1", $created->getName());
 
 
     }
 
-  public function testList()
+    /**
+     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
+     */
+    public function testDisplay()
+    {
+        $category = CategoryFactory::createOne(['name' => 'Cat1',
+                                                'description' => 'Category 1']);
+
+
+        $product = ProductFactory::createOne(['category' => $category]);
+
+        $id = $category->getId();
+        $createUrl = "/product/$id/display";
+
+        $this->browser()->visit($createUrl)->assertSuccessful();
+
+
+    }
+
+    public function testList()
     {
 
         $url = '/product/list';
