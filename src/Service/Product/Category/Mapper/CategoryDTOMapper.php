@@ -33,13 +33,14 @@ class CategoryDTOMapper
         return $category;
     }
 
-    public function mapToEntityForEdit(CategoryDTO $categoryDTO, ?Category $category = null): Category
+    public function mapToEntityForEdit(FormInterface $form, Category $category = null): Category
     {
+
+        $parent = $this->categoryRepository->findOneBy(['id'=>$form->get('parent')->getData()]);
+        $categoryDTO = $form->getData();
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
-        if ($category->getParent()->getName() != $categoryDTO->parent)
-            $category->setParent($this->categoryRepository->findOneBy(['name' => $categoryDTO->parent]));
 
 
         return $category;

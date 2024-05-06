@@ -75,6 +75,51 @@ class CategoryControllerTest extends WebTestCase
 
     }
 
+
+    /**
+     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
+     */
+    public function testEdit()
+    {
+
+        $category = CategoryFactory::createOne(['name'=>'Cat1','description'=>'Category 1']);
+        $id = $category->getId();
+
+        $uri = "/category/$id/edit";
+        $this->browser()
+            ->visit($uri)
+            ->fillField('category_edit_form[name]', 'Cat2')
+            ->fillField(
+                'category_edit_form[description]', 'Category 2'
+            )
+            ->click('Save')
+            ->assertSuccessful();
+
+
+
+        $edited = CategoryFactory::find(array('name'=>"Cat2"));
+        $this->assertNotNull($edited);
+    }
+
+   /**
+     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
+     */
+    public function testDisplay()
+    {
+
+        $category = CategoryFactory::createOne(['name'=>'Cat1','description'=>'Category 1']);
+        $id = $category->getId();
+
+        $uri = "/category/$id/display";
+        $this->browser()
+            ->visit($uri)
+            ->assertSuccessful();
+
+    }
+
+
     public function testList()
     {
 

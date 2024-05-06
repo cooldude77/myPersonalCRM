@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Product\Category;
 
 use App\Form\Admin\Product\Category\CategoryCreateForm;
+use App\Form\Admin\Product\Category\CategoryEditForm;
 use App\Form\Admin\Product\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
 use App\Service\Product\Category\Mapper\CategoryDTOMapper;
@@ -53,7 +54,7 @@ class CategoryController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Annotation\Route('/category/edit/{id}', name: 'category_edit')]
+    #[\Symfony\Component\Routing\Annotation\Route('/category/{id}/edit', name: 'category_edit')]
     public function edit(EntityManagerInterface $entityManager,
         CategoryRepository $categoryRepository, CategoryDTOMapper $categoryDTOMapper,
         Request $request, int $id
@@ -66,18 +67,17 @@ class CategoryController extends AbstractController
                 'No category found for id ' . $id
             );
         }
-        $categoryDTO = $categoryDTOMapper->mapFromEntity($category);
+        $categoryDTO = new CategoryDTO();
+        $categoryDTO->id = $id;
 
-        $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
+        $form = $this->createForm(CategoryEditForm::class, $categoryDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $category = $categoryDTOMapper->mapToEntityForEdit(
-                $data, $category
-            );
+            $category = $categoryDTOMapper->mapToEntityForEdit($form, $category);
 
 
             // perform some action...
@@ -103,7 +103,7 @@ class CategoryController extends AbstractController
         );
     }
 
-    #[Route('/category/display/{id}', name: 'category_display')]
+    #[Route('/category/{id}/display', name: 'category_display')]
     public function display(CategoryRepository $categoryRepository, int $id): Response
     {
         $category = $categoryRepository->find($id);
