@@ -33,7 +33,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('task_success');
         }
 
-
         return $this->render('admin/user/create.html.twig', [
             'form' => $form,
         ]);

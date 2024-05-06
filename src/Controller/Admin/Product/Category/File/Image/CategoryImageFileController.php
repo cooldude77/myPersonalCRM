@@ -59,16 +59,17 @@ class CategoryImageFileController extends AbstractController
             $entityManager->persist($categoryImageEntity);
             $entityManager->flush();
 
-            $redirect = $request->get(CommonIdentificationConstants::REDIRECT_UPON_SUCCESS_URL);
+            $id = $categoryImageEntity->getId();
 
-            if ($redirect != null) {
-                return $this->redirect(
-                    $commonUtility->addIdToUrl($redirect, $categoryImageEntity->getId())
-                );
-            } else {
-                return $this->redirectToRoute('common/file/success_create.html.twig');
-            }
+            $this->addFlash(
+                'success', "Category file image created successfully"
+            );
 
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Category file image  created successfully"]
+                ), 200
+            );
         }
 
         return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
@@ -113,17 +114,15 @@ class CategoryImageFileController extends AbstractController
             $entityManager->persist($categoryImageFileEntity);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash('success', "Updated created successfully");
 
-                $success_url = $request->get('_redirect_upon_success_url');
+            $this->addFlash(
+                'success', "Category file image updated successfully"
+            );
 
-                return $this->redirect($success_url);
-            }
-
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'CategoryImageFile successfully created']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Category file image  updated successfully"]
+                ), 200
             );
         }
 

@@ -40,25 +40,6 @@ class CategoryController extends AbstractController
                     ['id' => $categoryEntity->getId(), 'message' => "Category created successfully"]
                 ), 200
             );
-            /*
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash('success', "Category created successfully");
-
-                $id = $categoryEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
-
-                return $this->redirect($success_url);
-
-
-            }
-
-
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Category successfully created']
-            );
-        */
-
         }
 
         return $this->render(
@@ -97,17 +78,11 @@ class CategoryController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash('success', "Category created successfully");
-
-                $id = $category->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
-
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Category successfully updated']
+            $this->addFlash('success', "Category created successfully");
+            return new Response(
+                serialize(
+                    ['id' => $category->getId(), 'message' => "Category created successfully"]
+                ), 200
             );
         }
 

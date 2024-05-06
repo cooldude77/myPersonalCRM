@@ -38,21 +38,18 @@ class ProductController extends AbstractController
             $entityManager->persist($productEntity);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
 
-                $id = $productEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+            $id = $productEntity->getId();
 
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            $this->addFlash(
+                'success', "Product created successfully"
             );
-        }
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product created successfully"]
+                ), 200
+            );        }
 
         $formErrors = $form->getErrors(true);
         return $this->render('/admin/product/product_create.html.twig', ['form' => $form]);
@@ -86,19 +83,16 @@ class ProductController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
+            $id = $product->getId();
 
-                $id = $product->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+            $this->addFlash(
+                'success', "Product updated successfully"
+            );
 
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully updated']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product updated successfully"]
+                ), 200
             );
         }
 

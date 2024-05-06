@@ -33,19 +33,19 @@ class ProductAttributeController extends AbstractController
             $entityManager->persist($productAttribute);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
+            $this->addFlash(
+                'success', "Product created successfully"
+            );
 
-                $id = $productAttribute->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+            $id = $productAttribute->getId();
+            $this->addFlash(
+                'success', "Product Attribute created successfully"
+            );
 
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Attribute created successfully"]
+                ), 200
             );
         }
 
@@ -56,17 +56,14 @@ class ProductAttributeController extends AbstractController
     }
 
 
-
     #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/{id}/edit', name: 'product_attribute_edit')]
-    public function edit(
-        int $id,
-        ProductAttributeDTOMapper $mapper, EntityManagerInterface $entityManager,
-        ProductAttributeRepository $productAttributeRepository,
-        Request $request
+    public function edit(int $id, ProductAttributeDTOMapper $mapper,
+        EntityManagerInterface $entityManager,
+        ProductAttributeRepository $productAttributeRepository, Request $request
     ): Response {
         $productAttributeDTO = new ProductAttributeDTO();
 
-        $productAttributeEntity =  $productAttributeRepository->find($id);
+        $productAttributeEntity = $productAttributeRepository->find($id);
 
         $form = $this->createForm(ProductAttributeEditForm::class, $productAttributeDTO);
 
@@ -74,29 +71,26 @@ class ProductAttributeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttributeEntity = $mapper->mapDtoToEntityForEdit($form->getData(),$productAttributeEntity);
+            $productAttributeEntity = $mapper->mapDtoToEntityForEdit(
+                $form->getData(), $productAttributeEntity
+            );
 
             $entityManager->persist($productAttributeEntity);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
+            $this->addFlash(
+                'success', "Product Attribute Value updated successfully"
+            );
 
-                $id = $productAttributeEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
-
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Attribute Value updated successfully"]
+                ), 200
             );
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
@@ -107,15 +101,14 @@ class ProductAttributeController extends AbstractController
     {
 
         $listGrid = ['title' => 'Product Attribute',
-                     'link_id'=>'id-product-attribute',
+                     'link_id' => 'id-product-attribute',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display'],
                                    ['label' => 'Description',
                                     'propertyName' => 'description'],],
-                     'createButtonConfig' => [
-                         'link_id'=>'id-create-product_attribute',
-                         'function' => 'product_attribute',
+                     'createButtonConfig' => ['link_id' => 'id-create-product_attribute',
+                                              'function' => 'product_attribute',
                                               'anchorText' => 'Create Product Attribute']];
 
         $productAttributes = $productAttributeRepository->findAll();

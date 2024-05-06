@@ -33,19 +33,17 @@ class ProductTypeController extends AbstractController
             $entityManager->persist($productType);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
 
-                $id = $productType->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+            $id = $productType->getId();
 
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            $this->addFlash(
+                'success', "Product Type updated successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Type created successfully"]
+                ), 200
             );
         }
 
@@ -78,19 +76,14 @@ class ProductTypeController extends AbstractController
             $entityManager->persist($productTypeEntity);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
+            $this->addFlash(
+                'success', "Product Type updated successfully"
+            );
 
-                $id = $productTypeEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
-
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Type created successfully"]
+                ), 200
             );
         }
 

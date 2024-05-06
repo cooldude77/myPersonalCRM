@@ -36,23 +36,20 @@ class ProductAttributeValueController extends AbstractController
             $entityManager->persist($productAttributeValue);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
-
-                $id = $productAttributeValue->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
-
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            $this->addFlash(
+                'success', "Product Attribute created successfully"
             );
+
+            $id = $productAttributeValue->getId();
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Attribute created successfully"]
+                ), 200
+            );
+
         }
 
-        $formErrors = $form->getErrors(true);
         return $this->render(
             '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
@@ -82,24 +79,21 @@ class ProductAttributeValueController extends AbstractController
             $entityManager->persist($productAttributeEntity);
             $entityManager->flush();
 
-            if ($request->get('_redirect_upon_success_url')) {
-                $this->addFlash(
-                    'success', "Product created successfully"
-                );
 
-                $id = $productAttributeEntity->getId();
-                $success_url = $request->get('_redirect_upon_success_url') . "&id=$id";
+            $id = $productAttributeEntity->getId();
+            $this->addFlash(
+                'success', "Product Attribute Value updated successfully"
+            );
 
-                return $this->redirect($success_url);
-            }
-            return $this->render(
-                '/common/miscellaneous/success/create.html.twig',
-                ['message' => 'Product successfully created']
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product Attribute Value updated successfully"]
+                ), 200
             );
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
@@ -110,19 +104,15 @@ class ProductAttributeValueController extends AbstractController
     ): Response {
 
         $listGrid = ['title' => 'Product Attribute Values',
-                     'link_id'=>'id-product-attribute-value',
-                     'columns' => [
-                         ['label' => 'Name',
-                          'propertyName' => 'name',
-                          'action' => 'display'],
-                         ['label' => 'value',
-                          'propertyName' => 'value'],
-                     ],
-                     'createButtonConfig' => [
-                         'link_id'=>'id-create-product-attribute-value',
-                         'function' => 'product_attribute_value',
-                         'anchorText' => 'Create Product Attribute Value']
-        ];
+                     'link_id' => 'id-product-attribute-value',
+                     'columns' => [['label' => 'Name',
+                                    'propertyName' => 'name',
+                                    'action' => 'display'],
+                                   ['label' => 'value',
+                                    'propertyName' => 'value'],],
+                     'createButtonConfig' => ['link_id' => 'id-create-product-attribute-value',
+                                              'function' => 'product_attribute_value',
+                                              'anchorText' => 'Create Product Attribute Value']];
 
         $productAttributeValues = $productAttributeValueRepository->findBy(
             ['productAttribute' => $id]
