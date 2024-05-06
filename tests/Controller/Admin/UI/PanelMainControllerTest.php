@@ -14,8 +14,18 @@ class PanelMainControllerTest extends WebTestCase
         $uri = '/admin';
         $this->browser()->visit($uri)->assertSuccessful();
 
-        $this->browser()->visit($uri)->click('a#sidebar-link-product-list')->followRedirects()->assertSuccessful();
-           /*
+        $this->browser()
+            ->visit($uri)
+            ->click('a#sidebar-link-product-list')
+            ->followRedirects()
+            ->assertSuccessful();
+
+
+
+
+
+
+        /*
                 $crawler = $this->browser()->visit($uri)->crawler();
                 $link = $crawler->selectLink('Categories')->link();
 

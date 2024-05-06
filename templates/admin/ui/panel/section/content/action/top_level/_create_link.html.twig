@@ -25,8 +25,8 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
 
 {% set href = path(context_route,parameterList) %}
 
-<div class="d-flex flex mb-1 ml-0 ">
-    <a class="link-primary" href="{{ href }}">
+<div class="d-flex flex mb-1 ml-0" >
+    <a class="link-primary" id="{{ config.link_id}}" href="{{ href }}">
         {{ config.anchorText }}
         <i class="bi bi-plus-circle-fill"></i>
     </a>

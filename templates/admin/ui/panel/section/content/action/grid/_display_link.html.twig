@@ -12,7 +12,7 @@
         'id':id
     }) %}
 <div class="d-flex flex mb-1 ml-0 ">
-    <a class="link-primary" href="{{ href }}">
+    <a class="link-primary" id="{{ link_id ~"-display-"~id}}" href="{{ href }}">
         {{ name }}
     </a>
 </div>

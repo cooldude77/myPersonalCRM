@@ -110,6 +110,7 @@ class ProductAttributeValueController extends AbstractController
     ): Response {
 
         $listGrid = ['title' => 'Product Attribute Values',
+                     'link_id'=>'id-product-attribute-value',
                      'columns' => [
                          ['label' => 'Name',
                           'propertyName' => 'name',
@@ -118,6 +119,7 @@ class ProductAttributeValueController extends AbstractController
                           'propertyName' => 'value'],
                      ],
                      'createButtonConfig' => [
+                         'link_id'=>'id-create-product-attribute-value',
                          'function' => 'product_attribute_value',
                          'anchorText' => 'Create Product Attribute Value']
         ];

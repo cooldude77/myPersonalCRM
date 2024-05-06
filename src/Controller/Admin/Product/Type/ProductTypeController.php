@@ -106,12 +106,15 @@ class ProductTypeController extends AbstractController
     {
 
         $listGrid = ['title' => 'ProductType',
+                     'link_id'=>'id-product-type',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display'],
                                    ['label' => 'Description',
                                     'propertyName' => 'description'],],
-                     'createButtonConfig' => ['function' => 'productType',
+                     'createButtonConfig' => [
+                         'link_id'=>' id-create-product-type',
+                         'function' => 'productType',
                                               'anchorText' => 'Create ProductType']];
 
         $productTypes = $productTypeRepository->findAll();

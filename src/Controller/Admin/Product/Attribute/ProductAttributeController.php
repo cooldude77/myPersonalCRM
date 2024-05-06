@@ -106,14 +106,17 @@ class ProductAttributeController extends AbstractController
     public function list(ProductAttributeRepository $productAttributeRepository): Response
     {
 
-        $listGrid = ['title' => 'ProductAttribute',
+        $listGrid = ['title' => 'Product Attribute',
+                     'link_id'=>'id-product-attribute',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display'],
                                    ['label' => 'Description',
                                     'propertyName' => 'description'],],
-                     'createButtonConfig' => ['function' => 'productAttribute',
-                                              'anchorText' => 'Create ProductAttribute']];
+                     'createButtonConfig' => [
+                         'link_id'=>'id-create-product_attribute',
+                         'function' => 'product_attribute',
+                                              'anchorText' => 'Create Product Attribute']];
 
         $productAttributes = $productAttributeRepository->findAll();
         return $this->render(

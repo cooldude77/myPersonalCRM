@@ -38,8 +38,7 @@ class CategoryController extends AbstractController
             return new Response(
                 serialize(
                     ['id' => $categoryEntity->getId(), 'message' => "Category created successfully"]
-                ),
-                200
+                ), 200
             );
             /*
             if ($request->get('_redirect_upon_success_url')) {
@@ -130,7 +129,8 @@ class CategoryController extends AbstractController
         $displayParams = ['title' => 'Category',
                           'editButtonLinkText' => 'Edit',
                           'fields' => [['label' => 'Name',
-                                        'propertyName' => 'name'],
+                                        'propertyName' => 'name',
+                                        'link_id' => 'id-display-category',],
                                        ['label' => 'Description',
                                         'propertyName' => 'description'],]];
 
@@ -146,12 +146,15 @@ class CategoryController extends AbstractController
     {
 
         $listGrid = ['title' => 'Category',
-                     'columns' => [['label' => 'Name',
+                     'link_id' => 'id-category',
+                     'columns' => [
+                         ['label' => 'Name',
                                     'propertyName' => 'name',
-                                    'action' => 'display'],
+                                    'action' => 'display',],
                                    ['label' => 'Description',
                                     'propertyName' => 'description'],],
-                     'createButtonConfig' => ['function' => 'category',
+                     'createButtonConfig' => ['link_id' => 'id-create-category',
+                                              'function' => 'category',
                                               'anchorText' => 'Create Category']];
 
         $categories = $categoryRepository->findAll();
