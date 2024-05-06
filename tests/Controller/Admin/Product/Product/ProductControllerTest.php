@@ -108,13 +108,14 @@ class ProductControllerTest extends WebTestCase
 
         $product = ProductFactory::createOne(['category' => $category]);
 
-        $id = $category->getId();
+        $id = $product->getId();
         $createUrl = "/product/$id/display";
 
         $this->browser()->visit($createUrl)->assertSuccessful();
 
 
     }
+
 
     public function testList()
     {
