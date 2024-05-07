@@ -9,6 +9,7 @@ use App\Form\MasterData\Product\ProductEditForm;
 use App\Repository\ProductRepository;
 use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,7 +126,9 @@ class ProductController extends AbstractController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository): Response
+    public function list(ProductRepository $productRepository,PaginatorInterface $paginator,
+    Request $request):
+    Response
     {
 
         $listGrid = ['title' => 'Product',
@@ -138,10 +141,17 @@ class ProductController extends AbstractController
                                               'function' => 'product',
                                               'anchorText' => 'Create Product']];
 
-        $products = $productRepository->findAll();
+        $query = $productRepository->getQueryForSelect();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            1 /*limit per page*/
+        );
+
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $products, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid]
         );
     }
 }

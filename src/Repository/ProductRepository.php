@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -52,5 +53,13 @@ class ProductRepository extends ServiceEntityRepository
         $product = new Product();
         $product->setCategory($category);
         return $product;
+    }
+
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT p FROM App\Entity\Product p";
+        return $this->getEntityManager()->createQuery($dql);
+
     }
 }
