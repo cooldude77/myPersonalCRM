@@ -49,10 +49,11 @@ class ProductController extends AbstractController
                 serialize(
                     ['id' => $id, 'message' => "Product created successfully"]
                 ), 200
-            );        }
+            );
+        }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('/admin/product/product_create.html.twig', ['form' => $form]);
+        return $this->render('master_data/product/product_create.html.twig', ['form' => $form]);
     }
 
 
@@ -96,7 +97,7 @@ class ProductController extends AbstractController
             );
         }
 
-        return $this->render('/admin/product/product_edit.html.twig', ['form' => $form]);
+        return $this->render('master_data/product/product_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/product/{id}/display', name: 'product_display')]
@@ -108,10 +109,11 @@ class ProductController extends AbstractController
         }
 
         $displayParams = ['title' => 'Product',
-                          'link_id'=>'id-product',
+                          'link_id' => 'id-product',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Name', 'propertyName' => 'name',
-                                        'link_id'=>'id-display-product'],
+                          'fields' => [['label' => 'Name',
+                                        'propertyName' => 'name',
+                                        'link_id' => 'id-display-product'],
                                        ['label' => 'Description',
                                         'propertyName' => 'description'],]];
 
@@ -127,7 +129,7 @@ class ProductController extends AbstractController
     {
 
         $listGrid = ['title' => 'Product',
-                     'link_id'=>'id-product',
+                     'link_id' => 'id-product',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display',],

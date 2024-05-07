@@ -52,7 +52,7 @@ class CustomerController extends AbstractController
             );        }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('/admin/customer/customer_create.html.twig', ['form' => $form]);
+        return $this->render('master_data/customer/customer_create.html.twig', ['form' => $form]);
     }
 
 
@@ -96,7 +96,7 @@ class CustomerController extends AbstractController
             );
         }
 
-        return $this->render('/admin/customer/customer_edit.html.twig', ['form' => $form]);
+        return $this->render('master_data/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/customer/{id}/display', name: 'Customer_display')]
