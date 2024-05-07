@@ -4,7 +4,7 @@ namespace App\Controller\MasterData\Price\Tax;
 
 // ...
 use App\Entity\TaxBaseProduct;
-use App\Form\Admin\Price\Tax\TaxProductCreateForm;
+use App\Form\MasterData\Price\Tax\TaxProductCreateForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

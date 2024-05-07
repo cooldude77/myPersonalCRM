@@ -3,11 +3,11 @@
 namespace App\Controller\MasterData\Product\Product;
 
 // ...
-use App\Form\Admin\Product\DTO\ProductDTO;
-use App\Form\Admin\Product\ProductCreateForm;
-use App\Form\Admin\Product\ProductEditForm;
+use App\Form\MasterData\Product\DTO\ProductDTO;
+use App\Form\MasterData\Product\ProductCreateForm;
+use App\Form\MasterData\Product\ProductEditForm;
 use App\Repository\ProductRepository;
-use App\Service\Product\Mapper\ProductDTOMapper;
+use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

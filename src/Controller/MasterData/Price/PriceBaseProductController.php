@@ -3,9 +3,9 @@
 namespace App\Controller\MasterData\Price;
 
 // ...
-use App\Form\Admin\Price\DTO\PriceBaseProductDTO;
-use App\Form\Admin\Price\Mapper\PriceBaseProductDTOMapper;
-use App\Form\Admin\Price\PriceBaseProductCreateForm;
+use App\Form\MasterData\Price\DTO\PriceBaseProductDTO;
+use App\Form\MasterData\Price\Mapper\PriceBaseProductDTOMapper;
+use App\Form\MasterData\Price\PriceBaseProductCreateForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace App\Form\Common\Order\Header;
 
-use App\Form\Admin\Customer\Transformer\CustomerToIdTransformer;
+use App\Form\MasterData\Customer\Transformer\CustomerToIdTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

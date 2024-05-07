@@ -4,10 +4,10 @@ namespace App\Controller\MasterData\Product\File\Image;
 
 // ...
 use App\Entity\ProductImageFile;
-use App\Form\Admin\Product\File\DTO\ProductFileImageDTO;
-use App\Form\Admin\Product\File\Form\ProductFileImageCreateForm;
+use App\Form\MasterData\Product\File\DTO\ProductFileImageDTO;
+use App\Form\MasterData\Product\File\Form\ProductFileImageCreateForm;
 use App\Repository\ProductImageFileRepository;
-use App\Service\Product\File\Image\ProductFileImageService;
+use App\Service\MasterData\Product\File\Image\ProductFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

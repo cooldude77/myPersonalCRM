@@ -3,8 +3,8 @@
 namespace App\Service\Module\WebShop\File;
 
 
-use App\Service\File\Base\AbstractFileDirectoryPathProvider;
-use App\Service\File\Provider\Interfaces\DirectoryPathProviderInterface;
+use App\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
+use App\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:

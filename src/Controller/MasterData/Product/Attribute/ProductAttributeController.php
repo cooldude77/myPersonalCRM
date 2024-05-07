@@ -3,11 +3,11 @@
 namespace App\Controller\MasterData\Product\Attribute;
 
 // ...
-use App\Form\Admin\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Form\Admin\Product\Attribute\ProductAttributeCreateForm;
-use App\Form\Admin\Product\Attribute\ProductAttributeEditForm;
+use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
+use App\Form\MasterData\Product\Attribute\ProductAttributeCreateForm;
+use App\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
 use App\Repository\ProductAttributeRepository;
-use App\Service\Product\Attribute\ProductAttributeDTOMapper;
+use App\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

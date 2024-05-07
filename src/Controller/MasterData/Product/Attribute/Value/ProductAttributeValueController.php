@@ -2,11 +2,11 @@
 
 namespace App\Controller\MasterData\Product\Attribute\Value;
 
-use App\Form\Admin\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
-use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueCreateForm;
-use App\Form\Admin\Product\Attribute\Value\ProductAttributeValueEditForm;
+use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
+use App\Form\MasterData\Product\Attribute\Value\ProductAttributeValueCreateForm;
+use App\Form\MasterData\Product\Attribute\Value\ProductAttributeValueEditForm;
 use App\Repository\ProductAttributeValueRepository;
-use App\Service\Product\Attribute\Value\ProductAttributeValueDTOMapper;
+use App\Service\MasterData\Product\Attribute\Value\ProductAttributeValueDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
