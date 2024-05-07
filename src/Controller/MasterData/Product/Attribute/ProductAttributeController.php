@@ -90,7 +90,7 @@ class ProductAttributeController extends AbstractController
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }

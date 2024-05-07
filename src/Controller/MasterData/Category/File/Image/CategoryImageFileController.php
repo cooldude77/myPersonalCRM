@@ -71,7 +71,7 @@ class CategoryImageFileController extends AbstractController
             );
         }
 
-        return $this->render('admin/category/file/image/create.html.twig', ['form' => $form]);
+        return $this->render('master_data/category/file/image/create.html.twig', ['form' => $form]);
     }
 
     /**
@@ -126,7 +126,7 @@ class CategoryImageFileController extends AbstractController
         }
 
         return $this->render(
-            'admin/category/file/image/category_file_image_edit.html.twig',
+            'master_data/category/file/image/category_file_image_edit.html.twig',
             ['form' => $form, 'entity' => $categoryImageFileEntity]
         );
 
@@ -232,7 +232,7 @@ class CategoryImageFileController extends AbstractController
                                         'propertyName' => 'categoryImageFileType']]];
 
         return $this->render(
-            'admin/category/file/image/category_file_image_display.html.twig',
+            'master_data/category/file/image/category_file_image_display.html.twig',
             ['entity' => $entity, 'params' => $displayParams]
         );
 

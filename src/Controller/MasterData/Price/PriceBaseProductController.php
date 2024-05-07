@@ -32,12 +32,12 @@ public function createProduct(EntityManagerInterface $entityManager,
         $entityManager->persist($price);
         $entityManager->flush();
 
-        $response = $this->render('admin/product/success.html.twig');
+        $response = $this->render('master_data/product/success.html.twig');
         $response->setStatusCode(401);
 
         return $response;
     }
-    return $this->render('admin/product/create.html.twig', ['form' => $form]);
+    return $this->render('master_data/product/create.html.twig', ['form' => $form]);
 }
 
 }

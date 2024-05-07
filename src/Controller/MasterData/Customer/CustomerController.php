@@ -116,7 +116,7 @@ class CustomerController extends AbstractController
                                         'propertyName' => 'firstName'],]];
 
         return $this->render(
-            'admin/customer/customer_display.html.twig',
+            'master_data/customer/customer_display.html.twig',
             ['entity' => $customer, 'params' => $displayParams]
         );
 

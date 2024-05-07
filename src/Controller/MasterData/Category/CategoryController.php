@@ -111,7 +111,7 @@ class CategoryController extends AbstractController
                                         'propertyName' => 'description'],]];
 
         return $this->render(
-            'admin/category/category_display.html.twig',
+            'master_data/category/category_display.html.twig',
             ['entity' => $category, 'params' => $displayParams]
         );
 

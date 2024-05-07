@@ -118,7 +118,7 @@ class ProductController extends AbstractController
                                         'propertyName' => 'description'],]];
 
         return $this->render(
-            'admin/product/product_display.html.twig',
+            'master_data/product/product_display.html.twig',
             ['entity' => $product, 'params' => $displayParams]
         );
 
