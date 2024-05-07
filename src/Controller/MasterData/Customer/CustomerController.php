@@ -1,13 +1,13 @@
 <?php
-// src/Controller/CustomerController.php
+// src/controller/customerController.php
 namespace App\Controller\MasterData\Customer;
 
 // ...
-use App\Form\Admin\Customer\CustomerEditForm;
-use App\Form\Admin\Customer\DTO\CustomerDTO;
 use App\Form\MasterData\Customer\CustomerCreateForm;
+use App\Form\MasterData\Customer\CustomerEditForm;
+use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Repository\CustomerRepository;
-use App\Service\Customer\Mapper\CustomerDTOMapper;
+use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/Customer/create', 'Customer_create')]
-    public function create(CustomerDTOMapper $CustomerDTOMapper,
+    #[\Symfony\Component\Routing\Attribute\Route('/customer/create', 'Customer_create')]
+    public function create(CustomerDTOMapper $customerDTOMapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
-        $CustomerDTO = new CustomerDTO();
+        $customerDTO = new CustomerDTO();
         $form = $this->createForm(
-            CustomerCreateForm::class, $CustomerDTO
+            CustomerCreateForm::class, $customerDTO
         );
 
         $form->handleRequest($request);
@@ -31,15 +31,15 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $CustomerEntity = $CustomerDTOMapper->mapToEntityForCreate($form);
+            $customerEntity = $customerDTOMapper->mapToEntityForCreate($form);
 
 
             // perform some action...
-            $entityManager->persist($CustomerEntity);
+            $entityManager->persist($customerEntity);
             $entityManager->flush();
 
 
-            $id = $CustomerEntity->getId();
+            $id = $customerEntity->getId();
 
             $this->addFlash(
                 'success', "Customer created successfully"
@@ -52,38 +52,38 @@ class CustomerController extends AbstractController
             );        }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('/admin/Customer/Customer_create.html.twig', ['form' => $form]);
+        return $this->render('/admin/customer/customer_create.html.twig', ['form' => $form]);
     }
 
 
-    #[Route('/Customer/{id}/edit', name: 'Customer_edit')]
+    #[Route('/customer/{id}/edit', name: 'Customer_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        CustomerRepository $CustomerRepository, CustomerDTOMapper $CustomerDTOMapper, Request $request,
+        CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper, Request $request,
         int $id
     ): Response {
-        $Customer = $CustomerRepository->find($id);
+        $customer = $customerRepository->find($id);
 
 
-        if (!$Customer) {
+        if (!$customer) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
-        $CustomerDTO = new CustomerDTO();
-        $CustomerDTO->id = $id;
+        $customerDTO = new CustomerDTO();
+        $customerDTO->id = $id;
 
-        $form = $this->createForm(CustomerEditForm::class, $CustomerDTO);
+        $form = $this->createForm(CustomerEditForm::class, $customerDTO);
 
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $Customer = $CustomerDTOMapper->mapToEntityForEdit($form, $Customer);
+            $customer = $customerDTOMapper->mapToEntityForEdit($form, $customer);
             // perform some action...
-            $entityManager->persist($Customer);
+            $entityManager->persist($customer);
             $entityManager->flush();
 
-            $id = $Customer->getId();
+            $id = $customer->getId();
 
             $this->addFlash(
                 'success', "Customer updated successfully"
@@ -96,34 +96,34 @@ class CustomerController extends AbstractController
             );
         }
 
-        return $this->render('/admin/Customer/Customer_edit.html.twig', ['form' => $form]);
+        return $this->render('/admin/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/Customer/{id}/display', name: 'Customer_display')]
-    public function display(CustomerRepository $CustomerRepository, int $id): Response
+    #[Route('/customer/{id}/display', name: 'Customer_display')]
+    public function display(CustomerRepository $customerRepository, int $id): Response
     {
-        $Customer = $CustomerRepository->find($id);
-        if (!$Customer) {
+        $customer = $customerRepository->find($id);
+        if (!$customer) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
         $displayParams = ['title' => 'Customer',
                           'link_id'=>'id-Customer',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Name', 'propertyName' => 'name',
+                          'fields' => [['label' => 'Code', 'propertyName' => 'code',
                                         'link_id'=>'id-display-Customer'],
-                                       ['label' => 'Description',
-                                        'propertyName' => 'description'],]];
+                                       ['label' => 'First Name',
+                                        'propertyName' => 'firstName'],]];
 
         return $this->render(
-            'admin/Customer/Customer_display.html.twig',
-            ['entity' => $Customer, 'params' => $displayParams]
+            'admin/customer/customer_display.html.twig',
+            ['entity' => $customer, 'params' => $displayParams]
         );
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/Customer/list', name: 'Customer_list')]
-    public function list(CustomerRepository $CustomerRepository): Response
+    #[\Symfony\Component\Routing\Attribute\Route('/customer/list', name: 'Customer_list')]
+    public function list(CustomerRepository $customerRepository): Response
     {
 
         $listGrid = ['title' => 'Customer',
@@ -136,10 +136,10 @@ class CustomerController extends AbstractController
                                               'function' => 'Customer',
                                               'anchorText' => 'Create Customer']];
 
-        $Customers = $CustomerRepository->findAll();
+        $customers = $customerRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $Customers, 'listGrid' => $listGrid]
+            ['entities' => $customers, 'listGrid' => $listGrid]
         );
     }
 }

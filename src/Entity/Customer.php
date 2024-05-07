@@ -14,7 +14,22 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $customerCode = null;
+    private ?string $code = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $middleName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $givenName = null;
+
+    #[ORM\ManyToOne]
+    private ?Salutation $salutation = null;
 
     public function getId(): ?int
     {
@@ -28,14 +43,14 @@ class Customer
         return $this;
     }
 
-    public function getCustomerCode(): ?string
+    public function getCode(): ?string
     {
-        return $this->customerCode;
+        return $this->code;
     }
 
-    public function setCustomerCode(string $customerCode): static
+    public function setCode(string $code): static
     {
-        $this->customerCode = $customerCode;
+        $this->code = $code;
 
         return $this;
     }
@@ -43,5 +58,65 @@ class Customer
     public function __toString(): string
     {
         return Customer::class;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getMiddleName(): ?string
+    {
+        return $this->middleName;
+    }
+
+    public function setMiddleName(?string $middleName): static
+    {
+        $this->middleName = $middleName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getGivenName(): ?string
+    {
+        return $this->givenName;
+    }
+
+    public function setGivenName(?string $givenName): static
+    {
+        $this->givenName = $givenName;
+
+        return $this;
+    }
+
+    public function getSalutation(): ?Salutation
+    {
+        return $this->salutation;
+    }
+
+    public function setSalutation(?Salutation $salutation): static
+    {
+        $this->salutation = $salutation;
+
+        return $this;
     }
 }

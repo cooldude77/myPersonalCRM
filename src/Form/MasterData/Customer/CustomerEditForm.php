@@ -2,33 +2,31 @@
 
 namespace App\Form\MasterData\Customer;
 
-use App\Entity\Customer;
 use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Repository\CustomerRepository;
 use App\Repository\SalutationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerCreateForm extends AbstractType
+class CustomerEditForm extends AbstractType
 {
-    public function __construct(private readonly SalutationRepository $salutationRepository)
+    public function __construct(private SalutationRepository $salutationRepository)
     {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('code', TextType::class);
+        $builder->add('id', HiddenType::class);
         $builder->add('firstName', TextType::class);
         $builder->add('middleName', TextType::class);
         $builder->add('lastName', TextType::class);
         $builder->add('givenName', TextType::class);
         $builder->add('salutationId',ChoiceType::class, [// validation message if the data
-                                                         // transformer fails
+                                                        // transformer fails
                                                        'choices' => $this->fill()]);
         $builder->add('save', SubmitType::class);
 
@@ -52,7 +50,7 @@ class CustomerCreateForm extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'customer_create_form';
+        return 'customer_edit_form';
     }
 
 }

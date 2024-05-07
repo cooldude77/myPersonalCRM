@@ -14,7 +14,7 @@ class Salutation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -24,14 +24,14 @@ class Salutation
         return $this->id;
     }
 
-    public function getCode(): ?string
+    public function getName(): ?string
     {
-        return $this->code;
+        return $this->name;
     }
 
-    public function setCode(string $code): static
+    public function setName(string $name): static
     {
-        $this->code = $code;
+        $this->name = $name;
 
         return $this;
     }
