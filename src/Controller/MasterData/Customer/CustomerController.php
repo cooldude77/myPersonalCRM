@@ -49,7 +49,8 @@ class CustomerController extends AbstractController
                 serialize(
                     ['id' => $id, 'message' => "Customer created successfully"]
                 ), 200
-            );        }
+            );
+        }
 
         $formErrors = $form->getErrors(true);
         return $this->render('master_data/customer/customer_create.html.twig', ['form' => $form]);
@@ -58,8 +59,8 @@ class CustomerController extends AbstractController
 
     #[Route('/customer/{id}/edit', name: 'Customer_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper, Request $request,
-        int $id
+        CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper,
+        Request $request, int $id
     ): Response {
         $customer = $customerRepository->find($id);
 
@@ -108,12 +109,13 @@ class CustomerController extends AbstractController
         }
 
         $displayParams = ['title' => 'Customer',
-                          'link_id'=>'id-Customer',
+                          'link_id' => 'id-customer',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Code', 'propertyName' => 'code',
-                                        'link_id'=>'id-display-Customer'],
-                                       ['label' => 'First Name',
-                                        'propertyName' => 'firstName'],]];
+                          'fields' => [['label' => 'First Name',
+                                        'propertyName' => 'firstName',
+                                        'link_id' => 'id-display-customer'],
+                                       ['label' => 'Last Name',
+                                        'propertyName' => 'lastName'],]];
 
         return $this->render(
             'master_data/customer/customer_display.html.twig',
@@ -127,9 +129,9 @@ class CustomerController extends AbstractController
     {
 
         $listGrid = ['title' => 'Customer',
-                     'link_id'=>'id-Customer',
+                     'link_id' => 'id-customer',
                      'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
+                                    'propertyName' => 'firstName',
                                     'action' => 'display',],
                                    ['label' => 'Description', 'propertyName' => 'description'],],
                      'createButtonConfig' => ['link_id' => ' id-create-Customer',

@@ -36,12 +36,17 @@ class CustomerControllerTest extends WebTestCase
 
         $visit->fillField(
             'customer_create_form[firstName]', 'First Name'
-        )->fillField('customer_create_form[lastName]', 'Last Name')->fillField(
-            'customer_create_form[code]', 'Code'
-        )->fillField('customer_create_form[salutationId]', $salutation->getId())->click('Save')
+        )->fillField('customer_create_form[lastName]', 'Last Name'
+        )->fillField('customer_create_form[salutationId]', $salutation->getId())
+            ->fillField('customer_create_form[email]', 'x@y.com')
+            ->fillField('customer_create_form[phoneNumber]', '+91999999999')
+
+
+
+            ->click('Save')
             ->assertSuccessful();
 
-        $created = CustomerFactory::find(array('code' => "Code"));
+        $created = CustomerFactory::find(array('firstName' => 'First Name'));
 
         $this->assertEquals("First Name", $created->getFirstName());
 
@@ -58,7 +63,7 @@ class CustomerControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
                                                     'description' => 'Mister...']);
 
-        $customer = CustomerFactory::createOne(['firstName' => "First Name", 'code' => "Code"]);
+        $customer = CustomerFactory::createOne(['firstName' => "First Name"]);
 
         $id = $customer->getId();
 
@@ -83,9 +88,12 @@ class CustomerControllerTest extends WebTestCase
             ->fillField(
                 'customer_edit_form[lastName]', 'New Last Name'
             )
+
+            ->fillField('customer_edit_form[email]', 'f@g.com')
+            ->fillField('customer_edit_form[phoneNumber]', '+9188888888')
             ->click('Save')->assertSuccessful();
 
-        $created = CustomerFactory::find(array('code' => "Code"));
+        $created = CustomerFactory::find(array('firstName' => "New First Name"));
 
         $this->assertEquals("New First Name", $created->getFirstName());
 
@@ -102,9 +110,9 @@ class CustomerControllerTest extends WebTestCase
         $customer = CustomerFactory::createOne();
 
         $id = $customer->getId();
-        $createUrl = "/customer/$id/display";
+        $url = "/customer/$id/display";
 
-        $this->browser()->visit($createUrl)->assertSuccessful();
+        $this->browser()->visit($url)->assertSuccessful();
 
 
     }

@@ -47,7 +47,6 @@ final class CustomerFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'code' => self::faker()->text(255),
             'firstName' => self::faker()->text(255),
             'givenName' => self::faker()->text(1000),
             'lastName' => self::faker()->text(255),

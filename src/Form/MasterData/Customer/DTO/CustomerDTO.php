@@ -2,6 +2,8 @@
 
 namespace App\Form\MasterData\Customer\DTO;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class CustomerDTO
 {
     public ?int $id = -1;
@@ -9,8 +11,9 @@ class CustomerDTO
     public ?string $middleName = null;
     public ?string $lastName = null;
     public ?string $givenName = null;
-
-    public ?string $code = null;
     public ?int $salutationId = -1;
 
+    public ?string $email = null;
+
+    public ?string $phoneNumber = null;
 }

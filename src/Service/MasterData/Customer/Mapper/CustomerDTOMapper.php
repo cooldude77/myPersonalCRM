@@ -28,9 +28,10 @@ class CustomerDTOMapper
 
         $customer->setFirstName($customerDTO->firstName);
         $customer->setMiddleName($customerDTO->middleName);
-        $customer->setCode($customerDTO->code);
         $customer->setLastName($customerDTO->lastName);
         $customer->setGivenName($customerDTO->givenName);
+        $customer->setEmail($customerDTO->email);
+        $customer->setPhoneNumber($customerDTO->phoneNumber);
 
 
         return $customer;

@@ -22,14 +22,16 @@ class CustomerCreateForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('code', TextType::class);
+        $builder->add('salutationId',ChoiceType::class, [// validation message if the data
+                                                         // transformer fails
+                                                         'choices' => $this->fill()]);
         $builder->add('firstName', TextType::class);
         $builder->add('middleName', TextType::class);
         $builder->add('lastName', TextType::class);
         $builder->add('givenName', TextType::class);
-        $builder->add('salutationId',ChoiceType::class, [// validation message if the data
-                                                         // transformer fails
-                                                       'choices' => $this->fill()]);
+        $builder->add('email',TextType::class);
+        $builder->add('phoneNumber',TextType::class);
+
         $builder->add('save', SubmitType::class);
 
     }
