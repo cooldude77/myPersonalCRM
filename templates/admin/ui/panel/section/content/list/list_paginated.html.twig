@@ -43,7 +43,14 @@
             </div>
         {% endfor %}
         <div class="navigation">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(
+                pagination,
+                'admin/ui/panel/section/content/list/sliding.html.twig',
+                {
+                    '_function': app.request.get('_function'),
+                    '_type': app.request.get('_type')
+                }
+            ) }}
         </div>
     {% endif %}
 </div>
