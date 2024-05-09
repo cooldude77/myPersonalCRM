@@ -30,10 +30,9 @@ class FileCreateForm extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
-            /** @var FileFormDTO $fileFormDTO */
-            $fileFormDTO = $event->getData();
+            $fileFormDTO= new FileFormDTO();
 
-            if ($fileFormDTO->name == null) $fileFormDTO->name = uniqid(rand(), true);
+            $fileFormDTO->name = uniqid(rand(), true);
 
             $event->setData($fileFormDTO);
         });
@@ -43,7 +42,7 @@ class FileCreateForm extends AbstractType
 
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => FileFormDTO::class]);
     }

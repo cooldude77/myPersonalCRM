@@ -17,7 +17,7 @@ class State
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,14 +41,14 @@ class State
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getName(): ?string
     {
-        return $this->description;
+        return $this->name;
     }
 
-    public function setDescription(string $description): static
+    public function setName(string $name): static
     {
-        $this->description = $description;
+        $this->name = $name;
 
         return $this;
     }

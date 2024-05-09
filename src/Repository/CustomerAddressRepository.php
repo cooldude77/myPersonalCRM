@@ -45,4 +45,10 @@ class CustomerAddressRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\Customer $customer): CustomerAddress
+    {
+        $address = new CustomerAddress();
+        $address->setCustomer($customer);
+        return $address;
+    }
 }

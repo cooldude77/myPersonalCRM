@@ -6,7 +6,6 @@ use App\Entity\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Repository\FileRepository;
 use App\Repository\FileTypeRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileDTOMapper
 {
@@ -14,26 +13,24 @@ class FileDTOMapper
     private FileTypeRepository $fileTypeRepository;
     private FileRepository $fileRepository;
 
-    public function __construct(FileRepository $fileRepository,FileTypeRepository $fileTypeRepository)
+    public function __construct(FileRepository $fileRepository, FileTypeRepository $fileTypeRepository)
     {
         $this->fileTypeRepository = $fileTypeRepository;
         $this->fileRepository = $fileRepository;
     }
 
-    public function mapToFileEntity(FileFormDTO $fileFormDTO,?File $fileEntity =null): File
+    public function mapToFileEntityForCreate(FileFormDTO $fileFormDTO): File
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
 
-        if($fileEntity == null) {
-            $fileEntity = $this->fileRepository->create();
+        $fileEntity = $this->fileRepository->create();
 
-            $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
-            $fileFormDTO->name = $fileName;
+        $fileName = $fileFormDTO->name . '.' . $fileHandle->guessExtension();
+        $fileFormDTO->name = $fileName;
 
-            $fileEntity->setName($fileFormDTO->name);
+        $fileEntity->setName($fileFormDTO->name);
 
-        }
 
         $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
 
@@ -45,7 +42,16 @@ class FileDTOMapper
 
     }
 
-    public function mapFromEntity(File $file): FileFormDTO
+    public function mapToFileEntityForEdit(FileFormDTO $fileFormDTO, File $fileEntity): File
+    {
+
+        $fileEntity->setYourFileName($fileFormDTO->yourFileName);
+
+        return $fileEntity;
+
+    }
+
+    public function mapEntityToFileDto(File $file): FileFormDTO
     {
         $fileDTO = new FileFormDTO();
         $fileDTO->id = $file->getId();

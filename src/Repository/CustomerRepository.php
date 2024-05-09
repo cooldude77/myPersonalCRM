@@ -45,4 +45,11 @@ class CustomerRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(mixed $salutation): Customer
+    {
+
+        $customer = new Customer();
+        $customer->setSalutation($salutation);
+        return $customer;
+    }
 }
