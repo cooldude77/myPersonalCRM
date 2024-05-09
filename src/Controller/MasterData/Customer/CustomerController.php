@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/customer/create', 'Customer_create')]
+    #[\Symfony\Component\Routing\Attribute\Route('/customer/create', 'customer_create')]
     public function create(CustomerDTOMapper $customerDTOMapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
@@ -57,7 +57,7 @@ class CustomerController extends AbstractController
     }
 
 
-    #[Route('/customer/{id}/edit', name: 'Customer_edit')]
+    #[Route('/customer/{id}/edit', name: 'customer_edit')]
     public function edit(EntityManagerInterface $entityManager,
         CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper,
         Request $request, int $id
@@ -100,7 +100,7 @@ class CustomerController extends AbstractController
         return $this->render('master_data/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/customer/{id}/display', name: 'Customer_display')]
+    #[Route('/customer/{id}/display', name: 'customer_display')]
     public function display(CustomerRepository $customerRepository, int $id): Response
     {
         $customer = $customerRepository->find($id);
@@ -124,7 +124,7 @@ class CustomerController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/customer/list', name: 'Customer_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/customer/list', name: 'customer_list')]
     public function list(CustomerRepository $customerRepository): Response
     {
 
@@ -133,10 +133,10 @@ class CustomerController extends AbstractController
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'firstName',
                                     'action' => 'display',],
-                                   ['label' => 'Description', 'propertyName' => 'description'],],
+                         ],
                      'createButtonConfig' => ['link_id' => ' id-create-Customer',
-                                              'function' => 'Customer',
-                                              'anchorText' => 'Create Customer']];
+                                              'function' => 'customer',
+                                              'anchorText' => 'create Customer']];
 
         $customers = $customerRepository->findAll();
         return $this->render(

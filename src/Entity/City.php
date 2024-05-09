@@ -14,25 +14,28 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private ?string $code = null;
 
     #[ORM\ManyToOne(inversedBy: 'cities')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $State = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCity(): ?string
+    public function getCode(): ?string
     {
-        return $this->city;
+        return $this->code;
     }
 
-    public function setCity(string $city): static
+    public function setCode(string $code): static
     {
-        $this->city = $city;
+        $this->code = $code;
 
         return $this;
     }
@@ -45,6 +48,18 @@ class City
     public function setState(?State $State): static
     {
         $this->State = $State;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

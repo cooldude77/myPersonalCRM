@@ -3,9 +3,9 @@
 namespace App\Controller\MasterData\Customer\Address;
 
 // ...
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use App\Form\MasterData\Customer\Address\CustomerAddressEditForm;
+use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerAddressController extends AbstractController
 {
 
-    #[Route('/product/attribute/{id}/value/create', name: 'product_attribute_value_create')]
+    #[Route('/customer/{id}/address/create', name: 'customer_address_create')]
     public function create(int $id, CustomerAddressDTOMapper $mapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
@@ -38,14 +38,14 @@ class CustomerAddressController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', "Product Attribute created successfully"
+                'success', "Customer Address created successfully"
             );
 
             $id = $customerAddress->getId();
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Product Attribute created successfully"]
+                    ['id' => $id, 'message' => "Customer Address created successfully"]
                 ), 200
             );
 
@@ -58,7 +58,7 @@ class CustomerAddressController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/value/{id}/edit', name: 'product_attribute_value_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/customer/address/{id}/edit', name: 'customer_address_edit')]
     public function edit(int $id, CustomerAddressDTOMapper $mapper,
         EntityManagerInterface $entityManager,
         CustomerAddressRepository $customerAddressRepository, Request $request
@@ -83,12 +83,12 @@ class CustomerAddressController extends AbstractController
 
             $id = $customerEntity->getId();
             $this->addFlash(
-                'success', "Product Attribute Value updated successfully"
+                'success', "Customer Address Value updated successfully"
             );
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Product Attribute Value updated successfully"]
+                    ['id' => $id, 'message' => "Customer Address Value updated successfully"]
                 ), 200
             );
         }
@@ -99,21 +99,44 @@ class CustomerAddressController extends AbstractController
 
     }
 
+    #[Route('/customer/address/{id}/display', name: 'customer_address_display')]
+    public function display(CustomerAddressRepository $customerAddressRepository, int $id): Response
+    {
+        $customerAddress = $customerAddressRepository->find($id);
+        if (!$customerAddress) {
+            throw $this->createNotFoundException('No Customer found for id ' . $id);
+        }
 
-    #[Route("/product/attribute/{id}/value/list", name: 'product_attribute_value_list')]
+        $displayParams = ['title' => 'Customer Address',
+                          'link_id' => 'id-customer-address',
+                          'editButtonLinkText' => 'Edit',
+                          'fields' => [['label' => 'line 1',
+                                        'propertyName' => 'line-1',
+                                        'link_id' => 'id-display-customer-address'],
+                          ]];
+
+        return $this->render(
+            'master_data/customer/customer_display.html.twig',
+            ['entity' => $customerAddress, 'params' => $displayParams]
+        );
+
+    }
+
+
+    #[Route('/customer/{id}/address/list', name: 'customer_address_list')]
     public function list(int $id, CustomerAddressRepository $customerAddressRepository
     ): Response {
 
-        $listGrid = ['title' => 'Product Attribute Values',
-                     'link_id' => 'id-product-attribute-value',
+        $listGrid = ['title' => 'Customer Address',
+                     'link_id' => 'id-customer-address',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
                                     'action' => 'display'],
                                    ['label' => 'value',
                                     'propertyName' => 'value'],],
-                     'createButtonConfig' => ['link_id' => 'id-create-product-attribute-value',
-                                              'function' => 'product_attribute_value',
-                                              'anchorText' => 'Create Product Attribute Value']];
+                     'createButtonConfig' => ['link_id' => 'id-create-customer-address',
+                                              'function' => 'customer_address',
+                                              'anchorText' => 'Create Customer Address Value']];
 
         $customerAddresss = $customerAddressRepository->findBy(
             ['customer' => $id]

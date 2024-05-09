@@ -41,6 +41,14 @@ class PanelActionListMapBuilder
                             'list' => 'product_type_list'
                         ]
                     ],
+                    'customer' => [
+                        'routes' => [
+                            'create' => 'customer_create',
+                            'edit' => 'customer_edit',
+                            'display' => 'customer_display',
+                            'list' => 'customer_list'
+                        ]
+                    ],
                     'category' => [
                         'routes' => [
                             'create' => 'category_create',

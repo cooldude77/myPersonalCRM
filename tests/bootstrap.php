@@ -40,5 +40,8 @@ function bootstrap(): void
 
     $application->run(new ArrayInput(['command' => 'doctrine:migrations:migrate', '--no-interaction' => true]));
 
+//    $application->run(new ArrayInput(['command' => 'doctrine:fixtures:load', '--no-interaction'
+   // => true,'--append'=>true]));
+
     $kernel->shutdown();
 }

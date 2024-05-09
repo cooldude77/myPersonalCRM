@@ -2,7 +2,6 @@
 
 namespace App\Form\MasterData\Customer\Address\DTO;
 
-use App\Form\MasterData\Address\DTO\AddressDTO;
 
 /**
  * Note: We cannot completely create a DTO is not having a domain object
@@ -11,12 +10,9 @@ use App\Form\MasterData\Address\DTO\AddressDTO;
 class CustomerAddressDTO
 {
     public int $id = 0;
-    public int $customerId=0;
-   public AddressDTO $addressDTO;
+    public int $customerId = 0;
 
-   public function __construct()
-   {
-       $this->addressDTO = new AddressDTO();
-   }
+    public ?string $line1= null;
+    public ?int $pinCodeId = 0;
 
 }

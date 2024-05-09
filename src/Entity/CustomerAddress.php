@@ -20,9 +20,20 @@ class CustomerAddress
     #[ORM\Column]
     private ?bool $isDefault = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+
+    #[ORM\Column(length: 255)]
+    private ?string $line1 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $line2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $line3 = null;
+
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Address $address = null;
+    private ?PinCode $pinCode = null;
+
 
     public function getId(): ?int
     {
@@ -53,15 +64,23 @@ class CustomerAddress
         return $this;
     }
 
-    public function getAddress(): ?Address
+    public function getLine1(): ?string
     {
-        return $this->address;
+        return $this->line1;
     }
 
-    public function setAddress(Address $address): static
+    public function setLine1(?string $line1): void
     {
-        $this->address = $address;
+        $this->line1 = $line1;
+    }
 
-        return $this;
+    public function getPinCode(): ?PinCode
+    {
+        return $this->pinCode;
+    }
+
+    public function setPinCode(?PinCode $pinCode): void
+    {
+        $this->pinCode = $pinCode;
     }
 }
