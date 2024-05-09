@@ -2,14 +2,14 @@
 
 namespace App\Form\MasterData\Price;
 
-use App\Form\MasterData\Price\DTO\PriceBaseProductDTO;
+use App\Form\MasterData\Price\DTO\PriceBaseDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PriceBaseProductCreateForm extends AbstractType
+class PriceBaseEditForm extends AbstractType
 {
 
 
@@ -24,6 +24,12 @@ class PriceBaseProductCreateForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => PriceBaseProductDTO::class]);
+        $resolver->setDefaults(['data_class' => PriceBaseDTO::class]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+
+        return 'price_base_edit_form';
     }
 }

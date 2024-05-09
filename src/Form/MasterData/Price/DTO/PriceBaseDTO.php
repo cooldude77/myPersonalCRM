@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Price\DTO;
 
-class PriceBaseProductDTO
+class PriceBaseDTO
 {
     public int $price = 0;
     public int $productId = 0;

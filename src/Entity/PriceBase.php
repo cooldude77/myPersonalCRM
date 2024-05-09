@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PriceBaseProductRepository;
+use App\Repository\PriceBaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PriceBaseProductRepository::class)]
-class PriceBaseProduct
+#[ORM\Entity(repositoryClass: PriceBaseRepository::class)]
+class PriceBase
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
