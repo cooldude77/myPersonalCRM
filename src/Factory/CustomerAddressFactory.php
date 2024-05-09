@@ -48,7 +48,8 @@ final class CustomerAddressFactory extends ModelFactory
     {
         return [
             'customer' => CustomerFactory::new(),
-            'isDefault' => self::faker()->boolean(),
+            'line1' => self::faker()->text(255),
+            'pinCode' => PinCodeFactory::new(),
         ];
     }
 

@@ -129,21 +129,20 @@ class CustomerAddressController extends AbstractController
 
         $listGrid = ['title' => 'Customer Address',
                      'link_id' => 'id-customer-address',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display'],
-                                   ['label' => 'value',
-                                    'propertyName' => 'value'],],
+                     'columns' => [['label' => 'Address Line 1',
+                                    'propertyName' => 'line1',
+                                    'action' => 'display']
+                                   ,],
                      'createButtonConfig' => ['link_id' => 'id-create-customer-address',
                                               'function' => 'customer_address',
-                                              'anchorText' => 'Create Customer Address Value']];
+                                              'anchorText' => 'Create Customer Address']];
 
-        $customerAddresss = $customerAddressRepository->findBy(
+        $customerAddresses = $customerAddressRepository->findBy(
             ['customer' => $id]
         );
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $customerAddresss, 'listGrid' => $listGrid]
+            ['entities' => $customerAddresses, 'listGrid' => $listGrid]
         );
     }
 

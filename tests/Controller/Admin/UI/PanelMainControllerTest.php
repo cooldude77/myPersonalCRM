@@ -38,6 +38,12 @@ class PanelMainControllerTest extends WebTestCase
             ->followRedirects()
             ->assertSuccessful();
 
+     $this->browser()
+            ->visit($uri)
+            ->click('a#sidebar-link-customer-list')
+            ->followRedirects()
+            ->assertSuccessful();
+
 
         /*
                 $crawler = $this->browser()->visit($uri)->crawler();

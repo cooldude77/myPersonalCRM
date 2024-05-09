@@ -31,9 +31,9 @@ class CustomerAddressControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = CustomerAddressFactory::find(array('name' => 'Line 1'));
+        $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
 
-        $this->assertEquals('Line 1', $created->getName());
+        $this->assertEquals('Line 1', $created->getLine1());
 
     }
 
@@ -41,11 +41,12 @@ class CustomerAddressControllerTest extends WebTestCase
     public function testEdit()
     {
 
+        $this->createLocationFixtures();
+
         $customer = CustomerFactory::createOne();
-        $customerValue = CustomerAddressFactory::createOne(['customer' => $customer]);
+        $customerAddress = CustomerAddressFactory::createOne(['customer' => $customer]);
 
-
-        $id = $customerValue->getId();
+        $id = $customerAddress->getId();
 
         $uri = "/customer/address/{$id}/edit";
         $this->browser()
@@ -56,9 +57,9 @@ class CustomerAddressControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = CustomerAddressFactory::find(array('name' => "Line 1"));
+        $created = CustomerAddressFactory::find(array('line1' => "Line 11"));
 
-        $this->assertEquals('Line 1', $created->getName());
+        $this->assertEquals('Line 11', $created->getLine1());
     }
 
     public function testList()

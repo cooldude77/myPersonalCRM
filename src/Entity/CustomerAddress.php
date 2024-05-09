@@ -17,10 +17,6 @@ class CustomerAddress
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
 
-    #[ORM\Column]
-    private ?bool $isDefault = null;
-
-
     #[ORM\Column(length: 255)]
     private ?string $line1 = null;
 
@@ -48,18 +44,6 @@ class CustomerAddress
     public function setCustomer(?Customer $customer): static
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function isIsDefault(): ?bool
-    {
-        return $this->isDefault;
-    }
-
-    public function setIsDefault(bool $isDefault): static
-    {
-        $this->isDefault = $isDefault;
 
         return $this;
     }

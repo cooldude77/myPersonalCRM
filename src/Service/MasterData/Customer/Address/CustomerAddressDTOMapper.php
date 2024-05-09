@@ -33,7 +33,7 @@ readonly class CustomerAddressDTOMapper
         $customerAddress->setCustomer($customer);
 
         $customerAddress->setPinCode(
-            $this->pinCodeRepository->findOne(
+            $this->pinCodeRepository->find(
                 $customerAddressDTO->pinCodeId
             )
         );
@@ -43,12 +43,19 @@ readonly class CustomerAddressDTOMapper
     }
 
     public function mapDtoToEntityForUpdate(CustomerAddressDTO $customerAddressDTO,
-        CustomerAddress $customerAddressEntity
+        CustomerAddress $customerAddress
     ): CustomerAddress {
 
-        $customerAddressEntity->setLine1($customerAddressDTO->line1);
+        $customerAddress->setLine1($customerAddressDTO->line1);
 
-        return $customerAddressEntity;
+
+        $customerAddress->setPinCode(
+            $this->pinCodeRepository->find(
+                $customerAddressDTO->pinCodeId
+            )
+        );
+
+        return $customerAddress;
     }
 
 }
