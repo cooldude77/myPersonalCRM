@@ -1,8 +1,6 @@
 <?php
-// src/Controller/CategoryController.php
 namespace App\Controller\MasterData\Category\Image;
 
-// ...
 use App\Controller\Common\Utility\CommonUtility;
 use App\Controller\MasterData\Category\Image\ListObject\CategoryImageObject;
 use App\Entity\CategoryImage;

@@ -4,6 +4,7 @@ namespace App\Form\MasterData\Category\File\Image\Form;
 
 use App\Form\Common\File\FileCreateForm;
 use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
