@@ -31,6 +31,7 @@ class EmployeeCreateForm extends AbstractType
         $builder->add('givenName', TextType::class);
         $builder->add('email',TextType::class);
         $builder->add('phoneNumber',TextType::class);
+        $builder->add('plainPassword',TextType::class);
 
         $builder->add('save', SubmitType::class);
 

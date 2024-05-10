@@ -4,6 +4,7 @@ namespace App\Tests\Controller\MasterData\Employee;
 
 use App\Factory\EmployeeFactory;
 use App\Factory\SalutationFactory;
+use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -40,9 +41,7 @@ class EmployeeControllerTest extends WebTestCase
         )->fillField('employee_create_form[salutationId]', $salutation->getId())
             ->fillField('employee_create_form[email]', 'x@y.com')
             ->fillField('employee_create_form[phoneNumber]', '+91999999999')
-
-
-
+            ->fillField('employee_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
             ->assertSuccessful();
 
@@ -63,7 +62,9 @@ class EmployeeControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
                                                     'description' => 'Mister...']);
 
-        $employee = EmployeeFactory::createOne(['firstName' => "First Name"]);
+        $user = UserFactory::createOne();
+
+        $employee = EmployeeFactory::createOne(['firstName' => "First Name",'user'=>$user]);
 
         $id = $employee->getId();
 

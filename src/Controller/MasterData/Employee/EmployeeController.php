@@ -3,6 +3,7 @@
 namespace App\Controller\MasterData\Employee;
 
 // ...
+use App\Entity\User;
 use App\Form\MasterData\Employee\EmployeeCreateForm;
 use App\Form\MasterData\Employee\EmployeeEditForm;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EmployeeController extends AbstractController
@@ -19,7 +21,8 @@ class EmployeeController extends AbstractController
 
     #[\Symfony\Component\Routing\Attribute\Route('/employee/create', 'employee_create')]
     public function create(EmployeeDTOMapper $employeeDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
+        EntityManagerInterface $entityManager, Request $request,
+    UserPasswordHasherInterface $userPasswordHasher
     ): Response {
         $employeeDTO = new EmployeeDTO();
         $form = $this->createForm(
@@ -32,7 +35,6 @@ class EmployeeController extends AbstractController
 
 
             $employeeEntity = $employeeDTOMapper->mapToEntityForCreate($form);
-
 
             // perform some action...
             $entityManager->persist($employeeEntity);

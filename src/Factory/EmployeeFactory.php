@@ -49,6 +49,7 @@ final class EmployeeFactory extends ModelFactory
         return [
             'firstName' => self::faker()->text(255),
             'lastName' => self::faker()->text(255),
+            'user'=> UserFactory::createOne()
         ];
     }
 

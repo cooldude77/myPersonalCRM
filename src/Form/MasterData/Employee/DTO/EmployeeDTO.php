@@ -16,4 +16,6 @@ class EmployeeDTO
     public ?string $email = null;
 
     public ?string $phoneNumber = null;
+    public ?string $plainPassword = null;
+
 }
