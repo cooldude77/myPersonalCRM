@@ -32,20 +32,21 @@ class OrderHeaderToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (orderHeader).
      *
-     * @param string $id
+     * @param string $value
+     *
      * @throws TransformationFailedException if object (orderHeader) is not found.
      */
-    public function reverseTransform($id): ?OrderHeader
+    public function reverseTransform($value): ?OrderHeader
     {
         // no orderHeader number? It's optional, so that's ok
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
         $orderHeader = $this->entityManager
             ->getRepository(OrderHeader::class)
             // query for the orderHeader with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $orderHeader) {
             // causes a validation error
@@ -53,7 +54,7 @@ class OrderHeaderToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An orderHeader with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 

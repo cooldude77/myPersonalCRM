@@ -5,6 +5,12 @@ namespace App\Entity;
 use App\Repository\ProductTypeAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Relationship between ProductAttributes
+ * And Product Type
+ * One Product Type can have multiple attributes
+ * And vice versa
+ */
 #[ORM\Entity(repositoryClass: ProductTypeAttributeRepository::class)]
 class ProductTypeAttribute
 {
@@ -13,48 +19,17 @@ class ProductTypeAttribute
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductType $productType = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductAttributeValueType $valueType = null;
-
+    private ?ProductAttribute $productAttribute = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     public function getProductType(): ?ProductType
@@ -69,17 +44,15 @@ class ProductTypeAttribute
         return $this;
     }
 
-    public function getValueType(): ?ProductAttributeValueType
+    public function getProductAttribute(): ?ProductAttribute
     {
-        return $this->valueType;
+        return $this->productAttribute;
     }
 
-    public function setValueType(ProductAttributeValueType $valueType): static
+    public function setProductAttribute(?ProductAttribute $productAttribute): static
     {
-        $this->valueType = $valueType;
+        $this->productAttribute = $productAttribute;
 
         return $this;
     }
-
-
 }

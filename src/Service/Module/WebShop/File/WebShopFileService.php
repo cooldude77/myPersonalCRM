@@ -7,7 +7,7 @@ use App\Entity\WebShopFile;
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
 use App\Repository\WebShopFileRepository;
 use App\Repository\WebShopRepository;
-use App\Service\File\FilePhysicalOperation;
+use App\Service\Common\File\FilePhysicalOperation;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebShopFileService

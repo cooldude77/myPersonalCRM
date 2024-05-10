@@ -1,13 +1,14 @@
-{% set after =  path(app.session.get('context_route'),
+{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'admin_panel' %}
+{% set after =  path(context_route,
     {
         '_function':function,
         '_type':'display',
         'id':id}) %}
 
-<a href="{{ path(app.session.get('context_route'),
+<a href="{{ path(context_route,
     {
         '_function': function,
         '_type':'edit',
         'id':id,
         '_redirect_upon_success_url': after
-    }) }}">Edit </a>
+    }) }}" id="{{ link_id ~"-edit-"~id}}" >Edit </a>

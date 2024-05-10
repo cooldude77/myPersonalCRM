@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class UserForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('emailId', TextType::class);
         $builder->add('password', PasswordType::class);

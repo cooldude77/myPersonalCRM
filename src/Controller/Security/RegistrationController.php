@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\Customer;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,12 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $customer = new Customer();
+            $customer->setUser($user);
+            $customer->setEmail($user->getLogin());
+
             $entityManager->persist($user);
+            $entityManager->persist($customer);
             $entityManager->flush();
 
             // do anything else you need here, like send an email

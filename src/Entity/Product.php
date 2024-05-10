@@ -15,7 +15,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 5000)]
     private ?string $description = null;
@@ -28,7 +28,7 @@ class Product
     private ?ProductType $type = null;
 
     #[ORM\Column]
-    private ?bool $isActive = null;
+    private ?bool $isActive = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $longDescription = null;
@@ -41,14 +41,14 @@ class Product
     }
 
 
-    public function getCode(): ?string
+    public function getName(): ?string
     {
-        return $this->code;
+        return $this->name;
     }
 
-    public function setCode(string $code): static
+    public function setName(string $name): static
     {
-        $this->code = $code;
+        $this->name = $name;
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Product
 
     public function __toString(): string
     {
-        return $this->code;
+        return $this->name;
     }
 
     public function isIsActive(): ?bool

@@ -12,22 +12,46 @@ class PanelSideBarListMapBuilder
             [
                 'sections' => [
                     [
-                        'header_text' => 'Master Data',
+                        'header_text' => 'Categories',
                         'items' => [
                             [
                                 'url' => $this->append($adminUrl,
                                     'category'),
-                                'text' => 'Categories'
+                                'text' => 'Categories',
+                                'id'=>'sidebar-link-category-list'
                             ],
+                        ]
+                    ],[
+                        'header_text' => 'Products',
+                        'items' => [
                             [
                                 'url' => $this->append($adminUrl,
                                     'product'),
-                                'text' => 'Product List'
+                                'text' => 'Products',
+                                'id'=>'sidebar-link-product-list'
                             ],
                             [
                                 'url' => $this->append($adminUrl,
+                                    'product_type'),
+                                'text' => 'Product Types',
+                                'id'=>'sidebar-link-product-type-list'
+                            ],
+                            [
+                                'url' => $this->append($adminUrl,
+                                    'product_attribute'),
+                                'text' => 'Product Attributes',
+                                'id'=>'sidebar-link-product-attribute-list'
+                            ],
+                        ]
+                    ],
+[
+                        'header_text' => 'Customers',
+                        'items' => [
+                            [
+                                'url' => $this->append($adminUrl,
                                     'customer'),
-                                'text' => 'Customer List'
+                                'text' => 'Customer List',
+                                'id'=>'sidebar-link-customer-list'
                             ],
                         ]
                     ],
@@ -37,7 +61,8 @@ class PanelSideBarListMapBuilder
                             [
                                 'url' => $this->append($adminUrl,
                                     'web_shop'),
-                                'text' => 'Shops'
+                                'text' => 'Shops',
+                                'id'=>'sidebar-link-web-shop-list'
                             ]
                         ]
                     ],
@@ -47,7 +72,8 @@ class PanelSideBarListMapBuilder
                             [
                             'url' => $this->append($adminUrl,
                                 'user'),
-                                'text' => 'Users List'
+                                'text' => 'Users',
+                            'id'=>'sidebar-link-user-list'
                             ]
                         ]
                     ],
@@ -57,7 +83,8 @@ class PanelSideBarListMapBuilder
                             [
                             'url' => $this->append($adminUrl,
                                 'file'),
-                                'text' => 'files'
+                                'text' => 'files',
+                            'id'=>'sidebar-link-file-list'
                             ]
                         ]
                     ]

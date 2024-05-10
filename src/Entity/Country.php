@@ -14,36 +14,36 @@ class Country
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $countryCode = null;
+    private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $countryName = null;
+    private ?string $name = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCountryCode(): ?string
+    public function getCode(): ?string
     {
-        return $this->countryCode;
+        return $this->code;
     }
 
-    public function setCountryCode(string $countryCode): static
+    public function setCode(string $code): static
     {
-        $this->countryCode = $countryCode;
+        $this->code = $code;
 
         return $this;
     }
 
-    public function getCountryName(): ?string
+    public function getName(): ?string
     {
-        return $this->countryName;
+        return $this->name;
     }
 
-    public function setCountryName(string $countryName): static
+    public function setName(string $name): static
     {
-        $this->countryName = $countryName;
+        $this->name = $name;
 
         return $this;
     }

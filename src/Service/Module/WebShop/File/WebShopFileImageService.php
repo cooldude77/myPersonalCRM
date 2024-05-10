@@ -2,15 +2,10 @@
 
 namespace App\Service\Module\WebShop\File;
 
-use App\Entity\WebShop;
-
 use App\Entity\WebShopImageFile;
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
-use App\Repository\WebShopFileRepository;
 use App\Repository\WebShopImageFileRepository;
 use App\Repository\WebShopImageTypeRepository;
-use App\Repository\WebShopRepository;
-use App\Service\File\FilePhysicalOperation;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebShopFileImageService

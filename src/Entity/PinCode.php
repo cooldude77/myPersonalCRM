@@ -18,7 +18,7 @@ class PinCode
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?city $city = null;
+    private ?City $city = null;
 
     public function getId(): ?int
     {
@@ -37,12 +37,12 @@ class PinCode
         return $this;
     }
 
-    public function getCity(): ?city
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    public function setCity(?city $city): static
+    public function setCity(?City $city): static
     {
         $this->city = $city;
 

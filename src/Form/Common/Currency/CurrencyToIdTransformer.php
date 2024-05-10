@@ -32,20 +32,21 @@ class CurrencyToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (currency).
      *
-     * @param string $id
+     * @param string $value
+     *
      * @throws TransformationFailedException if object (currency) is not found.
      */
-    public function reverseTransform($id): ?Currency
+    public function reverseTransform($value): ?Currency
     {
         // no currency number? It's optional, so that's ok
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
         $currency = $this->entityManager
             ->getRepository(Currency::class)
             // query for the currency with this id
-            ->find($id);
+            ->find($value);
 
         if (null === $currency) {
             // causes a validation error
@@ -53,7 +54,7 @@ class CurrencyToIdTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An currency with number "%s" does not exist!',
-                $id
+                $value
             ));
         }
 

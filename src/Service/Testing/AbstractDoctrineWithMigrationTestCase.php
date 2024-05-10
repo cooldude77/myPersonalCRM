@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * This class was used before using DAMA Doctrine bundle
+ * Kept here as reference , may be deleted later
+ */
 class AbstractDoctrineWithMigrationTestCase extends WebTestCase
 {
 

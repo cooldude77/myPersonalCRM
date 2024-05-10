@@ -52,4 +52,8 @@ class RegistrationFormType extends AbstractType
             'data_class' => User::class,
         ]);
     }
+    public function getBlockPrefix():string
+    {
+        return 'registration_form';
+    }
 }
