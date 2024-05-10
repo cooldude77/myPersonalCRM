@@ -2,44 +2,47 @@
 
 namespace App\Form\MasterData\Category\File\DTO;
 
+use App\Entity\File;
+use App\Form\Common\File\DTO\FileFormDTO;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
  * DTO should contain no objects of entity type
  */
-class CategoryFileImageDTO
+class CategoryImageDTO
 {
 
-    public ?CategoryFileDTO $categoryFileDTO  = null;
-    public ?string $imageType = null;
+    public ?FileFormDTO $fileFormDTO  = null;
+
+    public int $categoryId = 0;
 
     public int $minWidth = 0;
     public int $minHeight= 0;
 
     public function __construct()
     {
-        $this->categoryFileDTO = new CategoryFileDTO();
+        $this->fileFormDTO = new FileFormDTO();
     }
 
 
     public function getCategoryId():int
     {
-        return $this->categoryFileDTO->categoryId;
+        return $this->categoryId;
     }
    public function setCategoryId(int $categoryId):void
     {
-         $this->categoryFileDTO->categoryId = $categoryId;
+         $this->categoryId = $categoryId;
     }
 
     public function getFileName():string
     {
-        return $this->categoryFileDTO->fileFormDTO->name;
+        return $this->fileFormDTO->name;
     }
 
     public function getUploadedFile():UploadedFile
     {
-        return $this->categoryFileDTO->fileFormDTO->uploadedFile;
+        return $this->fileFormDTO->uploadedFile;
     }
 
 

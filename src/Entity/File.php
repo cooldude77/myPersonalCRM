@@ -21,9 +21,6 @@ class File
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?FileType $type = null;
 
     #[ORM\Column(length: 255)]
     private ?string $yourFileName = null;
@@ -41,18 +38,6 @@ class File
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getType(): ?FileType
-    {
-        return $this->type;
-    }
-
-    public function setType(?FileType $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }

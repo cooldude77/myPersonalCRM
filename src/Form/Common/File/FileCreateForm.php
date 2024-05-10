@@ -22,9 +22,6 @@ class FileCreateForm extends AbstractType
 
         $builder->add('yourFileName', TextType::class);
 
-        $builder->add('type', EntityType::class,
-            [// validation message if the data transformer fails
-                'invalid_message' => 'That is not a valid file Type id', 'class' => \App\Entity\FileType::class, 'choice_label' => 'description', 'choice_value' => 'id']);
 
         $builder->add('uploadedFile', FileType::class, ['label' => 'File', 'required' => false]);
 

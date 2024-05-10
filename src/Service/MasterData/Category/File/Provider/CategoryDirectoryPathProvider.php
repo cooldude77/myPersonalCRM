@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\MasterData\Product\Category\File\Provider;
+namespace App\Service\MasterData\Category\File\Provider;
 
 use App\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
 use App\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;

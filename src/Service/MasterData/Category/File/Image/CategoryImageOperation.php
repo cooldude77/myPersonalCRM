@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Service\MasterData\Product\Category\File\Image;
+namespace App\Service\MasterData\Category\File\Image;
 
-use App\Form\MasterData\Category\File\DTO\CategoryFileImageDTO;
+use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
 use App\Service\Common\File\FilePhysicalOperation;
-use App\Service\MasterData\Product\Category\File\Provider\CategoryDirectoryImagePathProvider;
+use App\Service\MasterData\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\File\File;
 
 
-class CategoryFileImageOperation
+class CategoryImageOperation
 {
 
     private CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider;
@@ -23,7 +23,7 @@ class CategoryFileImageOperation
     }
 
 
-    public function createOrReplace(CategoryFileImageDTO $categoryFileImageDTO): File
+    public function createOrReplace(CategoryImageDTO $categoryFileImageDTO): File
     {
         $dir = $this->categoryDirectoryImagePathProvider->getImageDirectoryPath($categoryFileImageDTO->getCategoryId());
 

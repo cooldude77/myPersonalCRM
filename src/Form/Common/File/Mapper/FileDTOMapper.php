@@ -5,17 +5,14 @@ namespace App\Form\Common\File\Mapper;
 use App\Entity\File;
 use App\Form\Common\File\DTO\FileFormDTO;
 use App\Repository\FileRepository;
-use App\Repository\FileTypeRepository;
 
 class FileDTOMapper
 {
 
-    private FileTypeRepository $fileTypeRepository;
     private FileRepository $fileRepository;
 
-    public function __construct(FileRepository $fileRepository, FileTypeRepository $fileTypeRepository)
+    public function __construct(FileRepository $fileRepository)
     {
-        $this->fileTypeRepository = $fileTypeRepository;
         $this->fileRepository = $fileRepository;
     }
 
@@ -31,10 +28,6 @@ class FileDTOMapper
 
         $fileEntity->setName($fileFormDTO->name);
 
-
-        $type = $this->fileTypeRepository->findOneBy(['type' => $fileFormDTO->type]);
-
-        $fileEntity->setType($type);
 
         $fileEntity->setYourFileName($fileFormDTO->yourFileName);
 

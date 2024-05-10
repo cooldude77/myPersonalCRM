@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryFileRepository;
+use App\Repository\CategoryImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryFileRepository::class)]
-class CategoryFile
+#[ORM\Entity(repositoryClass: CategoryImageRepository::class)]
+class CategoryImage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
