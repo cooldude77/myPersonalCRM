@@ -4,13 +4,14 @@ namespace App\Tests\Controller\MasterData\Customer;
 
 use App\Factory\CustomerFactory;
 use App\Factory\SalutationFactory;
+use App\Tests\Fixtures\CustomerFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CustomerControllerTest extends WebTestCase
 {
 
-    use HasBrowser;
+    use HasBrowser,CustomerFixture;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -61,9 +62,9 @@ class CustomerControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
                                                     'description' => 'Mister...']);
 
-        $customer = CustomerFactory::createOne(['firstName' => "First Name"]);
+        $this->createCustomer();
 
-        $id = $customer->getId();
+        $id = $this->customer->getId();
 
         $url = "/customer/$id/edit";
 
@@ -105,9 +106,9 @@ class CustomerControllerTest extends WebTestCase
     public function testDisplay()
     {
 
-        $customer = CustomerFactory::createOne();
+        $this->createCustomer();
 
-        $id = $customer->getId();
+        $id = $this->customer->getId();
         $url = "/customer/$id/display";
 
         $this->browser()->visit($url)->assertSuccessful();
