@@ -2,8 +2,11 @@
 
 namespace App\Tests\Controller\MasterData\Category\Image;
 
+use App\Entity\File;
 use App\Factory\CategoryFactory;
 use App\Service\MasterData\Category\File\Provider\CategoryDirectoryImagePathProvider;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -29,7 +32,6 @@ class CategoryImageControllerTest extends WebTestCase
         $uploadedFile = new UploadedFile(
             __DIR__ . '/' . $fileName, $fileName
         );
-
         $visit = $this->browser()
             ->visit($createUrl);
 
@@ -55,6 +57,8 @@ class CategoryImageControllerTest extends WebTestCase
 
     }
 
+    // Todo: Create List test case
+    // todo: create edit test case 
     protected function tearDown(): void
     {
         $root = self::getContainer()->getParameter('kernel.project_dir');

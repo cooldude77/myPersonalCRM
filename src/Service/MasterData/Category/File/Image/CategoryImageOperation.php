@@ -2,10 +2,13 @@
 
 namespace App\Service\MasterData\Category\File\Image;
 
-use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
+use App\Entity\CategoryImage;
 use App\Service\Common\File\FilePhysicalOperation;
 use App\Service\MasterData\Category\File\Provider\CategoryDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use function PHPUnit\Framework\assertNotEquals;
+use function PHPUnit\Framework\assertNotNull;
 
 
 class CategoryImageOperation
@@ -23,14 +26,20 @@ class CategoryImageOperation
     }
 
 
-    public function createOrReplace(CategoryImageDTO $categoryImageDTO): File
+    public function createOrReplace(CategoryImage $categoryImage,UploadedFile $uploadedFile): File
     {
-        $dir = $this->categoryDirectoryImagePathProvider->getImageDirectoryPath
-        ($categoryImageDTO->categoryId);
 
-        $fileName = $categoryImageDTO->getFileName();
+        assertNotEquals($categoryImage->getCategory()->getId(),0);
 
-        return $this->filePhysicalOperation->createOrReplaceFile($categoryImageDTO->getUploadedFile(), $fileName, $dir);
+        $dir = $this->categoryDirectoryImagePathProvider->getImageDirectoryPath($categoryImage->getCategory()->getId());
+
+        assertNotNull($dir);
+
+        $fileName = $categoryImage->getFile()->getName();
+
+        assertNotNull($fileName);
+
+        return $this->filePhysicalOperation->createOrReplaceFile($uploadedFile, $fileName, $dir);
     }
 
 }

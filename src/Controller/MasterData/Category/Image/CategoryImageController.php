@@ -53,10 +53,11 @@ class CategoryImageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            /** @var CategoryImageDTO $categoryImageDTO */
+            $categoryImageDTO = $form->getData();
 
-            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($data);
-            $categoryImageOperation->createOrReplace($data);
+            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
+            $categoryImageOperation->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
 
 
             $entityManager->persist($categoryImage);
@@ -96,25 +97,27 @@ class CategoryImageController extends AbstractController
         CategoryImageDTOMapper $categoryImageDTOMapper,
         CategoryImageOperation $categoryImageService, Request $request
     ): Response {
-        $categoryImageEntity = $categoryImageRepository->findOneBy(['id' => $id]);
+        $categoryImage = $categoryImageRepository->find($id);
 
-        $categoryImageFormDTO = $categoryImageDTOMapper->mapEntityToDto(
-            $categoryImageEntity
+        $categoryImageDTO = $categoryImageDTOMapper->mapEntityToDto(
+            $categoryImage
         );
-        $form = $this->createForm(CategoryImageEditForm::class, $categoryImageFormDTO);
+        $form = $this->createForm(CategoryImageEditForm::class, $categoryImageDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            $categoryImageEntity = $categoryImageDTOMapper->mapDtoToEntityForEdit(
-                $form->getData(), $categoryImageEntity
+            /** @var CategoryImageDTO $categoryImageDTO */
+            $categoryImageDTO = $form->getData();
+
+            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForEdit(
+                $form->getData(), $categoryImage
             );
 
-            $categoryImageService->createOrReplace($data);
+            $categoryImageService->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
 
-            $entityManager->persist($categoryImageEntity);
+            $entityManager->persist($categoryImage);
             $entityManager->flush();
 
 
@@ -131,7 +134,7 @@ class CategoryImageController extends AbstractController
 
         return $this->render(
             'master_data/category/image/category_image_edit.html.twig',
-            ['form' => $form, 'entity' => $categoryImageEntity]
+            ['form' => $form, 'entity' => $categoryImage]
         );
 
     }
