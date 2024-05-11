@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Category\File\Image\Form;
+namespace App\Form\MasterData\Category\Image\Form;
 
 use App\Form\Common\File\FileEditForm;
-use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
+use App\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;

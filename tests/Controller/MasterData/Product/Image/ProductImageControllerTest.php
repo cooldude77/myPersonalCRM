@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Tests\Controller\MasterData\Category\Image;
+namespace App\Tests\Controller\MasterData\Product\Image;
 
-use App\Factory\CategoryFactory;
-use App\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
+use App\Factory\ProductFactory;
+use App\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class CategoryImageControllerTest extends WebTestCase
+class ProductImageControllerTest extends WebTestCase
 {
     use HasBrowser;
 
@@ -16,14 +16,14 @@ class CategoryImageControllerTest extends WebTestCase
     {
 
         self::bootKernel();
-        $provider = self::getContainer()->get(CategoryDirectoryImagePathProvider::class);
+        $provider = self::getContainer()->get(ProductDirectoryImagePathProvider::class);
 
-        $category = CategoryFactory::createOne();
+        $product = ProductFactory::createOne();
 
 
-        $id = $category->getId();
+        $id = $product->getId();
 
-        $createUrl = "/category/$id/image/create";
+        $createUrl = "/product/$id/image/create";
 
         $fileName = 'grocery_1920.jpg';
         $uploadedFile = new UploadedFile(
@@ -32,22 +32,20 @@ class CategoryImageControllerTest extends WebTestCase
         $visit = $this->browser()
             ->visit($createUrl);
 
-        $a = $visit->crawler()->filter('category_image_create_form[fileDTO][name]');
-
         $form = $visit->crawler()->selectButton('Save')->form();
 
-        $name = $form->get('category_image_create_form[fileDTO][name]')->getValue();
+        $name = $form->get('product_image_create_form[fileDTO][name]')->getValue();
 
 
-        $visit->fillField('category_image_create_form[fileDTO][yourFileName]', 'MyFile.jpg')
+        $visit->fillField('product_image_create_form[fileDTO][yourFileName]', 'MyFile.jpg')
             ->fillField(
-                'category_image_create_form[fileDTO][uploadedFile]', $uploadedFile
+                'product_image_create_form[fileDTO][uploadedFile]', $uploadedFile
             )->click('Save')->assertSuccessful();
 
         self::assertFileExists(
             $provider->getFullPhysicalPathForFileByName
             (
-                $category->object(), $name.'.jpg'
+                $product->object(), $name.'.jpg'
             )
         );
 

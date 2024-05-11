@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Form\MasterData\Category\File\DTO;
+namespace App\Form\MasterData\Product\Image\DTO;
 
-use App\Entity\File;
 use App\Form\Common\File\DTO\FileDTO;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -10,12 +9,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * DTO should contain no objects of entity type
  */
-class CategoryImageDTO
+class ProductImageDTO
 {
 
     public ?FileDTO $fileDTO  = null;
 
-    public int $categoryId = 0;
+    public int $productId = 0;
 
     public int $minWidth = 0;
     public int $minHeight= 0;
