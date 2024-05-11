@@ -40,9 +40,7 @@ class CustomerControllerTest extends WebTestCase
         )->fillField('customer_create_form[salutationId]', $salutation->getId())
             ->fillField('customer_create_form[email]', 'x@y.com')
             ->fillField('customer_create_form[phoneNumber]', '+91999999999')
-
-
-
+            ->fillField('customer_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
             ->assertSuccessful();
 
