@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\MasterData\Category\File\Image\Mapper;
+namespace App\Service\MasterData\Category\Image\Mapper;
 
 use App\Entity\CategoryImage;
 use App\Form\Common\File\Mapper\FileDTOMapper;
-use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
+use App\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
 use App\Repository\CategoryImageRepository;
 use App\Repository\CategoryRepository;
 
