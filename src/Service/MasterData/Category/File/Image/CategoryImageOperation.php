@@ -23,13 +23,14 @@ class CategoryImageOperation
     }
 
 
-    public function createOrReplace(CategoryImageDTO $categoryFileImageDTO): File
+    public function createOrReplace(CategoryImageDTO $categoryImageDTO): File
     {
-        $dir = $this->categoryDirectoryImagePathProvider->getImageDirectoryPath($categoryFileImageDTO->getCategoryId());
+        $dir = $this->categoryDirectoryImagePathProvider->getImageDirectoryPath
+        ($categoryImageDTO->categoryId);
 
-        $fileName = $categoryFileImageDTO->getFileName();
+        $fileName = $categoryImageDTO->getFileName();
 
-        return $this->filePhysicalOperation->createOrReplaceFile($categoryFileImageDTO->getUploadedFile(), $fileName, $dir);
+        return $this->filePhysicalOperation->createOrReplaceFile($categoryImageDTO->getUploadedFile(), $fileName, $dir);
     }
 
 }

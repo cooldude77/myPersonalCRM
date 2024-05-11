@@ -3,7 +3,7 @@
 namespace App\Form\MasterData\Category\File\DTO;
 
 use App\Entity\File;
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CategoryImageDTO
 {
 
-    public ?FileFormDTO $fileFormDTO  = null;
+    public ?FileDTO $fileDTO  = null;
 
     public int $categoryId = 0;
 
@@ -22,27 +22,19 @@ class CategoryImageDTO
 
     public function __construct()
     {
-        $this->fileFormDTO = new FileFormDTO();
+        $this->fileDTO = new FileDTO();
     }
 
 
-    public function getCategoryId():int
-    {
-        return $this->categoryId;
-    }
-   public function setCategoryId(int $categoryId):void
-    {
-         $this->categoryId = $categoryId;
-    }
 
     public function getFileName():string
     {
-        return $this->fileFormDTO->name;
+        return $this->fileDTO->name;
     }
 
     public function getUploadedFile():UploadedFile
     {
-        return $this->fileFormDTO->uploadedFile;
+        return $this->fileDTO->uploadedFile;
     }
 
 

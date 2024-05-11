@@ -4,7 +4,7 @@ namespace App\Form\Common\File\DTO;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileFormDTO
+class FileDTO
 {
     /** @var string
      * @Assert\NotBlank(message="Please enter name of file")

@@ -2,7 +2,7 @@
 
 namespace App\Form\Common\File;
 
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -27,7 +27,7 @@ class FileCreateForm extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
-            $fileFormDTO= new FileFormDTO();
+            $fileFormDTO= new FileDTO();
 
             $fileFormDTO->name = uniqid(rand(), true);
 
@@ -41,6 +41,6 @@ class FileCreateForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => FileFormDTO::class]);
+        $resolver->setDefaults(['data_class' => FileDTO::class]);
     }
 }

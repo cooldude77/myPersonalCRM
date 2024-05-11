@@ -3,7 +3,7 @@
 namespace App\Form\Common\File\Mapper;
 
 use App\Entity\File;
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use App\Repository\FileRepository;
 
 class FileDTOMapper
@@ -16,7 +16,7 @@ class FileDTOMapper
         $this->fileRepository = $fileRepository;
     }
 
-    public function mapToFileEntityForCreate(FileFormDTO $fileFormDTO): File
+    public function mapToFileEntityForCreate(FileDTO $fileFormDTO): File
     {
 
         $fileHandle = $fileFormDTO->uploadedFile;
@@ -35,7 +35,7 @@ class FileDTOMapper
 
     }
 
-    public function mapToFileEntityForEdit(FileFormDTO $fileFormDTO, File $fileEntity): File
+    public function mapToFileEntityForEdit(FileDTO $fileFormDTO, File $fileEntity): File
     {
 
         $fileEntity->setYourFileName($fileFormDTO->yourFileName);
@@ -44,9 +44,9 @@ class FileDTOMapper
 
     }
 
-    public function mapEntityToFileDto(File $file): FileFormDTO
+    public function mapEntityToFileDto(File $file): FileDTO
     {
-        $fileDTO = new FileFormDTO();
+        $fileDTO = new FileDTO();
         $fileDTO->id = $file->getId();
         $fileDTO->yourFileName = $file->getYourFileName();
         $fileDTO->name = $file->getName();

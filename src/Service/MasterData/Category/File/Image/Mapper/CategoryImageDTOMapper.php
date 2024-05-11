@@ -6,34 +6,37 @@ use App\Entity\CategoryImage;
 use App\Form\Common\File\Mapper\FileDTOMapper;
 use App\Form\MasterData\Category\File\DTO\CategoryImageDTO;
 use App\Repository\CategoryImageRepository;
+use App\Repository\CategoryRepository;
+
 class CategoryImageDTOMapper
 {
 
-    private FileDTOMapper $fileDTOMapper;
-    private CategoryImageRepository $categoryImageRepository;
-
-    public function __construct(FileDTOMapper $fileDTOMapper, CategoryImageRepository $categoryImageRepository)
-    {
-        $this->fileDTOMapper = $fileDTOMapper;
-        $this->categoryImageRepository = $categoryImageRepository;
+    public function __construct(private readonly FileDTOMapper $fileDTOMapper,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly CategoryImageRepository $categoryImageRepository
+    ) {
     }
 
-    public function mapDtoToEntityForCreate(CategoryImageDTO $fileImageDTO): CategoryImage
+    public function mapDtoToEntityForCreate(CategoryImageDTO $categoryImageDTO): CategoryImage
     {
 
+        $category = $this->categoryRepository->find($categoryImageDTO->categoryId);
 
-        $file = $this->fileDTOMapper->mapToFileEntityForCreate($fileImageDTO->fileFormDTO);
+        $file = $this->fileDTOMapper->mapToFileEntityForCreate($categoryImageDTO->fileDTO);
 
-        return $this->categoryImageRepository->create($file);
+        return $this->categoryImageRepository->create($category, $file);
 
     }
 
-    public function mapDtoToEntityForEdit(CategoryImageDTO $fileImageDTO, CategoryImage $categoryImage): CategoryImage
-    {
+    public function mapDtoToEntityForEdit(CategoryImageDTO $fileImageDTO,
+        CategoryImage $categoryImage
+    ): CategoryImage {
 
 
-        $file = $this->fileDTOMapper->mapToFileEntityForEdit($fileImageDTO->fileFormDTO,
-            $categoryImage->getFile());
+        $file = $this->fileDTOMapper->mapToFileEntityForEdit(
+            $fileImageDTO->fileDTO,
+            $categoryImage->getFile()
+        );
 
         $categoryImage->setFile($file);
 
@@ -46,7 +49,7 @@ class CategoryImageDTOMapper
     {
         $dto = new CategoryImageDTO();
 
-        $dto->fileFormDTO = $this->fileDTOMapper->mapEntityToFileDto($categoryImage->getFile());
+        $dto->fileDTO = $this->fileDTOMapper->mapEntityToFileDto($categoryImage->getFile());
 
 
         return $dto;

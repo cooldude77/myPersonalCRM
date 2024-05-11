@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\MasterData\Category\Image;
 
 use App\Controller\Common\Utility\CommonUtility;
@@ -36,11 +37,16 @@ class CategoryImageController extends AbstractController
     #[Route('/category/{id}/image/create', name: 'category_file_image_create')]
     public function create(int $id, EntityManagerInterface $entityManager,
         CategoryImageOperation $categoryImageOperation,
+        CategoryRepository $categoryRepository,
         CategoryImageDTOMapper $categoryImageDTOMapper, CommonUtility $commonUtility,
         Request $request
     ): Response {
+        $category = $categoryRepository->find(['id' => $id]);
+
+        // Todo : validate if category exists
+
         $categoryImageDTO = new CategoryImageDTO();
-        $categoryImageDTO->setCategoryId($id);
+        $categoryImageDTO->categoryId = $id;
 
         $form = $this->createForm(CategoryImageCreateForm::class, $categoryImageDTO);
 
@@ -49,14 +55,14 @@ class CategoryImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $categoryImageEntity = $categoryImageDTOMapper->mapDtoToEntityForCreate($data);
+            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($data);
             $categoryImageOperation->createOrReplace($data);
 
 
-            $entityManager->persist($categoryImageEntity);
+            $entityManager->persist($categoryImage);
             $entityManager->flush();
 
-            $id = $categoryImageEntity->getId();
+            $id = $categoryImage->getId();
 
             $this->addFlash(
                 'success', "Category file image created successfully"
@@ -131,14 +137,16 @@ class CategoryImageController extends AbstractController
     }
 
     #[Route('/category/{id}/image/list', name: 'category_create_file_image_list')]
-    public function list(int $id, CategoryRepository $categoryRepository,CategoryImageRepository
-    $categoryImageRepository):
-    Response
-    {
+    public function list(int $id, CategoryRepository $categoryRepository,
+        CategoryImageRepository $categoryImageRepository
+    ):
+    Response {
 
 
-        $categoryImages = $categoryImageRepository->findBy(['category'=>$categoryRepository->find
-        ($id)]);
+        $categoryImages = $categoryImageRepository->findBy(['category' => $categoryRepository->find
+        (
+            $id
+        )]);
 
         $entities = [];
         if ($categoryImages != null) {
@@ -217,7 +225,7 @@ class CategoryImageController extends AbstractController
         $entity = ['id' => $categoryImage->getId(),
                    'name' => $categoryImage->getCategoryFile()->getFile()->getName(),
                    'yourFileName' => $categoryImage->getCategoryFile()->getFile()->getYourFileName(
-                       ),
+                   ),
                    'categoryImageType' => $categoryImage->getCategoryImageType()->getDescription()];
 
         $displayParams = ['title' => 'CategoryImage',

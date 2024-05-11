@@ -6,7 +6,7 @@ use App\Form\MasterData\Category\CategoryCreateForm;
 use App\Form\MasterData\Category\CategoryEditForm;
 use App\Form\MasterData\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
-use App\Service\MasterData\Product\Category\Mapper\CategoryDTOMapper;
+use App\Service\MasterData\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

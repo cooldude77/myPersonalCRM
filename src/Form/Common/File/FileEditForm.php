@@ -2,7 +2,7 @@
 
 namespace App\Form\Common\File;
 
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,10 +22,6 @@ class FileEditForm extends AbstractType
 
         $builder->add('yourFileName', TextType::class);
 
-        // Todo: Read Only doesn't work here
-        $builder->add('type', EntityType::class, [ // validation message if the data transformer fails
-            'invalid_message' => 'That is not a valid file Type id', 'class' => \App\Entity\FileType::class, 'choice_label' => 'description', 'choice_value' => 'id']);
-
         $builder->add('uploadedFile', FileType::class, ['label' => 'File', 'required' => false]);
 
         $builder->add('save', SubmitType::class);
@@ -34,6 +30,6 @@ class FileEditForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => FileFormDTO::class]);
+        $resolver->setDefaults(['data_class' => FileDTO::class]);
     }
 }

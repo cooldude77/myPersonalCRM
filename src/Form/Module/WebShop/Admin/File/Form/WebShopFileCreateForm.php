@@ -3,7 +3,7 @@
 namespace App\Form\Module\WebShop\Admin\File\Form;
 
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use App\Form\Common\File\FileCreateForm;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

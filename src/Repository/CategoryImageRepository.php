@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\CategoryImage;
+use App\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +42,13 @@ class CategoryImageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(Category $category, File $file):CategoryImage
+    {
+        $categoryImage = new CategoryImage();
+        $categoryImage->setCategory($category);
+        $categoryImage->setFile($file);
+
+        return $categoryImage;
+
+    }
 }

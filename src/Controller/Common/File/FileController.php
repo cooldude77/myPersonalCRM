@@ -4,7 +4,7 @@ namespace App\Controller\Common\File;
 
 // ...
 use App\Entity\File;
-use App\Form\Common\File\DTO\FileFormDTO;
+use App\Form\Common\File\DTO\FileDTO;
 use App\Form\Common\File\FileCreateForm;
 use App\Form\Common\File\FileEditForm;
 use App\Form\Common\File\Mapper\FileDTOMapper;
@@ -39,7 +39,7 @@ class FileController extends AbstractController
         FilePhysicalOperation $filePhysicalOperation,
         FileDirectoryPathProvider $directoryPathProvider, Request $request
     ): Response {
-        $fileFormDTO = new FileFormDTO();
+        $fileFormDTO = new FileDTO();
         $form = $this->createForm(FileCreateForm::class, $fileFormDTO);
 
         $form->handleRequest($request);
@@ -205,8 +205,9 @@ class FileController extends AbstractController
 
         $file = file_get_contents($path);
 
-        $headers = array('Content-Type' => $fileEntity->getType()->getMimeType(),
-                         'Content-Disposition' => 'inline; filename="' . $fileEntity->getName()
+        $headers = array('Content-Type' => mime_content_type( $file),
+                         'Content-Disposition' => 'inline; filename="'
+                             . $fileEntity->getName()
                              . '"');
         return new Response($file, 200, $headers);
 

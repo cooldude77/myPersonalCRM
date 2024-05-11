@@ -19,21 +19,25 @@ class CategoryImageCreateForm extends AbstractType
     {
 
         $builder->add('categoryId', HiddenType::class);
-        $builder->add('fileFormDTO', FileCreateForm::class);
+        $builder->add('fileDTO', FileCreateForm::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
             // removing save from the original form so that we don't have two save buttons
             $form = $event->getForm();
-            $fileForm = $form->get("fileFormDTO");
-            $fileForm->remove("save");
+            $fileForm = $form->get("fileDTO");
+            $fileForm->remove("Save");
         });
-        $builder->add('save', SubmitType::class, array('label' => 'Submit'));
+        $builder->add('Save', SubmitType::class, array('label' => 'Submit'));
 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => CategoryImageDTO::class]);
+    }
+    public function getBlockPrefix():string
+    {
+        return 'category_image_create_form';
     }
 }
