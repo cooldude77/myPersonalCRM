@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\VarExporter\Hydrator;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -45,8 +47,17 @@ class CategoryRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create():Category
+    public function create(): Category
     {
         return new Category();
     }
+
+    public function findTopLevelCategories(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT a FROM App\Entity\Category  a where a.parent IS null")
+            ->getResult();
+    }
+
+
 }

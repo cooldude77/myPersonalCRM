@@ -20,4 +20,14 @@ class WebShopProductDisplayController extends AbstractController
             ['product' => $product]);
     }
 
+    #[Route('/shop/product/list', name: 'module_web_shop_product_list')]
+    public function list($code,
+                         ProductRepository $productRepository,
+                         Request $request): Response
+    {
+        $products = $productRepository->findAll();
+        return $this->render('module/web_shop/external/product/web_shop_product_display.html.twig',
+            ['products' => $products]);
+    }
+
 }

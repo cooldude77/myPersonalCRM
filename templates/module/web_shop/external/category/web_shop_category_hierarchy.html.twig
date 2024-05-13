@@ -1,0 +1,5 @@
+{% if categories is defined and categories is not empty %}
+    {% for category in categories %}
+        <a href="">{{ category.description }}</a>
+    {% endfor %}
+{% endif %}
