@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\WebShop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,5 +49,12 @@ class WebShopRepository extends ServiceEntityRepository
     public function create(): WebShop
     {
         return new WebShop();
+    }
+
+    public function getQueryForSelect(): Query
+    {
+        $dql = "SELECT w FROM App\Entity\WebShop w";
+        return $this->getEntityManager()->createQuery($dql);
+
     }
 }
