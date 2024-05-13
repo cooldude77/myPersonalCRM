@@ -58,6 +58,20 @@ class CategoryRepository extends ServiceEntityRepository
             ->createQuery("SELECT a FROM App\Entity\Category  a where a.parent IS null")
             ->getResult();
     }
+ public function findAllCategories(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT a FROM App\Entity\Category a where a.parent")
+            ->getResult();
+        /*
+         * select * from (SELECT cp.id,cp.name,cp.parent_id,cp.description
+    FROM category AS cp JOIN category AS c
+      ON cp.id = c.parent_id
+UNION
+SELECT cp.id,cp.name,cp.parent_id,cp.description
+    FROM category cp ) x order by parent_id,id;
+         */
+    }
 
 
 }

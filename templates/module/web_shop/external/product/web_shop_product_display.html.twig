@@ -1,5 +1,9 @@
-{# templates/user/create.html.twig #}
-{% extends 'base/admin_base_template.html.twig' %}
-{% block content %}
-    {{ product.code }}
-{% endblock %}
+<div>
+    {{ product.description }}
+</div>
+<img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+     alt="{{ product.description }}"/>
+
+<p>
+    {{ product.longDescription }}
+</p>
