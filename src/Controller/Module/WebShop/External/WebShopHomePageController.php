@@ -10,13 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\assertNotNull;
 
 class WebShopHomePageController extends AbstractController
 {
-    #[Route('/shop/home/{name}', name: 'module_web_shop_home')]
-    public function home(string $name, WebShopRepository $webShopHomeRepository, WebShopHomeSectionRepository $webShopHomeSectionRepository, Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    #[Route('/shop', name: 'module_web_shop_home')]
+    public function home(WebShopRepository $webShopHomeRepository,
+WebShopHomeSectionRepository $webShopHomeSectionRepository, Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
-        $webShop = $webShopHomeRepository->findOneBy(['name' => $name]);
+        $webShop = $webShopHomeRepository->findOneBy(['name' => 'Default']);
+        assertNotNull($webShop);
         $webShopSection = $webShopHomeSectionRepository->findBy(['webShop' => $webShop]);
 
          return $this->render('module/web_shop/external/web_shop_home.html.twig',
