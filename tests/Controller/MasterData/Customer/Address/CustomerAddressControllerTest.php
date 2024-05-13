@@ -4,6 +4,8 @@ namespace App\Tests\Controller\MasterData\Customer\Address;
 
 use App\Factory\CustomerAddressFactory;
 use App\Factory\CustomerFactory;
+use App\Factory\UserFactory;
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -13,14 +15,15 @@ class CustomerAddressControllerTest extends WebTestCase
 
     use HasBrowser;
     use LocationFixture;
-
+use CustomerFixture;
     public function testCreate()
     {
 
         $this->createLocationFixtures();
 
-        $customer = CustomerFactory::createOne();
-        $id = $customer->getId();
+        $this->createCustomer();
+
+         $id = $this->customer->getId();
 
         $uri = "/customer/{$id}/address/create";
         $this->browser()
@@ -43,8 +46,9 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $customer = CustomerFactory::createOne();
-        $customerAddress = CustomerAddressFactory::createOne(['customer' => $customer]);
+        $this->createCustomer();
+
+        $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer]);
 
         $id = $customerAddress->getId();
 
@@ -64,10 +68,11 @@ class CustomerAddressControllerTest extends WebTestCase
 
     public function testList()
     {
-        $customer = CustomerFactory::createOne();
-        CustomerAddressFactory::createMany(10, ['customer' => $customer]);
+        $this->createCustomer();
 
-        $id = $customer->getId();
+        CustomerAddressFactory::createMany(10, ['customer' => $this->customer]);
+
+        $id = $this->customer->getId();
         $url = "/customer/{$id}/address/list";
         $this->browser()->visit($url)->assertSuccessful();
 
