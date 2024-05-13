@@ -78,6 +78,14 @@ class PanelActionListMapBuilder
                             'display'=>'category_file_image_display',
                             'list'=>'category_file_image_list'
                         ]
+                    ],
+                    'web_shop'=>[
+                        'routes' => [
+                            'create' => 'web_shop_create',
+                            'edit' => 'web_shop_edit',
+                            'display'=>'web_shop_display',
+                            'list'=>'web_shop_list'
+                        ]
                     ]
                 ]
             ]

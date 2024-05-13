@@ -76,6 +76,16 @@ class PanelSideBarListMapBuilder
                             'id'=>'sidebar-link-user-list'
                             ]
                         ]
+                    ],                    [
+                        'header_text' => 'Web Shop',
+                        'items' =>[
+                            [
+                            'url' => $this->append($adminUrl,
+                                'web_shop'),
+                                'text' => 'Web Shop',
+                            'id'=>'sidebar-link-shop-list'
+                            ]
+                        ]
                     ],
                     [
                         'header_text' => 'Files',
