@@ -1,9 +1,16 @@
-<div>
-    {{ product.description }}
-</div>
-<img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
-     alt="{{ product.description }}"/>
+{% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
+{% block content %}
+    <div>
+        {{ product.description }}
+    </div>
+    <img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+         alt="{{ product.description }}"/>
 
-<p>
-    {{ product.longDescription }}
-</p>
+    <p>
+        {{ product.longDescription }}
+    </p>
+
+    {{
+    render(controller('App\\Controller\\Module\\WebShop\\External\\Product\\WebShopProductController::addToCartSection',
+        { 'id':product.id})) }}
+    {% endblock %}

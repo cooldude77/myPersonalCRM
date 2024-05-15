@@ -8,10 +8,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class CartUpdateService
 {
 
-    const CART_SESSION_KEY = 'WEB_SHOP_CART_SESSION_KEY';
+    public final const string CART_SESSION_KEY = 'WEB_SHOP_CART_SESSION_KEY';
     private SessionInterface $session;
 
-    public function updateCart(SessionInterface $session,
+
+    public function updateCartWithArrayOfProducts(SessionInterface $session,
                                array            $webShopProductDTOArray): void
     {
 
@@ -95,6 +96,10 @@ class CartUpdateService
         unset($cart['products'][$productId]);
         $this->setCart($cart);
 
+    }
+
+    public function updateCartWithProductId($id)
+    {
     }
 
 }

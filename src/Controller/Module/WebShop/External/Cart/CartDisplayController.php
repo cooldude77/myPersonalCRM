@@ -38,7 +38,7 @@ class CartDisplayController extends AbstractController
 
                 /** @var ArrayCollection $array */
                 $array = $form->getData()['products'];
-               $cartUpdateService->updateCart($request->getSession(),$array->toArray());
+               $cartUpdateService->updateCartWithArrayOfProducts($request->getSession(),$array->toArray());
 
            //     if($form->get('cart')->isClicked())
                    // $x = 10;
