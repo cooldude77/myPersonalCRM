@@ -24,8 +24,7 @@ class WebShopAddProductSingleForm extends AbstractType
             NumberType::class, ['label' => false]
         );
         $builder->add(
-            'addToCart',
-
+            'Save',
             SubmitType::class, ['label' => 'Add To Cart']
         );
     }
@@ -33,6 +32,13 @@ class WebShopAddProductSingleForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => WebShopProductDTO::class]);
+
+
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'web_shop_add_product_single_form';
     }
 
 }

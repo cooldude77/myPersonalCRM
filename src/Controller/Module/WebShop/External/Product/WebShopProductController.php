@@ -10,6 +10,7 @@ use App\Service\Module\WebShop\Object\CartObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WebShopProductController extends AbstractController
@@ -36,7 +37,9 @@ class WebShopProductController extends AbstractController
 
     #[Route('/web-shop/cart/product/{id}/add', name: 'web_shop_product_add_to_cart')]
     public function addToCartSection($id, ProductRepository $productRepository,
-        CartService $cartService
+        CartService $cartService,
+        Request $request,
+        SessionInterface $session
     ):
     Response {
 
@@ -46,13 +49,18 @@ class WebShopProductController extends AbstractController
         $webShopProductDTO->productId = $product->getId();
 
         $form = $this->createForm(WebShopAddProductSingleForm::class, $webShopProductDTO);
-
+        $session->start();
+        $cookies = $request->cookies;
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $webShopProductDTO = $form->getData();
+
             $cartObject = new CartObject(
                 $webShopProductDTO->productId, $webShopProductDTO->quantity
             );
+
+            $cartService->initialize();
             $cartService->addProductToCart($cartObject);
 
             // Todo : event after cart update
@@ -60,10 +68,18 @@ class WebShopProductController extends AbstractController
             return new Response("Product Added Successfully");
 
         }
+
+        $error = $form->getErrors(true);
         return $this->render(
             'module/web_shop/external/shop/add_to_cart_form.html.twig',
             ['form' => $form]
         );
     }
 
+    #[Route('/locale', name: 'locale')]
+    public function setLocale(SessionInterface $session,Request $request)
+    {
+        $session->set('locale', 'fr_FR');
+        return new Response();
+    }
 }

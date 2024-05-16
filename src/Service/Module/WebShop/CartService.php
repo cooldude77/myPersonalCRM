@@ -4,20 +4,26 @@ namespace App\Service\Module\WebShop;
 
 use App\Service\Module\WebShop\Object\CartObject;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class CartService
 {
     public final const string CART_SESSION_KEY = '_WEB_SHOP_CART';
 
+    private Session $session;
 
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->createCartArrayInSessionIfNotExists();
+        // Accessing the session in the constructor is *NOT* recommended, since
+        // it might not be accessible yet or lead to unwanted side-effects
+        // $this->session = $requestStack->getSession();
     }
 
-    private function createCartArrayInSessionIfNotExists(): void
+    public function initialize(): void
     {
-        if (empty($this->requestStack->getSession()->get(self::CART_SESSION_KEY))) {
+        $this->session = $this->requestStack->getSession();
+        $this->session->start();
+        if (empty($this->session->get(self::CART_SESSION_KEY))) {
             $this->setCartArray([]);
         }
 
@@ -25,7 +31,7 @@ class CartService
 
     private function setCartArray(array $array = []): void
     {
-        $this->requestStack->getSession()->set(self::CART_SESSION_KEY, $array);
+        $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
     public function addProductToCart(CartObject $cartObject): void
@@ -52,7 +58,8 @@ class CartService
 
     private function getCartArray(): array
     {
-        return $this->requestStack->getSession()->get(self::CART_SESSION_KEY);
+
+        return $this->session->get(self::CART_SESSION_KEY);
 
     }
 
