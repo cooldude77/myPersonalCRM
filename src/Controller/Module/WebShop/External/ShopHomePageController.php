@@ -22,7 +22,7 @@ WebShopHomeSectionRepository $webShopHomeSectionRepository, Request $request, Pr
         assertNotNull($webShop);
         $webShopSection = $webShopHomeSectionRepository->findBy(['webShop' => $webShop]);
 
-         return $this->render('module/web_shop/external/web_shop_home.html.twig',
+         return $this->render('module/web_shop/external/web_shop_home_page.html.twig',
             ['webShop' => $webShop, 'webShopSection' => $webShopSection]);
     }
 

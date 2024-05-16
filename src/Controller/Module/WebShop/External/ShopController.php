@@ -52,7 +52,7 @@ class ShopController extends AbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/web_shop_home.html.twig',
+            'module/web_shop/external/web_shop_home_page.html.twig',
             ['categories' => $categories, 'form' => $form]
         );
     }

@@ -44,7 +44,7 @@ class CartController extends AbstractController
                    // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/cart/cart.html.twig', ['form' => $form]);
+        return $this->render('module/web_shop/external/cart/cart_page.html.twig', ['form' => $form]);
     }
 
 }
