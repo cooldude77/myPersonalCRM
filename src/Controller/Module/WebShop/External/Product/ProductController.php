@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopProductController extends AbstractController
+class ProductController extends AbstractController
 {
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function home($name, ProductRepository $productRepository, Request $request): Response
     {
         $product = $productRepository->findOneBy(['name' => $name]);
         return $this->render(
-            'module/web_shop/external/product/web_shop_product_display.html.twig',
+            'module/web_shop/external/product/web_shop_single_product_display_page.html.twig',
             ['product' => $product]
         );
     }
@@ -30,7 +30,7 @@ class WebShopProductController extends AbstractController
     {
         $products = $productRepository->findAll();
         return $this->render(
-            'module/web_shop/external/product/web_shop_product_display.html.twig',
+            'module/web_shop/external/product/web_shop_single_product_display_page.html.twig',
             ['products' => $products]
         );
     }

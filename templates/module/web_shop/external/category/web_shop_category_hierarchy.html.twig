@@ -1,5 +1,9 @@
 {% if categories is defined and categories is not empty %}
-    {% for category in categories %}
-        <a href="">{{ category.description }}</a>
-    {% endfor %}
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="">{{ category.description }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}

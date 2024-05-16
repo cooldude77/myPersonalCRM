@@ -1,0 +1,17 @@
+{#
+Single product content fragment
+    Includes add to cart button
+#}
+<div>
+    {{ product.description }}
+</div>
+<img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+     alt="{{ product.description }}"/>
+
+<p>
+    {{ product.longDescription }}
+</p>
+
+{{
+render(controller('App\\Controller\\Module\\WebShop\\External\\Product\\ProductController::addToCartSection',
+    { 'id':product.id})) }}

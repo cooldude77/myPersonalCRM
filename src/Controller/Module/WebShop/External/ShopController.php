@@ -14,20 +14,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopDisplayController extends AbstractController
+class ShopController extends AbstractController
 {
     /**
      * @throws Exception
      */
-    #[Route('/shop/category', name: 'module_web_shop_category_all')]
-    public function home(CategoryRepository $categoryRepository, ProductRepository $productRepository, WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper, CartUpdateService $cartUpdateService, Request $request): Response
-    {
+    #[Route('/shop', name: 'module_web_shop')]
+    public function shop(CategoryRepository $categoryRepository,
+        ProductRepository $productRepository,
+        WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper,
+        CartUpdateService $cartUpdateService, Request $request
+    ): Response {
+
         $categories = $categoryRepository->findAll();
+
         $products = $productRepository->findBy(['category' => $categories]);
 
         $DTOArray = $addProductToCartDTOMapper->createDTOArray($products);
 
-        $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]);
+        $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]
+        );
 
         $session = $request->getSession();
 
@@ -37,15 +43,18 @@ class WebShopDisplayController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-                /** @var ArrayCollection $array */
-                $array = $form->getData()['products'];
-               $cartUpdateService->updateCartWithArrayOfProducts($request->getSession(),$array->toArray());
+            /** @var ArrayCollection $array */
+            $array = $form->getData()['products'];
+            $cartUpdateService->updateCartWithArrayOfProducts(
+                $request->getSession(), $array->toArray()
+            );
 
-           //     if($form->get('cart')->isClicked())
-                   // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/web_shop_with_category_and_product.html.twig', ['categories' => $categories, 'form' => $form]);
+        return $this->render(
+            'module/web_shop/external/web_shop_home.html.twig',
+            ['categories' => $categories, 'form' => $form]
+        );
     }
 
 }

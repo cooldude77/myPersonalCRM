@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function PHPUnit\Framework\assertNotNull;
 
-class WebShopHomePageController extends AbstractController
+class ShopHomePageController extends AbstractController
 {
-    #[Route('/shop', name: 'module_web_shop_home')]
+    #[Route('/test', name: 'module_web_shop_home_page')]
     public function home(WebShopRepository $webShopHomeRepository,
 WebShopHomeSectionRepository $webShopHomeSectionRepository, Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {

@@ -7,10 +7,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopCategoryController extends AbstractController
+class CategoryController extends AbstractController
 {
+    /**
+     * @param CategoryRepository $categoryRepository
+     *
+     * @return Response
+     *
+     * Sidebar hierarchy of categories
+     */
     #[Route('/shop/category/hierarchy/list', name: 'module_web_shop_category_hierarchy_list')]
-    public function hierarchyList( CategoryRepository $categoryRepository): Response
+    public function list( CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findTopLevelCategories();
 
