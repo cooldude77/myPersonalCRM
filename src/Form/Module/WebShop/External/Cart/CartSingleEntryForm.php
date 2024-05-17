@@ -23,10 +23,7 @@ class CartSingleEntryForm extends AbstractType
             'quantity',
             NumberType::class, ['label' => false]
         );
-        $builder->add(
-            'Save',
-            SubmitType::class, ['label' => 'Add To Cart']
-        );
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

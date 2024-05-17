@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\Cart\Object;
+namespace App\Service\Module\WebShop\External\Cart\Object;
 
 class CartObject
 {

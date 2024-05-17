@@ -6,7 +6,7 @@ namespace App\Controller\Module\WebShop\Admin\File\Image;
 
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
 use App\Form\Module\WebShop\Admin\File\Form\WebShopFileImageCreateForm;
-use App\Service\Module\WebShop\File\WebShopFileImageService;
+use App\Service\Module\WebShop\Admin\File\WebShopFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\Cart;
+namespace App\Service\Module\WebShop\External\Cart;
 
-use App\Service\Module\WebShop\Cart\Object\CartObject;
+use App\Service\Module\WebShop\External\Cart\Object\CartObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -22,15 +22,15 @@ class CartService
     public function initialize(): void
     {
         $this->session = $this->requestStack->getSession();
-        $this->session->start();
-        if (empty($this->session->get(self::CART_SESSION_KEY))) {
-            $this->setCartArray([]);
-        }
 
+        if (empty($this->session->get(self::CART_SESSION_KEY))) {
+            $this->setCartInSession();
+        }
     }
 
-    private function setCartArray(array $array = []): void
+    private function setCartInSession(array $array = []): void
     {
+        // always serialize
         $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
@@ -52,38 +52,29 @@ class CartService
         // todo: validations
         $array[$cartObject->productId] = $cartObject;
 
-        $this->setCartArray($array);
+        $this->setCartInSession($array);
 
     }
 
     public function getCartArray(): array
     {
 
-        return $this->session->get(self::CART_SESSION_KEY);
 
+        $x = $this->session->get(self::CART_SESSION_KEY);
+
+        return $x;
     }
 
-    public function increaseByQuantity(int $productId, $quantity): void
+    public function clearCart(): void
     {
+        $this->setCartInSession([]);
+        $this->session->remove(self::CART_SESSION_KEY);
 
-        // todo: validations
-        $cartObject = $this->getCartObject($productId);
-        $cartObject->increaseQuantityBy($quantity);
-        $this->setCartObject($cartObject);
     }
 
     private function getCartObject(int $productId): CartObject
     {
         return $this->getCartArray()[$productId];
     }
-
-    public function decreaseByQuantity(int $productId, $quantity): void
-    {
-// todo: validations
-        $cartObject = $this->getCartObject($productId);
-        $cartObject->decreaseQuantityBy($quantity);
-        $this->setCartObject($cartObject);
-    }
-
 
 }

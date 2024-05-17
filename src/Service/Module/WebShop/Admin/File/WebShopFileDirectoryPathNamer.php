@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\File;
+namespace App\Service\Module\WebShop\Admin\File;
 
 
 use App\Service\Common\File\Base\AbstractFileDirectoryPathProvider;

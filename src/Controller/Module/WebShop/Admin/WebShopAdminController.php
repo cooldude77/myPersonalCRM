@@ -6,7 +6,7 @@ use App\Form\Module\WebShop\Admin\DTO\WebShopDTO;
 use App\Form\Module\WebShop\Admin\WebShopCreateForm;
 use App\Form\Module\WebShop\Admin\WebShopEditForm;
 use App\Repository\WebShopRepository;
-use App\Service\Module\WebShop\Mapper\WebShopDTOMapper;
+use App\Service\Module\WebShop\Admin\Mapper\WebShopDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

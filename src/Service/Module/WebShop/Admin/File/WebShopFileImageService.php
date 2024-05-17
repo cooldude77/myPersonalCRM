@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\File;
+namespace App\Service\Module\WebShop\Admin\File;
 
 use App\Entity\WebShopImageFile;
 use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;

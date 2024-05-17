@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\Mapper;
+namespace App\Service\Module\WebShop\Admin\Mapper;
 
 
 use App\Entity\WebShop;

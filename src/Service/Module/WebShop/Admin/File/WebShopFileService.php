@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\File;
+namespace App\Service\Module\WebShop\Admin\File;
 
 use App\Entity\WebShop;
 use App\Entity\WebShopFile;
