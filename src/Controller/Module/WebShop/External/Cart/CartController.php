@@ -2,11 +2,9 @@
 
 namespace App\Controller\Module\WebShop\External\Cart;
 
-use App\Form\Module\WebShop\External\ShopHome\Mapper\WebShopAddProductToCartDTOMapper;
-use App\Form\Module\WebShop\External\ShopHome\WebShopAddProductCollectionForm;
-use App\Repository\CategoryRepository;
-use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\CartUpdateService;
+use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
+use App\Form\Module\WebShop\External\Cart\Mapper\CartDTOMapper;
+use App\Service\Module\WebShop\Cart\CartService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,31 +18,33 @@ class CartController extends AbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function home( WebShopAddProductToCartDTOMapper $addProductToCartDTOMapper, CartUpdateService $cartUpdateService, Request $request): Response
-    {
+    public function cart(CartDTOMapper $cartDTOMapper, CartService $cartService,
+        Request $request
+    ): Response {
 
 
-        $session = $request->getSession();
+        $cartService->initialize();
 
-        $cart = $session->get(CartUpdateService::CART_SESSION_KEY);
+        $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
-        $DTOArray = $addProductToCartDTOMapper->createDTOArrayFromArrayList($cart['products']);
-        $form = $this->createForm(WebShopAddProductCollectionForm::class, ['products' => $DTOArray]);
+        $form = $this->createForm(CartMultipleEntryForm::class, ['items' => $DTOArray]);
 
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-                /** @var ArrayCollection $array */
-                $array = $form->getData()['products'];
-               $cartUpdateService->updateCartWithArrayOfProducts($request->getSession(),$array->toArray());
+            /** @var ArrayCollection $array */
+            $array = $form->getData();
+          //  $cartService->addProductToCart($array);
 
-           //     if($form->get('cart')->isClicked())
-                   // $x = 10;
+            //     if($form->get('cart')->isClicked())
+            // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/cart/cart_page.html.twig', ['form' => $form]);
+        return $this->render('module/web_shop/external/cart/page/cart_page.html.twig', ['form' =>
+                                                                                         $form]
+        );
     }
 
 }

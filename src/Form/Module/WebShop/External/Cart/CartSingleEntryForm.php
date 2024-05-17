@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\ShopHome;
+namespace App\Form\Module\WebShop\External\Cart;
 
-use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
+use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WebShopAddProductSingleForm extends AbstractType
+class CartSingleEntryForm extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder,
@@ -31,7 +31,7 @@ class WebShopAddProductSingleForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => WebShopProductDTO::class]);
+        $resolver->setDefaults(['data_class' => CartProductDTO::class]);
 
 
     }

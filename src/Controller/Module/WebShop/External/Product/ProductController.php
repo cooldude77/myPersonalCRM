@@ -2,11 +2,11 @@
 
 namespace App\Controller\Module\WebShop\External\Product;
 
-use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
-use App\Form\Module\WebShop\External\ShopHome\WebShopAddProductSingleForm;
+use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
+use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\CartService;
-use App\Service\Module\WebShop\Object\CartObject;
+use App\Service\Module\WebShop\Cart\CartService;
+use App\Service\Module\WebShop\Cart\Object\CartObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +45,10 @@ class ProductController extends AbstractController
 
         $product = $productRepository->find($id);
 
-        $webShopProductDTO = new WebShopProductDTO();
+        $webShopProductDTO = new CartProductDTO();
         $webShopProductDTO->productId = $product->getId();
 
-        $form = $this->createForm(WebShopAddProductSingleForm::class, $webShopProductDTO);
+        $form = $this->createForm(CartSingleEntryForm::class, $webShopProductDTO);
         $session->start();
         $cookies = $request->cookies;
         $form->handleRequest($request);

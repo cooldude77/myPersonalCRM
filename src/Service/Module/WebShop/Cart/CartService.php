@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop;
+namespace App\Service\Module\WebShop\Cart;
 
-use App\Service\Module\WebShop\Object\CartObject;
+use App\Service\Module\WebShop\Cart\Object\CartObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -56,7 +56,7 @@ class CartService
 
     }
 
-    private function getCartArray(): array
+    public function getCartArray(): array
     {
 
         return $this->session->get(self::CART_SESSION_KEY);

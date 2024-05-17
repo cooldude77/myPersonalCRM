@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\ShopHome\Mapper;
+namespace App\Form\Module\WebShop\External\Cart\Mapper;
 
 use App\Entity\Product;
-use App\Form\Module\WebShop\External\ShopHome\DTO\WebShopProductDTO;
+use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\Session\Session;
 
-class WebShopAddProductToCartDTOMapper
+class CartDTOMapper
 {
 
 
@@ -22,7 +21,7 @@ class WebShopAddProductToCartDTOMapper
         /** @var Product $product */
         foreach ($products as $product) {
 
-            $dto = new WebShopProductDTO();
+            $dto = new CartProductDTO();
             $dto->productId = $product->getId();
             $dto->quantity = 0;
             $dtoArray->add($dto);
@@ -36,13 +35,13 @@ class WebShopAddProductToCartDTOMapper
      *
      * To be used with array from session objects
      */
- public function createDTOArrayFromArrayList(array $productList): ArrayCollection
+ public function mapCartToDto(array $productList): ArrayCollection
     {
         $dtoArray =new  ArrayCollection();
         /** @var Product $product */
         foreach ($productList as $productId=>$quantity) {
 
-            $dto = new WebShopProductDTO();
+            $dto = new CartProductDTO();
             $dto->productId = $productId;
             $dto->quantity = $quantity;
             $dtoArray->add($dto);
