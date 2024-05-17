@@ -24,7 +24,7 @@ class CartControllerTest extends WebTestCase
 
         $clearCartUri = '/cart/clear';
 
-        $x = $this->browser()->visit($uri1)
+        $this->browser()->visit($uri1)
             ->fillField('cart_add_product_single_form[productId]', $product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
@@ -42,6 +42,21 @@ class CartControllerTest extends WebTestCase
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
                 $this->assertNotNull($session->get(CartService::CART_SESSION_KEY));
+                // Todo: More tests
+            })
+            ->fillField(
+                'cart_multiple_entry_form[items][0][quantity]', 4
+            )
+            ->fillField(
+                'cart_multiple_entry_form[items][1][quantity]', 6
+            )
+            // // todo: check for valid product ids in cart
+            ->click("Update Cart")
+            ->use(function (\Zenstruck\Browser $browser) use ($product1, $product2) {
+                $session = $browser->client()->getRequest()->getSession();
+                $cart = $session->get(CartService::CART_SESSION_KEY);
+                $this->assertEquals(4, $cart[$product1->getId()]->quantity);
+                $this->assertEquals(6, $cart[$product2->getId()]->quantity);
                 // Todo: More tests
             })
             ->visit($clearCartUri)

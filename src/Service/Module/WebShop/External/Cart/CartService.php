@@ -24,17 +24,17 @@ class CartService
         $this->session = $this->requestStack->getSession();
 
         if (empty($this->session->get(self::CART_SESSION_KEY))) {
-            $this->setCartInSession();
+            $this->setCartArrayInSession();
         }
     }
 
-    private function setCartInSession(array $array = []): void
+    private function setCartArrayInSession(array $array = []): void
     {
         // always serialize
         $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
-    public function addProductToCart(CartObject $cartObject): void
+    public function addItemToCart(CartObject $cartObject): void
     {
         // Todo: check quantity proper values
 
@@ -52,7 +52,7 @@ class CartService
         // todo: validations
         $array[$cartObject->productId] = $cartObject;
 
-        $this->setCartInSession($array);
+        $this->setCartArrayInSession($array);
 
     }
 
@@ -67,14 +67,20 @@ class CartService
 
     public function clearCart(): void
     {
-        $this->setCartInSession([]);
+        $this->setCartArrayInSession([]);
         $this->session->remove(self::CART_SESSION_KEY);
 
     }
 
-    private function getCartObject(int $productId): CartObject
+    public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array):void
     {
-        return $this->getCartArray()[$productId];
+        $cartArray = $this->getCartArray();
+        /** CartObject $item */
+        foreach ($array as $item) {
+            $cartArray[$item->productId] = $item;
+        }
+        $this->setCartArrayInSession($cartArray);
     }
+
 
 }

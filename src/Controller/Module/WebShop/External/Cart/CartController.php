@@ -40,8 +40,8 @@ class CartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var ArrayCollection $array */
-            $array = $form->getData();
-            //  $cartService->addProductToCart($array);
+            $array = $form->getData()['items'];
+              $cartService->updateItemArray($array);
 
             //     if($form->get('cart')->isClicked())
             // $x = 10;
@@ -81,7 +81,7 @@ class CartController extends AbstractController
             );
 
             $cartService->initialize();
-            $cartService->addProductToCart($cartObject);
+            $cartService->addItemToCart($cartObject);
 
             // Todo : event after cart update
 
