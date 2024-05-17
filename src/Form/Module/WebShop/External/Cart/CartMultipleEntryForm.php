@@ -20,7 +20,6 @@ class CartMultipleEntryForm extends AbstractType
         );
 
         $builder->add('update', SubmitType::class, ['label' => 'Update Cart']);
-        $builder->add('clear', SubmitType::class, ['label' => 'Update Cart']);
         $builder->add('checkout', SubmitType::class, ['label' => 'Checkout']);
 
 
