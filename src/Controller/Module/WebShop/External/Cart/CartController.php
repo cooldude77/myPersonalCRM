@@ -41,7 +41,7 @@ class CartController extends AbstractController
 
             /** @var ArrayCollection $array */
             $array = $form->getData()['items'];
-              $cartService->updateItemArray($array);
+            $cartService->updateItemArray($array);
 
             //     if($form->get('cart')->isClicked())
             // $x = 10;
@@ -52,7 +52,7 @@ class CartController extends AbstractController
         );
     }
 
-    #[Route('/cart/product/{id}/add', name: 'web_shop_product_add_to_cart')]
+    #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
         CartService $cartService,
         Request $request,
@@ -67,7 +67,7 @@ class CartController extends AbstractController
 
         $form = $this->createForm(
             CartSingleEntryForm::class, $cartProductDTO,
-            ['action' => $router->generate('web_shop_product_add_to_cart', ['id' => $id])]
+            ['action' => $router->generate('module_web_shop_cart_add_product', ['id' => $id])]
         );
 
         $form->handleRequest($request);
@@ -96,7 +96,22 @@ class CartController extends AbstractController
         );
     }
 
-    #[Route('/cart/clear', name: 'cart_clear')]
+    #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
+    public function delete($id, ProductRepository $productRepository,
+        CartService $cartService,
+        Request $request,
+        RouterInterface $router
+    ):
+    Response {
+
+        $cartService->initialize();
+        $cartService->deleteItem($id);
+
+
+        return new Response("Item Deleted");
+    }
+
+    #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
     public function clear(
         CartService $cartService
     ):

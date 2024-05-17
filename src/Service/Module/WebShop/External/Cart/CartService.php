@@ -72,7 +72,7 @@ class CartService
 
     }
 
-    public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array):void
+    public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array): void
     {
         $cartArray = $this->getCartArray();
         /** CartObject $item */
@@ -80,6 +80,15 @@ class CartService
             $cartArray[$item->productId] = $item;
         }
         $this->setCartArrayInSession($cartArray);
+    }
+
+    public function deleteItem($id)
+    {
+        $cartArray = $this->getCartArray();
+        unset($cartArray[$id]);
+
+        $this->setCartArrayInSession($cartArray);
+
     }
 
 
