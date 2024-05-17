@@ -24,6 +24,7 @@ class CartControllerTest extends WebTestCase
 
         $clearCartUri = '/cart/clear';
 
+        // first add products to cart
         $this->browser()->visit($uri1)
             ->fillField('cart_add_product_single_form[productId]', $product1->getId())
             ->fillField(
@@ -38,12 +39,14 @@ class CartControllerTest extends WebTestCase
             )
             ->click('Add To Cart')
             ->assertSuccessful()
+            // check cart
             ->visit($cartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
                 $this->assertNotNull($session->get(CartService::CART_SESSION_KEY));
                 // Todo: More tests
             })
+            // update quantities
             ->fillField(
                 'cart_multiple_entry_form[items][0][quantity]', 4
             )
@@ -59,6 +62,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertEquals(6, $cart[$product2->getId()]->quantity);
                 // Todo: More tests
             })
+            // clear cart
             ->visit($clearCartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
@@ -66,11 +70,6 @@ class CartControllerTest extends WebTestCase
                 // Todo: More tests
             })
             ->assertSuccessful();
-
-        $y = 0;
-
-        // Todo: more validations needed
-
 
     }
 }
