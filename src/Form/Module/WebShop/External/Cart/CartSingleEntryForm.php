@@ -35,7 +35,7 @@ class CartSingleEntryForm extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'web_shop_add_product_single_form';
+        return 'cart_add_product_single_form';
     }
 
 }

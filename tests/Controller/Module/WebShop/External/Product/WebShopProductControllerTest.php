@@ -46,7 +46,7 @@ class WebShopProductControllerTest extends WebTestCase
     {
 
         $product = ProductFactory::createOne(["name" => 'prod1']);
-        $uri = "/web-shop/cart/product/" . $product->getId() . '/add';
+        $uri = "/cart/product/" . $product->getId() . '/add';
 
         /*
            Example when we don't use client from browser() function, which creates its own
@@ -78,9 +78,9 @@ class WebShopProductControllerTest extends WebTestCase
          */
 
         $browser = $this->browser()->visit($uri)
-            ->fillField('web_shop_add_product_single_form[productId]', $product->getId())
+            ->fillField('cart_add_product_single_form[productId]', $product->getId())
             ->fillField(
-                'web_shop_add_product_single_form[quantity]', 1
+                'cart_add_product_single_form[quantity]', 1
             )
             ->click('Add To Cart')->assertSuccessful();
 
