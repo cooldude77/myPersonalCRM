@@ -54,7 +54,8 @@ class EmployeeDTOMapper
             )
         );
 
-       return $user;
+        $user->setRoles(['ROLE_EMPLOYEE']);
+        return $user;
     }
 
     public function mapToEntityForEdit(FormInterface $form, Employee $employee): Employee

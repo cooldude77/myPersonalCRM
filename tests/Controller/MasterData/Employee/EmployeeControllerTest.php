@@ -49,6 +49,9 @@ class EmployeeControllerTest extends WebTestCase
 
         $this->assertEquals("First Name", $created->getFirstName());
 
+        $user = $created->getUser();
+
+        $this->assertTrue(in_array('ROLE_EMPLOYEE', $created->getUser()->getRoles()));
 
     }
 

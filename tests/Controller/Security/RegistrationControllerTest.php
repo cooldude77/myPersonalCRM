@@ -28,6 +28,7 @@ class RegistrationControllerTest extends WebTestCase
         $customer = CustomerFactory::find(['user' => $created]);
 
         $this->assertNotNull($created);
+        $this->assertTrue(in_array('ROLE_CUSTOMER', $created->getRoles()));
         $this->assertNotNull($customer);
 
 
