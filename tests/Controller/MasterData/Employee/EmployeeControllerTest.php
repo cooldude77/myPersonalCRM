@@ -51,7 +51,7 @@ class EmployeeControllerTest extends WebTestCase
 
         $user = $created->getUser();
 
-        $this->assertTrue(in_array('ROLE_EMPLOYEE', $created->getUser()->getRoles()));
+        $this->assertTrue(in_array('ROLE_ADMIN', $created->getUser()->getRoles()));
 
     }
 

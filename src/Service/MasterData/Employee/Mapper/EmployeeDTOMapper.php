@@ -54,7 +54,7 @@ class EmployeeDTOMapper
             )
         );
 
-        $user->setRoles(['ROLE_EMPLOYEE']);
+        $user->setRoles(['ROLE_ADMIN']);
         return $user;
     }
 

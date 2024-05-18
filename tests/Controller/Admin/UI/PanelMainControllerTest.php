@@ -2,49 +2,46 @@
 
 namespace App\Tests\Controller\Admin\UI;
 
+use App\Factory\EmployeeFactory;
+use App\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class PanelMainControllerTest extends WebTestCase
 {
-    use HasBrowser;
+    use HasBrowser,AuthenticateTestEmployee;
 
     public function testAdmin()
     {
+        // Unauthenticated entry
         $uri = '/admin';
-        $this->browser()->visit($uri)->assertSuccessful();
+        $this->browser()->visit($uri)->assertNotAuthenticated();
 
-        $this->browser()
-            ->visit($uri)
+         $browser = $this->browser();
+        $client = $browser->client();
+
+        $this->authenticateEmployee($client);
+
+        $browser->visit($uri)
             ->click('a#sidebar-link-category-list')
             ->followRedirects()
-            ->assertSuccessful();
-
-        $this->browser()
+            ->assertSuccessful()
             ->visit($uri)
             ->click('a#sidebar-link-product-list')
             ->followRedirects()
-            ->assertSuccessful();
-
-        $this->browser()
+            ->assertSuccessful()
             ->visit($uri)
             ->click('a#sidebar-link-product-type-list')
             ->followRedirects()
-            ->assertSuccessful();
-
-        $this->browser()
+            ->assertSuccessful()
             ->visit($uri)
             ->click('a#sidebar-link-product-attribute-list')
             ->followRedirects()
-            ->assertSuccessful();
-
-     $this->browser()
+            ->assertSuccessful()
             ->visit($uri)
             ->click('a#sidebar-link-customer-list')
             ->followRedirects()
-            ->assertSuccessful();
-
-     $this->browser()
+            ->assertSuccessful()
             ->visit($uri)
             ->click('a#sidebar-link-web-shop-list')
             ->followRedirects()
@@ -67,4 +64,7 @@ class PanelMainControllerTest extends WebTestCase
                     )->click('Save')->assertSuccessful();
           */
     }
+
+
+
 }
