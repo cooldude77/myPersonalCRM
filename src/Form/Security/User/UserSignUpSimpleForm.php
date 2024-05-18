@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Security\User;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class UserSignUpSimpleForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -54,6 +54,6 @@ class RegistrationFormType extends AbstractType
     }
     public function getBlockPrefix():string
     {
-        return 'registration_form';
+        return 'sign_up_form';
     }
 }

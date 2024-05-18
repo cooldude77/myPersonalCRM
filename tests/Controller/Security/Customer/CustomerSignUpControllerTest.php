@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Tests\Controller\Security;
+namespace App\Tests\Controller\Security\Customer;
 
+use App\Controller\Security\Customer\CustomerSignUpController;
 use App\Factory\CustomerFactory;
 use App\Factory\UserFactory;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class RegistrationControllerTest extends WebTestCase
+class CustomerSignUpControllerTest extends WebTestCase
 {
     use HasBrowser;
 
     public function testRegister()
     {
-        $createUrl = '/register';
+        $createUrl = '/signup';
 
 
         $this->browser()->visit($createUrl)->fillField(
-            'registration_form[login]', 'x@y.com'
+            'sign_up_form[login]', 'x@y.com'
         )->fillField(
-            'registration_form[plainPassword]', 'fwfwefwefwqwe2234fwf'
+            'sign_up_form[plainPassword]', 'fwfwefwefwqwe2234fwf'
         )
-            ->fillField('registration_form[agreeTerms]', true)
+            ->fillField('sign_up_form[agreeTerms]', true)
             ->click('Register')->assertSuccessful();
 
         $created = UserFactory::find(array('login' => 'x@y.com'));

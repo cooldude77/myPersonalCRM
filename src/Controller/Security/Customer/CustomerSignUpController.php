@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Security;
+namespace App\Controller\Security\Customer;
 
 use App\Entity\Customer;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\Security\User\UserSignUpSimpleForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,15 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-class RegistrationController extends AbstractController
+class CustomerSignUpController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request,
+    #[Route('/signup', name: 'customer_sign_up')]
+    public function signUp(Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserSignUpSimpleForm::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,8 +46,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('admin_panel');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+        return $this->render('security/user/sign_up.html.twig', [
+            'form' => $form,
         ]);
     }
 }
