@@ -37,6 +37,6 @@ class InventoryProductEditForm extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'inventory_edit_form';
+        return 'inventory_product_edit_form';
     }
 }

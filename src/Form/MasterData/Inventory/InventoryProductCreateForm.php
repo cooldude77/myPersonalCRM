@@ -21,7 +21,7 @@ class InventoryProductCreateForm extends AbstractType
 
    function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('idProduct', HiddenType::class);
+        $builder->add('productId', HiddenType::class);
         $builder->add('quantity', NumberType::class);
 
         $builder->add('save', SubmitType::class);
@@ -36,6 +36,6 @@ class InventoryProductCreateForm extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'inventory_create_form';
+        return 'inventory_product_create_form';
     }
 }

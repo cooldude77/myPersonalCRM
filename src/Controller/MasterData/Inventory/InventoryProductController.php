@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryProductController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/inventory/product/$id/create', 'inventory_product_create')]
+    #[Route('/inventory/product/{id}/create', 'inventory_product_create')]
     public function create(int $id, InventoryProductDTOMapper $inventoryProductDTOMapper,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager, Request $request

@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller\MasterData\Inventory;
 
-use App\Factory\CategoryFactory;
 use App\Factory\InventoryProductFactory;
+use App\Factory\ProductFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -18,30 +18,19 @@ class InventoryProductControllerTest extends WebTestCase
      */
     public function testCreate()
     {
-        $category = CategoryFactory::createOne(['name' => 'Cat1',
-                                                'description' => 'Category 1']);
+        $product = ProductFactory::createOne();
+        $id = $product->getId();
 
-        $id = $category->getId();
-        $createUrl = '/inventoryProduct/create';
+        $createUrl = "/inventory/product/{$id}/create";
 
-        $visit = $this->browser()->visit($createUrl);
+        $this->browser()->visit($createUrl)
+            ->fillField('inventory_product_create_form[quantity]', 1)
+            ->click('Save')
+            ->assertSuccessful();
 
-        $crawler = $visit->client()->getCrawler();
+        $created = InventoryProductFactory::find(array('product' => $product));
 
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('inventoryProduct_create_form[name]', 'Prod1')->fillField(
-                'inventoryProduct_create_form[description]', 'InventoryProduct 1'
-            )->fillField('inventoryProduct_create_form[category]', $id)->click('Save')->assertSuccessful();
-
-        $created = InventoryProductFactory::find(array('name' => "Prod1"));
-
-        $this->assertEquals("Prod1", $created->getName());
+        $this->assertEquals(1, $created->getQuantity());
 
 
     }
@@ -52,46 +41,21 @@ class InventoryProductControllerTest extends WebTestCase
      */
     public function testEdit()
     {
-        $category1 = CategoryFactory::createOne(['name' => 'Cat1',
-                                                 'description' => 'Category 1']);
-
-        $category2 = CategoryFactory::createOne(['name' => 'Cat2',
-                                                 'description' => 'Category 2']);
-
-
-        $inventoryProduct = InventoryProductFactory::createOne(['category' => $category1]);
+        $inventoryProduct = InventoryProductFactory::createOne();
 
         $id = $inventoryProduct->getId();
 
-        $url = "/inventoryProduct/$id/edit";
+        $url = "/inventory/$id/edit";
 
-        $visit = $this->browser()->visit($url);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category1->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category2->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('inventoryProduct_edit_form[name]', 'Prod1')
-            ->fillField(
-                'inventoryProduct_edit_form[description]', 'InventoryProduct 1'
-            )
-            ->fillField('inventoryProduct_edit_form[category]', $category2->getId())
+        $visit = $this->browser()->visit($url)
+            ->fillField('inventory_product_edit_form[quantity]', 10)
             ->click('Save')
             ->assertSuccessful();
 
-        $created = InventoryProductFactory::find(array('name' => "Prod1"));
 
-        $this->assertEquals("Prod1", $created->getName());
+        $created = InventoryProductFactory::find(array('id' => $id));
+
+        $this->assertEquals(10, $created->getQuantity());
 
 
     }
@@ -102,25 +66,19 @@ class InventoryProductControllerTest extends WebTestCase
      */
     public function testDisplay()
     {
-        $category = CategoryFactory::createOne(['name' => 'Cat1',
-                                                'description' => 'Category 1']);
 
-
-        $inventoryProduct = InventoryProductFactory::createOne(['category' => $category]);
+        $inventoryProduct = InventoryProductFactory::createOne();
 
         $id = $inventoryProduct->getId();
-        $createUrl = "/inventoryProduct/$id/display";
+        $createUrl = "/inventory/$id/display";
 
         $this->browser()->visit($createUrl)->assertSuccessful();
 
-
     }
-
 
     public function testList()
     {
-
-        $url = '/inventoryProduct/list';
+        $url = '/inventory/list';
         $this->browser()->visit($url)->assertSuccessful();
 
     }
