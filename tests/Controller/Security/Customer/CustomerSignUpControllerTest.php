@@ -2,10 +2,8 @@
 
 namespace App\Tests\Controller\Security\Customer;
 
-use App\Controller\Security\Customer\CustomerSignUpController;
 use App\Factory\CustomerFactory;
 use App\Factory\UserFactory;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 

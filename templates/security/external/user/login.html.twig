@@ -1,9 +1,9 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
+    <form method="post" name="user_login_form">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -35,8 +35,8 @@
             </div>
         #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+        <button class="btn btn-lg btn-primary" type="submit" name="login">
+            Login in
         </button>
     </form>
 {% endblock %}

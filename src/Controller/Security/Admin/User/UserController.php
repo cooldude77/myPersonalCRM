@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Security\User;
+namespace App\Controller\Security\Admin\User;
 
 // ...
 use App\Entity\User;
@@ -15,32 +15,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/create', name: 'create_user')]
-    public function createUser(EntityManagerInterface $entityManager,
-        UserRepository $repository,
-        Request $request
-    ): Response {
-        $user = new User();
 
-        $form = $this->createForm(UserForm::class, $user);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // perform some action...
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
-
-            return $this->redirectToRoute('task_success');
-        }
-
-        return $this->render('admin/user/create.html.twig', [
-            'form' => $form,
-        ]);
-
-    }
-
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
@@ -49,7 +26,7 @@ class UserController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/user/login.html.twig', [
+        return $this->render('security/external/user/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security\Customer;
+namespace App\Controller\Security\External\Customer;
 
 use App\Entity\Customer;
 use App\Entity\User;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerSignUpController extends AbstractController
 {
-    #[Route('/signup', name: 'customer_sign_up')]
+    #[Route('/signup', name: 'user_customer_sign_up')]
     public function signUp(Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager): Response
@@ -46,7 +46,7 @@ class CustomerSignUpController extends AbstractController
             return $this->redirectToRoute('admin_panel');
         }
 
-        return $this->render('security/user/sign_up.html.twig', [
+        return $this->render('security/external/user/sign_up.html.twig', [
             'form' => $form,
         ]);
     }
