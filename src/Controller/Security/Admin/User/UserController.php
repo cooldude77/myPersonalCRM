@@ -26,7 +26,7 @@ class UserController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/external/user/login.html.twig', [
+        return $this->render('security/external/user/login_page.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);

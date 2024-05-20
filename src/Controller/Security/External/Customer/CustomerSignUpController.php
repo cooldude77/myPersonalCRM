@@ -46,7 +46,7 @@ class CustomerSignUpController extends AbstractController
             return $this->redirectToRoute('admin_panel');
         }
 
-        return $this->render('security/external/user/sign_up.html.twig', [
+        return $this->render('security/external/user/sign_up_page.html.twig', [
             'form' => $form,
         ]);
     }
