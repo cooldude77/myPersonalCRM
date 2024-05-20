@@ -19,7 +19,7 @@ class UserControllerTest extends WebTestCase
         $uri = '/login';
 
 
-        $this->browser()->visit($uri)
+        $browser = $this->browser()->visit($uri)
             ->fillField(
                 '_username', $user->getLogin()
             )->fillField(
@@ -27,6 +27,7 @@ class UserControllerTest extends WebTestCase
             )
             ->click('login')
             ->assertSuccessful();
+
 
         // todo: login with a wrong id or password
     }
