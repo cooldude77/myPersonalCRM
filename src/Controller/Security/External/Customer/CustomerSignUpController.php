@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerSignUpController extends AbstractController
 {
-    
+
     /**
      * @param Request                     $request
      * @param UserPasswordHasherInterface $userPasswordHasher
@@ -68,9 +68,10 @@ class CustomerSignUpController extends AbstractController
     }
 
     /**
-     * @param Request                     $request
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     * @param EntityManagerInterface      $entityManager
+     * @param CustomerDTOMapper      $customerDTOMapper
+     * @param EntityManagerInterface $entityManager
+     *
+     * @param Request                $request
      *
      * @return Response
      *

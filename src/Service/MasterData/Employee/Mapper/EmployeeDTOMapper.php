@@ -4,19 +4,18 @@ namespace App\Service\MasterData\Employee\Mapper;
 
 use App\Entity\Category;
 use App\Entity\Employee;
-use App\Entity\User;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
 use App\Repository\EmployeeRepository;
 use App\Repository\SalutationRepository;
+use App\Security\Mapper\UserDTOMapper;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EmployeeDTOMapper
 {
 
     public function __construct(private EmployeeRepository $employeeRepository,
         private SalutationRepository $salutationRepository,
-        private UserPasswordHasherInterface $userPasswordHasher
+        private UserDTOMapper $userMapper
     ) {
     }
 
@@ -36,27 +35,11 @@ class EmployeeDTOMapper
         $employee->setEmail($employeeDTO->email);
         $employee->setPhoneNumber($employeeDTO->phoneNumber);
 
-        $employee->setUser($this->createUser($employeeDTO,$employee));
+        $employee->setUser($this->userMapper->mapUserForEmployeeCreate($employeeDTO, $employee));
 
         return $employee;
     }
 
-    public function createUser(EmployeeDTO $employeeDTO, Employee $employee):User
-    {
-        $user = new User();
-        $user->setLogin($employee->getEmail());
-
-        // encode the plain password
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-               $employeeDTO->plainPassword
-            )
-        );
-
-        $user->setRoles(['ROLE_ADMIN']);
-        return $user;
-    }
 
     public function mapToEntityForEdit(FormInterface $form, Employee $employee): Employee
     {

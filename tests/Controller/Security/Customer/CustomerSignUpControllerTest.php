@@ -3,8 +3,11 @@
 namespace App\Tests\Controller\Security\Customer;
 
 use App\Factory\CustomerFactory;
+use App\Factory\SalutationFactory;
 use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CustomerSignUpControllerTest extends WebTestCase
@@ -42,14 +45,29 @@ class CustomerSignUpControllerTest extends WebTestCase
 
     public function testSignUpAdvanced()
     {
-        $createUrl = '/signup/advanced?_redirect_after_success=/';
-        $this->browser()->visit($createUrl)->fillField(
-            'customer_create_form[firstName]', 'First Name'
-        )->fillField(
-            'customer_create_form[lastName]', 'Last Name'
-        )->fillField('customer_create_form[email]', 'x@y.com')
-            ->fillField('customer_create_form[phoneNumber]', '+91999999999')
-            ->fillField('customer_create_form[plainPassword]', '4534geget355$%^')
+        $createUrl = '/signup/advanced?_redirect_after_success=home';
+
+
+        $salutation = SalutationFactory::createOne(['name' => 'Mr.',
+                                                    'description' => 'Mister...']);
+
+        $this->browser()->visit($createUrl)
+            ->use(function (Browser $browser, Crawler $crawler) use ($salutation) {
+
+                $domDocument = $crawler->getNode(0)?->parentNode;
+
+                $option = $domDocument->createElement('option');
+                $option->setAttribute('value', $salutation->getId());
+                $selectElement = $crawler->filter('select')->getNode(0);
+                $selectElement->appendChild($option);
+            })
+            ->fillField(
+                'user_sign_up_advanced_form[firstName]', 'First Name'
+            )->fillField(
+                'user_sign_up_advanced_form[lastName]', 'Last Name'
+            )->fillField('user_sign_up_advanced_form[email]', 'x@y.com')
+            ->fillField('user_sign_up_advanced_form[phoneNumber]', '+91999999999')
+            ->fillField('user_sign_up_advanced_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
             ->assertSuccessful();
 
