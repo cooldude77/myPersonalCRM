@@ -91,5 +91,10 @@ class CartService
 
     }
 
+    public function hasItems(): bool
+    {
+        return !empty($this->getCartArray());
+    }
+
 
 }

@@ -1,0 +1,16 @@
+<div> Shipping address</div>
+{% if shippingAddress != null %}
+    {% include 'module/web_shop/external/checout_address_single' with {'address':shippingAddress,'shippingType':'Shipping'} %}
+{% else %}
+    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'shipping'}) }}">
+        Create Shipping Address
+    </a>
+{% endif %}
+<div> Billing address</div>
+{% if billingAddress != null %}
+    {% include 'module/web_shop/external/checout_address_single' with {'address':billingAddress,'billingType':'Billing'} %}
+{% else %}
+    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'billing'}) }}">
+        Create Billing Address
+    </a>
+{% endif %}

@@ -83,9 +83,7 @@ class CustomerSignUpController extends AbstractController
     public function signUpAdvanced(CustomerDTOMapper $customerDTOMapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
-        if ($request->get('_redirect_after_success') == null) {
-            throw new NoRedirectParameterSetException($request->getUri());
-        }
+
 
         $customerDTO = new CustomerDTO();
         $form = $this->createForm(
