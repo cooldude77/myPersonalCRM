@@ -113,7 +113,10 @@ class CustomerSignUpController extends AbstractController
 
         }
 
-        return $this->render('master_data/customer/customer_create.html.twig', ['form' => $form]);
+        return $this->render(
+            'security/external/user/sign_up/sign_up_advanced.html.twig',
+            ['form'=>$form]
+        );
 
     }
 }

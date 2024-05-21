@@ -19,7 +19,7 @@ class CheckOutController extends AbstractController
       //  if(!$cartService->hasItems())
         // throw  new CheckoutNoItemsInCartException();
 
-
+        $user= $this->getUser();
         return $this->render(
             'module/web_shop/external/checkout/page/checkout_page.html.twig'
         );
