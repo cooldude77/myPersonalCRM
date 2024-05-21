@@ -29,13 +29,13 @@ class PaymentTypeControllerTest  extends WebTestCase
         $domDocument = $crawler->getNode(0)?->parentNode;
 
 
-        $visit->fillField('payment_type_create_form[name]', 'Prod1')->fillField(
+        $visit->fillField('payment_type_create_form[name]', 'Cod')->fillField(
             'payment_type_create_form[description]', 'PaymentType 1'
         )->click('Save')->assertSuccessful();
 
-        $created = PaymentTypeFactory::find(array('name' => "Prod1"));
+        $created = PaymentTypeFactory::find(array('name' => "Cod"));
 
-        $this->assertEquals("Prod1", $created->getName());
+        $this->assertEquals("Cod", $created->getName());
 
 
     }
@@ -46,23 +46,23 @@ class PaymentTypeControllerTest  extends WebTestCase
      */
     public function testEdit()
     {
-        $product = PaymentTypeFactory::createOne();
+        $paymentType = PaymentTypeFactory::createOne();
 
-        $id = $product->getId();
+        $id = $paymentType->getId();
 
         $url = "/payment_type/$id/edit";
 
         $visit = $this->browser()->visit($url)
-            ->fillField('payment_type_edit_form[name]', 'Prod1')
+            ->fillField('payment_type_edit_form[name]', 'Cod')
             ->fillField(
                 'payment_type_edit_form[description]', 'PaymentType 1'
             )
             ->click('Save')
             ->assertSuccessful();
 
-        $created = PaymentTypeFactory::find(array('name' => "Prod1"));
+        $created = PaymentTypeFactory::find(array('name' => "Cod"));
 
-        $this->assertEquals("Prod1", $created->getName());
+        $this->assertEquals("Cod", $created->getName());
 
 
     }
@@ -77,9 +77,9 @@ class PaymentTypeControllerTest  extends WebTestCase
                                                 'description' => 'Category 1']);
 
 
-        $product = PaymentTypeFactory::createOne();
+        $paymentType = PaymentTypeFactory::createOne();
 
-        $id = $product->getId();
+        $id = $paymentType->getId();
         $createUrl = "/payment_type/$id/display";
 
         $this->browser()->visit($createUrl)->assertSuccessful();
