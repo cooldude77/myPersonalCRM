@@ -1,0 +1,4 @@
+{#  Show login link and advanced sign ups #}
+
+<a class="link" id="id-link-login" href="{{ path('app_login') }}">Login</a>
+{{ render(controller('App\\Controller\\Security\\External\\Customer\\CustomerSignUpController::signUpAdvanced')) }}

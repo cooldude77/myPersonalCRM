@@ -23,7 +23,7 @@ class CheckOutAddressController extends AbstractController
                                                                   'addressType' => 'shipping']);
 
         return $this->render(
-            'module/web_shop/external/checkout/checkout_address_list.html.twig',
+            'module/web_shop/external/checkout/address/checkout_address_list.html.twig',
             ['billingAddress' => $addressBilling, 'shippingAddress' => $addressShipping,'customer'=>$customer]
         );
 

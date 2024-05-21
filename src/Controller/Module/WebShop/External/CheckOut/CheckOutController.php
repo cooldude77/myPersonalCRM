@@ -21,7 +21,7 @@ class CheckOutController extends AbstractController
 
 
         return $this->render(
-            'module/web_shop/external/checkout/checkout.html.twig'
+            'module/web_shop/external/checkout/page/checkout_page.html.twig'
         );
     }
 }
