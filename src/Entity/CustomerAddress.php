@@ -30,6 +30,9 @@ class CustomerAddress
     #[ORM\JoinColumn(nullable: false)]
     private ?PinCode $pinCode = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $addressType = null;
+
 
     public function getId(): ?int
     {
@@ -58,6 +61,26 @@ class CustomerAddress
         $this->line1 = $line1;
     }
 
+    public function getLine2(): ?string
+    {
+        return $this->line2;
+    }
+
+    public function setLine2(?string $line2): void
+    {
+        $this->line2 = $line2;
+    }
+
+    public function getLine3(): ?string
+    {
+        return $this->line3;
+    }
+
+    public function setLine3(?string $line3): void
+    {
+        $this->line3 = $line3;
+    }
+
     public function getPinCode(): ?PinCode
     {
         return $this->pinCode;
@@ -66,5 +89,17 @@ class CustomerAddress
     public function setPinCode(?PinCode $pinCode): void
     {
         $this->pinCode = $pinCode;
+    }
+
+    public function getAddressType(): ?string
+    {
+        return $this->addressType;
+    }
+
+    public function setAddressType(string $addressType): static
+    {
+        $this->addressType = $addressType;
+
+        return $this;
     }
 }

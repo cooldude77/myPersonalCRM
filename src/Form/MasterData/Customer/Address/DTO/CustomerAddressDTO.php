@@ -13,6 +13,10 @@ class CustomerAddressDTO
     public int $customerId = 0;
 
     public ?string $line1= null;
+    public ?string $line2= null;
+    public ?string $line3= null;
+
+    public ?string $addressType = "billing";
     public ?int $pinCodeId = 0;
 
 }

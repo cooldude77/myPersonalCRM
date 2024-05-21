@@ -22,12 +22,23 @@ class CustomerAddressEditForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('customerId',HiddenType::class);
         $builder->add('line1',TextType::class);
-        $builder->add('pinCodeId',ChoiceType::class, [// validation message if the data
-                                                      // transformer fails
-                                                      'choices' => $this->fill()]);
-
+        $builder->add('line2', TextType::class);
+        $builder->add('line3', TextType::class);
+        $builder->add('pinCodeId', ChoiceType::class, [// validation message if the data
+                                                       // transformer fails
+                                                       'choices' => $this->fill()]);
+        $builder->add(
+            'addressType', ChoiceType::class,
+            [
+                'choices' => [
+                    'Shipping' => 'shipping',
+                    'Billing' => 'billing',
+                ],
+                'multiple' => false,
+                'expanded' => true,
+            ]
+        );
         $builder->add('save', SubmitType::class);
     }
     private function fill(): array

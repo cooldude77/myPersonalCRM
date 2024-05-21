@@ -3,8 +3,6 @@
 namespace App\Tests\Controller\MasterData\Customer\Address;
 
 use App\Factory\CustomerAddressFactory;
-use App\Factory\CustomerFactory;
-use App\Factory\UserFactory;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -15,7 +13,8 @@ class CustomerAddressControllerTest extends WebTestCase
 
     use HasBrowser;
     use LocationFixture;
-use CustomerFixture;
+    use CustomerFixture;
+
     public function testCreate()
     {
 
@@ -23,7 +22,7 @@ use CustomerFixture;
 
         $this->createCustomer();
 
-         $id = $this->customer->getId();
+        $id = $this->customer->getId();
 
         $uri = "/customer/{$id}/address/create";
         $this->browser()
@@ -31,12 +30,24 @@ use CustomerFixture;
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
             )
+            ->fillField(
+                'customer_address_create_form[line2]', 'Line 2'
+            )
+            ->fillField(
+                'customer_address_create_form[line3]', 'Line 3'
+            )
+            ->fillField(
+                'customer_address_create_form[addressType]', 'billing'
+            )
             ->click('Save')
             ->assertSuccessful();
 
         $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
 
         $this->assertEquals('Line 1', $created->getLine1());
+        $this->assertEquals('Line 2', $created->getLine2());
+        $this->assertEquals('Line 3', $created->getLine3());
+        $this->assertEquals('billing', $created->getAddressType());
 
     }
 
@@ -48,7 +59,8 @@ use CustomerFixture;
 
         $this->createCustomer();
 
-        $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer]);
+        $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer,
+            'addressType'=>'shipping']);
 
         $id = $customerAddress->getId();
 
@@ -56,21 +68,34 @@ use CustomerFixture;
         $this->browser()
             ->visit($uri)
             ->fillField(
-                'customer_address_edit_form[line1]', 'Line 11'
+                'customer_address_edit_form[line1]', 'Line 1'
+            )
+            ->fillField(
+                'customer_address_edit_form[line2]', 'Line 2'
+            )
+            ->fillField(
+                'customer_address_edit_form[line3]', 'Line 3'
+            )
+            ->fillField(
+                'customer_address_edit_form[addressType]', 'billing'
             )
             ->click('Save')
             ->assertSuccessful();
 
-        $created = CustomerAddressFactory::find(array('line1' => "Line 11"));
+        $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
 
-        $this->assertEquals('Line 11', $created->getLine1());
+        $this->assertEquals('Line 1', $created->getLine1());
+        $this->assertEquals('Line 2', $created->getLine2());
+        $this->assertEquals('Line 3', $created->getLine3());
+        $this->assertEquals('billing', $created->getAddressType());
     }
 
     public function testList()
     {
         $this->createCustomer();
 
-        CustomerAddressFactory::createMany(10, ['customer' => $this->customer]);
+        CustomerAddressFactory::createMany(10, ['customer' => $this->customer,
+            'addressType'=>'shipping']);
 
         $id = $this->customer->getId();
         $url = "/customer/{$id}/address/list";
