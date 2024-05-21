@@ -1,16 +1,16 @@
 <div> Shipping address</div>
 {% if shippingAddress != null %}
-    {% include 'module/web_shop/external/checout_address_single' with {'address':shippingAddress,'shippingType':'Shipping'} %}
+    {% include 'module/web_shop/external/checkout/address/checkout_address_single.html.twig' with {'address':shippingAddress,'addressType':'Shipping'} %}
 {% else %}
-    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'shipping'}) }}">
+    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'shipping','_redirect_to_route_after_success':'web_shop_checkout'}) }}">
         Create Shipping Address
     </a>
 {% endif %}
 <div> Billing address</div>
 {% if billingAddress != null %}
-    {% include 'module/web_shop/external/checout_address_single' with {'address':billingAddress,'billingType':'Billing'} %}
+    {% include 'module/web_shop/external/checkout/address/checkout_address_single.html.twig' with {'address':billingAddress,'addressType':'Billing'} %}
 {% else %}
-    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'billing'}) }}">
+    <a href="{{ path('customer_address_create',{'id':customer.id,'type':'billing','_redirect_to_route_after_success':'web_shop_checkout'}) }}">
         Create Billing Address
     </a>
 {% endif %}

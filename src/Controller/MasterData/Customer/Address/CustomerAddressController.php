@@ -41,6 +41,11 @@ class CustomerAddressController extends AbstractController
                 'success', "Customer Address created successfully"
             );
 
+            // special case when checkout calls this method
+            if ($request->get('_redirect_to_route_after_success')) {
+                return $this->redirectToRoute($request->get('_redirect_to_route_after_success'));
+            }
+
             $id = $customerAddress->getId();
 
             return new Response(
