@@ -86,28 +86,8 @@ class CheckOutControllerTest extends WebTestCase
             ->click('Save')
             ->followRedirect()
             ->assertOn('/checkout')
-            ->assertSee('Edit this address');
-
-
-    }
-
-    public function testCheckoutAddBillingAddress()
-    {
-        $user = UserFactory::createOne(['login' => 'a@b.com']);
-
-        $customer = CustomerFactory::createOne(['user' => $user]);
-
-        $pinCode = PinCodeFactory::createOne();
-
-        $uri = "/checkout";
-        $this->browser()
-            ->use(function (Browser $browser) use ($user) {
-                $browser->client()->loginUser($user->object());
-            })
-            ->visit($uri)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('Create Shipping Address')
+            ->assertSee('Edit this address')
+            ->click('Create Billing Address')
             ->followRedirects()
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
@@ -119,7 +99,7 @@ class CheckOutControllerTest extends WebTestCase
                 'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
-                'customer_address_create_form[addressType]', 'billing'
+                'customer_address_create_form[addressType]', 'shipping'
             )
             ->use(function (Browser $browser) use ($pinCode) {
                 $crawler = $browser->crawler();

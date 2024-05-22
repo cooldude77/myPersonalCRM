@@ -13,13 +13,16 @@ class CheckOutController extends AbstractController
 {
 
     #[Route('/checkout', name: 'web_shop_checkout')]
-    public function checkout(CartService $cartService): Response {
+    public function checkout(CartService $cartService,CheckoutService $checkoutService,
+    OrderService $orderService): Response {
         // if user is already logged in
 
       //  if(!$cartService->hasItems())
         // throw  new CheckoutNoItemsInCartException();
 
-        $user= $this->getUser();
+        if($checkoutService->isEverythingGood()){
+
+        }
         return $this->render(
             'module/web_shop/external/checkout/page/checkout_page.html.twig'
         );
