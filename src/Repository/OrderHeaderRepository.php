@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,4 +46,14 @@ class OrderHeaderRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(Customer $customer): OrderHeader
+    {
+
+        $header = new OrderHeader();
+
+        $header->setCustomer($customer);
+
+        return $header;
+
+    }
 }

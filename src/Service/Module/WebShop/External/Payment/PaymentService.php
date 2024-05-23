@@ -2,19 +2,20 @@
 
 namespace App\Service\Module\WebShop\External\Payment;
 
+use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
 use App\Service\Module\WebShop\External\Order\WebShopOrderService;
 
 class PaymentService
 {
-    public function __construct(private readonly WebShopOrderService $orderService)
+    public function __construct(private readonly WebShopOrderService $webShopOrderService)
     {
 
     }
 
-    public function createNewOrder(): array
+    public function createNewOrder(): OrderObject
     {
 
-        return $this->orderService->createCompleteOrderArray();
+        return $this->webShopOrderService->createOrderObject();
 
     }
 }

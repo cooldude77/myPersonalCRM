@@ -20,6 +20,8 @@ class PaymentTypeController extends AbstractController
         Request $request
     ): Response {
 
+        // todo : check referring uri
+
         $form = $this->createForm(PaymentTypeChoiceForm::class);
 
         $form->handleRequest($request);

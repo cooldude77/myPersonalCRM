@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Object;
+namespace App\Service\Module\WebShop\External\Cart\Session\Object;
 
-class CartObject
+class CartSessionObject
 {
 
     public function __construct(public string $productId, public int $quantity = 0)

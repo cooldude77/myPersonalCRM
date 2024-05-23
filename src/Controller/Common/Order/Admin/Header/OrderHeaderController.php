@@ -1,6 +1,6 @@
 <?php
 // src/Controller/OrderHeaderController.php
-namespace App\Controller\Common\Order\Header;
+namespace App\Controller\Common\Order\Admin\Header;
 
 // ...
 use App\Entity\OrderHeader;

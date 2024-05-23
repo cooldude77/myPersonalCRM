@@ -1,6 +1,6 @@
 <?php
 // src/Controller/OrderItemController.php
-namespace App\Controller\Common\Order\Item;
+namespace App\Controller\Common\Order\Admin\Item;
 
 // ...
 use App\Entity\OrderItem;

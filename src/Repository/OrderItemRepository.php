@@ -45,4 +45,12 @@ class OrderItemRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\OrderHeader $orderHeader): OrderItem
+    {
+        $orderItem = new OrderItem();
+        $orderItem->setOrderHeader($orderHeader);
+
+        return $orderItem;
+
+    }
 }

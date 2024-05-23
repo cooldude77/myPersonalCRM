@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Mapper;
+namespace App\Service\Module\WebShop\External\Cart\Session\Mapper;
 
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
-use App\Service\Module\WebShop\External\Cart\Object\CartObject;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class CartDTOMapper
+class CartSessionToDTOMapper
 {
 
 
@@ -20,7 +20,7 @@ class CartDTOMapper
     public function mapCartToDto(array $cartArrayList): ArrayCollection
     {
         $dtoArray = new  ArrayCollection();
-        /** @var CartObject $cartObject */
+        /** @var CartSessionObject $cartObject */
         foreach ($cartArrayList as $productId => $cartObject) {
 
             $dto = new CartProductDTO();

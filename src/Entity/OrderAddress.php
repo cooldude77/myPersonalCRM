@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerAddressRepository;
+use App\Repository\OrderAddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
-class CustomerAddress
+#[ORM\Entity(repositoryClass: OrderAddressRepository::class)]
+class OrderAddress
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OrderHeader $orderHeader = null;
 
     #[ORM\Column(length: 255)]
     private ?string $line1 = null;
@@ -24,7 +28,7 @@ class CustomerAddress
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?PinCode $pinCode = null;
+    private ?string $pinCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $addressType = null;
@@ -66,12 +70,12 @@ class CustomerAddress
         $this->line3 = $line3;
     }
 
-    public function getPinCode(): ?PinCode
+    public function getPinCode(): string
     {
         return $this->pinCode;
     }
 
-    public function setPinCode(?PinCode $pinCode): void
+    public function setPinCode(?string $pinCode): void
     {
         $this->pinCode = $pinCode;
     }
@@ -86,5 +90,15 @@ class CustomerAddress
         $this->addressType = $addressType;
 
         return $this;
+    }
+
+    public function getOrderHeader(): ?OrderHeader
+    {
+        return $this->orderHeader;
+    }
+
+    public function setOrderHeader(?OrderHeader $orderHeader): void
+    {
+        $this->orderHeader = $orderHeader;
     }
 }

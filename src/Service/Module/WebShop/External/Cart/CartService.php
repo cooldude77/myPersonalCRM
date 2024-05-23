@@ -2,7 +2,7 @@
 
 namespace App\Service\Module\WebShop\External\Cart;
 
-use App\Service\Module\WebShop\External\Cart\Object\CartObject;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -34,7 +34,7 @@ class CartService
         $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
-    public function addItemToCart(CartObject $cartObject): void
+    public function addItemToCart(CartSessionObject $cartObject): void
     {
         // Todo: check quantity proper values
 
@@ -46,7 +46,7 @@ class CartService
 
     }
 
-    private function setCartObject(CartObject $cartObject): void
+    private function setCartObject(CartSessionObject $cartObject): void
     {
         $array = $this->getCartArray();
         // todo: validations
@@ -75,7 +75,7 @@ class CartService
     public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array): void
     {
         $cartArray = $this->getCartArray();
-        /** CartObject $item */
+        /** CartSessionObject $item */
         foreach ($array as $item) {
             $cartArray[$item->productId] = $item;
         }

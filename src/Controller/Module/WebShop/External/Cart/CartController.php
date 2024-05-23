@@ -7,8 +7,8 @@ use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\CartService;
-use App\Service\Module\WebShop\External\Cart\Mapper\CartDTOMapper;
-use App\Service\Module\WebShop\External\Cart\Object\CartObject;
+use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +23,7 @@ class CartController extends AbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function cart(CartDTOMapper $cartDTOMapper, CartService $cartService,
+    public function cart(CartSessionToDTOMapper $cartDTOMapper, CartService $cartService,
         Request $request
     ): Response {
 
@@ -76,7 +76,7 @@ class CartController extends AbstractController
 
             $cartProductDTO = $form->getData();
 
-            $cartObject = new CartObject(
+            $cartObject = new CartSessionObject(
                 $cartProductDTO->productId, $cartProductDTO->quantity
             );
 
