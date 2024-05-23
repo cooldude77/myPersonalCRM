@@ -2,12 +2,12 @@
 
 namespace App\Service\Module\WebShop\External\CheckOut;
 
-use App\Service\Module\WebShop\External\Cart\CartService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 
 class CheckOutService
 {
 
-    public function __construct(private readonly CartService $cartService,
+    public function __construct(private readonly CartSessionService $cartService,
     private  readonly  CheckOutAddressService $checkOutAddressService)
     {
     }

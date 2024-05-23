@@ -6,7 +6,7 @@ use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\CartService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +23,7 @@ class CartController extends AbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function cart(CartSessionToDTOMapper $cartDTOMapper, CartService $cartService,
+    public function cart(CartSessionToDTOMapper $cartDTOMapper, CartSessionService $cartService,
         Request $request
     ): Response {
 
@@ -54,7 +54,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
-        CartService $cartService,
+        CartSessionService $cartService,
         Request $request,
         RouterInterface $router
     ):
@@ -98,7 +98,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
-        CartService $cartService,
+        CartSessionService $cartService,
         Request $request,
         RouterInterface $router
     ):
@@ -113,7 +113,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
     public function clear(
-        CartService $cartService
+        CartSessionService $cartService
     ):
     Response {
 

@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Order\DTO\Components\Components;
+namespace App\Form\Module\WebShop\External\Order\DTO\Components;
 
 class OrderAddressDTO
 {
 
-    private ?int $id = null;
+    public ?int $id = null;
 
-    private ?string $line1 = null;
+    public ?string $line1 = null;
 
-    private ?string $line2 = null;
+    public ?string $line2 = null;
 
-    private ?string $line3 = null;
+    public ?string $line3 = null;
 
-    private ?string $pinCode = null;
+    public ?string $pinCode = null;
 
-    private ?string $city = null;
+    public ?string $city = null;
 
-    private ?string $state = null;
+    public ?string $state = null;
 
-    private ?string $country = null;
+    public ?string $country = null;
 
-    private ?string $addressType = null;
+    public ?string $addressType = null;
 }

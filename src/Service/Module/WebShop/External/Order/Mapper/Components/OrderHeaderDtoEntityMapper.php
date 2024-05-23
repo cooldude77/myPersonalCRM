@@ -2,9 +2,11 @@
 
 namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
 
-class OrderHeaderMapper
+use App\Form\Module\WebShop\External\Order\DTO\OrderObjectDTO;
+
+class OrderHeaderDtoEntityMapper
 {
-    public function
+    public function map()
     {
 
         $customer = $this->customerRepository->find($orderObjectDTO->orderHeaderDTO->customerId);
@@ -16,5 +18,8 @@ class OrderHeaderMapper
                 $orderObjectDTO->orderHeaderDTO->dateTimeOfOrder
             )
         );
+
+
+
     }
 }

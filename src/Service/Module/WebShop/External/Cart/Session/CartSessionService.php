@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart;
+namespace App\Service\Module\WebShop\External\Cart\Session;
 
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class CartService
+class CartSessionService
 {
     public final const string CART_SESSION_KEY = '_WEB_SHOP_CART';
 

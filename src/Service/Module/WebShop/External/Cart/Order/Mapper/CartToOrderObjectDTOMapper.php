@@ -1,29 +1,23 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart;
+namespace App\Service\Module\WebShop\External\Cart\Order\Mapper;
 
 use App\Entity\Customer;
 use App\Form\Module\WebShop\External\Order\DTO\Components\Components\OrderItemDTO;
-use App\Form\Module\WebShop\External\Order\DTO\OrderObjectDTO;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 
 class CartToOrderObjectDTOMapper
 {
 
-    public function __construct(private readonly CartService $cartService,
+    public function __construct(private readonly CartSessionService $cartService,
     ) {
     }
 
-    public function map(Customer $customer): OrderObjectDTO
+    public function map(): array
     {
 
-        $orderObjectDTO = new OrderObjectDTO();
-
-        $orderObjectDTO->orderHeaderDTO->customerId = $customer->getId();
-        $orderObjectDTO->orderHeaderDTO->dateTimeOfOrder = date_format(
-            new \DateTime(), "Y/m/d H:i:s"
-        );;
-
+        $orderItemDTOArray = [];
         /**
          * @var  int              $productId
          * @var CartSessionObject $cartObject
@@ -35,11 +29,11 @@ class CartToOrderObjectDTOMapper
             $orderItemDTO->productId = $productId;
             $orderItemDTO->quantity = $cartObject->quantity;
 
-            $orderObjectDTO->add($orderItemDTO);
 
+            $orderItemDTOArray[] = $orderItemDTO;
         }
 
-        return $orderObjectDTO;
+        return $orderItemDTOArray;
     }
 
 }

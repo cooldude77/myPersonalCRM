@@ -3,7 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Cart;
 
 use App\Factory\ProductFactory;
-use App\Service\Module\WebShop\External\Cart\CartService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -45,7 +45,7 @@ class CartControllerTest extends WebTestCase
             ->visit($cartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNotNull($session->get(CartService::CART_SESSION_KEY));
+                $this->assertNotNull($session->get(CartSessionService::CART_SESSION_KEY));
                 // Todo: More tests
             })
             // update quantities
@@ -59,7 +59,7 @@ class CartControllerTest extends WebTestCase
             ->click("Update Cart")
             ->use(function (\Zenstruck\Browser $browser) use ($product1, $product2) {
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartService::CART_SESSION_KEY);
+                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
                 $this->assertEquals(4, $cart[$product1->getId()]->quantity);
                 $this->assertEquals(6, $cart[$product2->getId()]->quantity);
                 // Todo: More tests
@@ -68,7 +68,7 @@ class CartControllerTest extends WebTestCase
             ->visit($cartDeleteUri)
             ->use(function (\Zenstruck\Browser $browser) use ($product1,$product2) {
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartService::CART_SESSION_KEY);
+                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
                 $this->assertTrue(empty($cart[$product1->getId()]));
                $this->assertTrue(isSet($cart[$product2->getId()]));
                 // Todo: More tests
@@ -77,7 +77,7 @@ class CartControllerTest extends WebTestCase
             ->visit($clearCartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNull($session->get(CartService::CART_SESSION_KEY));
+                $this->assertNull($session->get(CartSessionService::CART_SESSION_KEY));
                 // Todo: More tests
             })
             ->assertSuccessful();
@@ -114,7 +114,7 @@ class CartControllerTest extends WebTestCase
             ->visit($cartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNotNull($session->get(CartService::CART_SESSION_KEY));
+                $this->assertNotNull($session->get(CartSessionService::CART_SESSION_KEY));
                 // Todo: More tests
             })
             // update quantities
@@ -128,7 +128,7 @@ class CartControllerTest extends WebTestCase
             ->click("Update Cart")
             ->use(function (\Zenstruck\Browser $browser) use ($product1, $product2) {
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartService::CART_SESSION_KEY);
+                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
                 $this->assertEquals(4, $cart[$product1->getId()]->quantity);
                 $this->assertEquals(6, $cart[$product2->getId()]->quantity);
                 // Todo: More tests
@@ -137,7 +137,7 @@ class CartControllerTest extends WebTestCase
             ->visit($cartDelete)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNull($session->get(CartService::CART_SESSION_KEY));
+                $this->assertNull($session->get(CartSessionService::CART_SESSION_KEY));
                 // Todo: More tests
             })
             ->assertSuccessful();

@@ -2,9 +2,9 @@
 
 namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
 
-class OrderPaymentMapper
+class OrderPaymentDtoEntityMapper
 {
-    public function
+    public function map()
     {
 
     }
