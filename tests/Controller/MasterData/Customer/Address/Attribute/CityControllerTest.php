@@ -4,12 +4,12 @@ namespace App\Tests\Controller\MasterData\Customer\Address\Attribute;
 
 use App\Factory\CityFactory;
 use App\Tests\Fixtures\LocationFixture;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class CityControllerTest extends TestCase
+class CityControllerTest extends WebTestCase
 {
 
     use HasBrowser, LocationFixture;
@@ -29,8 +29,7 @@ class CityControllerTest extends TestCase
                 'city_create_form[code]', 'DL'
             )->fillField(
                 'city_create_form[name]', 'New Delhi'
-            )->fillField('city_create_form[stateId]', $this->state->getId())
-            ->click('Save')
+            )
             ->use(function (Browser $browser, Crawler $crawler) {
                 $domDocument = $crawler->getNode(0)?->parentNode;
 
@@ -40,6 +39,8 @@ class CityControllerTest extends TestCase
                 $selectElement->appendChild($option);
 
             })
+            ->fillField('city_create_form[stateId]', $this->state->getId())
+            ->click('Save')
             ->assertSuccessful();
 
         $created = CityFactory::find(array('code' => 'DL'));

@@ -75,7 +75,7 @@ class PanelSideBarListMapBuilder
                             ], [
                                 'url' => $this->append($adminUrl,
                                     'postal_code'),
-                                'text' => 'Postal code',
+                                'text' => 'Pin Code',
                                 'id'=>'sidebar-link-postal-list'
                             ],
                         ]

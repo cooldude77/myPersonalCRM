@@ -28,7 +28,7 @@ class CustomerAddress
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?PostalCode $postalCode = null;
+    private ?PinCode $pinCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $addressType = null;
@@ -81,14 +81,14 @@ class CustomerAddress
         $this->line3 = $line3;
     }
 
-    public function getPostalCode(): ?PostalCode
+    public function getPinCode(): ?PinCode
     {
-        return $this->postalCode;
+        return $this->pinCode;
     }
 
-    public function setPostalCode(?PostalCode $postalCode): void
+    public function setPinCode(?PinCode $pinCode): void
     {
-        $this->postalCode = $postalCode;
+        $this->pinCode = $pinCode;
     }
 
     public function getAddressType(): ?string

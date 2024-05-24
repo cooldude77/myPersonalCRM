@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO;
+namespace App\Form\MasterData\Customer\Address\Attribute\PinCode\DTO;
 
-class PostalCodeDTO
+class PinCodeDTO
 {
     public ?int $id = null;
     public ?string $code = null;

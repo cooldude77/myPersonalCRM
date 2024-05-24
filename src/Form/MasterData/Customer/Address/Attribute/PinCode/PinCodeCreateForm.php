@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\PostalCode;
+namespace App\Form\MasterData\Customer\Address\Attribute\PinCode;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class PostalCodeCreateForm extends AbstractType
+class PinCodeCreateForm extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options):void

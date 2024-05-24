@@ -36,9 +36,9 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setAddressType($customerAddressDTO->addressType);
 
-        $customerAddress->setPostalCode(
+        $customerAddress->setPinCode(
             $this->pinCodeRepository->find(
-                $customerAddressDTO->postalCodeId
+                $customerAddressDTO->pinCodeId
             )
         );
 
@@ -58,9 +58,9 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setAddressType($customerAddressDTO->addressType);
 
-        $customerAddress->setPostalCode(
+        $customerAddress->setPinCode(
             $this->pinCodeRepository->find(
-                $customerAddressDTO->postalCodeId
+                $customerAddressDTO->pinCodeId
             )
         );
 

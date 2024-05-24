@@ -14,7 +14,7 @@ class PinCode
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code = null;
+    private ?string $pinCode = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -25,14 +25,14 @@ class PinCode
         return $this->id;
     }
 
-    public function getCode(): ?string
+    public function getPinCode(): ?string
     {
-        return $this->code;
+        return $this->pinCode;
     }
 
-    public function setCode(string $code): static
+    public function setPinCode(string $pinCode): static
     {
-        $this->code = $code;
+        $this->pinCode = $pinCode;
 
         return $this;
     }

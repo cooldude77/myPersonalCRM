@@ -25,7 +25,7 @@ class CustomerAddressEditForm extends AbstractType
         $builder->add('line1',TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('postalCodeId', ChoiceType::class, [// validation message if the data
+        $builder->add('pinCodeId', ChoiceType::class, [// validation message if the data
                                                        // transformer fails
                                                        'choices' => $this->fill()]);
         $builder->add(
@@ -44,10 +44,10 @@ class CustomerAddressEditForm extends AbstractType
     private function fill(): array
     {
         $selectArray = [];
-        $postalCodes = $this->pinCodeRepository->findAll();
-        foreach ($postalCodes as $bu) {
+        $pinCodes = $this->pinCodeRepository->findAll();
+        foreach ($pinCodes as $bu) {
 
-            $selectArray[$bu->getCode()] = $bu->getId();
+            $selectArray[$bu->getPinCode()] = $bu->getId();
         }
         return $selectArray;
     }
