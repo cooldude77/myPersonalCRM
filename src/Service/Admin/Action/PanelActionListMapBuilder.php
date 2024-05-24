@@ -50,12 +50,12 @@ class PanelActionListMapBuilder
                             'list' => 'customer_list'
                         ]
                     ],
-                    'customer' => [
+                    'customer_address' => [
                         'routes' => [
-                            'create' => 'customer_create',
-                            'edit' => 'customer_edit',
-                            'display' => 'customer_display',
-                            'list' => 'customer_list'
+                            'create' => 'customer_address_create',
+                            'edit' => 'customer_address_edit',
+                            'display' => 'customer_address_display',
+                            'list' => 'customer_address_list'
                         ]
                     ],
                     'country' => [

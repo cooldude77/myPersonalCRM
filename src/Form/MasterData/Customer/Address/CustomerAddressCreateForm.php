@@ -2,20 +2,25 @@
 
 namespace App\Form\MasterData\Customer\Address;
 
+use App\Entity\PinCode;
+use App\Form\MasterData\Customer\Address\Attribute\PinCode\PinCodeAutoCompleteField;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\PinCodeRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerAddressCreateForm extends AbstractType
 {
 
-    public function __construct(private PinCodeRepository $pinCodeRepository)
+    public function __construct()
     {
     }
 
@@ -25,9 +30,7 @@ class CustomerAddressCreateForm extends AbstractType
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('pinCodeId', ChoiceType::class, [// validation message if the data
-                                                       // transformer fails
-                                                       'choices' => $this->fill()]);
+        $builder->add('pinCode', PinCodeAutoCompleteField::class, ['mapped' => false]);
         $builder->add(
             'addressType', ChoiceType::class,
             [
@@ -39,18 +42,19 @@ class CustomerAddressCreateForm extends AbstractType
                 'expanded' => true,
             ]
         );
+        $builder->add('isDefault', CheckboxType::class);
+
         $builder->add('save', SubmitType::class);
-    }
 
-    private function fill(): array
-    {
-        $selectArray = [];
-        $pinCodes = $this->pinCodeRepository->findAll();
-        foreach ($pinCodes as $bu) {
 
-            $selectArray[$bu->getPinCode()] = $bu->getId();
+     /*   $builder->get('pinCodeId')->addEventListener(
+            FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
+            $data = $formEvent->getForm()->get('pinCodeIdFake');
+            $formEvent->setData($data->getId());
         }
-        return $selectArray;
+        );
+     */
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -62,4 +66,5 @@ class CustomerAddressCreateForm extends AbstractType
     {
         return 'customer_address_create_form';
     }
+
 }

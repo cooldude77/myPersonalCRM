@@ -24,21 +24,33 @@ class CityControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $visit = $this->browser()->visit($createUrl)
+        $visit = $this->browser()->visit($createUrl);
+
+       /* $domDocument = $visit->crawler()->getNode(0)?->parentNode;
+
+        $option = $domDocument->createElement('option');
+        $option->setAttribute('value', $this->state->getId());
+        $selectElement = $visit->crawler()->filter('select')->getNode(0);
+        $selectElement->appendChild($option);
+        $x = $visit->crawler()->filter('select')->getNode(0);
+*/
+        $visit
+            ->use(function (Browser $browser){
+                $domDocument = $browser->crawler()->getNode(0)?->parentNode;
+
+                $option = $domDocument->createElement('option');
+                $option->setAttribute('value', $this->state->getId());
+                $selectElement = $browser->crawler()->filter('select')->getNode(0);
+                $selectElement->appendChild($option);
+
+            })
+
             ->fillField(
                 'city_create_form[code]', 'DL'
             )->fillField(
                 'city_create_form[name]', 'New Delhi'
             )
-            ->use(function (Browser $browser, Crawler $crawler) {
-                $domDocument = $crawler->getNode(0)?->parentNode;
 
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $this->state->getId());
-                $selectElement = $crawler->filter('select')->getNode(0);
-                $selectElement->appendChild($option);
-
-            })
             ->fillField('city_create_form[stateId]', $this->state->getId())
             ->click('Save')
             ->assertSuccessful();

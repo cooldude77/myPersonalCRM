@@ -42,6 +42,8 @@ readonly class CustomerAddressDTOMapper
             )
         );
 
+        $customerAddress->setDefault($customerAddressDTO->isDefault);
+
         return $customerAddress;
 
     }
@@ -63,6 +65,8 @@ readonly class CustomerAddressDTOMapper
                 $customerAddressDTO->pinCodeId
             )
         );
+
+        $customerAddress->setDefault($customerAddressDTO->isDefault);
 
         return $customerAddress;
     }

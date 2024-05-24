@@ -33,6 +33,9 @@ class CustomerAddress
     #[ORM\Column(length: 255)]
     private ?string $addressType = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDefault = null;
+
 
     public function getId(): ?int
     {
@@ -99,6 +102,18 @@ class CustomerAddress
     public function setAddressType(string $addressType): static
     {
         $this->addressType = $addressType;
+
+        return $this;
+    }
+
+    public function isDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setDefault(?bool $isDefault): static
+    {
+        $this->isDefault = $isDefault;
 
         return $this;
     }
