@@ -48,7 +48,7 @@ class CustomerAddressCreateForm extends AbstractType
         $pinCodes = $this->pinCodeRepository->findAll();
         foreach ($pinCodes as $bu) {
 
-            $selectArray[$bu->getPinCode()] = $bu->getId();
+            $selectArray[$bu->getCode()] = $bu->getId();
         }
         return $selectArray;
     }
