@@ -2,7 +2,6 @@
 
 namespace App\Controller\Module\WebShop\External\Order;
 
-use App\Form\Module\WebShop\External\Order\DTO\OrderObjectDTO;
 use App\Repository\OrderRepository;
 use App\Service\Module\WebShop\External\Cart\Order\Mapper\CartToOrderObjectDTOMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,9 +39,10 @@ class OrderPageController extends AbstractController
 
         // convert DTO to entity
 
-        $orderHeader = $orderHeaderMapper->crea()
+        $orderHeader = $orderHeaderMapper->crea();
 
 
+        return new Response();
 
     }
 

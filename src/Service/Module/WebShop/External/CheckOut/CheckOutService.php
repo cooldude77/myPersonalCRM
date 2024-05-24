@@ -3,16 +3,18 @@
 namespace App\Service\Module\WebShop\External\CheckOut;
 
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
 
 class CheckOutService
 {
 
+
     public function __construct(private readonly CartSessionService $cartService,
-    private  readonly  CheckOutAddressService $checkOutAddressService)
-    {
+        private readonly CheckOutAddressService $checkOutAddressService
+    ) {
     }
 
-    public function isEverythingOkay():bool
+    public function isEverythingOkay(): bool
     {
         $ok = !empty($this->cartService->getCartArray());
 
@@ -20,6 +22,8 @@ class CheckOutService
 
         // todo:
 
-        return true;
+        return $ok;
     }
+
+
 }

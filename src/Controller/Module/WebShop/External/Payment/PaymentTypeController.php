@@ -9,14 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class PaymentTypeController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/web_shop/payment_type/choose', 'web_shop_payment_type_choose')]
-    public function create(
-        EntityManagerInterface $entityManager,
-        PaymentService $paymentService,
+    #[Route('/web_shop/payment', 'web_shop_payment')]
+    public function payment(EntityManagerInterface $entityManager, PaymentService $paymentService,
         Request $request
     ): Response {
 
@@ -33,8 +32,7 @@ class PaymentTypeController extends AbstractController
             // save order to database
             $entityManager->persist($orderObject->getHeader());
             $entityManager->persist($orderObject->getItems());
-            $entityManager->persist($orderObject->getAddresses())
-            ;
+            $entityManager->persist($orderObject->getAddresses());
 
             //todo: validate payment details
             // verify payment done
@@ -44,18 +42,16 @@ class PaymentTypeController extends AbstractController
             // upon success
 
             $orderPaymentDetails = $paymentService->createPaymentEntity(
-                $orderObject->getHeader()->getId(),
-                $paymentTransactionId
+                $orderObject->getHeader()->getId(), $paymentTransactionId
             );
 
             $entityManager->persist($orderPaymentDetails);
 
             $paymentService->postOrderSuccessCleanup();
 
-            return $this->redirectToRoute('web_shop_order_complete_details', ['id' =>
-                                                                                  $orderObject
-                                                                                      ->getHeader()
-                                                                                      ->getId()]);
+            return $this->redirectToRoute(
+                'web_shop_order_complete_details', ['id' => $orderObject->getHeader()->getId()]
+            );
         }
         return $this->render('common/payment_type/payment_type_create.html.twig', ['form' => $form]
         );

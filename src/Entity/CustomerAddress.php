@@ -13,6 +13,10 @@ class CustomerAddress
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Customer $customer = null;
+
     #[ORM\Column(length: 255)]
     private ?string $line1 = null;
 
@@ -29,12 +33,26 @@ class CustomerAddress
     #[ORM\Column(length: 255)]
     private ?string $addressType = null;
 
+    #[ORM\Column]
+    private ?bool $defaultAddress = null;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
 
     public function getLine1(): ?string
     {
@@ -84,6 +102,18 @@ class CustomerAddress
     public function setAddressType(string $addressType): static
     {
         $this->addressType = $addressType;
+
+        return $this;
+    }
+
+    public function isDefaultAddress(): ?bool
+    {
+        return $this->defaultAddress;
+    }
+
+    public function setDefaultAddress(bool $defaultAddress): static
+    {
+        $this->defaultAddress = $defaultAddress;
 
         return $this;
     }

@@ -26,8 +26,7 @@ class OrderAddress
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $line3 = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $pinCode = null;
 
     #[ORM\Column(length: 255)]
