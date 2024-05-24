@@ -47,6 +47,8 @@ class PanelMainControllerTest extends WebTestCase
             ->followRedirects()
             ->assertSuccessful();
 
+         //todo: intercept redirects
+        // todo: check for country/city/state/postal code
 
         /*
                 $crawler = $this->browser()->visit($uri)->crawler();

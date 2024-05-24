@@ -8,11 +8,12 @@ class PanelActionListMapBuilder
 {
 
     private PanelActionListMap $actionListMap;
+
     /**
      * function - product/customer / webshop etc
      * route -> route names related to processes of a function
      */
-    public function build() : PanelActionListMapBuilder
+    public function build(): PanelActionListMapBuilder
     {
         $this->actionListMap = new PanelActionListMap(
             [
@@ -49,6 +50,46 @@ class PanelActionListMapBuilder
                             'list' => 'customer_list'
                         ]
                     ],
+                    'customer' => [
+                        'routes' => [
+                            'create' => 'customer_create',
+                            'edit' => 'customer_edit',
+                            'display' => 'customer_display',
+                            'list' => 'customer_list'
+                        ]
+                    ],
+                    'country' => [
+                        'routes' => [
+                            'create' => 'country_create',
+                            'edit' => 'country_edit',
+                            'display' => 'country_display',
+                            'list' => 'country_list'
+                        ]
+                    ],
+                    'state' => [
+                        'routes' => [
+                            'create' => 'state_create',
+                            'edit' => 'state_edit',
+                            'display' => 'state_display',
+                            'list' => 'state_list'
+                        ]
+                    ],
+                    'city' => [
+                        'routes' => [
+                            'create' => 'city_create',
+                            'edit' => 'city_edit',
+                            'display' => 'city_display',
+                            'list' => 'city_list'
+                        ]
+                    ],
+                    'postal_code' => [
+                        'routes' => [
+                            'create' => 'postal_code_create',
+                            'edit' => 'postal_code_edit',
+                            'display' => 'postal_code_display',
+                            'list' => 'postal_code_list'
+                        ]
+                    ],
                     'category' => [
                         'routes' => [
                             'create' => 'category_create',
@@ -56,37 +97,31 @@ class PanelActionListMapBuilder
                             'display' => 'category_display',
                             'list' => 'category_list'
                         ]
-                    ] ,
-                    'web-shop' => [
-                        'routes' => [
-                            'create' => 'web_shop_create',
-                            'edit' => 'web_shop_edit'
-                        ]
                     ],
                     'file' => [
                         'routes' => [
                             'create' => 'file_create',
                             'edit' => 'file_edit',
-                            'display'=>'file_display',
-                            'list'=>'file_list'
+                            'display' => 'file_display',
+                            'list' => 'file_list'
                         ]
                     ],
-                    'category_file_image'=>[
+                    'category_file_image' => [
                         'routes' => [
                             'create' => 'category_file_image_create',
                             'edit' => 'category_file_image_edit',
-                            'display'=>'category_file_image_display',
-                            'list'=>'category_file_image_list'
+                            'display' => 'category_file_image_display',
+                            'list' => 'category_file_image_list'
                         ]
                     ],
-                    'web_shop'=>[
+                    'web_shop' => [
                         'routes' => [
                             'create' => 'web_shop_create',
                             'edit' => 'web_shop_edit',
-                            'display'=>'web_shop_display',
-                            'list'=>'web_shop_list'
+                            'display' => 'web_shop_display',
+                            'list' => 'web_shop_list'
                         ]
-                    ]
+                    ],
                 ]
             ]
         );
@@ -98,8 +133,9 @@ class PanelActionListMapBuilder
      */
     public function getPanelActionListMap(): PanelActionListMap
     {
-        if(empty($this->actionListMap))
+        if (empty($this->actionListMap)) {
             throw new EmptyActionListMapException();
+        }
         return $this->actionListMap;
     }
 }

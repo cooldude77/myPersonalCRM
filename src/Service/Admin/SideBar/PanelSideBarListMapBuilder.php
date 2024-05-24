@@ -50,8 +50,33 @@ class PanelSideBarListMapBuilder
                             [
                                 'url' => $this->append($adminUrl,
                                     'customer'),
-                                'text' => 'Customer List',
+                                'text' => 'Customer',
                                 'id'=>'sidebar-link-customer-list'
+                            ],  [
+                                'url' => $this->append($adminUrl,
+                                    'customer_address'),
+                                'text' => 'Customer Address',
+                                'id'=>'sidebar-link-customer-address-list'
+                            ],  [
+                                'url' => $this->append($adminUrl,
+                                    'country'),
+                                'text' => 'Country',
+                                'id'=>'sidebar-link-country-list'
+                            ],  [
+                                'url' => $this->append($adminUrl,
+                                    'customer'),
+                                'text' => 'State',
+                                'id'=>'sidebar-link-state-list'
+                            ], [
+                                'url' => $this->append($adminUrl,
+                                    'city'),
+                                'text' => 'City',
+                                'id'=>'sidebar-link-city-list'
+                            ], [
+                                'url' => $this->append($adminUrl,
+                                    'postal_code'),
+                                'text' => 'Postal code',
+                                'id'=>'sidebar-link-postal-list'
                             ],
                         ]
                     ],

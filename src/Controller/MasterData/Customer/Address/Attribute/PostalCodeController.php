@@ -126,7 +126,7 @@ class PostalCodeController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/postal_code/list', name: 'postalCode_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/postal_code/list', name: 'postal_code_list')]
     public function list(PinCodeRepository $pinCodeRepository): Response
     {
 
