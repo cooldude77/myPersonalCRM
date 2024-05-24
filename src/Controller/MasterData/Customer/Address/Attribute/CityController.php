@@ -51,7 +51,7 @@ class CityController extends AbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('master_data/city/city_create.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]);
     }
 
 
@@ -95,7 +95,8 @@ class CityController extends AbstractController
             );
         }
 
-        return $this->render('master_data/city/city_edit.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' =>
+                                                                                        $form]);
     }
 
     #[Route('/city/{id}/display', name: 'city_display')]

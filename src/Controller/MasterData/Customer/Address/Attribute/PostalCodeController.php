@@ -5,7 +5,7 @@ namespace App\Controller\MasterData\Customer\Address\Attribute;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeCreateForm;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeEditForm;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
-use App\Repository\PostalCodeRepository;
+use App\Repository\PinCodeRepository;
 use App\Service\MasterData\Customer\Address\Attribute\Mapper\PostalCode\PostalCodeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,17 +52,17 @@ class PostalCodeController extends AbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            'master_data/postal_code/postal_code_create.html.twig', ['form' => $form]
+            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
     }
 
 
     #[Route('/postal_code/{id}/edit', name: 'postalCode_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        PostalCodeRepository $postalCodeRepository, PostalCodeDTOMapper $postalCodeDTOMapper,
+        PinCodeRepository $pinCodeRepository, PostalCodeDTOMapper $postalCodeDTOMapper,
         Request $request, int $id
     ): Response {
-        $postalCode = $postalCodeRepository->find($id);
+        $postalCode = $pinCodeRepository->find($id);
 
 
         if (!$postalCode) {
@@ -97,14 +97,15 @@ class PostalCodeController extends AbstractController
             );
         }
 
-        return $this->render('master_data/postal_code/postal_code_edit.html.twig', ['form' => $form]
+        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' =>
+                                                                                        $form]
         );
     }
 
     #[Route('/postal_code/{id}/display', name: 'postalCode_display')]
-    public function display(PostalCodeRepository $postalCodeRepository, int $id): Response
+    public function display(PinCodeRepository $pinCodeRepository, int $id): Response
     {
-        $postalCode = $postalCodeRepository->find($id);
+        $postalCode = $pinCodeRepository->find($id);
         if (!$postalCode) {
             throw $this->createNotFoundException('No postalCode found for id ' . $id);
         }
@@ -126,7 +127,7 @@ class PostalCodeController extends AbstractController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/postal_code/list', name: 'postalCode_list')]
-    public function list(PostalCodeRepository $postalCodeRepository): Response
+    public function list(PinCodeRepository $pinCodeRepository): Response
     {
 
         $listGrid = ['title' => 'PostalCode',
@@ -139,7 +140,7 @@ class PostalCodeController extends AbstractController
                                               'function' => 'postalCode',
                                               'anchorText' => 'create PostalCode']];
 
-        $postalCodes = $postalCodeRepository->findAll();
+        $postalCodes = $pinCodeRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $postalCodes, 'listGrid' => $listGrid]

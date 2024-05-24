@@ -3,7 +3,7 @@
 namespace App\Form\MasterData\Customer\Address;
 
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Repository\PostalCodeRepository;
+use App\Repository\PinCodeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CustomerAddressCreateForm extends AbstractType
 {
 
-    public function __construct(private PostalCodeRepository $postalCodeRepository)
+    public function __construct(private PinCodeRepository $pinCodeRepository)
     {
     }
 
@@ -45,7 +45,7 @@ class CustomerAddressCreateForm extends AbstractType
     private function fill(): array
     {
         $selectArray = [];
-        $postalCodes = $this->postalCodeRepository->findAll();
+        $postalCodes = $this->pinCodeRepository->findAll();
         foreach ($postalCodes as $bu) {
 
             $selectArray[$bu->getCode()] = $bu->getId();

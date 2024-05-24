@@ -51,7 +51,7 @@ class StateController extends AbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('master_data/state/state_create.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]);
     }
 
 
@@ -95,7 +95,8 @@ class StateController extends AbstractController
             );
         }
 
-        return $this->render('master_data/state/state_edit.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' =>
+                                                                                        $form]);
     }
 
     #[Route('/state/{id}/display', name: 'state_display')]
