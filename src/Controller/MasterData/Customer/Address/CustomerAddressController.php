@@ -32,7 +32,11 @@ class CustomerAddressController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $customerAddress = $mapper->mapDtoToEntityForCreate($form->getData());
+            /** @var CustomerAddressDTO $data */
+            $data=$form->getData();
+            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+
+            $customerAddress = $mapper->mapDtoToEntityForCreate($data);
 
             $entityManager->persist($customerAddress);
             $entityManager->flush();
@@ -70,7 +74,7 @@ class CustomerAddressController extends AbstractController
     ): Response {
         $customerAddressDTO = new CustomerAddressDTO();
 
-        $customerAddressEntity = $customerAddressRepository->find($id);
+        $customerAddress = $customerAddressRepository->find($id);
 
         $form = $this->createForm(CustomerAddressEditForm::class, $customerAddressDTO);
 
@@ -78,8 +82,12 @@ class CustomerAddressController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var CustomerAddressDTO $data */
+            $data=$form->getData();
+            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+
             $customerEntity = $mapper->mapDtoToEntityForUpdate(
-                $form->getData(), $customerAddressEntity
+                $data, $customerAddress
             );
 
             $entityManager->persist($customerEntity);

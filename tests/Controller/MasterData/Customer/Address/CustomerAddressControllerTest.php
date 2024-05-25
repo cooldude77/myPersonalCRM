@@ -5,7 +5,9 @@ namespace App\Tests\Controller\MasterData\Customer\Address;
 use App\Factory\CustomerAddressFactory;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CustomerAddressControllerTest extends WebTestCase
@@ -14,6 +16,7 @@ class CustomerAddressControllerTest extends WebTestCase
     use HasBrowser;
     use LocationFixture;
     use CustomerFixture;
+    use SelectElement;
 
     public function testCreate()
     {
@@ -27,6 +30,9 @@ class CustomerAddressControllerTest extends WebTestCase
         $uri = "/customer/{$id}/address/create";
         $this->browser()
             ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption($browser, 'select', $this->pinCode->getId());
+            })
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
             )
@@ -37,7 +43,13 @@ class CustomerAddressControllerTest extends WebTestCase
                 'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
+                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+            )
+            ->fillField(
                 'customer_address_create_form[addressType]', 'billing'
+            )
+            ->checkField(
+                'customer_address_create_form[isDefault]'
             )
             ->click('Save')
             ->assertSuccessful();
@@ -60,13 +72,16 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->createCustomer();
 
         $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer,
-            'addressType'=>'shipping']);
+                                                              'addressType' => 'shipping']);
 
         $id = $customerAddress->getId();
 
         $uri = "/customer/address/{$id}/edit";
         $this->browser()
             ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption($browser, 'select', $this->pinCode->getId());
+            })
             ->fillField(
                 'customer_address_edit_form[line1]', 'Line 1'
             )
@@ -78,6 +93,12 @@ class CustomerAddressControllerTest extends WebTestCase
             )
             ->fillField(
                 'customer_address_edit_form[addressType]', 'billing'
+            )
+            ->fillField(
+                'customer_address_edit_form[pinCode]', $this->pinCode->getId()
+            )
+            ->checkField(
+                'customer_address_edit_form[isDefault]'
             )
             ->click('Save')
             ->assertSuccessful();
@@ -95,7 +116,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->createCustomer();
 
         CustomerAddressFactory::createMany(10, ['customer' => $this->customer,
-            'addressType'=>'shipping']);
+                                                'addressType' => 'shipping']);
 
         $id = $this->customer->getId();
         $url = "/customer/{$id}/address/list";
