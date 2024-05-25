@@ -26,6 +26,7 @@ final class Version20240524135604 extends AbstractMigration
         $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F811A465690 FOREIGN KEY (pin_code_id) REFERENCES pin_code (id)');
         $this->addSql('CREATE INDEX IDX_D4E6F811A465690 ON address (pin_code_id)');
         $this->addSql('ALTER TABLE customer_address ADD is_default TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE customer_address DROP default_address');
     }
 
     public function down(Schema $schema): void

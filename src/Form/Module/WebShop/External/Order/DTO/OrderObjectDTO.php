@@ -20,7 +20,7 @@ class OrderObjectDTO
         $this->orderPaymentDTO = new OrderPaymentDTO();
     }
 
-    public function add(Components\Components\OrderItemDTO $orderItemDTO)
+    public function add(Components\OrderItemDTO $orderItemDTO)
     {
         $orderItemDTO[] = $orderItemDTO;
     }

@@ -30,6 +30,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $uri = "/customer/{$id}/address/create";
         $this->browser()
             ->visit($uri)
+            ->assertSee('form')
             ->use(function (Browser $browser) {
                 $this->addOption($browser, 'select', $this->pinCode->getId());
             })

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Order\DTO\Components\Components;
+namespace App\Form\Module\WebShop\External\Order\DTO\Components;
 
 class OrderItemDTO
 {

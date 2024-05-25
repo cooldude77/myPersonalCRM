@@ -1,0 +1,20 @@
+{# templates/user/create.html.twig #}
+{% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
+{% block sidebar %}
+{% endblock %}
+{% block content %}
+    <div id="shipping-addresses">Shipping Addresses
+    {{ form(form.shippingAddresses) }}
+        <a href="{{ path('web_shop_checkout_address_create',{'id':customer.id,'type':'shipping'}) }}">
+            Add Shipping Address
+        </a>
+    </div>
+    <div id="billing-addresses">Billing Addresses
+    {{ form(form.billingAddresses) }}
+        <a href="{{ path('web_shop_checkout_address_create',{'id':customer.id,'type':'billing'}) }}">
+            Add Billing Address
+        </a>
+    </div>
+
+
+{% endblock %}

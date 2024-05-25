@@ -22,7 +22,11 @@ class CustomerAddressController extends AbstractController
         EntityManagerInterface $entityManager, Request $request
     ): Response {
         $customerAddressDTO = new CustomerAddressDTO();
+
         $customerAddressDTO->customerId = $id;
+        if ($request->get('type') != null) {
+            $customerAddressDTO->addressType = $request->get('type');
+        }
 
         $form = $this->createForm(
             CustomerAddressCreateForm::class, $customerAddressDTO
@@ -33,7 +37,7 @@ class CustomerAddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var CustomerAddressDTO $data */
-            $data=$form->getData();
+            $data = $form->getData();
             $data->pinCodeId = $form->get('pinCode')->getData()->getId();
 
             $customerAddress = $mapper->mapDtoToEntityForCreate($data);
@@ -44,11 +48,6 @@ class CustomerAddressController extends AbstractController
             $this->addFlash(
                 'success', "Customer Address created successfully"
             );
-
-            // special case when checkout calls this method
-            if ($request->get('_redirect_to_route_after_success')) {
-                return $this->redirectToRoute($request->get('_redirect_to_route_after_success'));
-            }
 
             $id = $customerAddress->getId();
 
@@ -83,7 +82,7 @@ class CustomerAddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var CustomerAddressDTO $data */
-            $data=$form->getData();
+            $data = $form->getData();
             $data->pinCodeId = $form->get('pinCode')->getData()->getId();
 
             $customerEntity = $mapper->mapDtoToEntityForUpdate(

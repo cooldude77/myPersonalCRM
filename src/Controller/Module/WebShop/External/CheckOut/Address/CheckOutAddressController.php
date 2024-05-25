@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\RouterInterface;
 
 class CheckOutAddressController extends AbstractController
 {
@@ -52,10 +54,48 @@ class CheckOutAddressController extends AbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/checkout/address/checkout_address_list.html.twig',
+            'module/web_shop/external/checkout/address/page/checkout_address_list_page.html.twig',
             ['form' => $form, 'customer' => $customer]
         );
 
     }
 
+    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
+    public function createAddress(RouterInterface $router, Request $request): Response
+    {
+        // call controller
+        $callRoute = $router->getRouteCollection()->get('customer_address_create');
+
+        if ($callRoute == null) {
+            throw  new RouteNotFoundException('customer_address_create');
+        }
+
+        $controllerAction = $callRoute->getDefault('_controller');
+        $params = ['request' => $request];
+        if (!empty($request->get('id'))) {
+            $params['id'] = $request->get('id');
+            $params['type'] = $request->get('type');
+
+        }
+        $response = $this->forward(
+            $controllerAction, $params, $request->query->all()
+        );
+
+        $content = $response->getContent();
+
+        try {
+            // if the content is a twig template, unserialize will throw exception
+             unserialize($content);
+
+            return $this->redirectToRoute('web_shop_checkout_address');
+        } catch (\Exception $e) {
+            // do nothing
+        }
+
+
+        return $this->render(
+            'module/web_shop/external/checkout/address/page/checkout_address_create_page.html.twig',
+            ['content' => $response->getContent()]
+        );
+    }
 }
