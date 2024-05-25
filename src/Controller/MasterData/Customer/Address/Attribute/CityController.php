@@ -28,6 +28,9 @@ class CityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var CityDTO $data */
+            $data = $form->getData();
+            $data->stateId = $form->get('state')->getData()->getId();
 
             $cityEntity = $cityDTOMapper->mapToEntityForCreate($form->getData());
 
@@ -51,7 +54,9 @@ class CityController extends AbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]);
+        return $this->render(
+            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+        );
     }
 
 
@@ -60,6 +65,7 @@ class CityController extends AbstractController
         CityRepository $cityRepository, CityDTOMapper $cityDTOMapper,
         Request $request, int $id
     ): Response {
+
         $city = $cityRepository->find($id);
 
 
@@ -76,6 +82,11 @@ class CityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            /** @var CityDTO $data */
+            $data = $form->getData();
+            $data->stateId = $form->get('state')->getData()->getId();
 
             $city = $cityDTOMapper->mapToEntityForEdit($form->getData());
             // perform some action...
@@ -110,14 +121,14 @@ class CityController extends AbstractController
         $displayParams = ['title' => 'City',
                           'link_id' => 'id-city',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'First Name',
-                                        'propertyName' => 'firstName',
+                          'fields' => [['label' => 'City Code',
+                                        'propertyName' => 'code',
                                         'link_id' => 'id-display-city'],
-                                       ['label' => 'Last Name',
-                                        'propertyName' => 'lastName'],]];
+                                       ['label' => 'Name',
+                                        'propertyName' => 'name'],]];
 
         return $this->render(
-            'master_data/city/city_display.html.twig',
+            'admin/ui/panel/section/content/display/display.html.twig',
             ['entity' => $city, 'params' => $displayParams]
         );
 
@@ -129,8 +140,8 @@ class CityController extends AbstractController
 
         $listGrid = ['title' => 'City',
                      'link_id' => 'id-city',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'firstName',
+                     'columns' => [['label' => 'Code',
+                                    'propertyName' => 'code',
                                     'action' => 'display',],
                      ],
                      'createButtonConfig' => ['link_id' => ' id-create-city',

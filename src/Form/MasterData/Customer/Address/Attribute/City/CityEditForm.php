@@ -18,7 +18,7 @@ class CityEditForm extends AbstractType
         $builder->add('id', HiddenType::class);
         $builder->add('code',TextType::class);
         $builder->add('name',TextType::class);
-        $builder->add('state', StateAutoCompleteField::class);
+        $builder->add('state', StateAutoCompleteField::class,['mapped'=>false]);
         $builder->add('save', SubmitType::class);
 
     }

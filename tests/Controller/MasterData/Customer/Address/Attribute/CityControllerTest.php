@@ -4,6 +4,7 @@ namespace App\Tests\Controller\MasterData\Customer\Address\Attribute;
 
 use App\Factory\CityFactory;
 use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Zenstruck\Browser;
@@ -12,7 +13,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 class CityControllerTest extends WebTestCase
 {
 
-    use HasBrowser, LocationFixture;
+    use HasBrowser, LocationFixture,SelectElement;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -36,13 +37,7 @@ class CityControllerTest extends WebTestCase
 */
         $visit
             ->use(function (Browser $browser){
-                $domDocument = $browser->crawler()->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $this->state->getId());
-                $selectElement = $browser->crawler()->filter('select')->getNode(0);
-                $selectElement->appendChild($option);
-
+                $this->addOption($browser, 'select', $this->state->getId());
             })
 
             ->fillField(
@@ -51,7 +46,7 @@ class CityControllerTest extends WebTestCase
                 'city_create_form[name]', 'New Delhi'
             )
 
-            ->fillField('city_create_form[stateId]', $this->state->getId())
+            ->fillField('city_create_form[state]', $this->state->getId())
             ->click('Save')
             ->assertSuccessful();
 
