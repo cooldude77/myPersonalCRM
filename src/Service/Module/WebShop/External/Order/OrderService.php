@@ -6,7 +6,7 @@ use App\Entity\OrderHeader;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
 
-class WebShopOrderService
+class OrderService
 {
 
     public function __construct(private readonly CartSessionService $cartService)

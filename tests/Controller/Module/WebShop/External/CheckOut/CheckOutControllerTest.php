@@ -2,119 +2,103 @@
 
 namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
 
-use App\Factory\CustomerFactory;
-use App\Factory\PinCodeFactory;
-use App\Factory\UserFactory;
+use App\Factory\CustomerAddressFactory;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Utility\SessionFactory;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CheckOutControllerTest extends WebTestCase
 {
-    use HasBrowser;
+    use HasBrowser, CustomerFixture, LocationFixture;
 
     public function testCheckoutWhenNotLoggedIn()
     {
-        $uri = "/checkout";
+        $this->createLocationFixtures();
+        $this->createCustomer();
+
+        $uri = "/web-shop/checkout";
         $this
             ->browser()
+            ->interceptRedirects()
             ->visit($uri)
-            ->assertNotAuthenticated()
-            ->assertSee('Login')
-            ->assertSee('Sign Up To Proceed');
-    }
+            ->assertRedirectedTo('/web-shop/checkout/entry');
 
-    public function testCheckoutWhenLoggedIn()
-    {
-        $user = UserFactory::createOne(['login' => 'a@b.com']);
+        $this
+            ->browser()
+            ->use(function (Browser $browser) {
+                $browser->client()->loginUser($this->user->object());
+            })
+            ->visit($uri)
+            ->assertSee("Cart Is Empty");
 
-        $customer = CustomerFactory::createOne(['user' => $user]);
+        /** @var CartSessionService $cartService */
+        /*  $cartService = $container->(CartSessionService::class);
+          $cartObject = new CartSessionObject(1, 1);
+          $cartService->addItemToCart($cartObject);
+          */
 
-
-        $uri = "/checkout";
         $this->browser()
-            ->use(function (Browser $browser) use ($user) {
-                $browser->client()->loginUser($user->object());
+            ->use(function (KernelBrowser $browser) {
+
+                $browser->loginUser($this->user->object());
+                /** @var SessionFactory $factory */
+                $factory = $browser->getContainer()->get('session.factory');
+
+                $session = $factory->createSession();
+                $array = [ new CartSessionObject(1,4),new CartSessionObject(1.5)];
+                $session->set(CartSessionService::CART_SESSION_KEY, $array);
+                $session->save();
+                $x = $session->get(CartSessionService::CART_SESSION_KEY);
+
             })
+            ->use(
+                function (ContainerInterface $container) {
+
+                    /* $session = $container->get('session.factory');
+                     $session->set('abc', 'xyz');
+                     $session->save();
+
+                     $x =  $session->get('abc');
+                     $y=0;
+                    */
+                }
+            )
+            ->interceptRedirects()
             ->visit($uri)
-            ->assertSee('Create Shipping Address')
-            ->assertSee('Create Billing Address');
+            ->assertRedirectedTo('/web-shop/checkout/addresses');
 
-    }
+        $addressShip = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
+        );
 
-    public function testCheckoutAddShippingAddress()
-    {
-        $user = UserFactory::createOne(['login' => 'a@b.com']);
-
-        $customer = CustomerFactory::createOne(['user' => $user]);
-
-        $pinCode = PinCodeFactory::createOne();
-
-        $uri = "/checkout";
         $this->browser()
-            ->use(function (Browser $browser) use ($user) {
-                $browser->client()->loginUser($user->object());
+            ->use(function (Browser $browser) {
+                $browser->client()->loginUser($this->user->object());
+
             })
+            ->interceptRedirects()
             ->visit($uri)
+            ->assertRedirectedTo('/checkout/addresses');
+
+        $addressBill = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
+        );
+
+        $this->browser()
+            ->use(function (Browser $browser) {
+                $browser->client()->loginUser($this->user->object());
+            })
             ->interceptRedirects()
             ->visit($uri)
-            ->click('Create Shipping Address')
-            ->followRedirects()
-            ->fillField(
-                'customer_address_create_form[line1]', 'Line 1'
-            )
-            ->fillField(
-                'customer_address_create_form[line2]', 'Line 2'
-            )
-            ->fillField(
-                'customer_address_create_form[line3]', 'Line 3'
-            )
-            ->fillField(
-                'customer_address_create_form[addressType]', 'shipping'
-            )
-            ->use(function (Browser $browser) use ($pinCode) {
-                $crawler = $browser->crawler();
+            ->assertRedirectedTo('/web-shop/order/create');
 
-                $domDocument = $crawler->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $pinCode->getId());
-                $selectElement = $crawler->filter('select')->getNode(0);
-                $selectElement->appendChild($option);
-            })
-            ->interceptRedirects()
-            ->click('Save')
-            ->followRedirect()
-            ->assertOn('/checkout')
-            ->assertSee('Edit this address')
-            ->click('Create Billing Address')
-            ->followRedirects()
-            ->fillField(
-                'customer_address_create_form[line1]', 'Line 1'
-            )
-            ->fillField(
-                'customer_address_create_form[line2]', 'Line 2'
-            )
-            ->fillField(
-                'customer_address_create_form[line3]', 'Line 3'
-            )
-            ->fillField(
-                'customer_address_create_form[addressType]', 'shipping'
-            )
-            ->use(function (Browser $browser) use ($pinCode) {
-                $crawler = $browser->crawler();
-
-                $domDocument = $crawler->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $pinCode->getId());
-                $selectElement = $crawler->filter('select')->getNode(0);
-                $selectElement->appendChild($option);
-            })
-            ->interceptRedirects()
-            ->click('Save')
-            ->followRedirect()
-            ->assertOn('/checkout')
-            ->assertSee('Edit this address');
     }
+
 }

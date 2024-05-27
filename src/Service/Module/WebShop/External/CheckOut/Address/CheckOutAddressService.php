@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CheckOutAddressService
 {
-    public const BILLING_ADDRESS_SET_ID ="BILLING_ADDRESS_SET_ID";
-    public const SHIPPING_ADDRESS_SET_ID ="SHIPPING_ADDRESS_SET_ID";
+    public const BILLING_ADDRESS_ID = "BILLING_ADDRESS_SET_ID";
+    public const SHIPPING_ADDRESS_ID = "SHIPPING_ADDRESS_SET_ID";
 
     public function __construct(private readonly Security $security,
-      private  readonly RequestStack $requestStack,
-        private  readonly CustomerAddressRepository $customerAddressRepository,
+        private readonly RequestStack $requestStack,
+        private readonly CustomerAddressRepository $customerAddressRepository,
     ) {
 
     }
@@ -31,20 +31,41 @@ class CheckOutAddressService
 
     public function checkShippingAddressSet()
     {
-  
+
     }
 
-    public function setShippingAddress(\App\Entity\CustomerAddress $addressShipping):void
+    public function setShippingAddress(\App\Entity\CustomerAddress $addressShipping): void
     {
-        $this->requestStack->getSession()->set(self::SHIPPING_ADDRESS_SET_ID,
-            $addressShipping->getId());
-          
+        $this->requestStack->getSession()->set(
+            self::SHIPPING_ADDRESS_ID,
+            $addressShipping->getId()
+        );
+
     }
-    public function setBillingAddress(\App\Entity\CustomerAddress $addressBilling):void
+
+    public function setBillingAddress(\App\Entity\CustomerAddress $addressBilling): void
     {
-        $this->requestStack->getSession()->set(self::BILLING_ADDRESS_SET_ID,
-            $addressBilling->getId());
-          
+        $this->requestStack->getSession()->set(
+            self::BILLING_ADDRESS_ID,
+            $addressBilling->getId()
+        );
+
+    }
+
+    public function isShippingAddressSet(): bool
+    {
+        // todo: verify id
+        return $this->requestStack->getSession()->get(self::SHIPPING_ADDRESS_ID) != null;
+
+    }
+
+    public function isBillingAddressSet():bool
+    {
+
+        // todo: verify id
+        return $this->requestStack->getSession()->get(self::BILLING_ADDRESS_ID) != null;
+
+
     }
 
 }

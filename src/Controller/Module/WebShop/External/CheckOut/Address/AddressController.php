@@ -5,8 +5,7 @@ namespace App\Controller\Module\WebShop\External\CheckOut\Address;
 use App\Form\Module\WebShop\External\CheckOut\Address\AddressMultiple;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
-use App\Service\Module\WebShop\External\CheckOut\Address\Mapper\AddressMapper;
+use App\Service\Module\WebShop\External\CheckOut\Address\Mapper\CheckOutAddressMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,14 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
-class CheckOutAddressController extends AbstractController
+class AddressController extends AbstractController
 {
 
-    #[Route('/checkout/addresses', name: 'web_shop_checkout_address')]
+    #[Route('/web-shop/checkout/addresses', name: 'web_shop_checkout_address')]
     public function list(CustomerRepository $customerRepository,
-        AddressMapper $addressMapper,
+        CheckOutAddressMapper $addressMapper,
         CustomerAddressRepository $customerAddressRepository,
-        CheckOutAddressService $checkOutAddressService,
         Request $request
     ): Response {
 
@@ -54,13 +52,13 @@ class CheckOutAddressController extends AbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_list_page.html.twig',
+            'module/web_shop/external/checkout/address/page/checkout_address_page.html.twig',
             ['form' => $form, 'customer' => $customer]
         );
 
     }
 
-    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
+    #[Route('/web-shop/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function createAddress(RouterInterface $router, Request $request): Response
     {
         // call controller
@@ -85,7 +83,7 @@ class CheckOutAddressController extends AbstractController
 
         try {
             // if the content is a twig template, unserialize will throw exception
-             unserialize($content);
+            unserialize($content);
 
             return $this->redirectToRoute('web_shop_checkout_address');
         } catch (\Exception $e) {

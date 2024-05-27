@@ -6,7 +6,7 @@ use App\Entity\Address;
 use App\Form\Module\WebShop\External\CheckOut\Address\AddressMultiple;
 use App\Form\Module\WebShop\External\CheckOut\Address\DTO\AddressDTO;
 
-class AddressMapper
+class CheckOutAddressMapper
 {
 
 

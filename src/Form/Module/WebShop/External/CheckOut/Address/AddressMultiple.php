@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AddressMultiple extends AbstractType
+class   AddressMultiple extends AbstractType
 {
 
     public const BILLING = 'billingAddresses';

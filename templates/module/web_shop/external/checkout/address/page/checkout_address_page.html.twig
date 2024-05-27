@@ -3,18 +3,20 @@
 {% block sidebar %}
 {% endblock %}
 {% block content %}
+    {{ form_start(form) }}
     <div id="shipping-addresses">Shipping Addresses
-    {{ form(form.shippingAddresses) }}
+        {% for address in form.shippingAddresses %}
+            <div class="address">{{ form(address) }}</div>
+        {% endfor %}
         <a href="{{ path('web_shop_checkout_address_create',{'id':customer.id,'type':'shipping'}) }}">
             Add Shipping Address
         </a>
     </div>
     <div id="billing-addresses">Billing Addresses
-    {{ form(form.billingAddresses) }}
+        {{ form(form.billingAddresses) }}
         <a href="{{ path('web_shop_checkout_address_create',{'id':customer.id,'type':'billing'}) }}">
             Add Billing Address
         </a>
     </div>
-
-
+    {{ form_end(form) }}
 {% endblock %}

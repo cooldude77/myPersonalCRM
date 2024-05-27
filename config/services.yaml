@@ -25,3 +25,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+when@test:
+    services:
+        session.storage.factory.mock_file:
+            class: App\Tests\Utility\MyOwnMockFileSessionStorageFactory
+        session.factory:
+            class: App\Tests\Utility\MySessionFactory
+            arguments:
+                $requestStack: '@request_stack'
+                $storageFactory: '@session.storage.factory'
+                $usageReporter: ['@session_listener','onSessionUsage']
