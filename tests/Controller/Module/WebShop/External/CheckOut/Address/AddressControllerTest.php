@@ -65,6 +65,7 @@ class AddressControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->user->object());
             })
+            ->interceptRedirects()
             ->visit($uri)
             ->use(function (Browser $browser) {
                 $this->addOption($browser, 'select', $this->pinCode->getId());
@@ -86,9 +87,9 @@ class AddressControllerTest extends WebTestCase
             )
             ->checkField(
                 'address_create_and_choose_form[address][isDefault]'
-            )
+            )->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
-            ->assertSuccessful();
+            ->assertRedirectedTo('/checkout');
         //todo: check redirect
     }
 
