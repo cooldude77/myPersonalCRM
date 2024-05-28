@@ -2,9 +2,11 @@
 
 namespace App\Service\Module\WebShop\External\CheckOut\Address;
 
+use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CheckOutAddressService
 {
@@ -13,7 +15,8 @@ class CheckOutAddressService
 
     public function __construct(private readonly Security $security,
         private readonly RequestStack $requestStack,
-        private readonly CustomerAddressRepository $customerAddressRepository,
+        private readonly CustomerService $customerService,
+        private readonly CustomerAddressRepository $customerAddressRepository
     ) {
 
     }
@@ -34,21 +37,16 @@ class CheckOutAddressService
 
     }
 
-    public function setShippingAddress(\App\Entity\CustomerAddress $addressShipping): void
+
+    public function setBillingAddress(int $id): void
     {
-        $this->requestStack->getSession()->set(
-            self::SHIPPING_ADDRESS_ID,
-            $addressShipping->getId()
-        );
+        $this->requestStack->getSession()->set(self::BILLING_ADDRESS_ID, $id);
 
     }
 
-    public function setBillingAddress(\App\Entity\CustomerAddress $addressBilling): void
+    public function setShippingAddress(int $id): void
     {
-        $this->requestStack->getSession()->set(
-            self::BILLING_ADDRESS_ID,
-            $addressBilling->getId()
-        );
+        $this->requestStack->getSession()->set(self::SHIPPING_ADDRESS_ID, $id);
 
     }
 
@@ -59,13 +57,30 @@ class CheckOutAddressService
 
     }
 
-    public function isBillingAddressSet():bool
+    public function isBillingAddressSet(): bool
     {
 
         // todo: verify id
         return $this->requestStack->getSession()->get(self::BILLING_ADDRESS_ID) != null;
 
 
+    }
+
+    public function save(AddressCreateAndChooseDTO $dto)
+    {
+
+        $this->customerService->mapAndPersist($dto->address);
+        $this->customerService->flush();
+
+        $this->setChosen($dto->isChosen,$dto->address->addressType  );
+
+    }
+
+    private function setChosen(bool $isChosen,$type):void
+    {
+
+        $key = $type == "billing" ? self::BILLING_ADDRESS_ID : self::SHIPPING_ADDRESS_ID;
+        $this->requestStack->getSession()->set($key,$isChosen);
     }
 
 }

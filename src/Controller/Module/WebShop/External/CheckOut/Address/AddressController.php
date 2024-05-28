@@ -2,62 +2,102 @@
 
 namespace App\Controller\Module\WebShop\External\CheckOut\Address;
 
-use App\Form\Module\WebShop\External\CheckOut\Address\AddressMultiple;
+use App\Form\Module\WebShop\External\Address\AddressCreateAndChooseForm;
+use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\Mapper\CheckOutAddressMapper;
+use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 class AddressController extends AbstractController
 {
 
-    #[Route('/web-shop/checkout/addresses', name: 'web_shop_checkout_address')]
-    public function list(CustomerRepository $customerRepository,
-        CheckOutAddressMapper $addressMapper,
+
+    #[Route('/checkout/addresses', name: 'web_shop_checkout_address')]
+    public function main(CustomerRepository $customerRepository,
         CustomerAddressRepository $customerAddressRepository,
-        Request $request
+        CheckOutAddressService $checkOutAddressService,
     ): Response {
 
         $customer = $customerRepository->findOneBy(["user" => $this->getUser()]);
 
-        $addressesBilling = $customerAddressRepository->findBy(['customer' => $customer,
-                                                                'addressType' => 'billing']);
-
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
                                                                  'addressType' => 'shipping']);
 
+        if ($addressesShipping == null) {
+            return $this->redirectToRoute(
+                'web_shop_checkout_address_create', ['id' => 'customer', 'type' => 'shipping']
+            );
+        }
 
-        $dtoArray = $addressMapper->mapEntityToDto($addressesBilling, $addressesShipping);
+        $addressesBilling = $customerAddressRepository->findBy(['customer' => $customer,
+                                                                'addressType' => 'billing']);
 
-        $form = $this->createForm(AddressMultiple::class, $dtoArray);
+        if ($addressesBilling == null) {
+            return $this->redirectToRoute(
+                'web_shop_checkout_address_create', ['id' => 'customer', 'type' => 'billing']
+            );
+        }
+
+        // addresses exist but not yet chosen
+        if ($checkOutAddressService->isShippingAddressSet()) {
+            return $this->redirectToRoute(
+                'web_shop_checkout_address_list', ['id' => 'customer', 'type' => 'billing']
+            );
+        }
+        if ($checkOutAddressService->isBillingAddressSet()) {
+            return $this->redirectToRoute(
+                'web_shop_checkout_address_list', ['id' => 'customer', 'type' => 'billing']
+            );
+        }
+
+        // everything ok, go back to check out
+        return $this->redirectToRoute('web_shop_checkout');
+    }
+
+    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
+    public function create(RouterInterface $router, Request $request,
+        CustomerFromUserFinder $customerFromUserFinder,
+        ControllerActionFinder $controllerActionFinder,
+        CheckOutAddressService $checkOutAddressService
+    ): Response {
+
+
+        $dto = new AddressCreateAndChooseDTO();
+
+        $dto->address->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
+
+        if ($request->get('type') != null) {
+            $dto->address->addressType = $request->get('type');
+        }
+
+        $form = $this->createForm(AddressCreateAndChooseForm::class, $dto);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var AddressCreateAndChooseDTO $data */
             $data = $form->getData();
+            $data->address->pinCodeId = $form->get('address')->get('pinCode')->getData()->getId();
 
-
-            /* if ($addressShipping != null && $addressBilling != null) {
-             $checkOutAddressService->setShippingAddress($addressShipping);
-             $checkOutAddressService->setBillingAddress($addressBilling);
-             */
+            $checkOutAddressService->save($data);
 
             return $this->redirectToRoute('web_shop_checkout');
         }
-
+        // if it is a form then just display it raw here
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_page.html.twig',
-            ['form' => $form, 'customer' => $customer]
+            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
 
+    /*
     #[Route('/web-shop/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function createAddress(RouterInterface $router, Request $request): Response
     {
@@ -96,4 +136,6 @@ class AddressController extends AbstractController
             ['content' => $response->getContent()]
         );
     }
+    */
+
 }

@@ -17,7 +17,7 @@ class CheckOutController extends AbstractController
 {
 
 
-    #[Route('/web-shop/checkout', name: 'web_shop_checkout')]
+    #[Route('/checkout', name: 'web_shop_checkout')]
     public function checkout(CartSessionService $cartSessionService,
         CheckOutAddressService $checkOutAddressService,
         CheckoutService $checkoutService,

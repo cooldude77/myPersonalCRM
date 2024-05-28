@@ -54,7 +54,7 @@ class CustomerAddressController extends AbstractController
             return new Response(
                 serialize(
                     ['id' => $id, 'message' => "Customer Address created successfully"]
-                ), 200
+                ), 201
             );
 
         }

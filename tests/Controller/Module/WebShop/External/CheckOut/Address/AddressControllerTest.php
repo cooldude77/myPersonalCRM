@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class CheckOutAddressControllerTest extends WebTestCase
+class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement;
 
@@ -19,35 +19,37 @@ class CheckOutAddressControllerTest extends WebTestCase
         $this->createCustomer();
         $this->createLocationFixtures();
 
-        $uri = "/checkout/address/create?id={$this->customer->getId()}&type=\"billing\"";
+        $uri = "/checkout/address/create?type=\"billing\"";
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->user->object());
             })
+            ->interceptRedirects()
             ->visit($uri)
             ->use(function (Browser $browser) {
                 $this->addOption($browser, 'select', $this->pinCode->getId());
             })
             ->fillField(
-                'customer_address_create_form[line1]', 'Line 1'
+                'address_create_and_choose_form[address][line1]', 'Line 1'
             )
             ->fillField(
-                'customer_address_create_form[line2]', 'Line 2'
+                'address_create_and_choose_form[address][line2]', 'Line 2'
             )
             ->fillField(
-                'customer_address_create_form[line3]', 'Line 3'
+                'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
             )
             ->fillField(
-                'customer_address_create_form[addressType]', 'billing'
+                'address_create_and_choose_form[address][addressType]', 'billing'
             )
             ->checkField(
-                'customer_address_create_form[isDefault]'
-            )
+                'address_create_and_choose_form[address][isDefault]'
+            )->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
+            ->assertRedirectedTo('/checkout')
             ->assertSuccessful();
         //todo: check redirect
     }
@@ -68,22 +70,22 @@ class CheckOutAddressControllerTest extends WebTestCase
                 $this->addOption($browser, 'select', $this->pinCode->getId());
             })
             ->fillField(
-                'customer_address_create_form[line1]', 'Line 1'
+                'address_create_and_choose_form[address][line1]', 'Line 1'
             )
             ->fillField(
-                'customer_address_create_form[line2]', 'Line 2'
+                'address_create_and_choose_form[address][line2]', 'Line 2'
             )
             ->fillField(
-                'customer_address_create_form[line3]', 'Line 3'
+                'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
             )
             ->fillField(
-                'customer_address_create_form[addressType]', 'shipping'
+                'address_create_and_choose_form[address][addressType]', 'shipping'
             )
             ->checkField(
-                'customer_address_create_form[isDefault]'
+                'address_create_and_choose_form[address][isDefault]'
             )
             ->click('Save')
             ->assertSuccessful();
@@ -109,7 +111,7 @@ class CheckOutAddressControllerTest extends WebTestCase
         // one address is created already
 
         $address1 = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping','line1'=>'A Good House']
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
         );
 
         $uri = "/checkout/addresses";

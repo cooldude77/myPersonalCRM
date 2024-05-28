@@ -18,7 +18,7 @@ class OrderPageController extends AbstractController
      *
      *  Create Order from cart
      */
-    #[Route('/web-shop/order/create', 'web_shop_create_order_after_checkout')]
+    #[Route('/order/create', 'web_shop_create_order_after_checkout')]
     public function create($id,
         OrderObjectDTOCreator $orderObjectDTOCreator,
 
@@ -38,7 +38,7 @@ class OrderPageController extends AbstractController
     }
 
 
-    #[Route('/web-shop/order/{$id}/success', 'web_shop_order_complete_details')] public function orderSuccessful($id
+    #[Route('/order/{$id}/success', 'web_shop_order_complete_details')] public function orderSuccessful($id
     ): Response {
         // todo: check referring route
         // this page will be displayed only when referred from payment

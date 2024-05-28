@@ -7,10 +7,9 @@ use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Utility\SessionFactory;
+use App\Tests\Utility\MySessionFactory;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -18,11 +17,13 @@ class CheckOutControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture;
 
-    public function testCheckoutWhenNotLoggedIn()
+    public function testCheckout()
     {
         $this->createLocationFixtures();
         $this->createCustomer();
 
+        // without logging in
+        // goto signup
         $uri = "/web-shop/checkout";
         $this
             ->browser()
@@ -30,6 +31,8 @@ class CheckOutControllerTest extends WebTestCase
             ->visit($uri)
             ->assertRedirectedTo('/web-shop/checkout/entry');
 
+        // user is logged in
+        // cart is empty
         $this
             ->browser()
             ->use(function (Browser $browser) {
@@ -38,50 +41,30 @@ class CheckOutControllerTest extends WebTestCase
             ->visit($uri)
             ->assertSee("Cart Is Empty");
 
-        /** @var CartSessionService $cartService */
-        /*  $cartService = $container->(CartSessionService::class);
-          $cartObject = new CartSessionObject(1, 1);
-          $cartService->addItemToCart($cartObject);
-          */
-
+        // cart is filled
+        // addresses not in session
         $this->browser()
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                /** @var SessionFactory $factory */
-                $factory = $browser->getContainer()->get('session.factory');
-
-                $session = $factory->createSession();
-                $array = [ new CartSessionObject(1,4),new CartSessionObject(1.5)];
-                $session->set(CartSessionService::CART_SESSION_KEY, $array);
-                $session->save();
-                $x = $session->get(CartSessionService::CART_SESSION_KEY);
+                $this->setDummyCart($browser);
 
             })
-            ->use(
-                function (ContainerInterface $container) {
-
-                    /* $session = $container->get('session.factory');
-                     $session->set('abc', 'xyz');
-                     $session->save();
-
-                     $x =  $session->get('abc');
-                     $y=0;
-                    */
-                }
-            )
             ->interceptRedirects()
             ->visit($uri)
             ->assertRedirectedTo('/web-shop/checkout/addresses');
+
 
         $addressShip = CustomerAddressFactory::createOne(
             ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
         );
 
+        // first address in session
         $this->browser()
-            ->use(function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+            ->use(function (KernelBrowser $browser) {
 
+                $browser->loginUser($this->user->object());
+                $this->setDummyCart($browser);
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -91,14 +74,28 @@ class CheckOutControllerTest extends WebTestCase
             ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
         );
 
+        // second address is in session
         $this->browser()
-            ->use(function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+            ->use(function (KernelBrowser $browser) {
+
+                $browser->loginUser($this->user->object());
+                $this->setDummyCart($browser);
             })
             ->interceptRedirects()
             ->visit($uri)
             ->assertRedirectedTo('/web-shop/order/create');
 
+    }
+
+    private function setDummyCart(KernelBrowser $browser): void
+    {
+        /** @var MySessionFactory $factory */
+        $factory = $browser->getContainer()->get('session.factory');
+
+        $session = $factory->createSession();
+        $array = [new CartSessionObject(1, 4), new CartSessionObject(1.5)];
+        $session->set(CartSessionService::CART_SESSION_KEY, $array);
+        $session->save();
     }
 
 }
