@@ -2,7 +2,8 @@
 
 namespace App\Controller\Module\WebShop\External\CheckOut\Address;
 
-use App\Form\Module\WebShop\External\Address\AddressCreateAndChooseForm;
+use App\Form\Module\WebShop\External\Address\AddressChooseFromMultipleForm;
+use App\Form\Module\WebShop\External\Address\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
@@ -47,12 +48,14 @@ class AddressController extends AbstractController
         // addresses exist but not yet chosen
         if ($checkOutAddressService->isShippingAddressSet()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_list', ['id' => 'customer', 'type' => 'billing']
+                'web_shop_checkout_choose_address_from_list',
+                ['id' => 'customer', 'type' => 'shipping']
             );
         }
         if ($checkOutAddressService->isBillingAddressSet()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_list', ['id' => 'customer', 'type' => 'billing']
+                'web_shop_checkout_choose_address_from_list',
+                ['id' => 'customer', 'type' => 'billing']
             );
         }
 
@@ -63,7 +66,6 @@ class AddressController extends AbstractController
     #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function create(RouterInterface $router, Request $request,
         CustomerFromUserFinder $customerFromUserFinder,
-        ControllerActionFinder $controllerActionFinder,
         CheckOutAddressService $checkOutAddressService
     ): Response {
 
@@ -76,7 +78,7 @@ class AddressController extends AbstractController
             $dto->address->addressType = $request->get('type');
         }
 
-        $form = $this->createForm(AddressCreateAndChooseForm::class, $dto);
+        $form = $this->createForm(AddressCreateForm::class, $dto);
 
         $form->handleRequest($request);
 
@@ -92,50 +94,47 @@ class AddressController extends AbstractController
         }
         // if it is a form then just display it raw here
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
 
-    /*
-    #[Route('/web-shop/checkout/address/create', name: 'web_shop_checkout_address_create')]
-    public function createAddress(RouterInterface $router, Request $request): Response
-    {
-        // call controller
-        $callRoute = $router->getRouteCollection()->get('customer_address_create');
+    /**
+     * @param CustomerRepository        $customerRepository
+     * @param CustomerAddressRepository $customerAddressRepository
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param CheckOutAddressService    $checkOutAddressService
+     * @param AddressChooseMapper       $addressChooseMapper
+     * @param Request                   $request
+     *
+     * @return Response
+     * @throws \App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException
+     *
+     *
+     * Choose from multiple addresses
+     */
+    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
+    public function chooseFromList(CustomerRepository $customerRepository,
+        CustomerAddressRepository $customerAddressRepository,
+        CustomerFromUserFinder $customerFromUserFinder,
+        CheckOutAddressService $checkOutAddressService,
+        AddressChooseMapper $addressChooseMapper,
+        Request $request
+    ): Response {
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
 
-        if ($callRoute == null) {
-            throw  new RouteNotFoundException('customer_address_create');
-        }
+        $addresses = $customerAddressRepository->findBy(['customer' => $customer,
+                                                         'addressType' => $request->get('type')]);
 
-        $controllerAction = $callRoute->getDefault('_controller');
-        $params = ['request' => $request];
-        if (!empty($request->get('id'))) {
-            $params['id'] = $request->get('id');
-            $params['type'] = $request->get('type');
+        $addressesDTO = $addressChooseMapper->mapAddressesToDto($addresses);
 
-        }
-        $response = $this->forward(
-            $controllerAction, $params, $request->query->all()
-        );
 
-        $content = $response->getContent();
-
-        try {
-            // if the content is a twig template, unserialize will throw exception
-            unserialize($content);
-
-            return $this->redirectToRoute('web_shop_checkout_address');
-        } catch (\Exception $e) {
-            // do nothing
-        }
-
+        $form = $this->createForm(AddressChooseFromMultipleForm::class, $addressesDTO);
 
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_create_page.html.twig',
-            ['content' => $response->getContent()]
+            'module/web_shop/external/checkout/address/page/checkout_address_billing_page.html.twig',
+            ['form' => $form]
         );
     }
-    */
 
 }

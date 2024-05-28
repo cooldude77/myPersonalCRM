@@ -6,6 +6,7 @@ use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 
 class AddressCreateAndChooseDTO
 {
+
     public CustomerAddressDTO $address;
     public bool $isChosen = false;
 

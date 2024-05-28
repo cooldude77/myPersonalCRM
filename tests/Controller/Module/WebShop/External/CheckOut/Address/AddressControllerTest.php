@@ -129,4 +129,31 @@ class AddressControllerTest extends WebTestCase
             ->assertSee('Add Shipping Address');
 
     }
+
+    public function testChooseAddressesFromMultipleShippingAddresses()
+    {
+        $this->createCustomer();
+        $this->createLocationFixtures();
+
+
+        // one address is created already
+
+        $address1 = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
+        );
+        $address2 = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A New House']
+        );
+
+
+        $uri = "/checkout/addresses/choose?type=shipping";
+        $this
+            ->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->user->object());
+            })
+            ->visit($uri)
+            ->assertContains("A Good House\n");
+
+    }
 }
