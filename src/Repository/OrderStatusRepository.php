@@ -40,4 +40,13 @@ class OrderStatusRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create($orderHeader): OrderStatus
+    {
+        $orderStatus = new OrderStatus();
+        $orderStatus->setHeader($orderHeader);
+
+        return $orderStatus;
+
+    }
+
 }
