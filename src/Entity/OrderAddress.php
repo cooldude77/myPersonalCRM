@@ -17,78 +17,18 @@ class OrderAddress
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderHeader $orderHeader = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $line1 = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CustomerAddress $shippingAddress = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $line2 = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $line3 = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $pinCode = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $addressType = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CustomerAddress $billingAddress = null;
 
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-
-    public function getLine1(): ?string
-    {
-        return $this->line1;
-    }
-
-    public function setLine1(?string $line1): void
-    {
-        $this->line1 = $line1;
-    }
-
-    public function getLine2(): ?string
-    {
-        return $this->line2;
-    }
-
-    public function setLine2(?string $line2): void
-    {
-        $this->line2 = $line2;
-    }
-
-    public function getLine3(): ?string
-    {
-        return $this->line3;
-    }
-
-    public function setLine3(?string $line3): void
-    {
-        $this->line3 = $line3;
-    }
-
-    public function getPinCode(): string
-    {
-        return $this->pinCode;
-    }
-
-    public function setPinCode(?string $pinCode): void
-    {
-        $this->pinCode = $pinCode;
-    }
-
-    public function getAddressType(): ?string
-    {
-        return $this->addressType;
-    }
-
-    public function setAddressType(string $addressType): static
-    {
-        $this->addressType = $addressType;
-
-        return $this;
     }
 
     public function getOrderHeader(): ?OrderHeader
@@ -99,5 +39,29 @@ class OrderAddress
     public function setOrderHeader(?OrderHeader $orderHeader): void
     {
         $this->orderHeader = $orderHeader;
+    }
+
+    public function getShippingAddress(): ?CustomerAddress
+    {
+        return $this->shippingAddress;
+    }
+
+    public function setShippingAddress(CustomerAddress $shippingAddress): static
+    {
+        $this->shippingAddress = $shippingAddress;
+
+        return $this;
+    }
+
+    public function getBillingAddress(): ?CustomerAddress
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(CustomerAddress $billingAddress): static
+    {
+        $this->billingAddress = $billingAddress;
+
+        return $this;
     }
 }
