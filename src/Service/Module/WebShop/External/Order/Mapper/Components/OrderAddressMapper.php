@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
+
+use App\Entity\OrderAddress;
+use App\Entity\OrderHeader;
+use App\Repository\OrderAddressRepository;
+use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+
+readonly class OrderAddressMapper
+{
+    public function __construct(private CheckOutAddressService $checkOutAddressService,
+        private OrderAddressRepository $orderAddressRepository
+    ) {
+    }
+
+    public function map(OrderHeader $orderHeader): OrderAddress
+    {
+
+        $orderAddress = $this->orderAddressRepository->create($orderHeader);
+
+        $orderAddress->setBillingAddress = $this->checkOutAddressService->getBillingAddress();
+        $orderAddress->setShippingAddress = $this->checkOutAddressService->getShippingAddress();
+
+        $orderAddress->setSnapShot($this->checkOutAddressService->getSnapShot());
+
+        return $orderAddress;
+
+
+    }
+}

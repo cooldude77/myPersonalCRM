@@ -83,4 +83,9 @@ class CheckOutAddressService
         $this->requestStack->getSession()->set($key,$isChosen);
     }
 
+    public function validateBeforeOrder()
+    {
+        // todo
+    }
+
 }

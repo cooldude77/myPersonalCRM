@@ -2,28 +2,36 @@
 
 namespace App\Service\Module\WebShop\External\Order;
 
-use App\Entity\OrderHeader;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
-use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
+use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
+use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
+use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
+use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderItemMapper;
 
 class OrderService
 {
 
-    public function __construct(private readonly CartSessionService $cartService)
-    {
+    public function __construct(
+        private readonly OrderHeaderMapper $orderHeaderMapper,
+        private readonly OrderItemMapper $orderItemMapper,
+        private readonly OrderAddressMapper $orderAddressMapper,
+        private readonly DatabaseOperations $databaseOperations
+    ) {
     }
 
-    public function createOrderObject(): OrderObject
+    public function mapAndPersist(): void
     {
+        $orderHeader = $this->orderHeaderMapper->map();
 
-        $orderObject = new OrderObject();
+        $this->orderItemMapper->map($orderHeader);
+        $this->orderAddressMapper->map($orderHeader);
 
-        $header = new OrderHeader();
-
-        // todo: complete this
-        return $orderObject;
+        $this->databaseOperations->persist($orderHeader);
 
 
     }
 
+    public function flush(): void
+    {
+        $this->databaseOperations->flush();
+    }
 }

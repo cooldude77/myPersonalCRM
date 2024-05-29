@@ -96,5 +96,10 @@ class CartSessionService
         return !empty($this->getCartArray());
     }
 
+    public function validateBeforeOrder()
+    {
+        // todo
+    }
+
 
 }
