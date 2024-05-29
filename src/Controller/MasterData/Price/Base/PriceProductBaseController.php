@@ -1,44 +1,43 @@
 <?php
 // src/Controller/PriceController.php
-namespace App\Controller\MasterData\Price;
+namespace App\Controller\MasterData\Price\Base;
 
 // ...
 use App\Form\MasterData\Price\DTO\PriceBaseDTO;
 use App\Form\MasterData\Price\Mapper\PriceBaseDTOMapper;
 use App\Form\MasterData\Price\PriceBaseCreateForm;
 use App\Form\MasterData\Price\PriceBaseEditForm;
-use App\Repository\PriceBaseRepository;
+use App\Repository\PriceProductBaseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
 
-class PriceBaseProductController extends AbstractController
+class PriceProductBaseController extends AbstractController
 {
     #[\Symfony\Component\Routing\Annotation\Route('/price/base/create', name: 'price_base_create')]
     public function create(PriceBaseDTOMapper $mapper, EntityManagerInterface $entityManager,
         Request $request
     ): Response {
-        $productAttributeDTO = new PriceBaseDTO();
+        $priceProductBaseDTO = new PriceBaseDTO();
 
-        $form = $this->createForm(PriceBaseCreateForm::class, $productAttributeDTO);
+        $form = $this->createForm(PriceBaseCreateForm::class, $priceProductBaseDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttribute = $mapper->mapDtoToEntity($form->getData());
+            $priceProductBase = $mapper->mapDtoToEntity($form->getData());
 
-            $entityManager->persist($productAttribute);
+            $entityManager->persist($priceProductBase);
             $entityManager->flush();
 
             $this->addFlash(
                 'success', "Product created successfully"
             );
 
-            $id = $productAttribute->getId();
+            $id = $priceProductBase->getId();
             $this->addFlash(
                 'success', "Product Attribute created successfully"
             );
@@ -60,13 +59,13 @@ class PriceBaseProductController extends AbstractController
     #[\Symfony\Component\Routing\Attribute\Route('/price/base/{id}/edit', name: 'price_base_edit')]
     public function edit(int $id, PriceBaseDTOMapper $mapper,
         EntityManagerInterface $entityManager,
-        PriceBaseRepository $productAttributeRepository, Request $request
+        PriceProductBaseRepository $priceProductBaseRepository, Request $request
     ): Response {
-        $productAttributeDTO = new PriceBaseDTO();
+        $priceProductBaseDTO = new PriceBaseDTO();
 
-        $priceBase = $productAttributeRepository->find($id);
+        $priceBase = $priceProductBaseRepository->find($id);
 
-        $form = $this->createForm(PriceBaseEditForm::class, $productAttributeDTO);
+        $form = $this->createForm(PriceBaseEditForm::class, $priceProductBaseDTO);
 
         $form->handleRequest($request);
 

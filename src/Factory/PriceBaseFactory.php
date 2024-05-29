@@ -2,30 +2,30 @@
 
 namespace App\Factory;
 
-use App\Entity\PriceBase;
-use App\Repository\PriceBaseRepository;
+use App\Entity\PriceProductBase;
+use App\Repository\PriceProductBaseRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @extends ModelFactory<PriceBase>
+ * @extends ModelFactory<PriceProductBase>
  *
- * @method        PriceBase|Proxy                     create(array|callable $attributes = [])
- * @method static PriceBase|Proxy                     createOne(array $attributes = [])
- * @method static PriceBase|Proxy                     find(object|array|mixed $criteria)
- * @method static PriceBase|Proxy                     findOrCreate(array $attributes)
- * @method static PriceBase|Proxy                     first(string $sortedField = 'id')
- * @method static PriceBase|Proxy                     last(string $sortedField = 'id')
- * @method static PriceBase|Proxy                     random(array $attributes = [])
- * @method static PriceBase|Proxy                     randomOrCreate(array $attributes = [])
- * @method static PriceBaseRepository|RepositoryProxy repository()
- * @method static PriceBase[]|Proxy[]                 all()
- * @method static PriceBase[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
- * @method static PriceBase[]|Proxy[]                 createSequence(iterable|callable $sequence)
- * @method static PriceBase[]|Proxy[]                 findBy(array $attributes)
- * @method static PriceBase[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
- * @method static PriceBase[]|Proxy[]                 randomSet(int $number, array $attributes = [])
+ * @method        PriceProductBase|Proxy                     create(array|callable $attributes = [])
+ * @method static PriceProductBase|Proxy                     createOne(array $attributes = [])
+ * @method static PriceProductBase|Proxy                     find(object|array|mixed $criteria)
+ * @method static PriceProductBase|Proxy                     findOrCreate(array $attributes)
+ * @method static PriceProductBase|Proxy                     first(string $sortedField = 'id')
+ * @method static PriceProductBase|Proxy                     last(string $sortedField = 'id')
+ * @method static PriceProductBase|Proxy                     random(array $attributes = [])
+ * @method static PriceProductBase|Proxy                     randomOrCreate(array $attributes = [])
+ * @method static PriceProductBaseRepository|RepositoryProxy repository()
+ * @method static PriceProductBase[]|Proxy[]                 all()
+ * @method static PriceProductBase[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static PriceProductBase[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static PriceProductBase[]|Proxy[]                 findBy(array $attributes)
+ * @method static PriceProductBase[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static PriceProductBase[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class PriceBaseFactory extends ModelFactory
 {
@@ -65,6 +65,6 @@ final class PriceBaseFactory extends ModelFactory
 
     protected static function getClass(): string
     {
-        return PriceBase::class;
+        return PriceProductBase::class;
     }
 }

@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\PriceBase;
+use App\Entity\PriceProductBase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PriceBase>
+ * @extends ServiceEntityRepository<PriceProductBase>
  *
- * @method PriceBase|null find($id, $lockMode = null, $lockVersion = null)
- * @method PriceBase|null findOneBy(array $criteria, array $orderBy = null)
- * @method PriceBase[]    findAll()
- * @method PriceBase[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PriceProductBase|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PriceProductBase|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PriceProductBase[]    findAll()
+ * @method PriceProductBase[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PriceBaseRepository extends ServiceEntityRepository
+class PriceProductBaseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PriceBase::class);
+        parent::__construct($registry, PriceProductBase::class);
     }
 
     //    /**
@@ -45,10 +45,10 @@ class PriceBaseRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency): PriceBase
+    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency): PriceProductBase
     {
 
-        $price =  new PriceBase();
+        $price =  new PriceProductBase();
         $price->setProduct($product);
         $price->setCurrency($currency);
         return $price;
