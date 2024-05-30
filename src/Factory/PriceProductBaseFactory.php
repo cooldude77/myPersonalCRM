@@ -27,7 +27,7 @@ use Zenstruck\Foundry\RepositoryProxy;
  * @method static PriceProductBase[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
  * @method static PriceProductBase[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
-final class PriceBaseFactory extends ModelFactory
+final class PriceProductBaseFactory extends ModelFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services

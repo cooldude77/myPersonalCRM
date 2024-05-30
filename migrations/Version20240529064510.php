@@ -26,7 +26,6 @@ final class Version20240529064510 extends AbstractMigration
         $this->addSql('ALTER TABLE price_base DROP FOREIGN KEY FK_BDE60CDB4584665A');
         $this->addSql('ALTER TABLE price_base DROP FOREIGN KEY FK_BDE60CDB38248176');
         $this->addSql('DROP TABLE price_base');
-        $this->addSql('ALTER TABLE customer_address DROP default_address');
     }
 
     public function down(Schema $schema): void
