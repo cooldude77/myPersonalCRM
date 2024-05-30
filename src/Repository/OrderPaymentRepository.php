@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\OrderHeader;
 use App\Entity\OrderPayment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,4 +41,11 @@ class OrderPaymentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(OrderHeader $orderHeader): OrderPayment
+    {
+        $payment = new OrderPayment();
+        $payment->setOrderHeader($orderHeader);
+
+        return $payment;
+    }
 }

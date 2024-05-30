@@ -2,6 +2,7 @@
 
 namespace App\Service\Module\WebShop\External\CheckOut\Address;
 
+use App\Entity\CustomerAddress;
 use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -86,6 +87,20 @@ class CheckOutAddressService
     public function validateBeforeOrder()
     {
         // todo
+    }
+
+    public function getBillingAddress():CustomerAddress
+    {
+        return $this->customerAddressRepository->find(
+            $this->requestStack->getSession()->get(self::BILLING_ADDRESS_ID)
+        );
+    }
+
+    public function getShippingAddress():CustomerAddress
+    {
+        return $this->customerAddressRepository->find(
+            $this->requestStack->getSession()->get(self::SHIPPING_ADDRESS_ID)
+        );
     }
 
 }

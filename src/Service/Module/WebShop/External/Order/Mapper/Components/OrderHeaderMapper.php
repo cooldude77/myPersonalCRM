@@ -9,7 +9,6 @@ use App\Service\Module\WebShop\External\CheckOut\Address\CustomerService;
 class OrderHeaderMapper
 {
     public function __construct(private readonly OrderHeaderRepository $orderHeaderRepository,
-        private readonly CustomerService $customerService,
         private readonly CustomerFromUserFinder $customerFromUserFinder
     ) {
     }
@@ -20,9 +19,6 @@ class OrderHeaderMapper
         $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
         $orderHeader = $this->orderHeaderRepository->create($customer);
-
-        // todo
-        $orderHeader->setSnapShot($this->customerService->snapShot($customer));
 
         $orderHeader->setDateTimeOfOrder(new \DateTime());
 

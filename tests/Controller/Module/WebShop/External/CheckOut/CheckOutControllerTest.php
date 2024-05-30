@@ -5,6 +5,7 @@ namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
 use App\Factory\CustomerAddressFactory;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Utility\MySessionFactory;
@@ -15,7 +16,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CheckOutControllerTest extends WebTestCase
 {
-    use HasBrowser, CustomerFixture, LocationFixture;
+    use HasBrowser, CustomerFixture, LocationFixture,CartFixture;
 
     public function testCheckout()
     {
@@ -87,15 +88,5 @@ class CheckOutControllerTest extends WebTestCase
 
     }
 
-    private function setDummyCart(KernelBrowser $browser): void
-    {
-        /** @var MySessionFactory $factory */
-        $factory = $browser->getContainer()->get('session.factory');
-
-        $session = $factory->createSession();
-        $array = [new CartSessionObject(1, 4), new CartSessionObject(1.5)];
-        $session->set(CartSessionService::CART_SESSION_KEY, $array);
-        $session->save();
-    }
 
 }

@@ -15,15 +15,19 @@ class OrderCreateController extends AbstractController
      *
      * @return Response
      *
-     *  Create Order from cart
+     *  Create Order after checkout and before payment.
+     *  Payment info to be added later
      */
-    #[Route('/web-shop/order/create', 'web_shop_create_order_after_checkout')]
-    public function create(OrderService $orderService): Response {
+    #[Route('/web-shop/order/create', 'web_shop_create_order')]
+    public function create(OrderService $orderService): Response
+    {
 
-        $orderService->mapAndPersist();
-        $orderService->flush();
+        $orderHeader = $orderService->mapAndPersist();
+        $orderService->flush($orderHeader);
 
-        return $this->redirectToRoute('web_shop_payment');
+        return $this->redirectToRoute(
+            'web_shop_order_complete_details', ['id' => $orderHeader->getId()]
+        );
 
     }
 

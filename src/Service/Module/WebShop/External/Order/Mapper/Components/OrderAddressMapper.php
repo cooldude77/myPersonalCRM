@@ -14,15 +14,13 @@ readonly class OrderAddressMapper
     ) {
     }
 
-    public function map(OrderHeader $orderHeader): OrderAddress
+    public function mapAndSetHeader(OrderHeader $orderHeader): OrderAddress
     {
 
         $orderAddress = $this->orderAddressRepository->create($orderHeader);
 
-        $orderAddress->setBillingAddress = $this->checkOutAddressService->getBillingAddress();
-        $orderAddress->setShippingAddress = $this->checkOutAddressService->getShippingAddress();
-
-        $orderAddress->setSnapShot($this->checkOutAddressService->getSnapShot());
+        $orderAddress->setBillingAddress( $this->checkOutAddressService->getBillingAddress());
+        $orderAddress->setShippingAddress($this->checkOutAddressService->getShippingAddress());
 
         return $orderAddress;
 

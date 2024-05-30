@@ -2,13 +2,16 @@
 
 namespace App\Service\Module\WebShop\External\Order;
 
-use App\Controller\Module\WebShop\External\Order\OrderSnapShotCreator;
 use App\Entity\OrderHeader;
+use App\Repository\OrderStatusRepository;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderItemMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderStatusMapper;
+use App\Service\Module\WebShop\External\Order\SnapShot\OrderSnapShotCreator;
+use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
 
 class OrderService
 {
@@ -19,22 +22,20 @@ class OrderService
         private readonly OrderAddressMapper $orderAddressMapper,
         private readonly OrderStatusMapper $orderStatusMapper,
         private readonly OrderSnapShotCreator $orderSnapShotCreator,
+        private readonly OrderStatusRepository $orderStatusRepository,
         private readonly DatabaseOperations $databaseOperations
     ) {
     }
 
     public function mapAndPersist(): OrderHeader
     {
+        $this->orderPreMapAndPersistChecks();
+
         $orderHeader = $this->orderHeaderMapper->map();
 
-        $this->orderItemMapper->map($orderHeader);
-        $this->orderAddressMapper->map($orderHeader);
-
-        $orderStatus = $this->orderStatusMapper->map($orderHeader, $orderStatus, $note);
-
-        $snapShot = $this->orderSnapShotCreator->createSnapShot($orderHeader);
-
-        $orderStatus->setSnapShot($snapShot);
+        $this->orderItemMapper->mapAndSetHeader($orderHeader);
+        $this->orderAddressMapper->mapAndSetHeader($orderHeader);
+        $this->orderStatusMapper->mapAndSetHeader($orderHeader, OrderStatusTypes::ORDER_CREATED);
 
         $this->databaseOperations->persist($orderHeader);
 
@@ -42,10 +43,24 @@ class OrderService
 
     }
 
-    public function flush(): void
+    public function flush(OrderHeader $orderHeader): void
     {
         $this->databaseOperations->flush();
 
+        $snapShot = $this->orderSnapShotCreator->createSnapShot($orderHeader);
 
+        $orderStatus = $this->orderStatusRepository->findOneBy(['orderHeader' => $orderHeader]);
+
+        $orderStatus->setSnapShot($snapShot);
+
+        $this->databaseOperations->persist($orderHeader);
+        $this->databaseOperations->flush();
+
+    }
+
+    private function orderPreMapAndPersistChecks()
+    {
+
+        // todo
     }
 }

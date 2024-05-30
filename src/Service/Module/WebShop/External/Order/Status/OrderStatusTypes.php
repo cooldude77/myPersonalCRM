@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\Mapper;
+namespace App\Service\Module\WebShop\External\Order\Status;
 
 readonly class OrderStatusTypes
 {
