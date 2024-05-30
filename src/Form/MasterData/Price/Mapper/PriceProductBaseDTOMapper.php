@@ -2,28 +2,28 @@
 
 namespace App\Form\MasterData\Price\Mapper;
 
-use App\Entity\PriceBase;
-use App\Form\MasterData\Price\DTO\PriceBaseDTO;
+use App\Entity\PriceProductBase;
+use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use App\Repository\CurrencyRepository;
-use App\Repository\PriceBaseRepository;
+use App\Repository\PriceProductBaseRepository;
 use App\Repository\ProductRepository;
 
-class PriceBaseDTOMapper
+class PriceProductBaseDTOMapper
 {
 
     private ProductRepository $productRepository;
     private CurrencyRepository $currencyRepository;
-    private PriceBaseRepository $priceBaseProductRepository;
+    private PriceProductBaseRepository $priceBaseProductRepository;
 
     public function __construct(ProductRepository $productRepository,
-        CurrencyRepository $currencyRepository, PriceBaseRepository $priceBaseProductRepository
+        CurrencyRepository $currencyRepository, PriceProductBaseRepository $priceBaseProductRepository
     ) {
         $this->productRepository = $productRepository;
         $this->currencyRepository = $currencyRepository;
         $this->priceBaseProductRepository = $priceBaseProductRepository;
     }
 
-    public function mapDtoToEntity(PriceBaseDTO $priceBaseProductDTO): PriceBase
+    public function mapDtoToEntity(PriceProductBaseDTO $priceBaseProductDTO): PriceProductBase
     {
 
         $product = $this->productRepository->findOneBy(['id' => $priceBaseProductDTO->productId]);
@@ -35,8 +35,8 @@ class PriceBaseDTOMapper
 
     }
 
-    public function mapDtoToEntityForEdit(PriceBaseDTO $priceBaseProductDTO, ?PriceBase
-    $priceBase):PriceBase
+    public function mapDtoToEntityForEdit(PriceProductBaseDTO $priceBaseProductDTO, ?PriceProductBase
+    $priceBase):PriceProductBase
     {
 
         $priceBase->setPrice($priceBaseProductDTO->price);
