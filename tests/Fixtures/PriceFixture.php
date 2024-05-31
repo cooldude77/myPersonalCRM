@@ -14,30 +14,14 @@ use Zenstruck\Foundry\Proxy;
 
 trait PriceFixture
 {
-    public Category|Proxy $category;
-
-    public Product|Proxy $product;
 
     public PriceProductBase|Proxy $price;
 
-    public Currency|Proxy $currency;
-
-
-    function createPriceFixtures(): void
+    function createPriceFixtures(Product $product,Currency $currency): void
     {
-        $this->category = CategoryFactory::createOne(['name' => 'Cat', 'description' => 'Category']
-        );
 
-        $this->product = ProductFactory::createOne(['category' => $this->category,
-                                                    'name' => 'Product',
-                                                    'description' => 'A new product',
-                                                    'isActive' => true]);
-
-        $this->currency=CurrencyFactory::createOne(['code'=>'USD']);
-
-
-        $this->price = PriceProductBaseFactory::createOne(['product'=>$this->product,
-                                                           'currency'=>$this->currency]);
+        $this->price = PriceProductBaseFactory::createOne(['product'=>$product,
+                                                           'currency'=>$currency]);
 
     }
 
