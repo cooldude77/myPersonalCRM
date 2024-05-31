@@ -17,7 +17,7 @@ trait PriceFixture
 
     public PriceProductBase|Proxy $price;
 
-    function createPriceFixtures(Product $product,Currency $currency): void
+    function createPriceFixtures(Proxy|Product $product,Proxy|Currency $currency): void
     {
 
         $this->price = PriceProductBaseFactory::createOne(['product'=>$product,

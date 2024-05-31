@@ -18,10 +18,10 @@ trait CurrencyFixture
 {
     public Currency|Proxy $currency;
 
-    function createCurrencyFixtures(Country $country): void
+    function createCurrencyFixtures(Proxy|Country $country): void
     {
 
-        $this->currency = CurrencyFactory::createOne();
+        $this->currency = CurrencyFactory::createOne(['country'=>$country]);
 
 
     }

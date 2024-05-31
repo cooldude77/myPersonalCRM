@@ -2,19 +2,22 @@
 
 namespace App\Tests\Fixtures;
 
+use App\Entity\Customer;
+use App\Entity\User;
 use App\Factory\CustomerFactory;
 use App\Factory\UserFactory;
+use Zenstruck\Foundry\Proxy;
 
 trait CustomerFixture
 {
-    private \App\Entity\User|\Zenstruck\Foundry\Proxy $user;
-    private \Zenstruck\Foundry\Proxy|\App\Entity\Customer $customer;
+    private User|Proxy $user;
+    private Proxy|Customer $customer;
 
     public function createCustomer(): void
     {
 
-     $this->user = UserFactory::createOne();
-     $this->customer = CustomerFactory::createOne(['user'=>$this->user]);
+        $this->user = UserFactory::createOne();
+        $this->customer = CustomerFactory::createOne(['user' => $this->user]);
 
- }
+    }
 }

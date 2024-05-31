@@ -43,7 +43,7 @@ class OrderStatusRepository extends ServiceEntityRepository
     public function create($orderHeader): OrderStatus
     {
         $orderStatus = new OrderStatus();
-        $orderStatus->setHeader($orderHeader);
+        $orderStatus->setOrderHeader($orderHeader);
 
         return $orderStatus;
 

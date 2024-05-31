@@ -58,7 +58,7 @@ class CartSessionService
 
     public function getCartArray(): array
     {
-
+        $this->initialize();
 
         $x = $this->session->get(self::CART_SESSION_KEY);
 
@@ -67,6 +67,7 @@ class CartSessionService
 
     public function clearCart(): void
     {
+        $this->initialize();
         $this->setCartArrayInSession([]);
         $this->session->remove(self::CART_SESSION_KEY);
 
@@ -74,6 +75,7 @@ class CartSessionService
 
     public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array): void
     {
+        $this->initialize();
         $cartArray = $this->getCartArray();
         /** CartSessionObject $item */
         foreach ($array as $item) {
@@ -84,6 +86,8 @@ class CartSessionService
 
     public function deleteItem($id)
     {
+        $this->initialize();
+
         $cartArray = $this->getCartArray();
         unset($cartArray[$id]);
 
@@ -93,6 +97,7 @@ class CartSessionService
 
     public function hasItems(): bool
     {
+        $this->initialize();
         return !empty($this->getCartArray());
     }
 

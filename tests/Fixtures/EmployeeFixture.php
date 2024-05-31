@@ -2,19 +2,22 @@
 
 namespace App\Tests\Fixtures;
 
+use App\Entity\Employee;
+use App\Entity\User;
 use App\Factory\EmployeeFactory;
 use App\Factory\UserFactory;
+use Zenstruck\Foundry\Proxy;
 
 trait EmployeeFixture
 {
-    private \App\Entity\User|\Zenstruck\Foundry\Proxy $user;
-    private \Zenstruck\Foundry\Proxy|\App\Entity\Employee $employee;
+    private User|Proxy $user;
+    private Proxy|Employee $employee;
 
     public function createEmployee(): void
     {
 
-     $this->user = UserFactory::createOne();
-     $this->employee = EmployeeFactory::createOne(['user'=>$this->user]);
+        $this->user = UserFactory::createOne();
+        $this->employee = EmployeeFactory::createOne(['user' => $this->user]);
 
- }
+    }
 }

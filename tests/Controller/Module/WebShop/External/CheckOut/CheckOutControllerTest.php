@@ -3,12 +3,11 @@
 namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
 
 use App\Factory\CustomerAddressFactory;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Utility\MySessionFactory;
+use App\Tests\Fixtures\ProductFixture;
+use App\Tests\Fixtures\SessionFactoryFixture;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
@@ -16,12 +15,15 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CheckOutControllerTest extends WebTestCase
 {
-    use HasBrowser, CustomerFixture, LocationFixture,CartFixture;
+    use HasBrowser, SessionFactoryFixture,ProductFixture, CustomerFixture, LocationFixture,
+        CartFixture;
 
     public function testCheckout()
     {
         $this->createLocationFixtures();
         $this->createCustomer();
+        $this->createProductFixtures();
+
 
         // without logging in
         // goto signup
@@ -30,7 +32,7 @@ class CheckOutControllerTest extends WebTestCase
             ->browser()
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/web-shop/checkout/entry');
+            ->assertRedirectedTo('/checkout/entry');
 
         // user is logged in
         // cart is empty
@@ -48,7 +50,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->setDummyCart($browser);
+                $this->createCartInSession($this->session,$this->product);
 
             })
             ->interceptRedirects()
@@ -65,7 +67,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->setDummyCart($browser);
+                $this->createCartInSession($this->session,$this->product);
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -80,7 +82,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->setDummyCart($browser);
+                $this->createCartInSession($this->session,$this->product);
             })
             ->interceptRedirects()
             ->visit($uri)

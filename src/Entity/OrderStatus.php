@@ -16,11 +16,11 @@ class OrderStatus
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?OrderHeader $header = null;
+    private ?OrderHeader $orderHeader = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?OrderStatusType $status = null;
+    private ?OrderStatusType $orderStatusType = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateOfStatusSet = null;
@@ -36,26 +36,26 @@ class OrderStatus
         return $this->id;
     }
 
-    public function getHeader(): ?OrderHeader
+    public function getOrderHeader(): ?OrderHeader
     {
-        return $this->header;
+        return $this->orderHeader;
     }
 
-    public function setHeader(?OrderHeader $header): static
+    public function setOrderHeader(?OrderHeader $orderHeader): static
     {
-        $this->header = $header;
+        $this->orderHeader = $orderHeader;
 
         return $this;
     }
 
-    public function getStatus(): ?OrderStatusType
+    public function getOrderStatusType(): ?OrderStatusType
     {
-        return $this->status;
+        return $this->orderStatusType;
     }
 
-    public function setStatus(OrderStatusType $status): static
+    public function setOrderStatusType(OrderStatusType $orderStatusType): static
     {
-        $this->status = $status;
+        $this->orderStatusType = $orderStatusType;
 
         return $this;
     }
