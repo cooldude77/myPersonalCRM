@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security\External\Customer;
+namespace App\Controller\Security\Admin\Customer;
 
 use Throwable;
 

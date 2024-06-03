@@ -1,19 +1,14 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Security\Admin\User;
+namespace App\Controller\Security\External\Credentials;
 
 // ...
-use App\Entity\User;
-use App\Form\Admin\User\UserForm;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class UserController extends AbstractController
+class LoginManagementController extends AbstractController
 {
 
 
