@@ -2,22 +2,29 @@
 
 namespace App\Controller\Admin\UI\Panel\Components;
 
-use App\Service\Admin\SideBar\PanelSideBarListMapBuilder;
+use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
+use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 
 class PanelSideBarController extends AbstractController
 {
 
-    public function sideBar(RouterInterface $router)
-    {
+    public function sideBar(RouterInterface $router, RoleBasedSideBarList $roleBasedSideBarList,
+        CustomerFromUserFinder $customerFromUserFinder
+    ) {
         $adminUrl = $router->generate('admin_panel');
 
-        $sideBarBuilder = new PanelSideBarListMapBuilder();
-        $sideBar = $sideBarBuilder->build($adminUrl)->getSideBarList();
+        if ($customerFromUserFinder->getLoggedInCustomer() == null) {
+            $role = 'ROLE_CUSTOMER';
+        } else {
+            $role = 'ROLE_EMPLOYEE';
+        }
 
-        return $this->render('admin/ui/panel/section/sidebar/sidebar.html.twig',['sideBar'=>$sideBar]);
+        $sideBar = $roleBasedSideBarList->getListBasedOnRole($role, $adminUrl);
+        return $this->render(
+            'admin/ui/panel/section/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
+        );
 
     }
 }
