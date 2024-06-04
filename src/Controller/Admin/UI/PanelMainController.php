@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\UI;
 
-use App\Service\Admin\Action\Exception\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +12,7 @@ class PanelMainController extends AbstractController
 
 
     #[Route('/admin', name: 'admin_panel')]
+    #[Route('/user/profile', name: 'user_profile_panel')]
     public function admin(Request $request): Response
     {
 

@@ -63,7 +63,7 @@ class SignUpController extends AbstractController
             }
         }
 
-        return $this->render('security/external/user/sign_up_page.html.twig', [
+        return $this->render('security/external/user/page/sign_up_page.html.twig', [
             'form' => $form,
         ]);
     }

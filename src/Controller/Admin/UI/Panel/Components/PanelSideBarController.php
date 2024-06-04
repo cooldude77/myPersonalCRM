@@ -13,15 +13,17 @@ class PanelSideBarController extends AbstractController
     public function sideBar(RouterInterface $router, RoleBasedSideBarList $roleBasedSideBarList,
         CustomerFromUserFinder $customerFromUserFinder
     ) {
-        $adminUrl = $router->generate('admin_panel');
 
         if ($customerFromUserFinder->getLoggedInCustomer() == null) {
+
+            $topUrl = $router->generate('user_profile_panel');
             $role = 'ROLE_CUSTOMER';
         } else {
+            $topUrl = $router->generate('admin_panel');
             $role = 'ROLE_EMPLOYEE';
         }
 
-        $sideBar = $roleBasedSideBarList->getListBasedOnRole($role, $adminUrl);
+        $sideBar = $roleBasedSideBarList->getListBasedOnRole($role, $topUrl);
         return $this->render(
             'admin/ui/panel/section/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
         );

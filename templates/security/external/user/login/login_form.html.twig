@@ -11,9 +11,10 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="username">Login</label>
-    <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+    <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control my-2" autocomplete="username" required autofocus>
     <label for="password">Password</label>
-    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+    <input type="password" name="_password" id="password" class="form-control my-2" autocomplete="current-password" required>
+    <input type="hidden" name="_target_path" value="{{ path('user_where_to_go_after_login',[],true) }}"/>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -30,7 +31,7 @@
     </div>
     #}
 
-    <button class="btn btn-lg btn-primary" type="submit" name="login">
+    <button class="btn btn-lg btn-primary my-2" type="submit" name="login">
         Login in
     </button>
 </form>

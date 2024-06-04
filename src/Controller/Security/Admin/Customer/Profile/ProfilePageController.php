@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilePageController extends AbstractController
 {
 
-    #[Route(path: '/user/profile', name: 'user_profile')]
     public function profile(): Response
     {
         // todo
