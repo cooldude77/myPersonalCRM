@@ -2,7 +2,6 @@
 
 namespace App\Service\Security\User\Mapper;
 
-use App\Entity\Category;
 use App\Entity\User;
 use App\Form\Security\User\DTO\SignUpSimpleDTO;
 use App\Repository\UserRepository;
@@ -30,6 +29,10 @@ readonly class SignUpDTOMapper
             )
         );
         $user->setRoles(['ROLE_CUSTOMER']);
+
+        $user->setCreatedAt(new \DateTime());
+
+        $user->setLastLoggedInAt($user->getCreatedAt());
 
         return $user;
     }

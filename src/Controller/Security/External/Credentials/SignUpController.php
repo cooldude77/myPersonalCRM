@@ -21,9 +21,9 @@ class SignUpController extends AbstractController
 {
 
     /**
-     * @param Request                     $request
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     * @param EntityManagerInterface      $entityManager
+     * @param Request         $request
+     * @param CustomerService $customerService
+     * @param SignUpDTOMapper $signUpDTOMapper
      *
      * @return Response
      *

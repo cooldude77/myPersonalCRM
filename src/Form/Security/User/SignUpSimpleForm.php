@@ -23,7 +23,7 @@ class SignUpSimpleForm extends AbstractType
             ->add(
                 'login', TextType::class,
                 [
-                    'label'=>'Email Or Phone',
+                    'label'=>'Email',
                     'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter an email ',

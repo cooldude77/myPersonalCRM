@@ -22,16 +22,16 @@ class SignUpControllerTest extends WebTestCase
         $this->browser()
             // use before visiting
             ->interceptRedirects()
-            ->visit($uri)->fillField(
-                'sign_up_form[login]', 'x@y.com'
+            ->visit($uri)
+            ->fillField(
+                'sign_up_simple_form[login]', 'x@y.com'
             )->fillField(
-                'sign_up_form[plainPassword]', 'fwfwefwefwqwe2234fwf'
+                'sign_up_simple_form[password]', 'fwfwefwefwqwe2234fwf'
             )
-            ->fillField('sign_up_form[agreeTerms]', true)
+            ->fillField('sign_up_simple_form[agreeTerms]', true)
+            ->interceptRedirects()
             ->click('Sign Up')
-            // assert on same Uri, or redirect check will fail
-            ->assertOn($uri)
-            ->assertRedirected();
+            ->assertRedirectedTo('/');
 
         $created = UserFactory::find(array('login' => 'x@y.com'));
         $customer = CustomerFactory::find(['user' => $created]);
@@ -39,6 +39,7 @@ class SignUpControllerTest extends WebTestCase
         $this->assertNotNull($created);
         $this->assertTrue(in_array('ROLE_CUSTOMER', $created->getRoles()));
         $this->assertNotNull($customer);
+        $this->assertEquals('x@y.com', $customer->getEmail());
 
 
     }
