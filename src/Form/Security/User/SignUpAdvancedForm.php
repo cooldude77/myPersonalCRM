@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormEvents;
 /**
  * Functions are similar so for now  using the customer form
  */
-class UserSignUpAdvancedForm extends CustomerCreateForm
+class SignUpAdvancedForm extends CustomerCreateForm
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

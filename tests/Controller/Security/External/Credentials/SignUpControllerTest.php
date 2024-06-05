@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Security\Customer;
+namespace App\Tests\Controller\Security\External\Credentials;
 
 use App\Factory\CustomerFactory;
 use App\Factory\SalutationFactory;
@@ -10,7 +10,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class CustomerSignUpControllerTest extends WebTestCase
+class SignUpControllerTest extends WebTestCase
 {
     use HasBrowser;
 

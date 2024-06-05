@@ -2,31 +2,37 @@
 
 namespace App\Service\Module\WebShop\External\CheckOut\Address;
 
-use App\Entity\CustomerAddress;
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
+use App\Entity\Customer;
+use App\Entity\User;
+use App\Repository\CustomerRepository;
 
-class CustomerService
+readonly class CustomerService
 {
-    public function __construct(
-        private readonly DatabaseOperations $databaseOperations,
-        private readonly CustomerAddressDTOMapper $customerAddressDTOMapper
+    public function __construct(private readonly DatabaseOperations $databaseOperations,
+        private readonly CustomerRepository $customerRepository
     ) {
     }
 
-    public function mapAndPersist(CustomerAddressDTO $customerAddressDTO): CustomerAddress
-    {
 
-        $customerAddress = $this->customerAddressDTOMapper->mapDtoToEntityForCreate(
-            $customerAddressDTO
-        );
-        $this->databaseOperations->persist($customerAddress);
-        return $customerAddress;
-    }
-
-    public function flush(): void
+    public function save(Customer $customer):void
     {
+        $this->databaseOperations->persist($customer);
         $this->databaseOperations->flush();
+
     }
+
+    public function mapCustomerFromSimpleSignUp(User $user): Customer
+    {
+
+        $customer = $this->customerRepository->create($user);
+
+        if (filter_var($user->getLogin(), FILTER_VALIDATE_EMAIL)) {
+            $customer->setEmail($user->getLogin());
+        } else {
+            $customer->setPhoneNumber($user->getLogin());
+        }
+
+        return $customer;
+    }
+
 }

@@ -3,12 +3,13 @@
 namespace App\Controller\Security\External\Credentials;
 
 use App\Controller\Security\Admin\Customer\NoRedirectParameterSetException;
-use App\Entity\Customer;
-use App\Entity\User;
 use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Form\Security\User\UserSignUpAdvancedForm;
-use App\Form\Security\User\UserSignUpSimpleForm;
+use App\Form\Security\User\DTO\SignUpSimpleDTO;
+use App\Form\Security\User\SignUpAdvancedForm;
+use App\Form\Security\User\SignUpSimpleForm;
 use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
+use App\Service\Module\WebShop\External\CheckOut\Address\CustomerService;
+use App\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,30 +31,26 @@ class SignUpController extends AbstractController
      */
     #[Route('/signup', name: 'user_customer_sign_up')]
     public function signUp(Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        CustomerService $customerService,
+        SignUpDTOMapper $signUpDTOMapper
+
     ): Response {
-        $user = new User();
-        $form = $this->createForm(UserSignUpSimpleForm::class, $user);
+        $signUpDTO = new SignUpSimpleDTO();
+
+        $form = $this->createForm(SignUpSimpleForm::class, $signUpDTO);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setRoles(['ROLE_CUSTOMER']);
 
-            $customer = new Customer();
-            $customer->setUser($user);
-            $customer->setEmail($user->getLogin());
+            /** @var SignUpSimpleDTO $data */
+            $data = $form->getData();
 
-            $entityManager->persist($user);
-            $entityManager->persist($customer);
-            $entityManager->flush();
+            $user = $signUpDTOMapper->mapToEntityForCreate($data);
+
+            $customer = $customerService->mapCustomerFromSimpleSignUp($user);
+
+            $customerService->save($customer);
 
             // do anything else you need here, like send an email
             if ($request->get('_redirect_after_success') == null) {
@@ -63,7 +60,7 @@ class SignUpController extends AbstractController
             }
         }
 
-        return $this->render('security/external/user/page/sign_up_page.html.twig', [
+        return $this->render('security/external/user/sign_up/page/sign_up_page.html.twig', [
             'form' => $form,
         ]);
     }
@@ -88,7 +85,7 @@ class SignUpController extends AbstractController
 
         $customerDTO = new CustomerDTO();
         $form = $this->createForm(
-            UserSignUpAdvancedForm::class, $customerDTO
+            SignUpAdvancedForm::class, $customerDTO
         );
 
         $form->handleRequest($request);
@@ -116,7 +113,7 @@ class SignUpController extends AbstractController
 
         return $this->render(
             'security/external/user/sign_up/sign_up_advanced.html.twig',
-            ['form'=>$form]
+            ['form' => $form]
         );
 
     }
