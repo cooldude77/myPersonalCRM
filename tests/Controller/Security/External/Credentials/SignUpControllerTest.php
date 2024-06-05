@@ -44,6 +44,13 @@ class SignUpControllerTest extends WebTestCase
 
     }
 
+    /**
+     *
+     * Todo: // still need to find up valid use case for this
+     *
+     * @return void
+     *
+     */
     public function testSignUpAdvanced()
     {
         $createUrl = '/signup/advanced?_redirect_after_success=home';

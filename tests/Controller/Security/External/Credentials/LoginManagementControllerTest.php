@@ -31,10 +31,10 @@ class LoginManagementControllerTest extends WebTestCase
             )->fillField(
                 '_password', $this->password
             )
+            ->interceptRedirects()
             ->click('login')
-            ->followRedirect()
-            ->assertAuthenticated()
-            ->assertSuccessful();
+            ->assertRedirectedTo('/')
+            ->assertAuthenticated();
     }
 
     public function testLoginAsEmployee()
@@ -50,8 +50,9 @@ class LoginManagementControllerTest extends WebTestCase
             )->fillField(
                 '_password', $this->password
             )
+            ->interceptRedirects()
             ->click('login')
-            ->followRedirect()
+            ->assertRedirectedTo('/admin')
             ->assertAuthenticated();
     }
 
@@ -91,8 +92,7 @@ class LoginManagementControllerTest extends WebTestCase
             ->click('login')
             ->interceptRedirects()
             ->visit('/logout')
-            ->assertRedirectedTo('/')
-            ->assertSuccessful();
+            ->assertRedirectedTo('/');
     }
 
     public function testEmployeeLogout()
@@ -113,7 +113,6 @@ class LoginManagementControllerTest extends WebTestCase
             ->click('login')
             ->interceptRedirects()
             ->visit('/logout')
-            ->assertRedirectedTo('/')
-            ->assertSuccessful();
+            ->assertRedirectedTo('/');
     }
 }

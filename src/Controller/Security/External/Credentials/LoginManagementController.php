@@ -5,9 +5,9 @@ namespace App\Controller\Security\External\Credentials;
 // ...
 use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
 use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -27,8 +27,8 @@ class LoginManagementController extends AbstractController
 
         return $this->render(
             'security/external/user/login/page/login_page.html.twig', ['last_username' =>
-                                                                        $lastUsername,
-                                                            'error' => $error,]
+                                                                           $lastUsername,
+                                                                       'error' => $error,]
         );
     }
 
@@ -41,19 +41,18 @@ class LoginManagementController extends AbstractController
     }
 
 
-
     #[Route(path: '/where/to', name: 'user_where_to_go_after_login')]
     public function whereToAfterLogin(CustomerFromUserFinder $customerFromUserFinder
     ): Response {
 
         try {
-            if ($customerFromUserFinder->getLoggedInCustomer() == null) {
-                return $this->redirectToRoute('admin_panel');
-            } else {
-                return $this->redirectToRoute('home');
-            }
+            $customerFromUserFinder->getLoggedInCustomer();
+            return $this->redirectToRoute('home');
+
         } catch (UserNotLoggedInException $e) {
             return new Response("Not Authorized", 403);
+        } catch (UserNotAssociatedWithACustomerException) {
+            return $this->redirectToRoute('admin_panel');
         }
     }
 }

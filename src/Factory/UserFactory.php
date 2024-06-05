@@ -52,10 +52,13 @@ final class UserFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $time = new \DateTime();
         return [
             'login' => self::faker()->text(180),
             'password' => self::faker()->text(),
             'roles' => [],
+            'createdAt'=> $time,
+            'lastLoggedInAt'=>$time
         ];
     }
 

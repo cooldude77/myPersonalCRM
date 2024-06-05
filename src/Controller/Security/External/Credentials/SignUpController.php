@@ -74,7 +74,6 @@ class SignUpController extends AbstractController
      * @return Response
      *
      * To be called when user is willing to add extra details for example from a checkout form
-     * @throws NoRedirectParameterSetException
      */
     #[Route('/signup/advanced', name: 'user_customer_sign_up_advanced')]
     // Todo: Make redirect_after_success mandatory in route
