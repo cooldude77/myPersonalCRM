@@ -18,7 +18,7 @@ class MyProfilePageController extends AbstractController
     {
         $session = $request->getSession();
         $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my_profile_panel');
-        return $this->forward(PanelMainController::class . '::admin', ['request' => $request]);
+        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
     }
 
     #[Route('/my/addresses', name: 'my_address')]
@@ -27,9 +27,10 @@ class MyProfilePageController extends AbstractController
 
     }
 
-    #[Route('/my/orders', name: 'my_orders')]
+    #[Route('/my/orders', name: 'my_orders_list')]
     public function orders(Request $request): Response
     {
+        return new Response("Hello");
     }
 
     #[Route('/my/personal-data', name: 'my_personal_data')]

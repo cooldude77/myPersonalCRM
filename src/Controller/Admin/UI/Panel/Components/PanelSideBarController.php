@@ -31,8 +31,9 @@ class PanelSideBarController extends AbstractController
         }
 
         $sideBar = $roleBasedSideBarList->getListBasedOnRole(
-            $role, $session
-            ->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY)
+            $role,
+            $this->generateUrl($session
+            ->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY))
         );
         return $this->render(
             'admin/ui/panel/section/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
