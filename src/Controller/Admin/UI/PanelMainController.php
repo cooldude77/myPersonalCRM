@@ -10,13 +10,17 @@ use Symfony\Component\Routing\Attribute\Route;
 class PanelMainController extends AbstractController
 {
 
+    public const CONTEXT_ROUTE_SESSION_KEY = 'context_route';
 
     #[Route('/admin', name: 'admin_panel')]
     public function admin(Request $request): Response
     {
 
         $session = $request->getSession();
-        $session->set('context_route', 'admin_panel');
+        if ($session->get('context_route') == null) {
+            $session->set(self::CONTEXT_ROUTE_SESSION_KEY, 'admin_panel');
+        }
+
         return $this->render('admin/ui/panel/panel_main.html.twig');
     }
 }
