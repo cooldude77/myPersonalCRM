@@ -12,7 +12,6 @@ class PanelMainController extends AbstractController
 
 
     #[Route('/admin', name: 'admin_panel')]
-    #[Route('/user/profile', name: 'user_profile_panel')]
     public function admin(Request $request): Response
     {
 
