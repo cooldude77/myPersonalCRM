@@ -21,13 +21,13 @@ class ProductController extends AbstractController
         );
     }
 
-
-
-
-    #[Route('/locale', name: 'locale')]
-    public function setLocale(SessionInterface $session,Request $request)
+    public function list(ProductRepository $productRepository, Request $request): Response
     {
-        $session->set('locale', 'fr_FR');
-        return new Response();
+        $products = $productRepository->findAll();
+        return $this->render(
+            'module/web_shop/external/product/web_shop_product_list.html.twig',
+            ['products' => $products]
+        );
     }
+
 }

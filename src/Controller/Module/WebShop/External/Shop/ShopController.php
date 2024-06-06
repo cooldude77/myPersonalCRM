@@ -37,11 +37,11 @@ class ShopController extends AbstractController
         );
 
         $session->set(
-            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ProductListController::class
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class
         );
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
-            'list'
+            'content'
         );
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);

@@ -1,1 +1,20 @@
-   No products found
+{% if products|length == 0 %}
+    No products found
+{% else %}
+    <div>
+        {% for product in products %}
+
+            <div id="product-{{ product.name }}">
+                <div id="product-image"></div>
+
+                <div id="product-desc">
+                    {{ product.description }}
+                </div>
+                <div id="product-desc">
+                    {{ product.longDescription }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
