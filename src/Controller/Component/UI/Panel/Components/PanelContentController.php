@@ -9,6 +9,7 @@ use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -17,6 +18,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class PanelContentController extends AbstractController
 {
+    public const string CONTENT_CONTROLLER_CLASS_NAME = 'CONTENT_CONTROLLER_CLASS_NAME';
+    public const string CONTENT_CONTROLLER_CLASS_METHOD_NAME = 'CONTENT_CONTROLLER_CLASS_METHOD_NAME';
+
 
     /**
      * @throws FunctionNotFoundInMap
@@ -24,11 +28,24 @@ class PanelContentController extends AbstractController
      * @throws EmptyActionListMapException
      */
     public function content(RouterInterface $router, Request $request,
-        PanelActionListMapBuilder $builder
+        PanelActionListMapBuilder $builder,
+        Session $session,
     ): Response {
 
 
+        if ($session->get(self::CONTENT_CONTROLLER_CLASS_NAME) != null and
+            $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME) != null
+        ) {
+            return $this->forward(
+                $session->get(self::CONTENT_CONTROLLER_CLASS_NAME)
+                . "::"
+                . $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME),
+                ['request' => $request]
+            );
+        }
+
         $function = $request->get('_function');
+
         $type = $request->get('_type');
 
         // special case when not calling any function, goto home
@@ -70,7 +87,7 @@ class PanelContentController extends AbstractController
                 return $this->redirect($success_url);
             }
         } catch (\Exception $e) {
-        // do nothing
+            // do nothing
         }
         return $this->render(
             'admin/ui/panel/section/content/content.html.twig', ['content' => $content]
