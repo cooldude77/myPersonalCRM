@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\UI\Panel\Components;
+namespace App\Controller\Component\UI\Panel\Components;
 
 use App\Service\Admin\Action\Exception\EmptyActionListMapException;
 use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;

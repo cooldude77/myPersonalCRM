@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Admin\UI\Panel\Components;
+namespace App\Controller\Admin\Customer;
 
-use App\Controller\Admin\UI\PanelMainController;
+use App\Controller\Component\UI\PanelMainController;
 use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
 use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class PanelSideBarController extends AbstractController
+class SideBarController extends AbstractController
 {
 
     public function sideBar(RoleBasedSideBarList $roleBasedSideBarList,
@@ -24,20 +24,22 @@ class PanelSideBarController extends AbstractController
 
             $role = 'ROLE_CUSTOMER';
 
+            $sideBar = $roleBasedSideBarList->getListBasedOnRole(
+                $role,
+                $this->generateUrl(
+                    $session
+                        ->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY)
+                )
+            );
+
+            return $this->render(
+                'admin/ui/panel/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
+            );
         } catch (UserNotLoggedInException $e) {
             return new Response("Not Authorized", 403);
         } catch (UserNotAssociatedWithACustomerException $e) {
-            $role = 'ROLE_EMPLOYEE';
+
+            return new Response("Not Authorized", 403);
         }
-
-        $sideBar = $roleBasedSideBarList->getListBasedOnRole(
-            $role,
-            $this->generateUrl($session
-            ->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY))
-        );
-        return $this->render(
-            'admin/ui/panel/section/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
-        );
-
     }
 }

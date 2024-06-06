@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\UI;
+namespace App\Controller\Component\UI;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

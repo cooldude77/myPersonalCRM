@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Controller\Security\Admin\Customer\Profile;
+namespace App\Controller\Admin\Customer;
 
-use App\Controller\Admin\UI\PanelMainController;
+use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
+use App\Controller\Component\UI\PanelMainController;
 use App\Controller\MasterData\Customer\Address\CustomerAddressController;
 use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Controller is for showing panel to customers
  * The sidebar is created on basis of action list inside Sidebar panel
  */
-class MyProfilePageController extends AbstractController
+class MainController extends AbstractController
 {
     public function __construct(private readonly CustomerFromUserFinder $customerFromUserFinder)
     {
@@ -25,6 +27,24 @@ class MyProfilePageController extends AbstractController
     {
         $session = $request->getSession();
         $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my_profile_panel');
+
+        $session->set(
+            PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_NAME, SideBarController::class
+        );
+        $session->set(
+            PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME,
+            'sideBar'
+        );
+
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
+        );
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
+            'header'
+        );
+
+
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Security\External\Credentials;
 
-use App\Controller\Security\Admin\Customer\NoRedirectParameterSetException;
 use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Form\Security\User\DTO\SignUpSimpleDTO;
 use App\Form\Security\User\SignUpAdvancedForm;
@@ -14,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class SignUpController extends AbstractController
