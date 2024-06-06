@@ -2,11 +2,11 @@
 
 namespace App\Controller\Module\WebShop\External\Product;
 
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
@@ -21,9 +21,16 @@ class ProductController extends AbstractController
         );
     }
 
-    public function list(ProductRepository $productRepository, Request $request): Response
-    {
-        $products = $productRepository->findAll();
+    public function list(ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response {
+        if ($request->get('category') != null) {
+            $category = $categoryRepository->findOneBy(['name' => $request->get('category')]);
+            $products = $productRepository->findBy(['category' => $category]);
+        } else {
+            $products = $productRepository->findAll();
+        }
         return $this->render(
             'module/web_shop/external/product/web_shop_product_list.html.twig',
             ['products' => $products]
