@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Actual functional routes will be called here
+ */
 class PanelContentController extends AbstractController
 {
 

@@ -124,8 +124,14 @@ class PanelActionListMapBuilder
                     ],
                     'my_orders' => [
                         'routes' => [
-                            'list' => 'my_orders_list',
+                            'list' => 'my_order_list',
                             'display' => 'web_shop_display',
+                        ]
+                    ],
+                    'my_addresses' => [
+                        'routes' => [
+                            'list' => 'my_address_list',
+                            'display' => 'my_address_display',
                         ]
                     ],
                 ]

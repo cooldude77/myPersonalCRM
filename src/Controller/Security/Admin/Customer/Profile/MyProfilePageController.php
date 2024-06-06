@@ -2,29 +2,59 @@
 
 namespace App\Controller\Security\Admin\Customer\Profile;
 
-use App\Controller\Admin\UI\Panel\Components\PanelHomeController;
 use App\Controller\Admin\UI\PanelMainController;
+use App\Controller\MasterData\Customer\Address\CustomerAddressController;
+use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller is for showing panel to customers
+ * The sidebar is created on basis of action list inside Sidebar panel
+ */
 class MyProfilePageController extends AbstractController
 {
-
+    public function __construct(private readonly CustomerFromUserFinder $customerFromUserFinder)
+    {
+    }
 
     #[Route('/my/profile', name: 'my_profile_panel')]
     public function profile(Request $request): Response
     {
         $session = $request->getSession();
         $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my_profile_panel');
+
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
+
     }
 
-    #[Route('/my/addresses', name: 'my_address')]
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     * @throws \App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException
+     * @throws \App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException
+     *
+     *
+     *           Url can be called separately
+     *
+     *           Or it will display inside PanelContentController thru
+     * The call will happen like profile -> main panel -> content panel->get url from route in
+     * get and then arrive here from that url .
+     * This method supplies the result of forward to reusable address controller
+     *
+     * -> final result gets shown in content controller
+     *
+     */
+    #[Route('/my/addresses', name: 'my_address_list')]
     public function addresses(Request $request): Response
     {
-
+        $customer = $this->customerFromUserFinder->getLoggedInCustomer();
+        return $this->forward(CustomerAddressController::class . '::list', [
+            'id' => $customer->getId(),
+            'request' => $request]);
     }
 
     #[Route('/my/orders', name: 'my_orders_list')]
@@ -36,6 +66,7 @@ class MyProfilePageController extends AbstractController
     #[Route('/my/personal-data', name: 'my_personal_data')]
     public function personal(Request $request): Response
     {
+        return new Response("Hello");
     }
 
 
