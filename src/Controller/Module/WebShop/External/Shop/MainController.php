@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ShopController extends AbstractController
+class MainController extends AbstractController
 {
 
     public function shop(Request $request, SessionInterface $session): Response

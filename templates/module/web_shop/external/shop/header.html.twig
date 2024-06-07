@@ -1,0 +1,14 @@
+<div>
+
+    <div>Logo</div>
+
+    <div>{{ form(form) }}</div>
+
+    <div><a href="{{ path('my_profile_panel') }}">Profile</a></div>
+
+    {% if (app.user is defined) %}
+        <div><a href="{{ path('app_login') }}">Login </a></div>
+    {% else %}
+        <div><a href="{{ path('app_logout') }}">Logout</a></div>
+    {% endif %}
+</div>

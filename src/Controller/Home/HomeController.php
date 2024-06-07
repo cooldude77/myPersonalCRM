@@ -3,7 +3,7 @@
 namespace App\Controller\Home;
 
 // ...
-use App\Controller\Module\WebShop\External\Shop\ShopController;
+use App\Controller\Module\WebShop\External\Shop\MainController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function home( Request $request): Response
     {
-        return $this->forward(ShopController::class.'::'.'shop',['request'=>$request]);
+        return $this->forward(MainController::class.'::'.'shop',['request'=>$request]);
     }
 
 }
