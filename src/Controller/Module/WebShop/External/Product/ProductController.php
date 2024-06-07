@@ -25,16 +25,31 @@ class ProductController extends AbstractController
         CategoryRepository $categoryRepository,
         Request $request
     ): Response {
-        if ($request->get('category') != null) {
+
+        if ($request->query->get('category') != null) {
+
             $category = $categoryRepository->findOneBy(['name' => $request->get('category')]);
             $products = $productRepository->findBy(['category' => $category]);
         } else {
             $products = $productRepository->findAll();
         }
+
         return $this->render(
             'module/web_shop/external/product/web_shop_product_list.html.twig',
             ['products' => $products]
         );
+    }
+
+    public function listBySearchTerm(Request $request, ProductRepository $productRepository
+    ): Response {
+        $products = $productRepository->search($request->get('searchTerm'));
+
+        return $this->render(
+            'module/web_shop/external/product/web_shop_product_list.html.twig',
+            ['products' => $products]
+        );
+
+
     }
 
 }

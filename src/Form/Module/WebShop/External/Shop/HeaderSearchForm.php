@@ -3,6 +3,7 @@
 namespace App\Form\Module\WebShop\External\Shop;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -13,6 +14,7 @@ class HeaderSearchForm extends AbstractType
     {
 
         $builder->add('searchTerm', TextType::class, ['required' => false]);
+        $builder->add('Search', SubmitType::class);
 
 
     }

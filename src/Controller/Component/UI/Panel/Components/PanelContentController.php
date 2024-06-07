@@ -36,44 +36,47 @@ class PanelContentController extends AbstractController
         if ($session->get(self::CONTENT_CONTROLLER_CLASS_NAME) != null and
             $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME) != null
         ) {
-            return $this->forward(
+            $response = $this->forward(
                 $session->get(self::CONTENT_CONTROLLER_CLASS_NAME)
                 . "::"
                 . $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME),
                 ['request' => $request]
             );
-        }
+        } elseif ($request->get('_function') != null) {
+            $function = $request->get('_function');
 
-        $function = $request->get('_function');
+            $type = $request->get('_type');
 
-        $type = $request->get('_type');
+            // special case when not calling any function, goto home
+            if ($function == null && $type == null) {
+                return $this->render(
+                    'admin/ui/panel/section/content/content.html.twig',
+                    ['content' => "This is home"]
+                );
+            }
 
-        // special case when not calling any function, goto home
-        if ($function == null && $type == null) {
-            return $this->render(
-                'admin/ui/panel/section/content/content.html.twig', ['content' => "This is home"]
+            $routeName = $builder->build()->getPanelActionListMap()->getRoute(
+                $function, $type
             );
+
+            // call controller
+            $callRoute = $router->getRouteCollection()->get($routeName);
+
+            if ($callRoute == null) {
+                throw  new RouteNotFoundException($routeName);
+            }
+
+            $controllerAction = $callRoute->getDefault('_controller');
+            $params = ['request' => $request];
+            if (!empty($request->get('id'))) {
+                $params['id'] = $request->get('id');
+            }
+
+            $response = $this->forward(
+                $controllerAction, $params, $request->query->all()
+            );
+
         }
-
-        $routeName = $builder->build()->getPanelActionListMap()->getRoute(
-            $function, $type
-        );
-
-        // call controller
-        $callRoute = $router->getRouteCollection()->get($routeName);
-
-        if ($callRoute == null) {
-            throw  new RouteNotFoundException($routeName);
-        }
-
-        $controllerAction = $callRoute->getDefault('_controller');
-        $params = ['request' => $request];
-        if (!empty($request->get('id'))) {
-            $params['id'] = $request->get('id');
-        }
-        $response = $this->forward(
-            $controllerAction, $params, $request->query->all()
-        );
 
         $content = $response->getContent();
 

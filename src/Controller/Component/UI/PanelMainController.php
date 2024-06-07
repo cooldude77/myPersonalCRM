@@ -2,7 +2,9 @@
 
 namespace App\Controller\Component\UI;
 
+use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,7 +27,18 @@ class PanelMainController extends AbstractController
      */
     public function main(Request $request): Response
     {
-        return $this->render('admin/ui/panel/panel_main.html.twig', ['request' => $request]);
+        $headerResponse = $this->forward(
+            PanelHeaderController::class . '::' . 'header',
+            ['request' => $request]
+        );
+
+        if ($headerResponse instanceof RedirectResponse) {
+            return $this->redirect($headerResponse->getTargetUrl());
+        }
+
+        return $this->render('admin/ui/panel/panel_main.html.twig', [
+            'header' => $headerResponse->getContent(),
+            'request' => $request]);
     }
 
 }

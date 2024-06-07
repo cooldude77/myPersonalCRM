@@ -14,6 +14,14 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class MainController extends AbstractController
 {
 
+    /**
+     * @param Request          $request
+     * @param SessionInterface $session
+     *
+     * @return Response
+     *
+     * Home redirects to here
+     */
     public function shop(Request $request, SessionInterface $session): Response
     {
 

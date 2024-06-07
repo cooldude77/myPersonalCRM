@@ -12,9 +12,7 @@
     // so always pass request as a parameter
     {{ dump(request.query) }}
     #}
-    {{ render(controller(
-        'App\\Controller\\Component\\UI\\Panel\\Components\\PanelHeaderController::header',{'request':request}
-    )) }}
+   {{ header | raw }}
 {% endblock %}
 
 
