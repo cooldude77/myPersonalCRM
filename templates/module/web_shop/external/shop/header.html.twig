@@ -4,11 +4,14 @@
 
     <div>{{ form(form,{'action': path('home')}) }}</div>
 
-    <div><a href="{{ path('my_profile_panel') }}">Profile</a></div>
+    {% if (app.user) %}
+        <div><a href="{{ path('my_profile_panel') }}">Profile</a></div>
+    {% endif %}
 
-    {% if (app.user is defined) %}
-        <div><a href="{{ path('app_login') }}">Login </a></div>
-    {% else %}
+    {% if (app.user) %}
         <div><a href="{{ path('app_logout') }}">Logout</a></div>
+    {% else %}
+        <div><a href="{{ path('app_login') }}">Login </a></div>
+
     {% endif %}
 </div>
