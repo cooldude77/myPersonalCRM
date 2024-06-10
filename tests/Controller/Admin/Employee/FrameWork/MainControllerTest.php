@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Tests\Controller\Admin\UI;
+namespace App\Tests\Controller\Admin\Employee\FrameWork;
 
-use App\Factory\EmployeeFactory;
 use App\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
-class PanelMainControllerTest extends WebTestCase
+class MainControllerTest extends WebTestCase
 {
-    use HasBrowser,AuthenticateTestEmployee;
+    use HasBrowser, AuthenticateTestEmployee;
 
     public function testAdmin()
     {
@@ -17,7 +16,7 @@ class PanelMainControllerTest extends WebTestCase
         $uri = '/admin';
         $this->browser()->visit($uri)->assertNotAuthenticated();
 
-         $browser = $this->browser();
+        $browser = $this->browser();
         $client = $browser->client();
 
         $this->authenticateEmployee($client);
@@ -45,9 +44,13 @@ class PanelMainControllerTest extends WebTestCase
             ->visit($uri)
             ->click('a#sidebar-link-web-shop-list')
             ->followRedirects()
+            ->assertSuccessful()
+            ->visit($uri)
+            ->click('a#sidebar-link-settings')
+            ->followRedirects()
             ->assertSuccessful();
 
-         //todo: intercept redirects
+        //todo: intercept redirects
         // todo: check for country/city/state/postal code
 
         /*
@@ -66,7 +69,4 @@ class PanelMainControllerTest extends WebTestCase
                     )->click('Save')->assertSuccessful();
           */
     }
-
-
-
 }
