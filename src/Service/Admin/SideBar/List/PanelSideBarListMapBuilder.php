@@ -184,6 +184,20 @@ class PanelSideBarListMapBuilder
                                 ]
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
+                        ],                   [
+                            'id' => 'settings',
+                            'header_text' => 'Settings',
+                            'items' => [
+                                [
+                                    'url' => $this->append(
+                                        $adminUrl,
+                                        'settings'
+                                    ),
+                                    'text' => 'Settings',
+                                    'css-id' => 'sidebar-link-settings'
+                                ]
+                            ],
+                            'roles' => ['ROLE_EMPLOYEE'],
                         ],
                         [
                             'id' => 'my-orders',

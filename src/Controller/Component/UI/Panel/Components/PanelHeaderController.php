@@ -14,12 +14,18 @@ class PanelHeaderController extends AbstractController
 
     public function header(Request $request, SessionInterface $session): Response
     {
-        return $this->forward(
+        $response = $this->forward(
             $session->get(self::HEADER_CONTROLLER_CLASS_NAME)
             . "::"
             . $session->get(self::HEADER_CONTROLLER_CLASS_METHOD_NAME),
             ['request' => $request]
         );
+
+        // clear session variables after content has been retrieved
+        $session->set(self::HEADER_CONTROLLER_CLASS_NAME, null);
+        $session->set(self::HEADER_CONTROLLER_CLASS_METHOD_NAME, null);
+
+        return $response;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Customer;
+namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;

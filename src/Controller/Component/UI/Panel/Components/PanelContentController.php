@@ -42,6 +42,11 @@ class PanelContentController extends AbstractController
                 . $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME),
                 ['request' => $request]
             );
+
+            // clear session variables after content has been retrieved
+            $session->set(self::CONTENT_CONTROLLER_CLASS_NAME, null);
+            $session->set(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME, null);
+
         } elseif ($request->get('_function') != null) {
             $function = $request->get('_function');
 

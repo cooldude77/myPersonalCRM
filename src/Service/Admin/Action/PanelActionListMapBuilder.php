@@ -106,6 +106,11 @@ class PanelActionListMapBuilder
                             'list' => 'file_list'
                         ]
                     ],
+                    'settings' => [
+                        'routes' => [
+                            'list' => 'system_settings'
+                        ]
+                    ],
                     'category_file_image' => [
                         'routes' => [
                             'create' => 'category_file_image_create',

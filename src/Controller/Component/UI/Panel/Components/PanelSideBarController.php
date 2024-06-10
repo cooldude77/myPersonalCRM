@@ -40,12 +40,18 @@ class PanelSideBarController extends AbstractController
            );
           */
 
-        return $this->forward(
+        $response = $this->forward(
             $session->get(self::SIDE_BAR_CONTROLLER_CLASS_NAME)
             . "::"
             . $session->get(self::SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME),
             ['request' => $request]
         );
+
+        // clear session variables after content has been retrieved
+        $session->set(self::SIDE_BAR_CONTROLLER_CLASS_NAME, null);
+        $session->set(self::SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME, null);
+
+        return $response;
 
     }
 }

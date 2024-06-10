@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Customer;
+namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\Component\UI\PanelMainController;
 use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
