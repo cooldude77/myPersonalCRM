@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
-    public function home($name, ProductRepository $productRepository, Request $request): Response
+    public function single($name, ProductRepository $productRepository, Request $request): Response
     {
         $product = $productRepository->findOneBy(['name' => $name]);
         return $this->render(

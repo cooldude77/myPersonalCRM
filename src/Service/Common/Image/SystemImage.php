@@ -18,4 +18,9 @@ class SystemImage
         return $this->projectDirectory . '/public/assets/images/' . 'no_image.png';
 
     }
+
+    public function getLogoPath():string
+    {
+        return $this->projectDirectory . '/public/assets/images/' . 'logo.png';
+    }
 }
