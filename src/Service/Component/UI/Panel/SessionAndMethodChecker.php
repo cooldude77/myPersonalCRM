@@ -8,17 +8,28 @@ class SessionAndMethodChecker
 {
 
 
-    public function __construct(private  readonly RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 
-    public function checkSessionVariablesAndMethod(string $className,string $methodName):bool{
+    public function checkSessionVariablesAndMethod(string $className, string $methodName): bool
+    {
+        $a = $this->requestStack->getSession()->get($className) != null;
 
-        return $this->requestStack->getSession()->get($className) != null
-        && $this->requestStack->getSession()->get($methodName)
-        && method_exists(
-            $className,
-            $methodName
+        $b = $this->requestStack->getSession()->get($methodName) != null;
+
+        // return if they don't exist in session
+        if (!($a || $b)) {
+            return false;
+        }
+
+        // check if they exist in code
+        $c = method_exists(
+            $this->requestStack->getSession()->get($className),
+            $this->requestStack->getSession()->get($methodName)
         );
+
+
+        return $c;
     }
 }

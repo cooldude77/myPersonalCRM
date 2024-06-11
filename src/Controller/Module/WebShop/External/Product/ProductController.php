@@ -20,7 +20,7 @@ class ProductController extends AbstractController
     Response {
 
         $session = $request->getSession();
-        
+
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
         );
