@@ -1,5 +1,5 @@
 {# templates/admin/ui/panel/panel_admin.html.twig #}
-{% extends 'base/admin_base_template.html.twig' %}
+{% extends app.session.get( constant('App\\Controller\\Component\\UI\\PanelMainController::BASE_TEMPLATE')) %}
 
 
 {% block header %}

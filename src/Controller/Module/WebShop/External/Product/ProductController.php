@@ -35,6 +35,11 @@ class ProductController extends AbstractController
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
             'single'
         );
+        $session->set(
+            PanelMainController::BASE_TEMPLATE,
+            'module/web_shop/external/base/web_shop_base_template.html.twig'
+        );
+
         $request->query->set('name', $name);
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
