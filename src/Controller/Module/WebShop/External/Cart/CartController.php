@@ -77,11 +77,9 @@ class CartController extends AbstractController
 
         }
 
-        $products = $cartService->getProductListFromCartArray();
         return $this->render(
             'module/web_shop/external/cart/cart_list.html.twig',
             [
-                'products' => $products,
                 'form' => $form
             ]
         );
@@ -133,9 +131,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
-        CartSessionService $cartService,
-        Request $request,
-        RouterInterface $router
+        CartSessionService $cartService
     ):
     Response {
 

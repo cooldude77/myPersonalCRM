@@ -7,7 +7,7 @@
         <div class="row">
             {# form_row does not work well. Shows label as indexes #}
 
-            {% include 'module/web_shop/external/cart/cart_single_product.html.twig' with {'product': products[loop.index-1] } %}
+            {% include 'module/web_shop/external/cart/cart_single_product.html.twig' with {'product': element.vars.productId } %}
             {{ form_widget(element) }}
         </div>
     {% endfor %}
