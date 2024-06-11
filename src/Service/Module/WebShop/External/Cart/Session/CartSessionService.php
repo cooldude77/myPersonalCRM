@@ -2,6 +2,7 @@
 
 namespace App\Service\Module\WebShop\External\Cart\Session;
 
+use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -12,26 +13,12 @@ class CartSessionService
 
     private Session $session;
 
-    public function __construct(private readonly RequestStack $requestStack)
-    {
+    public function __construct(private readonly RequestStack $requestStack,
+        private readonly ProductRepository $productRepository
+    ) {
         // Accessing the session in the constructor is *NOT* recommended, since
         // it might not be accessible yet or lead to unwanted side-effects
         // $this->session = $requestStack->getSession();
-    }
-
-    public function initialize(): void
-    {
-        $this->session = $this->requestStack->getSession();
-
-        if (empty($this->session->get(self::CART_SESSION_KEY))) {
-            $this->setCartArrayInSession();
-        }
-    }
-
-    private function setCartArrayInSession(array $array = []): void
-    {
-        // always serialize
-        $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
     public function addItemToCart(CartSessionObject $cartObject): void
@@ -63,6 +50,21 @@ class CartSessionService
         $x = $this->session->get(self::CART_SESSION_KEY);
 
         return $x;
+    }
+
+    public function initialize(): void
+    {
+        $this->session = $this->requestStack->getSession();
+
+        if (empty($this->session->get(self::CART_SESSION_KEY))) {
+            $this->setCartArrayInSession();
+        }
+    }
+
+    private function setCartArrayInSession(array $array = []): void
+    {
+        // always serialize
+        $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
     public function clearCart(): void
@@ -104,6 +106,12 @@ class CartSessionService
     public function validateBeforeOrder()
     {
         // todo
+    }
+
+    public function getProductListFromCartArray():array
+    {
+
+       return $this->productRepository->findBy(['id' => array_keys($this->getCartArray())]);
     }
 
 

@@ -52,7 +52,7 @@ class ProductController extends AbstractController
 
         $product = $productRepository->findOneBy(['name' => $request->query->get('name')]);
         return $this->render(
-            'module/web_shop/external/product/page/web_shop_single_product_display_page.html.twig',
+            'module/web_shop/external/product/web_shop_single_product.html.twig',
             ['product' => $product]
         );
     }

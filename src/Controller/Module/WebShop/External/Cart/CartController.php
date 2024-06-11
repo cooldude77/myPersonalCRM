@@ -2,6 +2,10 @@
 
 namespace App\Controller\Module\WebShop\External\Cart;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\PanelMainController;
+use App\Controller\Module\WebShop\External\Shop\HeaderController;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
@@ -23,7 +27,36 @@ class CartController extends AbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function cart(CartSessionToDTOMapper $cartDTOMapper, CartSessionService $cartService,
+    public function main(Request $request): Response
+    {
+
+
+        $session = $request->getSession();
+
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
+        );
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
+            'header'
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, self::class
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+            'list'
+        );
+        $session->set(
+            PanelMainController::BASE_TEMPLATE,
+            'module/web_shop/external/base/web_shop_base_template.html.twig'
+        );
+
+        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
+
+    }
+
+    public function list(CartSessionToDTOMapper $cartDTOMapper, CartSessionService $cartService,
         Request $request
     ): Response {
 
@@ -36,19 +69,21 @@ class CartController extends AbstractController
 
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var ArrayCollection $array */
             $array = $form->getData()['items'];
             $cartService->updateItemArray($array);
 
-            //     if($form->get('cart')->isClicked())
-            // $x = 10;
         }
 
-        return $this->render('module/web_shop/external/cart/page/cart_page.html.twig', ['form' =>
-                                                                                            $form]
+        $products = $cartService->getProductListFromCartArray();
+        return $this->render(
+            'module/web_shop/external/cart/cart_list.html.twig',
+            [
+                'products' => $products,
+                'form' => $form
+            ]
         );
     }
 
