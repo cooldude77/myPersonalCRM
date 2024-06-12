@@ -15,7 +15,7 @@ use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
 /**
  *
  */
-class OrderService
+class OrderSave
 {
 
     /**
@@ -38,42 +38,28 @@ class OrderService
     ) {
     }
 
+
     /**
-     * @return OrderHeader
+     * @return void
      */
-    public function mapAndPersist(): OrderHeader
+    public function initializeFromCartAndSave(): void
     {
-        $this->orderPreMapAndPersistChecks();
+
 
         $orderHeader = $this->orderHeaderMapper->map();
-
-        $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
-        $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);
+        $x = OrderStatusTypes::ORDER_CREATED;
         $orderStatus = $this->orderStatusMapper->mapAndSetHeader(
             $orderHeader,
             OrderStatusTypes::ORDER_CREATED,
             "note" //todo
         );
 
+
         $this->databaseOperations->persist($orderHeader);
-        foreach ($orderItems as $item) {
-            $this->databaseOperations->persist($item);
-        }
-        $this->databaseOperations->persist($orderAddresses);
         $this->databaseOperations->persist($orderStatus);
 
+        $this->databaseOperations->flush();
 
-        return $orderHeader;
-
-    }
-
-    /**
-     * @return void
-     */
-    private function orderPreMapAndPersistChecks()
-    {
-
-        // todo
     }
 
     /**
@@ -94,5 +80,48 @@ class OrderService
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();
 
+    }
+
+    /**
+     * @return OrderHeader
+     */
+    public function mapAndPersist(): OrderHeader
+    {
+        $this->orderPreMapAndPersistChecks();
+
+        $orderHeader = $this->orderHeaderMapper->map();
+
+        $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
+        $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);
+        $orderStatus = $this->orderStatusMapper->mapAndSetHeader(
+            $orderHeader,
+            OrderStatusTypes::ORDER_CREATED,
+            "note" //todo
+        );
+
+        // validate
+
+        $this->databaseOperations->persist($orderHeader);
+
+        foreach ($orderItems as $item) {
+            $this->databaseOperations->persist($item);
+        }
+
+
+        $this->databaseOperations->persist($orderAddresses);
+        $this->databaseOperations->persist($orderStatus);
+
+
+        return $orderHeader;
+
+    }
+
+    /**
+     * @return void
+     */
+    private function orderPreMapAndPersistChecks()
+    {
+
+        // todo
     }
 }

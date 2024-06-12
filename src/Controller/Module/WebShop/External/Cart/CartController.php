@@ -6,18 +6,21 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Module\WebShop\External\Cart\CartEvent;
+use App\Event\Module\WebShop\External\Cart\CartEventTypes;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Serviec\Module\WebShop\External\Cart\PriceService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,16 +57,24 @@ class CartController extends AbstractController
             'module/web_shop/external/base/web_shop_base_template.html.twig'
         );
 
+
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 
     }
 
-    public function list(CartSessionToDTOMapper $cartDTOMapper, CartSessionService $cartService,
+    public function list(CartSessionToDTOMapper $cartDTOMapper,
+        CartSessionProductService $cartService,
+        EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
 
 
-        $cartService->initialize();
+        if (!$cartService->isInitialized()) {
+
+            $cartService->initialize();
+            $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_INITIALIZED);
+        }
+
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -89,7 +100,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
-        CartSessionService $cartService,
+        CartSessionProductService $cartService,
         Request $request,
         RouterInterface $router
     ):
@@ -133,7 +144,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
-        CartSessionService $cartService
+        CartSessionProductService $cartService
     ):
     Response {
 
@@ -146,7 +157,7 @@ class CartController extends AbstractController
 
     #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
     public function clear(
-        CartSessionService $cartService
+        CartSessionProductService $cartService
     ):
     Response {
 
@@ -161,7 +172,7 @@ class CartController extends AbstractController
      */
     public function single(string $id, ProductRepository $productRepository,
         PriceService $priceService,
-        CartSessionService $cartSessionService
+        CartSessionProductService $cartSessionService
     ):
     Response {
 

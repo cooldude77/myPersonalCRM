@@ -8,7 +8,10 @@ use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class CartSessionService
+/**
+ * Handling product functionality in cart
+ */
+class CartSessionProductService
 {
     public final const string CART_SESSION_KEY = '_WEB_SHOP_CART';
 
@@ -53,6 +56,21 @@ class CartSessionService
         return $x;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isInitialized():bool
+    {
+        $this->session = $this->requestStack->getSession();
+
+        return !empty($this->session->get(self::CART_SESSION_KEY));
+
+    }
+
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         $this->session = $this->requestStack->getSession();
@@ -67,6 +85,7 @@ class CartSessionService
         // always serialize
         $this->session->set(self::CART_SESSION_KEY, $array);
     }
+
 
     public function clearCart(): void
     {

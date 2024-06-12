@@ -2,7 +2,8 @@
 
 namespace App\Controller\Module\WebShop\External\Order;
 
-use App\Service\Module\WebShop\External\Order\OrderService;
+use App\Service\Module\WebShop\External\Order\CartToOrderService;
+use App\Service\Module\WebShop\External\Order\OrderSave;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,8 +11,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class OrderCreateController extends AbstractController
 {
 
+    // to be called when cart is first created
+    public function initialize(CartToOrderService $cartToOrderService){
+
+
+
+    }
+
     /**
-     * @param OrderService $orderService
+     * @param OrderSave $orderService
      *
      * @return Response
      *
@@ -19,7 +27,7 @@ class OrderCreateController extends AbstractController
      *  Payment info to be added later
      */
     #[Route('/web-shop/order/create', 'web_shop_create_order')]
-    public function create(OrderService $orderService): Response
+    public function create(OrderSave $orderService): Response
     {
 
         $orderHeader = $orderService->mapAndPersist();

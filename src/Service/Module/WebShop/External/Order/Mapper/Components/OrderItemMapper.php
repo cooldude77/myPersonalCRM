@@ -6,11 +6,11 @@ use App\Entity\OrderHeader;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
 use App\Service\MasterData\Product\ProductService;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 class OrderItemMapper
 {
-    public function __construct(private readonly CartSessionService $cartSessionService,
+    public function __construct(private readonly CartSessionProductService $cartSessionService,
         private readonly OrderItemRepository $orderItemRepository,
         private readonly ProductRepository $productRepository
     ) {
