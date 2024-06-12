@@ -2,6 +2,7 @@
 
 namespace App\Service\Module\WebShop\External\Cart\Session;
 
+use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -108,10 +109,20 @@ class CartSessionService
         // todo
     }
 
-    public function getProductListFromCartArray():array
+    public function getProductListFromCartArray(): array
     {
 
-       return $this->productRepository->findBy(['id' => array_keys($this->getCartArray())]);
+        return $this->productRepository->findBy(['id' => array_keys($this->getCartArray())]);
+    }
+
+    public function getQuantity(string $id): int
+    {
+
+        if (!array_key_exists($id, $this->getCartArray())) {
+            throw new ProductNotFoundInCart($id);
+        }
+
+        return $this->getCartArray()[$id]->quantity;
     }
 
 

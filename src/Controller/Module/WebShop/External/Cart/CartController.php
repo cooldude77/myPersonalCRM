@@ -6,6 +6,7 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
@@ -13,6 +14,7 @@ use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Serviec\Module\WebShop\External\Cart\PriceService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -153,5 +155,33 @@ class CartController extends AbstractController
         return new Response("Cart Cleared");
 
     }
+
+    /**
+     * @throws ProductNotFoundInCart
+     */
+    public function single(string $id, ProductRepository $productRepository,
+        PriceService $priceService,
+        CartSessionService $cartSessionService
+    ):
+    Response {
+
+        $product = $productRepository->find($id);
+
+        $quantity = $cartSessionService->getQuantity($id);
+
+        $price = $priceService->getPrice($id);
+
+
+        return $this->render(
+            'module/web_shop/external/cart/cart_single_product.html.twig',
+            [
+                'product' => $product,
+                'price' => $price,
+                'quantity' => $quantity,
+                'current' => $price->getCurrency()
+            ]
+        );
+    }
+
 
 }
