@@ -50,7 +50,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->product);
+                $this->createCartInSession($this->session,$this->productA);
 
             })
             ->interceptRedirects()
@@ -67,7 +67,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->product);
+                $this->createCartInSession($this->session,$this->productA);
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -82,7 +82,7 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->product);
+                $this->createCartInSession($this->session,$this->productA);
             })
             ->interceptRedirects()
             ->visit($uri)

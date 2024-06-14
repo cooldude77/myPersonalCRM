@@ -2,26 +2,33 @@
 
 namespace App\Tests\Fixtures;
 
-use App\Entity\Category;
 use App\Entity\Currency;
 use App\Entity\PriceProductBase;
 use App\Entity\Product;
-use App\Factory\CategoryFactory;
-use App\Factory\CurrencyFactory;
 use App\Factory\PriceProductBaseFactory;
-use App\Factory\ProductFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait PriceFixture
 {
 
-    public PriceProductBase|Proxy $price;
+    public PriceProductBase|Proxy $priceProductBaseA;
+    public PriceProductBase|Proxy $priceProductBaseB;
 
-    function createPriceFixtures(Proxy|Product $product,Proxy|Currency $currency): void
-    {
+    public float $priceOfProductA = 100;
+    public float $priceOfProductB = 200;
 
-        $this->price = PriceProductBaseFactory::createOne(['product'=>$product,
-                                                           'currency'=>$currency]);
+    function createPriceFixtures(Proxy|Product $productA, Proxy|Product $productB,
+        Proxy|Currency $currency
+    ): void {
+
+        $this->priceProductBaseA = PriceProductBaseFactory::createOne(['product' => $productA,
+                                                                       'currency' => $currency,
+                                                                       'price' => $this->priceOfProductA]
+        );
+        $this->priceProductBaseB = PriceProductBaseFactory::createOne(['product' => $productB,
+                                                                       'currency' => $currency,
+                                                                       'price' => $this->priceOfProductB]
+        );
 
     }
 

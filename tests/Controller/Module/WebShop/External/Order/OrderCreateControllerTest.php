@@ -47,10 +47,10 @@ class OrderCreateControllerTest extends WebTestCase
 
                 $this->createProductFixtures();
                 $this->createCurrencyFixtures($this->country);
-                $this->createPriceFixtures($this->product, $this->currency);
+                $this->createPriceFixtures($this->productA,$this->productB, $this->currency);
 
                 $this->createSession($browser);
-                $this->createCartInSession($this->session, $this->product);
+                $this->createCartInSession($this->session, $this->productA);
 
                 $this->createCustomer();
                 $this->createCustomerAddress($this->customer);
