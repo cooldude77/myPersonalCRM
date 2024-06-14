@@ -16,6 +16,7 @@ use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use App\Serviec\Module\WebShop\External\Cart\PriceService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
@@ -65,15 +66,17 @@ class CartController extends AbstractController
     public function list(CartSessionToDTOMapper $cartDTOMapper,
         CartSessionProductService $cartService,
         EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder,
         Request $request
     ): Response {
 
-
-        if (!$cartService->isInitialized()) {
-
-            $cartService->initialize();
-            $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_INITIALIZED);
-        }
+        $cartService->initialize();
+        //todo handle exception`
+        $eventDispatcher->dispatch(
+            new CartEvent(
+                $customerFromUserFinder->getLoggedInCustomer()),
+            CartEventTypes::POST_CART_INITIALIZED
+        );
 
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());

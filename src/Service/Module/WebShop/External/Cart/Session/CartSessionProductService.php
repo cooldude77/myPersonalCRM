@@ -56,18 +56,6 @@ class CartSessionProductService
         return $x;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isInitialized():bool
-    {
-        $this->session = $this->requestStack->getSession();
-
-        return !empty($this->session->get(self::CART_SESSION_KEY));
-
-    }
-
     /**
      * @return void
      */
@@ -86,6 +74,16 @@ class CartSessionProductService
         $this->session->set(self::CART_SESSION_KEY, $array);
     }
 
+    /**
+     * @return bool
+     */
+    public function isInitialized(): bool
+    {
+        $this->session = $this->requestStack->getSession();
+
+        return !empty($this->session->get(self::CART_SESSION_KEY));
+
+    }
 
     public function clearCart(): void
     {
@@ -142,6 +140,12 @@ class CartSessionProductService
         }
 
         return $this->getCartArray()[$id]->quantity;
+    }
+
+    public function isCartEmpty(): bool
+    {
+
+        return count($this->getCartArray()) == 0;
     }
 
 

@@ -65,9 +65,11 @@ class OrderStatusRepository extends ServiceEntityRepository
     public function getOpenOrderQuery(\App\Entity\Customer $customer): \Doctrine\ORM\Query
     {
         return $this->createQueryBuilder('os')
-            ->select('os.orderHeader')
             ->join('os.orderHeader ', 'oh')
             ->where('oh.customer = :customer')
+
+            ->groupBy('oh.id')
+            ->having()
             ->setParameter("customer", $customer)
             ->getQuery();
 

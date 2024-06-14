@@ -2,6 +2,7 @@
 
 namespace App\Service\Module\WebShop\External\Order;
 
+use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use App\Repository\OrderStatusRepository;
 use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
@@ -32,8 +33,6 @@ class OrderSave
         private readonly OrderItemMapper $orderItemMapper,
         private readonly OrderAddressMapper $orderAddressMapper,
         private readonly OrderStatusMapper $orderStatusMapper,
-        private readonly OrderSnapShotCreator $orderSnapShotCreator,
-        private readonly OrderStatusRepository $orderStatusRepository,
         private readonly DatabaseOperations $databaseOperations
     ) {
     }
@@ -42,21 +41,14 @@ class OrderSave
     /**
      * @return void
      */
-    public function initializeFromCartAndSave(): void
+    public function createNewOrderFromCart(Customer $customer): void
     {
 
 
-        $orderHeader = $this->orderHeaderMapper->map();
-        $x = OrderStatusTypes::ORDER_CREATED;
-        $orderStatus = $this->orderStatusMapper->mapAndSetHeader(
-            $orderHeader,
-            OrderStatusTypes::ORDER_CREATED,
-            "note" //todo
-        );
+        $orderHeader = $this->orderHeaderMapper->create($customer);
 
 
         $this->databaseOperations->persist($orderHeader);
-        $this->databaseOperations->persist($orderStatus);
 
         $this->databaseOperations->flush();
 
@@ -71,14 +63,6 @@ class OrderSave
     {
         $this->databaseOperations->flush();
 
-        $snapShot = $this->orderSnapShotCreator->createSnapShot($orderHeader);
-
-        $orderStatus = $this->orderStatusRepository->findOneBy(['orderHeader' => $orderHeader]);
-
-        $orderStatus->setSnapShot($snapShot);
-
-        $this->databaseOperations->persist($orderHeader);
-        $this->databaseOperations->flush();
 
     }
 
@@ -89,7 +73,7 @@ class OrderSave
     {
         $this->orderPreMapAndPersistChecks();
 
-        $orderHeader = $this->orderHeaderMapper->map();
+        $orderHeader = $this->orderHeaderMapper->create();
 
         $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
         $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);
