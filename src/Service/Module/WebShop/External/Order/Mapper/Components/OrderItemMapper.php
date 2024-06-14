@@ -5,7 +5,6 @@ namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
 use App\Entity\OrderHeader;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Product\ProductService;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 class OrderItemMapper
@@ -19,7 +18,7 @@ class OrderItemMapper
     public function mapAndSetHeader(OrderHeader $orderHeader): array
     {
 
-        $orderItems =[];
+        $orderItems = [];
 
         foreach ($this->cartSessionService->getCartArray() as $item) {
 
@@ -34,5 +33,17 @@ class OrderItemMapper
             $orderItems[] = $orderItem;
         }
         return $orderItems;
+    }
+
+    public function createOrderItem(OrderHeader $orderHeader, \App\Entity\Product $product,
+        int $quantity
+    ): \App\Entity\OrderItem {
+        $orderItem = $this->orderItemRepository->create($orderHeader);
+
+        $orderItem->setQuantity($quantity);
+
+        $orderItem->setProduct($product);
+        return $orderItem;
+
     }
 }

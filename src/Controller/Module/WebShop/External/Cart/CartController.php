@@ -6,8 +6,11 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
 use App\Event\Module\WebShop\External\Cart\CartEventTypes;
+use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
+use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
@@ -74,7 +77,8 @@ class CartController extends AbstractController
         //todo handle exception`
         $eventDispatcher->dispatch(
             new CartEvent(
-                $customerFromUserFinder->getLoggedInCustomer()),
+                $customerFromUserFinder->getLoggedInCustomer()
+            ),
             CartEventTypes::POST_CART_INITIALIZED
         );
 
@@ -105,6 +109,8 @@ class CartController extends AbstractController
     public function addToCart($id, ProductRepository $productRepository,
         CartSessionProductService $cartService,
         Request $request,
+        EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder,
         RouterInterface $router
     ):
     Response {
@@ -133,6 +139,16 @@ class CartController extends AbstractController
             $cartService->addItemToCart($cartObject);
 
             // Todo : event after cart update
+            $eventDispatcher->dispatch(
+                new CartItemAddedEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(),
+                    $product,
+                    $cartProductDTO->quantity
+                ),
+                CartEventTypes::ITEM_ADDED_TO_CART
+            );
+
+
 
             return new Response("Product Added Successfully");
 
@@ -147,12 +163,25 @@ class CartController extends AbstractController
 
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
+        EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartService
     ):
     Response {
 
+
+        $product = $productRepository->find($id);
+
         $cartService->initialize();
         $cartService->deleteItem($id);
+
+        $eventDispatcher->dispatch(
+            new CartItemDeletedEvent(
+                $customerFromUserFinder->getLoggedInCustomer(),
+                $product
+            ),
+            CartEventTypes::ITEM_DELETED_FROM_CART
+        );
 
 
         return new Response("Item Deleted");
@@ -160,12 +189,21 @@ class CartController extends AbstractController
 
     #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
     public function clear(
+        EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartService
     ):
     Response {
 
         $cartService->initialize();
         $cartService->clearCart();
+
+        $eventDispatcher->dispatch(
+            new CartClearedByUserEvent(),
+            CartEventTypes::CART_CLEARED_BY_USER
+        );
+
+
         return new Response("Cart Cleared");
 
     }

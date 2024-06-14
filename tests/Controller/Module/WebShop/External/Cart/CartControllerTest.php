@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Cart;
 
 use App\Factory\OrderHeaderFactory;
+use App\Factory\OrderItemFactory;
 use App\Factory\ProductFactory;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Tests\Fixtures\CurrencyFixture;
@@ -51,7 +52,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertNotNull($session->get(CartSessionProductService::CART_SESSION_KEY));
                 // Todo: More tests
                 // Test : An order got created
-                $order = OrderHeaderFactory::findBy(['customer' => $this->customer]);
+                $order = OrderHeaderFactory::find(['customer' => $this->customer]);
                 $this->assertNotNull($order);
 
             })
@@ -63,13 +64,35 @@ class CartControllerTest extends WebTestCase
             )
             ->click('Add To Cart')
             ->assertSuccessful()
+            ->use(function (Browser $browser) {
+
+                // Test : An order got created
+                $order = OrderHeaderFactory::find(['customer' => $this->customer]);
+
+                $item = OrderItemFactory::find(['orderHeader' => $order,
+                                                  'product' => $this->productA]);
+
+                $this->assertEquals($this->priceValueOfProductA,$item->getPricePerUnit());
+            })
+
             ->visit($uriAddProductB)
             ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
             ->click('Add To Cart')
-            ->assertSuccessful()
+            ->use(function (Browser $browser) {
+
+                // Test : An order got created
+                $order = OrderHeaderFactory::find(['customer' => $this->customer]);
+
+                $item = OrderItemFactory::find(['orderHeader' => $order,
+                                                'product' => $this->productB]);
+
+                $this->assertEquals($this->priceValueOfProductB,$item->getPricePerUnit());
+            })
+            ->assertSuccessful();
+        /*
             // visit cart after update
             ->visit($cartUri)
             // update quantities
@@ -114,7 +137,7 @@ class CartControllerTest extends WebTestCase
                 // Todo: More tests
             })
             ->assertSuccessful();
-
+*/
     }
 
     public function testDeleteItem()

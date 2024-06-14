@@ -12,12 +12,18 @@ class DatabaseOperations
 
     }
 
-    public function persist(mixed $entity):void
+    public function persist(mixed $entity): void
     {
         $this->entityManager->persist($entity);
     }
-    public function flush():void
+
+    public function flush(): void
     {
         $this->entityManager->flush();
+    }
+
+    public function remove(mixed $item): void
+    {
+        $this->entityManager->remove($item);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Service\Module\WebShop\External\Order;
 
 use App\Entity\Customer;
 use App\Entity\OrderHeader;
+use App\Entity\OrderItem;
+use App\Entity\Product;
 use App\Repository\OrderStatusRepository;
 use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
@@ -107,5 +109,13 @@ class OrderSave
     {
 
         // todo
+    }
+
+    public function updateOrderAddItem(OrderItem $item):
+    void {
+        // todo: check validity?
+
+        $this->databaseOperations->persist($item);
+        $this->databaseOperations->flush();
     }
 }
