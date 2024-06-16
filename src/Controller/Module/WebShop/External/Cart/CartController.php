@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
-class CartController extends AbstractController
+class  CartController extends AbstractController
 {
     /**
      * @throws Exception
@@ -94,6 +94,14 @@ class CartController extends AbstractController
             /** @var ArrayCollection $array */
             $array = $form->getData()['items'];
             $cartService->updateItemArray($array);
+
+            $eventDispatcher->dispatch(
+                new CartEvent(
+                    $customerFromUserFinder->getLoggedInCustomer()
+                ),
+                CartEventTypes::POST_CART_QUANTITY_UPDATED
+            );
+
 
         }
 
@@ -199,7 +207,7 @@ class CartController extends AbstractController
         $cartService->clearCart();
 
         $eventDispatcher->dispatch(
-            new CartClearedByUserEvent(),
+            new CartClearedByUserEvent($customerFromUserFinder->getLoggedInCustomer()),
             CartEventTypes::CART_CLEARED_BY_USER
         );
 

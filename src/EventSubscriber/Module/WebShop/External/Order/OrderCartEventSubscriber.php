@@ -28,7 +28,8 @@ readonly class OrderCartEventSubscriber implements EventSubscriberInterface
             CartEventTypes::POST_CART_INITIALIZED => 'postCartInitialized',
             CartEventTypes::ITEM_ADDED_TO_CART => 'newItemAdded',
             CartEventTypes::ITEM_DELETED_FROM_CART => 'itemDeleted',
-            CartEventTypes::CART_CLEARED_BY_USER => 'cartCleared'
+            CartEventTypes::CART_CLEARED_BY_USER => 'cartCleared',
+            CartEventTypes::POST_CART_QUANTITY_UPDATED => 'onCartQuantityUpdated'
         ];
 
     }
@@ -45,14 +46,26 @@ readonly class OrderCartEventSubscriber implements EventSubscriberInterface
 
     }
 
+    public function onCartQuantityUpdated(CartEvent $event): void
+    {
+
+        $orderItems = $this->orderRead->getOpenOrderItems();
+        $this->orderSave->updateOrderItemsFromCartArray(
+            $this->cartSessionProductService->getCartArray(),
+            $orderItems
+        );
+    }
+
     public function newItemAdded(CartItemAddedEvent $event): void
     {
         // todo : check for open order
         // assuming it exists
 
         $orderHeader = $this->orderRead->getOpenOrder();
-        $orderItem = $this->orderRead->createOrderItem($orderHeader,$event->getProduct(),
-            $event->getQuantity());
+        $orderItem = $this->orderRead->createOrderItem(
+            $orderHeader, $event->getProduct(),
+            $event->getQuantity()
+        );
 
         $this->orderSave->updateOrderAddItem($orderItem);
 
@@ -60,15 +73,16 @@ readonly class OrderCartEventSubscriber implements EventSubscriberInterface
 
     public function itemDeleted(CartItemDeletedEvent $event): void
     {
-
-        $this->orderSave->updateOrderRemoveItem($event->getCustomer(), $event->getProduct());
+        $orderItems = $this->orderRead->getOpenOrderItems();
+        $this->orderSave->updateOrderRemoveItem($event->getProduct(), $orderItems);
 
     }
 
     public function cartCleared(CartClearedByUserEvent $event): void
     {
 
-        $this->orderSave->updateOrderAllProducts($event->getCustomer());
+        $orderItems = $this->orderRead->getOpenOrderItems();
+        $this->orderSave->removeAllItems($orderItems);
 
     }
 }

@@ -55,4 +55,13 @@ readonly class OrderRead
 
     }
 
+    public function getOpenOrderItems(): array
+    {
+
+        $order = $this->getOpenOrder();
+
+        return $this->orderItemRepository->findBy(['orderHeader'=>$order]);
+
+    }
+
 }

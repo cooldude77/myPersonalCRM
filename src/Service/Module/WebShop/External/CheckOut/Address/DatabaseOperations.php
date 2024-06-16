@@ -26,4 +26,10 @@ class DatabaseOperations
     {
         $this->entityManager->remove($item);
     }
+
+    public function clear()
+    {
+        $this->entityManager->clear();
+    }
+
 }

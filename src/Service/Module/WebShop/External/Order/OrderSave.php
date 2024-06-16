@@ -7,6 +7,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderStatusRepository;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
@@ -30,8 +31,7 @@ class OrderSave
      * @param OrderStatusRepository $orderStatusRepository
      * @param DatabaseOperations    $databaseOperations
      */
-    public function __construct(
-        private readonly OrderHeaderMapper $orderHeaderMapper,
+    public function __construct(private readonly OrderHeaderMapper $orderHeaderMapper,
         private readonly OrderItemMapper $orderItemMapper,
         private readonly OrderAddressMapper $orderAddressMapper,
         private readonly OrderStatusMapper $orderStatusMapper,
@@ -80,9 +80,7 @@ class OrderSave
         $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
         $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);
         $orderStatus = $this->orderStatusMapper->mapAndSetHeader(
-            $orderHeader,
-            OrderStatusTypes::ORDER_CREATED,
-            "note" //todo
+            $orderHeader, OrderStatusTypes::ORDER_CREATED, "note" //todo
         );
 
         // validate
@@ -111,11 +109,61 @@ class OrderSave
         // todo
     }
 
-    public function updateOrderAddItem(OrderItem $item):
-    void {
+    public function updateOrderAddItem(OrderItem $item): void
+    {
         // todo: check validity?
 
         $this->databaseOperations->persist($item);
         $this->databaseOperations->flush();
+    }
+
+    public function updateOrderItemsFromCartArray(array $cartArray, array $orderItems): void
+    {
+
+        // todo: check count same
+
+        /**
+         * @var   int              $key
+         * @var  CartSessionObject $cartObject
+         */
+        foreach ($cartArray as $key => $cartObject) /** @var OrderItem $item */ {
+            foreach ($orderItems as $item) {
+                if ($item->getProduct()->getId() == $key) {
+                    $item->setQuantity($cartObject->quantity);
+
+                }
+            }
+        }
+        $this->databaseOperations->flush();
+        $this->databaseOperations->clear();
+
+
+    }
+
+    public function updateOrderRemoveItem(Product $product, array $orderItems): void
+    {
+        /** @var OrderItem $item */
+        foreach ($orderItems as $item) {
+            if ($item->getProduct()->getId() == $product->getId()) {
+                $this->databaseOperations->remove($item);
+            }
+
+        }
+        $this->databaseOperations->flush();
+        $this->databaseOperations->clear();
+
+
+    }
+
+    public function removeAllItems(array $orderItems): void
+    {
+        /** @var OrderItem $item */
+        foreach ($orderItems as $item) {
+            $this->databaseOperations->remove($item);
+        }
+        $this->databaseOperations->flush();
+        $this->databaseOperations->clear();
+
+
     }
 }
