@@ -63,6 +63,7 @@ final class UserFactory extends ModelFactory
     }
 
     /**
+     * Comment: User password is hashed here after user entity is created
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
      */
     protected function initialize(): self

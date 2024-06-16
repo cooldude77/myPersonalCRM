@@ -2,8 +2,11 @@
 
 namespace App\Service\Module\WebShop\External\Order;
 
+use App\Entity\Customer;
+use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\PriceProductBase;
+use App\Entity\Product;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderStatusTypeRepository;
@@ -20,48 +23,45 @@ readonly class OrderRead
     }
 
 
-    public function isOpenOrder(): bool
+    public function isOpenOrder(Customer $customer): bool
     {
-        $orderStatusType = $this->orderStatusTypeRepository->findOneBy
-        (
+        $orderStatusType = $this->orderStatusTypeRepository->findOneBy(
             ['type' => OrderStatusTypes::ORDER_CREATED]
         );
 
-        return $this->orderHeaderRepository->findOneBy(['orderStatusType' => $orderStatusType])
+        return $this->orderHeaderRepository->findOneBy(['customer' => $customer,
+                                                        'orderStatusType' => $orderStatusType])
             != null;
     }
 
-    public function getOpenOrder(): ?\App\Entity\OrderHeader
-    {
-        $orderStatusType = $this->orderStatusTypeRepository->findOneBy
-        (
-            ['type' => OrderStatusTypes::ORDER_CREATED]
-        );
-
-        return $this->orderHeaderRepository->findOneBy(['orderStatusType' => $orderStatusType]);
-    }
-
-    public function createOrderItem(?\App\Entity\OrderHeader $orderHeader,
-        \App\Entity\Product $product, int $quantity
+    public function createOrderItem(?OrderHeader $orderHeader,
+        Product $product, int $quantity
     ): OrderItem {
 
         /** @var PriceProductBase $price */
         $price = $this->priceProductBaseRepository->findOneBy(['product' => $product]);
 
         return $this->orderItemRepository->create(
-            $orderHeader, $product, $quantity,
-            $price->getPrice()
+            $orderHeader, $product, $quantity, $price->getPrice()
         );
 
     }
 
-    public function getOpenOrderItems(): array
+    public function getOpenOrderItems(OrderHeader $orderHeader): array
     {
 
-        $order = $this->getOpenOrder();
+        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
 
-        return $this->orderItemRepository->findBy(['orderHeader'=>$order]);
+    }
 
+    public function getOpenOrder(Customer $customer): ?OrderHeader
+    {
+        $orderStatusType = $this->orderStatusTypeRepository->findOneBy(
+            ['type' => OrderStatusTypes::ORDER_CREATED]
+        );
+
+        return $this->orderHeaderRepository->findOneBy(['customer' => $customer,
+                                                        'orderStatusType' => $orderStatusType]);
     }
 
 }

@@ -23,13 +23,11 @@ class OrderSave
 {
 
     /**
-     * @param OrderHeaderMapper     $orderHeaderMapper
-     * @param OrderItemMapper       $orderItemMapper
-     * @param OrderAddressMapper    $orderAddressMapper
-     * @param OrderStatusMapper     $orderStatusMapper
-     * @param OrderSnapShotCreator  $orderSnapShotCreator
-     * @param OrderStatusRepository $orderStatusRepository
-     * @param DatabaseOperations    $databaseOperations
+     * @param OrderHeaderMapper  $orderHeaderMapper
+     * @param OrderItemMapper    $orderItemMapper
+     * @param OrderAddressMapper $orderAddressMapper
+     * @param OrderStatusMapper  $orderStatusMapper
+     * @param DatabaseOperations $databaseOperations
      */
     public function __construct(private readonly OrderHeaderMapper $orderHeaderMapper,
         private readonly OrderItemMapper $orderItemMapper,

@@ -4,9 +4,6 @@ namespace App\Tests\Controller\Module\WebShop\External\Cart;
 
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
-use App\Factory\OrderHeaderFactory;
-use App\Factory\OrderItemFactory;
-use App\Factory\ProductFactory;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerFixture;
@@ -21,7 +18,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 class CartControllerTest extends WebTestCase
 {
     use HasBrowser, CurrencyFixture, CustomerFixture, ProductFixture, PriceFixture,
-        LocationFixture,FindByCriteria;
+        LocationFixture, FindByCriteria;
 
     public function testCart()
     {
@@ -56,7 +53,9 @@ class CartControllerTest extends WebTestCase
                 $this->assertNotNull($session->get(CartSessionProductService::CART_SESSION_KEY));
                 // Todo: More tests
                 // Test : An order got created
-                $order =$this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
 
                 $this->assertNotNull($order);
 
@@ -72,10 +71,13 @@ class CartControllerTest extends WebTestCase
             ->use(function (Browser $browser) {
 
                 // Test : An order got created
-                $order =$this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
 
-                $item = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                'product' => $this->productA->object()]);
+                $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                            'product' => $this->productA->object()]
+                );
 
                 $this->assertEquals($this->priceValueOfProductA, $item->getPricePerUnit());
             })
@@ -88,10 +90,13 @@ class CartControllerTest extends WebTestCase
             ->use(function (Browser $browser) {
 
                 // Test : An order got created
-                $order =$this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
 
-                $item = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                'product' => $this->productB->object()]);
+                $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                            'product' => $this->productB->object()]
+                );
 
                 $this->assertEquals($this->priceValueOfProductB, $item->getPricePerUnit());
             })
@@ -117,15 +122,19 @@ class CartControllerTest extends WebTestCase
                 $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
 
                 // Test : An order got created
-                $order = $this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
 
-                $itemA = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productA->object()]);
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
 
                 $this->assertEquals(4, $itemA->getQuantity());
 
-                $itemB = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productB->object()]);
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
 
                 $this->assertEquals(6, $itemB->getQuantity());
 
@@ -145,15 +154,19 @@ class CartControllerTest extends WebTestCase
 
 
                 // Test : An order got created
-                $order =$this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
 
-                $itemA = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productA->object()]);
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
 
                 $this->assertNull($itemA);
 
-                $itemB =$this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productB->object()]);
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
 
                 $this->assertNotNull($itemB);
 
@@ -166,19 +179,87 @@ class CartControllerTest extends WebTestCase
                 // Test: Cart is cleared
                 $this->assertNull($session->get(CartSessionProductService::CART_SESSION_KEY));
 
-                $order =$this->findOneBy(OrderHeader::class,['customer' => $this->customer->object()]);
-                $itemA = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productA->object()]);
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
                 $this->assertNull($itemA);
 
-                $itemB = $this->findOneBy(OrderItem::class,['orderHeader' => $order,
-                                                 'product' => $this->productB->object()]);
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
 
                 $this->assertNull($itemB);
 
 
             })
             ->assertSuccessful();
+
+    }
+
+    public function testCartFillWhenUserLogsOutAndLogsInAgain()
+    {
+
+        $this->createCustomer();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+        $cartUri = '/cart';
+
+        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+
+
+        // Test : just visit cart
+        $this->browser()
+            // todo: don't allow cart when user is not logged in
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->user->object());
+            })
+            ->visit($cartUri)
+            //Test :  add products to cart
+            ->visit($uriAddProductA)
+            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 1
+            )
+            ->click('Add To Cart')
+            ->assertSuccessful()
+            ->visit($uriAddProductB)
+            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 2
+            )
+            ->click('Add To Cart')
+            ->assertSuccessful()
+            ->visit('/logout')
+            ->assertNotAuthenticated();
+
+
+        $this->browser()->visit('/login')
+            ->fillField(
+                '_username', $this->user->getLogin()
+            )->fillField(
+                '_password', $this->user->getPassword()
+            )
+            ->click('login')
+            ->followRedirects()
+            ->assertAuthenticated()
+            ->use(function (\Zenstruck\Browser $browser) {
+
+                $session = $browser->client()->getRequest()->getSession();
+                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+
+                // Test: Cart has right items and quantities
+                $this->assertEquals(1, $cart[$this->productA->getId()]->quantity);
+                $this->assertEquals(2, $cart[$this->productB->getId()]->quantity);
+
+            });
 
     }
 }
