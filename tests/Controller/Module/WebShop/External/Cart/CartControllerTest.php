@@ -6,6 +6,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Tests\Fixtures\CurrencyFixture;
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
@@ -17,7 +18,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CartControllerTest extends WebTestCase
 {
-    use HasBrowser, CurrencyFixture, EmployeeFixture, ProductFixture, PriceFixture,
+    use HasBrowser, CurrencyFixture, CustomerFixture, ProductFixture, PriceFixture,
         LocationFixture, FindByCriteria;
 
     public function testCart()
@@ -43,7 +44,7 @@ class CartControllerTest extends WebTestCase
             // todo: don't allow cart when user is not logged in
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($cartUri)
             ->use(function (Browser $browser) {
@@ -219,7 +220,7 @@ class CartControllerTest extends WebTestCase
             // todo: don't allow cart when user is not logged in
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($cartUri)
             //Test :  add products to cart
@@ -243,9 +244,9 @@ class CartControllerTest extends WebTestCase
 
         $this->browser()->visit('/login')
             ->fillField(
-                '_username', $this->user->getLogin()
+                '_username', $this->loginForCustomerInString
             )->fillField(
-                '_password', $this->user->getPassword()
+                '_password', $this->passwordForCustomerInString
             )
             ->click('login')
             ->followRedirects()
