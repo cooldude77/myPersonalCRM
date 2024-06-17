@@ -2,7 +2,9 @@
 
 namespace App\EventSubscriber\Module\WebShop\External\Order;
 
+use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
 use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderToCart;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,15 +30,22 @@ readonly class OrderCartSyncOnLoginSuccessEventSubscriber implements EventSubscr
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
 
-        $customer = $this->customerFromUserFinder->getLoggedInCustomer();
-        if ($this->orderRead->isOpenOrder($customer)
-        ) {  // todo handle exceptions
-            $order = $this->orderRead->getOpenOrder($customer);
-            $items = $this->orderRead->getOpenOrderItems($order);
-            if (count($items) > 0) {
-                $this->orderToCart->copyProductsFromOrderToCart($items);
-            }
+        try {
+            $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
+            if ($this->orderRead->isOpenOrder($customer)
+            ) {  // todo handle exceptions
+                $order = $this->orderRead->getOpenOrder($customer);
+                $items = $this->orderRead->getOpenOrderItems($order);
+                if (count($items) > 0) {
+                    $this->orderToCart->copyProductsFromOrderToCart($items);
+                }
+
+            }
+        } catch (UserNotLoggedInException $e) {
+            // called if customer is logged in
+        } catch (UserNotAssociatedWithACustomerException $e) {
+            // don't do anything if not a customer
         }
     }
 }

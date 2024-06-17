@@ -8,7 +8,7 @@ use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerAddressFixture;
 use App\Tests\Fixtures\CustomerAddressInSessionFixture;
-use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
@@ -23,7 +23,7 @@ class OrderCreateControllerTest extends WebTestCase
 {
     use HasBrowser,
         LocationFixture,
-        CustomerFixture,
+        EmployeeFixture,
         ProductFixture,
         CurrencyFixture,
         CustomerAddressFixture,

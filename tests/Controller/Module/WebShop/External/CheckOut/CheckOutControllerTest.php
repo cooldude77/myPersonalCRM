@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
 
 use App\Factory\CustomerAddressFactory;
 use App\Tests\Fixtures\CartFixture;
-use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Fixtures\SessionFactoryFixture;
@@ -15,7 +15,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CheckOutControllerTest extends WebTestCase
 {
-    use HasBrowser, SessionFactoryFixture,ProductFixture, CustomerFixture, LocationFixture,
+    use HasBrowser, SessionFactoryFixture,ProductFixture, EmployeeFixture, LocationFixture,
         CartFixture;
 
     public function testCheckout()

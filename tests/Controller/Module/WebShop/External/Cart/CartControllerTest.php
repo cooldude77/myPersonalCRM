@@ -6,7 +6,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Tests\Fixtures\CurrencyFixture;
-use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
@@ -17,7 +17,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CartControllerTest extends WebTestCase
 {
-    use HasBrowser, CurrencyFixture, CustomerFixture, ProductFixture, PriceFixture,
+    use HasBrowser, CurrencyFixture, EmployeeFixture, ProductFixture, PriceFixture,
         LocationFixture, FindByCriteria;
 
     public function testCart()
