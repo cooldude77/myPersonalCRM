@@ -35,7 +35,8 @@ readonly class OrderCartEventSubscriber implements EventSubscriberInterface
     public function postCartInitialized(CartEvent $event): void
     {
         if ($this->cartSessionProductService->isCartEmpty()) {
-                $this->orderSave->createNewOrderFromCart($event->getCustomer());
+               if(!$this->orderRead->isOpenOrder($event->getCustomer()))
+                   $this->orderSave->createNewOrderFromCart($event->getCustomer());
 
         }
 

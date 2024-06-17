@@ -2,6 +2,7 @@
 
 namespace App\Controller\Component\UI;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,25 +37,42 @@ class PanelMainController extends AbstractController
 
         $this->checkMandatoryParameters($request->getSession(), $environment);
 
+        // get header
         $headerResponse = $this->forward(
             PanelHeaderController::class . '::' . 'header',
             ['request' => $request]
         );
 
+        // if redirect
         if ($headerResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
             return $this->redirect($headerResponse->getTargetUrl());
         }
 
+        // get content
+        $contentResponse = $this->forward(
+            PanelContentController::class . '::' . 'content',
+            ['request' => $request]
+        );
 
+        // if redicrect
+        if ($contentResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($contentResponse->getTargetUrl());
+        }
+
+
+        // no redirect, just print data
         $response = $this->render('admin/ui/panel/panel_main.html.twig', [
             'header' => $headerResponse->getContent(),
+            'content' => $contentResponse->getContent(),
             'request' => $request]);
 
-        if ($response instanceof RedirectResponse) {
-            return $this->redirect($headerResponse->getTargetUrl());
-        }
 
+        // reset parameter is only to be done after above resposne is complete
+        // otherwise it will throw up exception looking for parameters
         $this->resetParameters($request->getSession());
+
         return $response;
     }
 

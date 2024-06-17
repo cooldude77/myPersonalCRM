@@ -7,7 +7,6 @@ use App\Entity\OrderItem;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
@@ -21,7 +20,7 @@ class CartControllerTest extends WebTestCase
     use HasBrowser, CurrencyFixture, CustomerFixture, ProductFixture, PriceFixture,
         LocationFixture, FindByCriteria;
 
-    public function testCart()
+    public function testInCartProcesses()
     {
 
         $this->createCustomer();
@@ -261,6 +260,46 @@ class CartControllerTest extends WebTestCase
                 $this->assertEquals(2, $cart[$this->productB->getId()]->quantity);
 
             });
+
+    }
+
+    public function testCheckOutCart()
+    {
+
+
+        $this->createCustomer();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+        $cartUri = '/cart';
+
+        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+
+        $this->browser()
+            // todo: don't allow cart when user is not logged in
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->visit($uriAddProductA)
+            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 1
+            )
+            ->click('Add To Cart')
+            ->visit($uriAddProductB)
+            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 2
+            )
+            ->click('Add To Cart')
+            ->visit($cartUri)
+            ->interceptRedirects()
+            ->click('Checkout')
+            ->assertRedirectedTo('/checkout');
 
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Controller\Module\WebShop\External\CheckOut;
 
 use App\Exception\Module\WebShop\CheckOut\NoItemsInCartException;
+use App\Exception\Module\WebShop\External\CheckOut\BillingAddressNotSetException;
+use App\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
+use App\Exception\Module\WebShop\External\CheckOut\UserNotFoundOrNotLoggedInException;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
 use App\Service\Module\WebShop\External\CheckOut\CheckOutService;
 use App\Service\Module\WebShop\External\Order\OrderSave;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +24,7 @@ class CheckOutController extends AbstractController
         CheckOutAddressService $checkOutAddressService,
         CheckoutService $checkoutService,
         OrderSave $orderService,
-    RequestStack $requestStack
+        RequestStack $requestStack
     ): Response {
         // The checkout page will display appropriate twig templates
         // after following processes, the control should come back to this method

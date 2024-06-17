@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\CheckOut;
+namespace App\Exception\Module\WebShop\External\CheckOut;
 
 use Doctrine\DBAL\Exception;
 use Throwable;
 
-class ShippingAddressNotSetException extends Exception
+class BillingAddressNotSetException extends Exception
 {
 
  public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)

@@ -24,8 +24,6 @@
 
 
 {% block content %}
-    {{ render(controller(
-        'App\\Controller\\Component\\UI\\Panel\\Components\\PanelContentController::content',{'request':request}
-    )) }}
+    {{ content | raw }}
 
 {% endblock %}

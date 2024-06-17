@@ -12,6 +12,7 @@ use App\Event\Module\WebShop\External\Cart\CartEventTypes;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
@@ -66,6 +67,16 @@ class  CartController extends AbstractController
 
     }
 
+    /**
+     * @param CartSessionToDTOMapper    $cartDTOMapper
+     * @param CartSessionProductService $cartService
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param Request                   $request
+     *
+     * @return Response
+     * @throws UserNotLoggedInException
+     */
     public function list(CartSessionToDTOMapper $cartDTOMapper,
         CartSessionProductService $cartService,
         EventDispatcherInterface $eventDispatcher,
@@ -73,15 +84,10 @@ class  CartController extends AbstractController
         Request $request
     ): Response {
 
-        $cartService->initialize();
-        //todo handle exception`
-        $eventDispatcher->dispatch(
-            new CartEvent(
-                $customerFromUserFinder->getLoggedInCustomer()
-            ),
-            CartEventTypes::POST_CART_INITIALIZED
+        $this->initializeCartAndDispatchEvents(
+            $cartService,
+            $eventDispatcher, $customerFromUserFinder
         );
-
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -90,6 +96,13 @@ class  CartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            if ($form->get('checkout')->isClicked()) {
+                // todo : check cart empty
+                // todo: check cart not updated
+                return $this->redirectToRoute('web_shop_checkout');
+            }
 
             /** @var ArrayCollection $array */
             $array = $form->getData()['items'];
@@ -113,6 +126,22 @@ class  CartController extends AbstractController
         );
     }
 
+    private function initializeCartAndDispatchEvents(CartSessionProductService $cartSessionProductService,
+        EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder
+    ): void {
+        $cartSessionProductService->initialize();
+        //todo handle exception`
+        $eventDispatcher->dispatch(
+            new CartEvent(
+                $customerFromUserFinder->getLoggedInCustomer()
+            ),
+            CartEventTypes::POST_CART_INITIALIZED
+        );
+
+
+    }
+
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
         CartSessionProductService $cartService,
@@ -122,6 +151,12 @@ class  CartController extends AbstractController
         RouterInterface $router
     ):
     Response {
+        if (!$cartService->isInitialized()) {
+            $this->initializeCartAndDispatchEvents(
+                $cartService,
+                $eventDispatcher, $customerFromUserFinder
+            );
+        }
 
         $product = $productRepository->find($id);
 
@@ -143,7 +178,6 @@ class  CartController extends AbstractController
                 $cartProductDTO->productId, $cartProductDTO->quantity
             );
 
-            $cartService->initialize();
             $cartService->addItemToCart($cartObject);
 
             // Todo : event after cart update
@@ -155,7 +189,6 @@ class  CartController extends AbstractController
                 ),
                 CartEventTypes::ITEM_ADDED_TO_CART
             );
-
 
 
             return new Response("Product Added Successfully");

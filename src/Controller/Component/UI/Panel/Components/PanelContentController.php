@@ -47,6 +47,8 @@ class PanelContentController extends AbstractController
             $session->set(self::CONTENT_CONTROLLER_CLASS_NAME, null);
             $session->set(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME, null);
 
+            return $response;
+
         } elseif ($request->get('_function') != null) {
             $function = $request->get('_function');
 
