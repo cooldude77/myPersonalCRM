@@ -6,20 +6,18 @@ use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
-use App\Repository\OrderStatusRepository;
+use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderItemMapper;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderStatusMapper;
-use App\Service\Module\WebShop\External\Order\SnapShot\OrderSnapShotCreator;
 use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
 
 /**
  *
  */
-class OrderSave
+readonly class OrderSave
 {
 
     /**
@@ -29,11 +27,11 @@ class OrderSave
      * @param OrderStatusMapper  $orderStatusMapper
      * @param DatabaseOperations $databaseOperations
      */
-    public function __construct(private readonly OrderHeaderMapper $orderHeaderMapper,
-        private readonly OrderItemMapper $orderItemMapper,
-        private readonly OrderAddressMapper $orderAddressMapper,
-        private readonly OrderStatusMapper $orderStatusMapper,
-        private readonly DatabaseOperations $databaseOperations
+    public function __construct(private OrderHeaderMapper $orderHeaderMapper,
+        private OrderItemMapper $orderItemMapper,
+        private OrderAddressMapper $orderAddressMapper,
+        private OrderStatusMapper $orderStatusMapper,
+        private DatabaseOperations $databaseOperations
     ) {
     }
 

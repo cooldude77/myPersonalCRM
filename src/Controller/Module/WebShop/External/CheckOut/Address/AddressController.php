@@ -8,7 +8,7 @@ use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
 use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,7 +108,7 @@ class AddressController extends AbstractController
      * @param Request                   $request
      *
      * @return Response
-     * @throws \App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException
+     * @throws \App\Exception\Security\User\UserNotLoggedInException
      *
      *
      * Choose from multiple addresses

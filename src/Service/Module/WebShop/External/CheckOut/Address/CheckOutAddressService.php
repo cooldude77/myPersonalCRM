@@ -5,9 +5,9 @@ namespace App\Service\Module\WebShop\External\CheckOut\Address;
 use App\Entity\CustomerAddress;
 use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
+use App\Service\Security\User\Customer\CustomerService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CheckOutAddressService
 {

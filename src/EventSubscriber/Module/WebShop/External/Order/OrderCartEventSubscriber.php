@@ -8,12 +8,9 @@ use App\Event\Module\WebShop\External\Cart\CartEventTypes;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderSave;
-use App\Service\Module\WebShop\External\Order\OrderToCart;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 readonly class OrderCartEventSubscriber implements EventSubscriberInterface
 {

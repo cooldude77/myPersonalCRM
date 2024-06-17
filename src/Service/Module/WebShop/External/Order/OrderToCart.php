@@ -7,9 +7,9 @@ use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 
-class OrderToCart
+readonly class OrderToCart
 {
-    public function __construct(private readonly CartSessionProductService $cartSessionProductService
+    public function __construct(private CartSessionProductService $cartSessionProductService
     ) {
     }
 
@@ -22,6 +22,7 @@ class OrderToCart
             // todo: check if product exists any more ,
             // todo: check if price changed
             // todo: check quantity availability
+            // todo: separate service for above?
             // to avoid event chaining store errors in session ???
 
             $this->cartSessionProductService->addItemToCart(

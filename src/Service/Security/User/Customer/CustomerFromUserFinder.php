@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Address;
+namespace App\Service\Security\User\Customer;
 
 use App\Entity\Customer;
 use App\Entity\User;
-use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Repository\CustomerRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 

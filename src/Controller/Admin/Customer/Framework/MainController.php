@@ -6,7 +6,7 @@ use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\MasterData\Customer\Address\CustomerAddressController;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,8 +54,8 @@ class MainController extends AbstractController
      * @param Request $request
      *
      * @return Response
-     * @throws \App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException
-     * @throws \App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException
+     * @throws \App\Exception\Security\User\UserNotLoggedInException
+     * @throws \App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException
      *
      *
      *           Url can be called separately

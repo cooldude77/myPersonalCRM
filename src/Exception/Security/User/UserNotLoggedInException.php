@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Module\WebShop\External\CheckOut\Address;
+namespace App\Exception\Security\User;
 
 use Doctrine\DBAL\Exception;
 use Throwable;

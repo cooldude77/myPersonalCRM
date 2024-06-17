@@ -3,10 +3,10 @@
 namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\Component\UI\PanelMainController;
-use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
-use App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

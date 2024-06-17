@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Address;
+namespace App\Service\Security\User\Customer;
 
 use App\Entity\Customer;
 use App\Entity\User;
 use App\Repository\CustomerRepository;
+use App\Service\Component\Database\DatabaseOperations;
 
 readonly class CustomerService
 {

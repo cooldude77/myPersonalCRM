@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Address;
+namespace App\Exception\Security\User\Customer;
 
 use App\Entity\User;
 use Exception;

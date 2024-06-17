@@ -2,11 +2,11 @@
 
 namespace App\EventSubscriber\Module\WebShop\External\Order;
 
-use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
-use App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderToCart;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 

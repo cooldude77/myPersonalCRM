@@ -7,7 +7,7 @@ use App\Form\Security\User\DTO\SignUpSimpleDTO;
 use App\Form\Security\User\SignUpAdvancedForm;
 use App\Form\Security\User\SignUpSimpleForm;
 use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerService;
+use App\Service\Security\User\Customer\CustomerService;
 use App\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

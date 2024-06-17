@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Employee\FrameWork;
 
 use App\Controller\Component\UI\PanelMainController;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 

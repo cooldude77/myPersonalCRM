@@ -5,7 +5,7 @@ namespace App\Service\MasterData\Customer\Address;
 use App\Entity\CustomerAddress;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\CustomerAddressRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\DatabaseOperations;
+use App\Service\Component\Database\DatabaseOperations;
 
 class CustomerAddressService
 {

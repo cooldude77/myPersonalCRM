@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Address;
+namespace App\Service\Component\Database;
 
 use Doctrine\ORM\EntityManagerInterface;
 

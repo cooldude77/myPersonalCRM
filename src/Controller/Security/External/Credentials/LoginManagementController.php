@@ -3,9 +3,9 @@
 namespace App\Controller\Security\External\Credentials;
 
 // ...
-use App\Exception\Module\WebShop\External\CheckOut\Address\UserNotLoggedInException;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
-use App\Service\Module\WebShop\External\CheckOut\Address\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

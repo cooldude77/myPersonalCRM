@@ -19,7 +19,7 @@ use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use App\Service\Module\WebShop\External\CheckOut\Address\CustomerFromUserFinder;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Serviec\Module\WebShop\External\Cart\PriceService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
