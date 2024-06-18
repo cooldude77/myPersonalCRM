@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\CheckOut\SignUpOrLogin;
+namespace App\Controller\Module\WebShop\External\SignUpOrLogin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

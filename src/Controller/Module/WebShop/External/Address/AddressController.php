@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\CheckOut\Address;
+namespace App\Controller\Module\WebShop\External\Address;
 
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Address\AddressChooseFromMultipleForm;
 use App\Form\Module\WebShop\External\Address\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\Address\AddressChooseMapper;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,20 +22,25 @@ class AddressController extends AbstractController
 {
 
 
-    #[Route('/checkout/addresses', name: 'web_shop_checkout_address')]
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
     public function main(CustomerRepository $customerRepository,
         CustomerAddressRepository $customerAddressRepository,
         CheckOutAddressService $checkOutAddressService,
+        CustomerFromUserFinder $customerFromUserFinder,
     ): Response {
 
-        $customer = $customerRepository->findOneBy(["user" => $this->getUser()]);
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
                                                                  'addressType' => 'shipping']);
 
         if ($addressesShipping == null) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_create', ['id' => 'customer', 'type' => 'shipping']
+                'web_shop_checkout_address_create', ['type' => 'shipping']
             );
         }
 
@@ -41,7 +49,7 @@ class AddressController extends AbstractController
 
         if ($addressesBilling == null) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_create', ['id' => 'customer', 'type' => 'billing']
+                'web_shop_checkout_address_create', ['type' => 'billing']
             );
         }
 

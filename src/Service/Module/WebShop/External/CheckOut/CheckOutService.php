@@ -2,8 +2,8 @@
 
 namespace App\Service\Module\WebShop\External\CheckOut;
 
+use App\Controller\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
 
 class CheckOutService
 {

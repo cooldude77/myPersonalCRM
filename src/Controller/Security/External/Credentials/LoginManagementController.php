@@ -3,9 +3,9 @@
 namespace App\Controller\Security\External\Credentials;
 
 // ...
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

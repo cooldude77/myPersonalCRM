@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Address\Mapper;
+namespace App\Service\Module\WebShop\External\Address\Mapper;
 
 use App\Entity\Address;
 use App\Form\Module\WebShop\External\CheckOut\Address\AddressMultiple;

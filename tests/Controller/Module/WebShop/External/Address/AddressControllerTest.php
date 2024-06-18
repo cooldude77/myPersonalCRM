@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\External\CheckOut\Address;
+namespace App\Tests\Controller\Module\WebShop\External\Address;
 
 use App\Factory\CustomerAddressFactory;
 use App\Tests\Fixtures\EmployeeFixture;

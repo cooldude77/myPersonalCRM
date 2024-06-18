@@ -2,8 +2,8 @@
 
 namespace App\Tests\Fixtures;
 
+use App\Controller\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Entity\CustomerAddress;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Zenstruck\Foundry\Proxy;
 

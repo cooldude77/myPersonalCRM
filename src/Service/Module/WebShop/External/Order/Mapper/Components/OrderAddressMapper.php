@@ -5,7 +5,7 @@ namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
 use App\Entity\OrderAddress;
 use App\Entity\OrderHeader;
 use App\Repository\OrderAddressRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressService;
 
 readonly class OrderAddressMapper
 {

@@ -17,7 +17,7 @@ class AddressCreateForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('address', TextType::class);
+        $builder->add('address', CustomerAddressCreateForm::class);
         $builder->add('isChosen', CheckboxType::class);
         $builder->add('save', SubmitType::class);
 

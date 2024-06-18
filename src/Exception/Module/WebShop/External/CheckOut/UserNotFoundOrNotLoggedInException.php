@@ -6,5 +6,5 @@ use Doctrine\DBAL\Exception;
 
 class UserNotFoundOrNotLoggedInException extends Exception
 {
-    
+
 }

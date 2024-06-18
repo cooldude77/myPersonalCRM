@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
 
 use App\Factory\CustomerAddressFactory;
 use App\Tests\Fixtures\CartFixture;
-use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Fixtures\SessionFactoryFixture;
@@ -15,7 +15,8 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CheckOutControllerTest extends WebTestCase
 {
-    use HasBrowser, SessionFactoryFixture,ProductFixture, EmployeeFixture, LocationFixture,
+    use HasBrowser, SessionFactoryFixture, ProductFixture,
+        CustomerFixture, LocationFixture,
         CartFixture;
 
     public function testCheckout()
@@ -27,67 +28,87 @@ class CheckOutControllerTest extends WebTestCase
 
         // without logging in
         // goto signup
-        $uri = "/web-shop/checkout";
+        $uriCheckout = "/checkout";
         $this
             ->browser()
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo('/checkout/entry');
+            ->visit($uriCheckout)
+            ->assertOn('http://localhost/signup?_redirect_upon_success_url=/checkout', ['query']);
 
         // user is logged in
         // cart is empty
         $this
             ->browser()
+            ->visit($uriCheckout)
             ->use(function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
-            ->visit($uri)
-            ->assertSee("Cart Is Empty");
+            ->interceptRedirects()
+            ->visit($uriCheckout)
+            ->assertRedirectedTo('/cart')
+            // fill cart and see it redirected to addresses
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                $this->createCartInSession($this->session, $this->productA);
 
-        // cart is filled
-        // addresses not in session
-        $this->browser()
+            })
+            // addresses not created
+            ->interceptRedirects()
+            ->visit($uriCheckout)
+            ->assertRedirectedTo('/checkout/address/create?type=shipping')
             ->use(function (KernelBrowser $browser) {
 
-                $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->productA);
+                // create shipping address
+                CustomerAddressFactory::createOne(
+                    ['customer' => $this->customer,
+                     'addressType' => 'shipping',
+                     'line1' => 'Shipping Lane']
+                );
+
+                // also need to create entry in session
 
             })
             ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo('/web-shop/checkout/addresses');
-
-
-        $addressShip = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
-        );
-
-        // first address in session
-        $this->browser()
+            ->visit($uriCheckout)
+            ->assertRedirectedTo('/checkout/address/create?type=billing')
             ->use(function (KernelBrowser $browser) {
 
-                $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->productA);
+                // create shipping address
+                CustomerAddressFactory::createOne(
+                    ['customer' => $this->customer,
+                     'addressType' => 'Billing',
+                     'line1' => 'billing lane']
+                );
             })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo('/checkout/addresses');
+            ->visit($uriCheckout)
+            ->assertSuccessful();
 
-        $addressBill = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
-        );
+        /*
+                // first address in session
+                $this->browser()
+                    ->use(function (KernelBrowser $browser) {
 
-        // second address is in session
-        $this->browser()
-            ->use(function (KernelBrowser $browser) {
+                        $browser->loginUser($this->user->object());
+                        $this->createCartInSession($this->session,$this->productA);
+                    })
+                    ->interceptRedirects()
+                    ->visit($uriCheckout)
+                    ->assertRedirectedTo('/checkout/addresses');
 
-                $browser->loginUser($this->user->object());
-                $this->createCartInSession($this->session,$this->productA);
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo('/web-shop/order/create');
+                $addressBill = CustomerAddressFactory::createOne(
+                    ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
+                );
 
+                // second address is in session
+                $this->browser()
+                    ->use(function (KernelBrowser $browser) {
+
+                        $browser->loginUser($this->user->object());
+                        $this->createCartInSession($this->session,$this->productA);
+                    })
+                    ->interceptRedirects()
+                    ->visit($uriCheckout)
+                    ->assertRedirectedTo('/web-shop/order/create');
+        */
     }
 
 

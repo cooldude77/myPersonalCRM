@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\CheckOut\Address;
+namespace App\Service\Module\WebShop\External\Address;
 
 use App\Entity\CustomerAddress;
 use App\Form\Module\WebShop\External\Address\DTO\AddressChooseDTO;
