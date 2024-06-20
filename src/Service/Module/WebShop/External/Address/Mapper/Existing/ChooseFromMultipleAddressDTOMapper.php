@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address;
+namespace App\Service\Module\WebShop\External\Address\Mapper\Existing;
 
 use App\Entity\CustomerAddress;
 use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
 use App\Service\MasterData\Customer\Address\CustomerAddressQuery;
-use App\Service\MasterData\Customer\Address\CustomerAddressSave;
 
-readonly class AddressChooseMapper
+readonly class ChooseFromMultipleAddressDTOMapper
 {
 
     public function __construct(private CustomerAddressQuery $customerAddressQuery)

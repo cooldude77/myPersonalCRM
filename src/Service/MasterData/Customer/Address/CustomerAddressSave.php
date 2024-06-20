@@ -12,16 +12,13 @@ class CustomerAddressSave
     {
     }
 
-    public function mapAndPersist(CustomerAddress $customerAddress): CustomerAddress
+    public function save(CustomerAddress $customerAddress): CustomerAddress
     {
 
         $this->databaseOperations->persist($customerAddress);
-        return $customerAddress;
-    }
-
-    public function flush(): void
-    {
         $this->databaseOperations->flush();
+
+        return $customerAddress;
     }
 
 

@@ -9,16 +9,21 @@ readonly class CheckOutAddressSave
 {
 
     public function __construct(
-        private CustomerAddressSave $customerAddressSave
+        private readonly CustomerAddressSave $customerAddressSave,
+        private readonly CheckOutAddressSession $checkOutAddressSession
     ) {
 
     }
 
 
-    public function save(CustomerAddress $customerAddress): void
+    public function save(CustomerAddress $customerAddress, bool $isChosen): void
     {
 
-        $this->customerAddressSave->save($customerAddress);
+
+        $customerAddress = $this->customerAddressSave->save($customerAddress);
+        if ($isChosen) {
+            $this->checkOutAddressSession->setShippingAddress($customerAddress->getId());
+        }
 
     }
 

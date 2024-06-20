@@ -53,7 +53,10 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/address/create?type=billing&_redirect_upon_success_url=/checkout/addresses', 1)
+            ->assertRedirectedTo(
+                '/checkout/address/create?type=billing&_redirect_upon_success_url=/checkout/addresses',
+                1
+            )
             ->use(callback: function (Browser $browser) {
 
                 // assume address is created
@@ -65,7 +68,10 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/addresses/choose?type=shipping&_redirect_upon_success_url=/checkout/addresses', 1)
+            ->assertRedirectedTo(
+                '/checkout/addresses/choose?type=shipping&_redirect_upon_success_url=/checkout/addresses',
+                1
+            )
             ->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
@@ -77,7 +83,10 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses', 1)
+            ->assertRedirectedTo(
+                '/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses',
+                1
+            )
             ->use(callback: function (KernelBrowser $browser) {
 
                 $this->session->set(
@@ -94,52 +103,13 @@ class AddressControllerTest extends WebTestCase
     }
 
 
-    public function testCreateAddressBilling()
-    {
-        $this->createCustomer();
-        $this->createLocationFixtures();
-
-        $uri = "/checkout/address/create?type=\"billing\"";
-        $this
-            ->browser()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select', $this->pinCode->getId());
-            })
-            ->fillField(
-                'address_create_and_choose_form[address][line1]', 'Line 1'
-            )
-            ->fillField(
-                'address_create_and_choose_form[address][line2]', 'Line 2'
-            )
-            ->fillField(
-                'address_create_and_choose_form[address][line3]', 'Line 3'
-            )
-            ->fillField(
-                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
-            )
-            ->fillField(
-                'address_create_and_choose_form[address][addressType]', 'billing'
-            )
-            ->checkField(
-                'address_create_and_choose_form[address][isDefault]'
-            )->checkField('address_create_and_choose_form[isChosen]')
-            ->click('Save')
-            ->assertRedirectedTo('/checkout')
-            ->assertSuccessful();
-        //todo: check redirect
-    }
-
     public function testCreateAddressShipping()
     {
         $this->createCustomer();
         $this->createLocationFixtures();
 
-        $uri = "/checkout/address/create?id={$this->customer->getId()}&type=\"shipping\"";
+        $uri = "/checkout/address/create?type=shipping&" .
+            RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
@@ -169,7 +139,48 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][isDefault]'
             )->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
-            ->assertRedirectedTo('/checkout');
+            ->assertRedirectedTo('/checkout/addresses',1);
+        //todo: check redirect
+    }
+
+    public function testCreateAddressBilling()
+    {
+        $this->createCustomer();
+        $this->createLocationFixtures();
+
+        $uri = "/checkout/address/create?type=billing&" .
+            RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
+
+        $this
+            ->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption($browser, 'select', $this->pinCode->getId());
+            })
+            ->fillField(
+                'address_create_and_choose_form[address][line1]', 'Line 1'
+            )
+            ->fillField(
+                'address_create_and_choose_form[address][line2]', 'Line 2'
+            )
+            ->fillField(
+                'address_create_and_choose_form[address][line3]', 'Line 3'
+            )
+            ->fillField(
+                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
+            )
+            ->fillField(
+                'address_create_and_choose_form[address][addressType]', 'billing'
+            )
+            ->checkField(
+                'address_create_and_choose_form[address][isDefault]'
+            )->checkField('address_create_and_choose_form[isChosen]')
+            ->click('Save')
+            ->assertRedirectedTo('/checkout/addresses',1);
         //todo: check redirect
     }
 

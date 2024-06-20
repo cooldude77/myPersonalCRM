@@ -9,9 +9,10 @@ use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleF
 use App\Form\Module\WebShop\External\Address\New\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
-use App\Service\Module\WebShop\External\Address\AddressChooseMapper;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;
+use App\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
+use App\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,7 +93,7 @@ class AddressController extends AbstractController
     #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function create(RouterInterface $router, Request $request,
         CustomerFromUserFinder $customerFromUserFinder,
-        AddressChooseMapper $addressChooseMapper,
+        CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
         CheckOutAddressSave $checkOutAddressSave
     ): Response {
 
@@ -113,12 +114,16 @@ class AddressController extends AbstractController
 
             /** @var AddressCreateAndChooseDTO $data */
             $data = $form->getData();
-            $data->address->pinCodeId = $form->get('address')->get('pinCode')->getData()->getId();
 
 
-            $checkOutAddressSave->save($data);
+            $checkOutAddressSave->save(
+                $createNewAndChooseDTOMapper->map($data),
+                $createNewAndChooseDTOMapper->isChosen($data)
+            );
 
-            return $this->redirectToRoute('web_shop_checkout');
+            return $this->redirect(
+                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
+            );
         }
         // if it is a form then just display it raw here
         return $this->render(
@@ -129,9 +134,9 @@ class AddressController extends AbstractController
 
     /**
      * @param CustomerAddressRepository $customerAddressRepository
-     * @param CustomerFromUserFinder    $customerFromUserFinder
-     * @param AddressChooseMapper       $addressChooseMapper
-     * @param Request                   $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @param ChooseFromMultipleAddressDTOMapper $addressChooseMapper
+     * @param Request $request
      *
      * @return Response
      * @throws UserNotAssociatedWithACustomerException
@@ -140,7 +145,7 @@ class AddressController extends AbstractController
     #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
     public function chooseAddressFromList(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,
-        AddressChooseMapper $addressChooseMapper,
+        ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
         Request $request
     ): Response {
         $customer = $customerFromUserFinder->getLoggedInCustomer();
