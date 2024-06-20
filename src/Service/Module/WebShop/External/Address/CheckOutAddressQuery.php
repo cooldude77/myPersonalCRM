@@ -2,9 +2,8 @@
 
 namespace App\Service\Module\WebShop\External\Address;
 
-use App\Entity\CustomerAddress;
-use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CheckOutAddressQuery
@@ -15,90 +14,59 @@ class CheckOutAddressQuery
     public function __construct(
         private readonly CustomerAddressRepository $customerAddressRepository,
         private readonly CheckOutAddressSession $checkOutAddressSession,
+        private readonly CustomerFromUserFinder $customerFromUserFinder,
         RequestStack $requestStack
     ) {
 
     }
 
-    public function areAddressesProper(Customer $customer): bool
+    /**
+     * @return bool
+     * @throws \App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
+     * @throws \App\Exception\Security\User\UserNotLoggedInException
+     */
+    public function isAddressValid(int $id): bool
     {
 
 
-        $customer = $this->customerRepository->findOneBy(['user' => $this->security->getUser()]);
-        $addresses = $this->customerAddressRepository->findBy(['customer' => $customer]);
-        // todo:
-        return true;
+        $addresses = $this->customerAddressRepository->findOneBy([
+            'customer' => $this->customerFromUserFinder->getLoggedInCustomer(),
+            'id'=>$id]);
+
+         return $addresses != null;
 
     }
 
-    public function checkShippingAddressSet()
-    {
-
-    }
-
-
-    public function setBillingAddress(int $id): void
-    {
-        $this->requestStack->getSession()->set(self::BILLING_ADDRESS_ID, $id);
-
-    }
 
     public function setShippingAddress(int $id): void
     {
-        $this->requestStack->getSession()->set(self::SHIPPING_ADDRESS_ID, $id);
+
+        // todo check address valid
+        $this->checkOutAddressSession->setShippingAddress($id);
+    }
+
+    public function setBillingAddress(int $id): void
+    {
+
+        // todo check address valid
+        $this->checkOutAddressSession->setBillingAddress($id);
 
     }
 
-    public function isShippingAddressSet(): bool
-    {
-        // todo: verify id
-        return $this->requestStack->getSession()->get(self::SHIPPING_ADDRESS_ID) != null;
 
+    public function isShippingAddressChosen(): bool
+    {
+        // todo check address valid
+
+        return $this->checkOutAddressSession->isShippingAddressSet();
     }
 
-    public function isBillingAddressSet(): bool
+    public function isBillingAddressIsChosen(): bool
     {
 
-        // todo: verify id
-        return $this->requestStack->getSession()->get(self::BILLING_ADDRESS_ID) != null;
+        // todo check address valid
+        return $this->checkOutAddressSession->isBillingAddressSet();
 
-
-    }
-
-    public function save(AddressCreateAndChooseDTO $dto)
-    {
-
-        $this->customerService->mapAndPersist($dto->address);
-        $this->customerService->flush();
-
-        $this->setChosen($dto->isChosen, $dto->address->addressType);
-
-    }
-
-    private function setChosen(bool $isChosen, $type): void
-    {
-
-        $key = $type == "billing" ? self::BILLING_ADDRESS_ID : self::SHIPPING_ADDRESS_ID;
-        $this->requestStack->getSession()->set($key, $isChosen);
-    }
-
-    public function validateBeforeOrder()
-    {
-        // todo
-    }
-
-    public function getBillingAddress(): CustomerAddress
-    {
-        return $this->customerAddressRepository->find(
-            $this->requestStack->getSession()->get(self::BILLING_ADDRESS_ID)
-        );
-    }
-
-    public function getShippingAddress(): CustomerAddress
-    {
-        return $this->customerAddressRepository->find(
-            $this->requestStack->getSession()->get(self::SHIPPING_ADDRESS_ID)
-        );
     }
 
 }

@@ -11,8 +11,8 @@ use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
 use App\Service\Module\WebShop\External\Address\AddressChooseMapper;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,8 +32,9 @@ class AddressController extends AbstractController
     #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
     public function main(
         CustomerAddressRepository $customerAddressRepository,
-        CheckOutAddressSession $checkOutAddressSession,
+        CheckOutAddressQuery $checkOutAddressQuery,
         CustomerFromUserFinder $customerFromUserFinder,
+        Request $request
     ): Response {
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
@@ -42,7 +43,8 @@ class AddressController extends AbstractController
                                                                  'addressType' => 'shipping']);
 
         if ($addressesShipping == null) {
-            return $this->redirectToRoute('web_shop_checkout_address_create', ['type' => 'shipping']);
+            return $this->redirectToRoute('web_shop_checkout_address_create', ['type' => 'shipping']
+            );
         }
 
         $addressesBilling = $customerAddressRepository->findBy(['customer' => $customer,
@@ -55,21 +57,20 @@ class AddressController extends AbstractController
         }
 
         // addresses exist but not yet chosen
-        if ($checkOutAddressSession->isShippingAddressSet()) {
+        if (!$checkOutAddressQuery->isShippingAddressChosen()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_choose_address_from_list',
-                ['id' => 'customer', 'type' => 'shipping']
+                'web_shop_checkout_choose_address_from_list', ['type' => 'shipping']
             );
         }
-        if ($checkOutAddressSession->isBillingAddressSet()) {
+        if (!$checkOutAddressQuery->isBillingAddressIsChosen()) {
             return $this->redirectToRoute(
                 'web_shop_checkout_choose_address_from_list',
-                ['id' => 'customer', 'type' => 'billing']
+                ['type' => 'billing']
             );
         }
 
         // everything ok, go back to check out
-        return $this->redirect(RoutingConstants::REDIRECT_UPON_SUCCESS_URL);
+        return $this->redirect($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL));
     }
 
     #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
@@ -111,24 +112,18 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @param CustomerRepository        $customerRepository
      * @param CustomerAddressRepository $customerAddressRepository
      * @param CustomerFromUserFinder    $customerFromUserFinder
-     * @param CheckOutAddressService    $checkOutAddressService
      * @param AddressChooseMapper       $addressChooseMapper
      * @param Request                   $request
      *
      * @return Response
-     * @throws \App\Exception\Security\User\UserNotLoggedInException
-     *
-     *
-     * Choose from multiple addresses
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException Choose from multiple addresses
      */
     #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
-    public function chooseFromList(CustomerRepository $customerRepository,
-        CustomerAddressRepository $customerAddressRepository,
+    public function chooseAddressFromList(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,
-        CheckOutAddressService $checkOutAddressService,
         AddressChooseMapper $addressChooseMapper,
         Request $request
     ): Response {

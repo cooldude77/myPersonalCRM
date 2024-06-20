@@ -2,18 +2,25 @@
 
 namespace App\Tests\Controller\Module\WebShop\External\Address;
 
+use App\Controller\Component\Routing\RoutingConstants;
 use App\Factory\CustomerAddressFactory;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Fixtures\SessionFactoryFixture;
 use App\Tests\Utility\SelectElement;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class AddressControllerTest extends WebTestCase
 {
-    use HasBrowser, CustomerFixture, LocationFixture, SelectElement;
+    use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture;
 
+
+    private \Zenstruck\Foundry\Proxy|\App\Entity\CustomerAddress $shippingAddress;
+    private \Zenstruck\Foundry\Proxy|\App\Entity\CustomerAddress $billingAddress;
 
     public function testCreateAddressesWhenNoAddressesPresent()
     {
@@ -21,7 +28,7 @@ class AddressControllerTest extends WebTestCase
         $this->createLocationFixtures();
 
 
-        $uri = "/checkout/addresses";
+        $uri = "/checkout/addresses?" . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout';
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
@@ -32,7 +39,9 @@ class AddressControllerTest extends WebTestCase
             ->visit($uri)
             ->assertRedirectedTo('/checkout/address/create?type=shipping', 1)
             ->use(callback: function (Browser $browser) {
-                CustomerAddressFactory::createOne(
+
+                // assume address is created
+                $this->shippingAddress = CustomerAddressFactory::createOne(
                     ['customer' => $this->customer,
                      'addressType' => 'shipping',
                      'line1' => 'A Good House']
@@ -41,21 +50,44 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/address/create?type=billing', 1);
-        /*
+            ->assertRedirectedTo('/checkout/address/create?type=billing', 1)
             ->use(callback: function (Browser $browser) {
 
-                CustomerAddressFactory::createOne(
+                // assume address is created
+                $this->billingAddress = CustomerAddressFactory::createOne(
                     ['customer' => $this->customer,
                      'addressType' => 'billing',
                      'line1' => 'A Good House']
                 );
             })
-          ->interceptRedirects()
+            ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/address/create?type=billing', 1);
+            ->assertRedirectedTo('/checkout/addresses/choose?type=shipping', 1)
+            ->use(callback: function (KernelBrowser $browser) {
+                $this->createSession($browser);
 
-        */
+                $this->session->set(
+                    CheckOutAddressSession::SHIPPING_ADDRESS_ID,
+                    $this->shippingAddress->getId()
+                );
+
+            })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertRedirectedTo('/checkout/addresses/choose?type=billing', 1)
+            ->use(callback: function (KernelBrowser $browser) {
+
+                $this->session->set(
+                    CheckOutAddressSession::BILLING_ADDRESS_ID,
+                    $this->billingAddress->getId()
+                );
+
+            })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertRedirectedTo('/checkout', 1);
+
+
     }
 
 
