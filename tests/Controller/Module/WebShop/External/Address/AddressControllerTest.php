@@ -139,8 +139,14 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][isDefault]'
             )->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
-            ->assertRedirectedTo('/checkout/addresses',1);
-        //todo: check redirect
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                self::assertNotNull(
+                    $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
+                );
+
+            });
     }
 
     public function testCreateAddressBilling()
@@ -180,7 +186,14 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][isDefault]'
             )->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
-            ->assertRedirectedTo('/checkout/addresses',1);
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                self::assertNotNull(
+                    $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
+                );
+
+            });
         //todo: check redirect
     }
 
