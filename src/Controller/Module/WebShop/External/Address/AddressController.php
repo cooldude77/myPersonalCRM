@@ -9,11 +9,9 @@ use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleF
 use App\Form\Module\WebShop\External\Address\New\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
-use App\Repository\CustomerRepository;
 use App\Service\Module\WebShop\External\Address\AddressChooseMapper;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,13 +35,19 @@ class AddressController extends AbstractController
         Request $request
     ): Response {
 
+        $ownRoute = $this->generateUrl('web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
                                                                  'addressType' => 'shipping']);
 
         if ($addressesShipping == null) {
-            return $this->redirectToRoute('web_shop_checkout_address_create', ['type' => 'shipping']
+            return $this->redirectToRoute(
+                'web_shop_checkout_address_create',
+                ['type' => 'shipping',
+                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                     'web_shop_checkout_addresses'
+                 )]
             );
         }
 
@@ -52,20 +56,32 @@ class AddressController extends AbstractController
 
         if ($addressesBilling == null) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_create', ['type' => 'billing']
+                'web_shop_checkout_address_create',
+                ['type' => 'billing',
+
+                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                     'web_shop_checkout_addresses'
+                 )]
             );
         }
 
         // addresses exist but not yet chosen
         if (!$checkOutAddressQuery->isShippingAddressChosen()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_choose_address_from_list', ['type' => 'shipping']
+                'web_shop_checkout_choose_address_from_list', [
+                    'type' => 'shipping',
+                    RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                        'web_shop_checkout_addresses'
+                    )]
             );
         }
         if (!$checkOutAddressQuery->isBillingAddressIsChosen()) {
             return $this->redirectToRoute(
                 'web_shop_checkout_choose_address_from_list',
-                ['type' => 'billing']
+                ['type' => 'billing',
+                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                     'web_shop_checkout_addresses'
+                 )]
             );
         }
 

@@ -37,7 +37,10 @@ class AddressControllerTest extends WebTestCase
             // address exists
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/address/create?type=shipping', 1)
+            ->assertRedirectedTo(
+                '/checkout/address/create?type=shipping&_redirect_upon_success_url=/checkout/addresses',
+                1
+            )
             ->use(callback: function (Browser $browser) {
 
                 // assume address is created
@@ -50,7 +53,7 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/address/create?type=billing', 1)
+            ->assertRedirectedTo('/checkout/address/create?type=billing&_redirect_upon_success_url=/checkout/addresses', 1)
             ->use(callback: function (Browser $browser) {
 
                 // assume address is created
@@ -62,7 +65,7 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/addresses/choose?type=shipping', 1)
+            ->assertRedirectedTo('/checkout/addresses/choose?type=shipping&_redirect_upon_success_url=/checkout/addresses', 1)
             ->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
@@ -74,7 +77,7 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uri)
-            ->assertRedirectedTo('/checkout/addresses/choose?type=billing', 1)
+            ->assertRedirectedTo('/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses', 1)
             ->use(callback: function (KernelBrowser $browser) {
 
                 $this->session->set(
