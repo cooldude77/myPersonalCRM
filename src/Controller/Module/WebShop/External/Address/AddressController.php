@@ -2,15 +2,18 @@
 
 namespace App\Controller\Module\WebShop\External\Address;
 
+use App\Controller\Component\Routing\RoutingConstants;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
-use App\Form\Module\WebShop\External\Address\AddressChooseFromMultipleForm;
-use App\Form\Module\WebShop\External\Address\AddressCreateForm;
-use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
+use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
+use App\Form\Module\WebShop\External\Address\New\AddressCreateForm;
+use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
 use App\Service\Module\WebShop\External\Address\AddressChooseMapper;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,9 +30,9 @@ class AddressController extends AbstractController
      * @throws UserNotLoggedInException
      */
     #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
-    public function main(CustomerRepository $customerRepository,
+    public function main(
         CustomerAddressRepository $customerAddressRepository,
-        CheckOutAddressService $checkOutAddressService,
+        CheckOutAddressSession $checkOutAddressSession,
         CustomerFromUserFinder $customerFromUserFinder,
     ): Response {
 
@@ -39,9 +42,7 @@ class AddressController extends AbstractController
                                                                  'addressType' => 'shipping']);
 
         if ($addressesShipping == null) {
-            return $this->redirectToRoute(
-                'web_shop_checkout_address_create', ['type' => 'shipping']
-            );
+            return $this->redirectToRoute('web_shop_checkout_address_create', ['type' => 'shipping']);
         }
 
         $addressesBilling = $customerAddressRepository->findBy(['customer' => $customer,
@@ -54,13 +55,13 @@ class AddressController extends AbstractController
         }
 
         // addresses exist but not yet chosen
-        if ($checkOutAddressService->isShippingAddressSet()) {
+        if ($checkOutAddressSession->isShippingAddressSet()) {
             return $this->redirectToRoute(
                 'web_shop_checkout_choose_address_from_list',
                 ['id' => 'customer', 'type' => 'shipping']
             );
         }
-        if ($checkOutAddressService->isBillingAddressSet()) {
+        if ($checkOutAddressSession->isBillingAddressSet()) {
             return $this->redirectToRoute(
                 'web_shop_checkout_choose_address_from_list',
                 ['id' => 'customer', 'type' => 'billing']
@@ -68,13 +69,14 @@ class AddressController extends AbstractController
         }
 
         // everything ok, go back to check out
-        return $this->redirectToRoute('web_shop_checkout');
+        return $this->redirect(RoutingConstants::REDIRECT_UPON_SUCCESS_URL);
     }
 
     #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function create(RouterInterface $router, Request $request,
         CustomerFromUserFinder $customerFromUserFinder,
-        CheckOutAddressService $checkOutAddressService
+        AddressChooseMapper $addressChooseMapper,
+        CheckOutAddressSave $checkOutAddressSave
     ): Response {
 
 
@@ -96,7 +98,8 @@ class AddressController extends AbstractController
             $data = $form->getData();
             $data->address->pinCodeId = $form->get('address')->get('pinCode')->getData()->getId();
 
-            $checkOutAddressService->save($data);
+
+            $checkOutAddressSave->save($data);
 
             return $this->redirectToRoute('web_shop_checkout');
         }

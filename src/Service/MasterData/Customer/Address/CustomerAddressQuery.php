@@ -3,18 +3,14 @@
 namespace App\Service\MasterData\Customer\Address;
 
 use App\Entity\CustomerAddress;
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Service\Component\Database\DatabaseOperations;
 
-class CustomerAddressService
+class CustomerAddressQuery
 {
 
     public function __construct(
-        private readonly CustomerAddressRepository $customerAddressRepository,
-        private readonly CustomerAddressDTOMapper $customerAddressDTOMapper,
-        private readonly DatabaseOperations $databaseOperations
-    ) {
+        private readonly CustomerAddressRepository $customerAddressRepository) {
     }
 
     public function getAddressInASingleLine(int $id): string
@@ -29,20 +25,6 @@ class CustomerAddressService
             . $customerAddress->getPinCode()->getPinCode() . "\n";
 
 
-    }
-
-    public function mapAndPersist(CustomerAddressDTO $customerAddressDTO): CustomerAddress
-    {
-
-        $customerAddress = $this->customerAddressDTOMapper->mapDtoToEntityForCreate(
-            $customerAddressDTO
-        );
-        $this->databaseOperations->persist($customerAddress);
-        return $customerAddress;
-    }
-    public function flush(): void
-    {
-        $this->databaseOperations->flush();
     }
 
 

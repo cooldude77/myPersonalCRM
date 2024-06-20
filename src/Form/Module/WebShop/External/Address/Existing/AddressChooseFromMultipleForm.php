@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address;
+namespace App\Form\Module\WebShop\External\Address\Existing;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -12,7 +12,7 @@ class AddressChooseFromMultipleForm extends AbstractType
     {
         $builder->add(
             'addresses', CollectionType::class,
-            ['entry_type' => AddressChooseForm::class]
+            ['entry_type' => AddressChooseExistingSingleForm::class]
         );
 
     }

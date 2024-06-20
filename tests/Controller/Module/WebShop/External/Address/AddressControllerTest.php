@@ -3,7 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Address;
 
 use App\Factory\CustomerAddressFactory;
-use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -12,7 +12,52 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class AddressControllerTest extends WebTestCase
 {
-    use HasBrowser, EmployeeFixture, LocationFixture, SelectElement;
+    use HasBrowser, CustomerFixture, LocationFixture, SelectElement;
+
+
+    public function testCreateAddressesWhenNoAddressesPresent()
+    {
+        $this->createCustomer();
+        $this->createLocationFixtures();
+
+
+        $uri = "/checkout/addresses";
+        $this
+            ->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            // address exists
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertRedirectedTo('/checkout/address/create?type=shipping', 1)
+            ->use(callback: function (Browser $browser) {
+                CustomerAddressFactory::createOne(
+                    ['customer' => $this->customer,
+                     'addressType' => 'shipping',
+                     'line1' => 'A Good House']
+                );
+
+            })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertRedirectedTo('/checkout/address/create?type=billing', 1);
+        /*
+            ->use(callback: function (Browser $browser) {
+
+                CustomerAddressFactory::createOne(
+                    ['customer' => $this->customer,
+                     'addressType' => 'billing',
+                     'line1' => 'A Good House']
+                );
+            })
+          ->interceptRedirects()
+            ->visit($uri)
+            ->assertRedirectedTo('/checkout/address/create?type=billing', 1);
+
+        */
+    }
+
 
     public function testCreateAddressBilling()
     {
@@ -23,7 +68,7 @@ class AddressControllerTest extends WebTestCase
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -63,7 +108,7 @@ class AddressControllerTest extends WebTestCase
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -93,42 +138,6 @@ class AddressControllerTest extends WebTestCase
         //todo: check redirect
     }
 
-    public function testChooseAddressesWhenNoAddressesPresent()
-    {
-        $this->createCustomer();
-        $this->createLocationFixtures();
-
-
-        $uri = "/checkout/addresses";
-        $this
-            ->browser()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
-            })
-            ->visit($uri)
-            ->assertSee("Add Billing Address")
-            ->assertSee('Add Shipping Address');
-
-        // one address is created already
-
-        $address1 = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
-        );
-
-        $uri = "/checkout/addresses";
-        $this
-            ->browser()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
-            })
-            ->visit($uri)
-            ->use(callback: function (Browser $browser) {
-                $respone = $browser->client()->getResponse();
-            })
-            ->assertContains($address1->getLine1())
-            ->assertSee('Add Shipping Address');
-
-    }
 
     public function testChooseAddressesFromMultipleShippingAddresses()
     {
@@ -150,7 +159,7 @@ class AddressControllerTest extends WebTestCase
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->user->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->assertContains("A Good House\n");

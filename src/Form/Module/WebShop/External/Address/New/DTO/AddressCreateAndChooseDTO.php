@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address\DTO;
+namespace App\Form\Module\WebShop\External\Address\New\DTO;
 
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 
+/**
+ * Create and choose from the form
+ */
 class AddressCreateAndChooseDTO
 {
 

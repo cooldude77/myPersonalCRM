@@ -3,40 +3,21 @@
 namespace App\Service\Module\WebShop\External\Address;
 
 use App\Entity\CustomerAddress;
-use App\Form\Module\WebShop\External\Address\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
-use App\Service\Security\User\Customer\CustomerService;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CheckOutAddressService
+class CheckOutAddressSession
 {
     public const BILLING_ADDRESS_ID = "BILLING_ADDRESS_SET_ID";
     public const SHIPPING_ADDRESS_ID = "SHIPPING_ADDRESS_SET_ID";
 
-    public function __construct(private readonly Security $security,
+    public function __construct(
         private readonly RequestStack $requestStack,
-        private readonly CustomerService $customerService,
         private readonly CustomerAddressRepository $customerAddressRepository
     ) {
 
     }
 
-    public function areAddressesProper(): bool
-    {
-
-
-        $customer = $this->customerRepository->findOneBy(['user' => $this->security->getUser()]);
-        $addresses = $this->customerAddressRepository->findBy(['customer' => $customer]);
-        // todo:
-        return true;
-
-    }
-
-    public function checkShippingAddressSet()
-    {
-
-    }
 
 
     public function setBillingAddress(int $id): void
@@ -67,15 +48,6 @@ class CheckOutAddressService
 
     }
 
-    public function save(AddressCreateAndChooseDTO $dto)
-    {
-
-        $this->customerService->mapAndPersist($dto->address);
-        $this->customerService->flush();
-
-        $this->setChosen($dto->isChosen,$dto->address->addressType  );
-
-    }
 
     private function setChosen(bool $isChosen,$type):void
     {
@@ -84,10 +56,6 @@ class CheckOutAddressService
         $this->requestStack->getSession()->set($key,$isChosen);
     }
 
-    public function validateBeforeOrder()
-    {
-        // todo
-    }
 
     public function getBillingAddress():CustomerAddress
     {
