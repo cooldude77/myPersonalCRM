@@ -77,7 +77,7 @@ class AddressController extends AbstractController
                     )]
             );
         }
-        if (!$checkOutAddressQuery->isBillingAddressIsChosen()) {
+        if (!$checkOutAddressQuery->isBillingAddressChosen()) {
             return $this->redirectToRoute(
                 'web_shop_checkout_choose_address_from_list',
                 ['type' => 'billing',
@@ -121,6 +121,7 @@ class AddressController extends AbstractController
                 $createNewAndChooseDTOMapper->map($data),
                 $createNewAndChooseDTOMapper->isChosen($data)
             );
+
 
             return $this->redirect(
                 $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)

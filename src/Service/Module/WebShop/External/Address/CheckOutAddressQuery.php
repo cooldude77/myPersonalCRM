@@ -61,7 +61,7 @@ class CheckOutAddressQuery
         return $this->checkOutAddressSession->isShippingAddressSet();
     }
 
-    public function isBillingAddressIsChosen(): bool
+    public function isBillingAddressChosen(): bool
     {
 
         // todo check address valid

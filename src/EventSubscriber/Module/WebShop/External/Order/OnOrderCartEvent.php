@@ -4,15 +4,15 @@ namespace App\EventSubscriber\Module\WebShop\External\Order;
 
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
-use App\Event\Module\WebShop\External\Cart\CartEventTypes;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
+use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class OrderCartEventSubscriber implements EventSubscriberInterface
+readonly class OnOrderCartEvent implements EventSubscriberInterface
 {
     public function __construct(private OrderSave $orderSave,
         private readonly OrderRead $orderRead,

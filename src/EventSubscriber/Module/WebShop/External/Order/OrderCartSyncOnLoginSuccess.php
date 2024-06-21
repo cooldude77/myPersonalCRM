@@ -10,7 +10,7 @@ use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
-readonly class OrderCartSyncOnLoginSuccessEventSubscriber implements EventSubscriberInterface
+readonly class OrderCartSyncOnLoginSuccess implements EventSubscriberInterface
 {
     public function __construct(
         private readonly OrderRead $orderRead,

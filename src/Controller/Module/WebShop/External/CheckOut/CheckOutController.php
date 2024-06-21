@@ -3,6 +3,7 @@
 namespace App\Controller\Module\WebShop\External\CheckOut;
 
 use App\Controller\Component\Routing\RoutingConstants;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
@@ -19,7 +20,7 @@ class CheckOutController extends AbstractController
     public function checkout(
         CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartSessionService,
-        CheckOutAddressService $checkOutAddressService
+        CheckOutAddressQuery $checkOutAddressQuery
     ): Response {
 
         // The checkout page will display appropriate twig templates
@@ -42,13 +43,13 @@ class CheckOutController extends AbstractController
         }
 
 
-        if (!$checkOutAddressService->isShippingAddressSet()
-            || !$checkOutAddressService->isBillingAddressSet()) {
+        if (!$checkOutAddressQuery->isShippingAddressChosen()
+            || !$checkOutAddressQuery->isBillingAddressChosen()) {
             return $this->redirectToRoute('web_shop_checkout_addresses');
         }
 
 
-        return new Response();
+        return  $this->redirectToRoute('module_web_shop_payment');
 
     }
 }
