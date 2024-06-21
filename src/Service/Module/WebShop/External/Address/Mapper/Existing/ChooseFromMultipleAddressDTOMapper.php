@@ -3,32 +3,31 @@
 namespace App\Service\Module\WebShop\External\Address\Mapper\Existing;
 
 use App\Entity\CustomerAddress;
+use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
 use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
-use App\Service\MasterData\Customer\Address\CustomerAddressQuery;
 
 readonly class ChooseFromMultipleAddressDTOMapper
 {
 
-    public function __construct(private CustomerAddressQuery $customerAddressQuery)
-    {
-    }
 
-    public function mapAddressesToDto(array $addresses): array
-    {
+    public function mapAddressesToDto(array $addresses, array $array):
+    AddressChooseExistingMultipleDTO {
 
-        $array = [];
+        $multi = new AddressChooseExistingMultipleDTO();
 
+        $incomingArray = $array['address_choose_existing_multiple_form']['addresses'] ?? array();
         /** @var CustomerAddress $address */
-        foreach ($addresses as $address){
+        foreach ($addresses as $key => $address) {
             $dto = new AddressChooseExistingSingleDTO();
 
-            $dto->isChosen = false;
-            $dto->address = $this->customerAddressQuery->getAddressInASingleLine($address->getId());
+            $dto->id = $address->getId();
+            // todo: validation , two entries cannot be chosen
+            $dto->isChosen = $incomingArray[$key]['isChosen'] ?? false;
 
-            $array[]=$dto;
+            $multi->add($dto);
 
 
         }
-        return $array;
+        return $multi;
     }
 }

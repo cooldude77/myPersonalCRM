@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Address;
 
 use App\Controller\Component\Routing\RoutingConstants;
+use App\Entity\CustomerAddress;
 use App\Factory\CustomerAddressFactory;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Tests\Fixtures\CustomerFixture;
@@ -13,14 +14,15 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Proxy;
 
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture;
 
 
-    private \Zenstruck\Foundry\Proxy|\App\Entity\CustomerAddress $shippingAddress;
-    private \Zenstruck\Foundry\Proxy|\App\Entity\CustomerAddress $billingAddress;
+    private Proxy|CustomerAddress $shippingAddress;
+    private Proxy|CustomerAddress $billingAddress;
 
     public function testCreateAddressesWhenNoAddressesPresent()
     {
@@ -29,19 +31,14 @@ class AddressControllerTest extends WebTestCase
 
 
         $uri = "/checkout/addresses?" . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout';
-        $this
-            ->browser()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-            })
+        $this->browser()->use(callback: function (Browser $browser) {
+            $browser->client()->loginUser($this->userForCustomer->object());
+        })
             // address exists
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo(
+            ->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/address/create?type=shipping&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )
-            ->use(callback: function (Browser $browser) {
+            )->use(callback: function (Browser $browser) {
 
                 // assume address is created
                 $this->shippingAddress = CustomerAddressFactory::createOne(
@@ -50,14 +47,10 @@ class AddressControllerTest extends WebTestCase
                      'line1' => 'A Good House']
                 );
 
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo(
+            })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/address/create?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )
-            ->use(callback: function (Browser $browser) {
+            )->use(callback: function (Browser $browser) {
 
                 // assume address is created
                 $this->billingAddress = CustomerAddressFactory::createOne(
@@ -65,39 +58,26 @@ class AddressControllerTest extends WebTestCase
                      'addressType' => 'billing',
                      'line1' => 'A Good House']
                 );
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo(
+            })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=shipping&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )
-            ->use(callback: function (KernelBrowser $browser) {
+            )->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
                 $this->session->set(
-                    CheckOutAddressSession::SHIPPING_ADDRESS_ID,
-                    $this->shippingAddress->getId()
+                    CheckOutAddressSession::SHIPPING_ADDRESS_ID, $this->shippingAddress->getId()
                 );
 
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo(
+            })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )
-            ->use(callback: function (KernelBrowser $browser) {
+            )->use(callback: function (KernelBrowser $browser) {
 
                 $this->session->set(
-                    CheckOutAddressSession::BILLING_ADDRESS_ID,
-                    $this->billingAddress->getId()
+                    CheckOutAddressSession::BILLING_ADDRESS_ID, $this->billingAddress->getId()
                 );
 
-            })
-            ->interceptRedirects()
-            ->visit($uri)
-            ->assertRedirectedTo('/checkout', 1);
+            })->interceptRedirects()->visit($uri)->assertRedirectedTo('/checkout', 1);
 
 
     }
@@ -108,10 +88,9 @@ class AddressControllerTest extends WebTestCase
         $this->createCustomer();
         $this->createLocationFixtures();
 
-        $uri = "/checkout/address/create?type=shipping&" .
-            RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
-        $this
-            ->browser()
+        $uri = "/checkout/address/create?type=shipping&"
+            . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
+        $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
@@ -137,7 +116,8 @@ class AddressControllerTest extends WebTestCase
             )
             ->checkField(
                 'address_create_and_choose_form[address][isDefault]'
-            )->checkField('address_create_and_choose_form[isChosen]')
+            )
+            ->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(function (KernelBrowser $browser) {
@@ -154,11 +134,10 @@ class AddressControllerTest extends WebTestCase
         $this->createCustomer();
         $this->createLocationFixtures();
 
-        $uri = "/checkout/address/create?type=billing&" .
-            RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
+        $uri = "/checkout/address/create?type=billing&"
+            . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
 
-        $this
-            ->browser()
+        $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
@@ -184,7 +163,8 @@ class AddressControllerTest extends WebTestCase
             )
             ->checkField(
                 'address_create_and_choose_form[address][isDefault]'
-            )->checkField('address_create_and_choose_form[isChosen]')
+            )
+            ->checkField('address_create_and_choose_form[isChosen]')
             ->click('Save')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(function (KernelBrowser $browser) {
@@ -207,21 +187,70 @@ class AddressControllerTest extends WebTestCase
         // one address is created already
 
         $address1 = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A Good House']
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 1']
         );
         $address2 = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'A New House']
+            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 2']
+        );
+        $address3 = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
+        );
+        $address4 = CustomerAddressFactory::createOne(
+            ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
         );
 
 
-        $uri = "/checkout/addresses/choose?type=shipping";
+        $uriShipping = "/checkout/addresses/choose?type=shipping";
+        $uriBilling = "/checkout/addresses/choose?type=billing";
+
+        // first choose shipping
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
-            ->visit($uri)
-            ->assertContains("A Good House\n");
+            ->interceptRedirects()
+            ->visit($uriShipping)
+            ->checkField(
+                "address_choose_existing_multiple_form[addresses][0][isChosen]"
+            )
+            ->click('Choose')
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(
+                function (KernelBrowser $browser) use ($address1) {
+                    $this->createSession($browser);
+                    self::assertNotNull(
+                        $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
+                    );
+
+                    self::assertEquals(
+                        $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID),
+                        $address1->getId()
+                    );
+                }
+            )
+            // then choose billing
+            ->interceptRedirects()
+            ->visit($uriBilling)
+            ->checkField(
+                "address_choose_existing_multiple_form[addresses][0][isChosen]"
+            )
+            ->click('Choose')
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(
+                function (KernelBrowser $browser) use ($address3) {
+                    $this->createSession($browser);
+                    self::assertNotNull(
+                        $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
+                    );
+
+                    self::assertEquals(
+                        $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),
+                        $address3->getId()
+                    );
+                }
+            );
+
 
     }
 }

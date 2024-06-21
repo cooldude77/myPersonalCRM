@@ -6,6 +6,7 @@ use App\Controller\Component\Routing\RoutingConstants;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
+use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
 use App\Form\Module\WebShop\External\Address\New\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
@@ -133,10 +134,10 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @param CustomerAddressRepository $customerAddressRepository
-     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @param CustomerAddressRepository          $customerAddressRepository
+     * @param CustomerFromUserFinder             $customerFromUserFinder
      * @param ChooseFromMultipleAddressDTOMapper $addressChooseMapper
-     * @param Request $request
+     * @param Request                            $request
      *
      * @return Response
      * @throws UserNotAssociatedWithACustomerException
@@ -146,21 +147,41 @@ class AddressController extends AbstractController
     public function chooseAddressFromList(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,
         ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
+        CheckoutAddressChooseParser $checkoutAddressChooseParser,
         Request $request
     ): Response {
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addresses = $customerAddressRepository->findBy(['customer' => $customer,
-                                                         'addressType' => $request->get('type')]);
+                                                         'addressType' => $request->query->get(
+                                                             'type'
+                                                         )]);
 
-        $addressesDTO = $addressChooseMapper->mapAddressesToDto($addresses);
+        $addressesDTO = $addressChooseMapper->mapAddressesToDto(
+            $addresses, $request->request->all()
+        );
 
 
         $form = $this->createForm(AddressChooseFromMultipleForm::class, $addressesDTO);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var AddressChooseExistingMultipleDTO $data */
+            $data = $form->getData();
+
+            $checkoutAddressChooseParser->setAddressInSession($data, $request->query->get('type'));
+
+            return $this->redirectToRoute('web_shop_checkout_addresses');
+
+        }
+
+
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_billing_page.html.twig',
-            ['form' => $form]
+            'module/web_shop/external/checkout/address/page/checkout_address_chooser_page.html.twig',
+            ['form' => $form,
+             'addressTypeCaption' => 'Shipping Address']
         );
     }
 
