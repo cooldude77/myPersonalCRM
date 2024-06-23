@@ -2,8 +2,8 @@
 
 namespace App\Tests\Fixtures;
 
-use App\Controller\Module\WebShop\External\Address\CheckOutAddressService;
 use App\Entity\CustomerAddress;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Tests\Utility\MySessionFactory;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Zenstruck\Foundry\Proxy;
@@ -17,8 +17,8 @@ trait WebShopAddressFixture
         $factory = $browser->getContainer()->get('session.factory');
 
         $session = $factory->createSession();
-        $session->set(CheckOutAddressService::SHIPPING_ADDRESS_ID, $addressShipping->getId());
-        $session->set(CheckOutAddressService::BILLING_ADDRESS_ID, $addressBilling->getId());
+        $session->set(CheckOutAddressSession::SHIPPING_ADDRESS_ID, $addressShipping->getId());
+        $session->set(CheckOutAddressSession::BILLING_ADDRESS_ID, $addressBilling->getId());
         $session->save();
     }
 

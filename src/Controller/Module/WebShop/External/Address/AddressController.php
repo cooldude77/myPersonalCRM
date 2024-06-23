@@ -3,8 +3,10 @@
 namespace App\Controller\Module\WebShop\External\Address;
 
 use App\Controller\Component\Routing\RoutingConstants;
+use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
+use App\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
@@ -126,11 +128,12 @@ class AddressController extends AbstractController
                 $createNewAndChooseDTOMapper->isChosen($data)
             );
 
-            $eventDispatcher->dispatch(new CheckoutAddressCreatedEvent(
-                $customerFromUserFinder->getLoggedInCustomer(),
-                $address,
-                $createNewAndChooseDTOMapper->isChosen($data)
-            ),
+            $eventDispatcher->dispatch(
+                new CheckoutAddressCreatedEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(),
+                    $address,
+                    $createNewAndChooseDTOMapper->isChosen($data)
+                ),
                 CheckoutAddressEventTypes::POST_ADDRESS_CREATE
             );
             return $this->redirect(
@@ -183,13 +186,22 @@ class AddressController extends AbstractController
             /** @var AddressChooseExistingMultipleDTO $data */
             $data = $form->getData();
 
-          $address =  $checkoutAddressChooseParser->setAddressInSession($data, $request->query->get
-            ('type'));
+            try {
+                $address = $checkoutAddressChooseParser->setAddressInSession(
+                    $data, $request->query->get('type')
+                );
+            } catch (NoAddressChosenAtCheckout $e) {
 
-            $eventDispatcher->dispatch( new CheckoutAddressCreatedEvent(
-                $customerFromUserFinder->getLoggedInCustomer(),
-                $address
-            ),
+                $this->addFlash('error','Please choose at least one address');
+                return $this->redirectToRoute('web_shop_checkout_choose_address_from_list') ;
+
+            }
+
+            $eventDispatcher->dispatch(
+                new CheckoutAddressChosenEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(),
+                    $address
+                ),
                 CheckoutAddressEventTypes::POST_ADDRESS_CHOSEN,
 
             );

@@ -217,16 +217,16 @@ class AddressControllerTest extends WebTestCase
 
         // one address is created already
 
-        $address1 = CustomerAddressFactory::createOne(
+        $address1Shipping = CustomerAddressFactory::createOne(
             ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 1']
         );
-        $address2 = CustomerAddressFactory::createOne(
+        $address2Shipping = CustomerAddressFactory::createOne(
             ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 2']
         );
-        $address3 = CustomerAddressFactory::createOne(
+        $address1Billing = CustomerAddressFactory::createOne(
             ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
         );
-        $address4 = CustomerAddressFactory::createOne(
+        $address2Billing = CustomerAddressFactory::createOne(
             ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
         );
 
@@ -239,6 +239,7 @@ class AddressControllerTest extends WebTestCase
             ->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
+                $this->createOpenOrder($this->customer);
             })
             ->interceptRedirects()
             ->visit($uriShipping)
@@ -248,7 +249,7 @@ class AddressControllerTest extends WebTestCase
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(
-                function (KernelBrowser $browser) use ($address1) {
+                function (KernelBrowser $browser) use ($address1Shipping,$address1Billing) {
                     $this->createSession($browser);
                     self::assertNotNull(
                         $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
@@ -256,8 +257,15 @@ class AddressControllerTest extends WebTestCase
 
                     self::assertEquals(
                         $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID),
-                        $address1->getId()
+                        $address1Shipping->getId()
                     );
+
+                    $orderAddress = $this->findOneBy(
+                        OrderAddress::class, ['shippingAddress' => $address1Shipping->object()]
+                    );
+
+                    self::assertNotNull($orderAddress);
+
                 }
             )
             // then choose billing
@@ -269,7 +277,7 @@ class AddressControllerTest extends WebTestCase
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(
-                function (KernelBrowser $browser) use ($address3) {
+                function (KernelBrowser $browser) use ($address1Billing) {
                     $this->createSession($browser);
                     self::assertNotNull(
                         $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
@@ -277,10 +285,19 @@ class AddressControllerTest extends WebTestCase
 
                     self::assertEquals(
                         $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),
-                        $address3->getId()
+                        $address1Billing->getId()
                     );
+
+
+
+                    $orderAddress = $this->findOneBy(
+                        OrderAddress::class, ['billingAddress' => $address1Billing->object()]
+                    );
+
+                    self::assertNotNull($orderAddress);
                 }
             );
+
 
 
     }

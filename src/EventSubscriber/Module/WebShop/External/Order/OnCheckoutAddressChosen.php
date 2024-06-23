@@ -2,8 +2,10 @@
 
 namespace App\EventSubscriber\Module\WebShop\External\Order;
 
+use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
+use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderSave;
@@ -24,12 +26,20 @@ readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
 
     }
 
-    public function onAddressChosen(CheckoutAddressCreatedEvent $event): void
+    /**
+     * @param CheckoutAddressChosenEvent $event
+     *
+     * @return void
+     * @throws NoOpenOrderExists
+     */
+    public function onAddressChosen(CheckoutAddressChosenEvent $event): void
     {
 
         $customer = $event->getCustomer();
 
         $orderHeader = $this->orderRead->getOpenOrder($customer);
+        if($orderHeader == null)
+            throw  new NoOpenOrderExists();
 
         $address = $event->getCustomerAddress();
 
