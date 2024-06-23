@@ -1,12 +1,10 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order;
+namespace App\EventSubscriber\Module\WebShop\External\Order\Address;
 
 use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
-use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

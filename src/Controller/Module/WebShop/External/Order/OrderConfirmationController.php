@@ -11,13 +11,13 @@ class OrderConfirmationController extends AbstractController
 {
 
 
-    #[Route('/order/success', 'module_web_shop_order_complete_details')]
-    public function thankYou(OrderHeaderRepository $orderHeaderRepository
-    ): Response {
+    #[Route('/order/{id}/success', 'module_web_shop_order_complete_details')]
+    public function thankYou(int $id, OrderHeaderRepository $orderHeaderRepository): Response
+    {
         // todo: check referring route
         // this page will be displayed only when referred from payment
 
-        $orderHeader = $orderHeaderRepository->findOneBy($id);
+        $orderHeader = $orderHeaderRepository->find($id);
 
         return $this->render(
             'module/web_shop/external/order/thank_you_for_your_order.html.twig',

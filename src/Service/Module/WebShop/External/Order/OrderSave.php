@@ -9,6 +9,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderAddressRepository;
+use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
@@ -35,6 +36,7 @@ readonly class OrderSave
         private OrderAddressMapper $orderAddressMapper,
         private OrderStatusMapper $orderStatusMapper,
         private OrderAddressRepository $orderAddressRepository,
+        private OrderStatusTypeRepository $orderStatusTypeRepository,
         private DatabaseOperations $databaseOperations
     ) {
     }
@@ -188,6 +190,19 @@ readonly class OrderSave
             }
             $this->databaseOperations->flush();
         }
+
+    }
+
+    public function setOrderStatus(OrderHeader $orderHeader, string $orderStatusTypeString): void
+    {
+        $orderStatusType = $this->orderStatusTypeRepository->findOneBy
+        (
+            ['type' => $orderStatusTypeString]
+        );
+
+        $orderHeader->setOrderStatusType($orderStatusType);
+
+        $this->databaseOperations->flush();
 
     }
 }

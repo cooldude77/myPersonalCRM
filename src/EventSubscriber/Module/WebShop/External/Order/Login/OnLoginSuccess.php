@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order;
+namespace App\EventSubscriber\Module\WebShop\External\Order\Login;
 
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
@@ -36,7 +36,7 @@ readonly class OnLoginSuccess implements EventSubscriberInterface
             if ($this->orderRead->isOpenOrder($customer)
             ) {  // todo handle exceptions
                 $order = $this->orderRead->getOpenOrder($customer);
-                $items = $this->orderRead->getOpenOrderItems($order);
+                $items = $this->orderRead->getOrderItems($order);
                 if (count($items) > 0) {
                     $this->orderToCart->copyProductsFromOrderToCart($items);
                 }

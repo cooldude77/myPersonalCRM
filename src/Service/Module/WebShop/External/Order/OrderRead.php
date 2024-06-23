@@ -5,13 +5,16 @@ namespace App\Service\Module\WebShop\External\Order;
 use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
+use App\Entity\OrderPayment;
 use App\Entity\PriceProductBase;
 use App\Entity\Product;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
+use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Repository\PriceProductBaseRepository;
+use App\Service\Module\WebShop\External\Order\Object\OrderObject;
 use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
 
 readonly class OrderRead
@@ -20,7 +23,8 @@ readonly class OrderRead
         private readonly OrderItemRepository $orderItemRepository,
         private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
         private readonly PriceProductBaseRepository $priceProductBaseRepository,
-        private readonly OrderAddressRepository $orderAddressRepository
+        private readonly OrderAddressRepository $orderAddressRepository,
+        private readonly OrderPaymentRepository $orderPaymentRepository
     ) {
     }
 
@@ -49,13 +53,6 @@ readonly class OrderRead
 
     }
 
-    public function getOpenOrderItems(OrderHeader $orderHeader): array
-    {
-
-        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
-
-    }
-
     public function getOpenOrder(Customer $customer): ?OrderHeader
     {
         $orderStatusType = $this->orderStatusTypeRepository->findOneBy(
@@ -66,9 +63,32 @@ readonly class OrderRead
                                                         'orderStatusType' => $orderStatusType]);
     }
 
+    public function getOrderObject(OrderHeader $orderHeader)
+    {
+        $object = new OrderObject();
+        $object->setOrderHeader($orderHeader);
+        $object->setOrderAddress($this->getAddresses($orderHeader));
+        $object->setOrderItems($this->getOrderItems($orderHeader));
+        $object->setOrderPayment($this->getPayment($orderHeader));
+
+        return $object;
+    }
+
     public function getAddresses(?OrderHeader $orderHeader): array
     {
-       return $this->orderAddressRepository->findBy(['orderHeader' => $orderHeader]);
+        return $this->orderAddressRepository->findBy(['orderHeader' => $orderHeader]);
+    }
+
+    public function getOrderItems(OrderHeader $orderHeader): array
+    {
+
+        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
+
+    }
+
+    public function getPayment(?OrderHeader $orderHeader): OrderPayment
+    {
+        return $this->orderPaymentRepository->findOneBy(['orderHeader' => $orderHeader]);
     }
 
 }

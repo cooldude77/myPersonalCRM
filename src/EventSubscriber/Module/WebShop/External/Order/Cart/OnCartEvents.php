@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order;
+namespace App\EventSubscriber\Module\WebShop\External\Order\Cart;
 
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
@@ -47,7 +47,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
 
 
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
-        $orderItems = $this->orderRead->getOpenOrderItems($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->updateOrderItemsFromCartArray(
             $this->cartSessionProductService->getCartArray(),
             $orderItems
@@ -73,7 +73,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
     {
 
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
-        $orderItems = $this->orderRead->getOpenOrderItems($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->updateOrderRemoveItem($event->getProduct(), $orderItems);
 
     }
@@ -81,7 +81,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
     public function cartCleared(CartClearedByUserEvent $event): void
     {
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
-        $orderItems = $this->orderRead->getOpenOrderItems($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->removeAllItems($orderItems);
 
     }

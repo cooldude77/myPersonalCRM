@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order;
+namespace App\EventSubscriber\Module\WebShop\External\Order\Address;
 
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Address;
+namespace App\Service\Module\WebShop\External\Address;
 
 use App\Entity\CustomerAddress;
 use App\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
 use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
 use App\Repository\CustomerAddressRepository;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 
 readonly class CheckoutAddressChooseParser
 {

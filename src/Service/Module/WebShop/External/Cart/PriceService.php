@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Serviec\Module\WebShop\External\Cart;
+namespace App\Service\Module\WebShop\External\Cart;
 
 use App\Entity\PriceProductBase;
 use App\Repository\PriceProductBaseRepository;
