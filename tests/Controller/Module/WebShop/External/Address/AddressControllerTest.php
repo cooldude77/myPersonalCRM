@@ -298,6 +298,70 @@ class AddressControllerTest extends WebTestCase
                 }
             );
 
+   // choose different shipping
+        $this
+            ->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForCustomer->object());
+                $this->createOpenOrder($this->customer);
+            })
+            ->interceptRedirects()
+            ->visit($uriShipping)
+            ->checkField(
+                "address_choose_existing_multiple_form[addresses][1][isChosen]"
+            )
+            ->click('Choose')
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(
+                function (KernelBrowser $browser) use ($address2Shipping) {
+                    $this->createSession($browser);
+                    self::assertNotNull(
+                        $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
+                    );
+
+                    self::assertEquals(
+                        $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID),
+                        $address2Shipping->getId()
+                    );
+
+                    $orderAddress = $this->findOneBy(
+                        OrderAddress::class, ['shippingAddress' => $address2Shipping->object()]
+                    );
+
+                    self::assertNotNull($orderAddress);
+
+                }
+            )
+            // then choose different billing
+            ->interceptRedirects()
+            ->visit($uriBilling)
+            ->checkField(
+                "address_choose_existing_multiple_form[addresses][1][isChosen]"
+            )
+            ->click('Choose')
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(
+                function (KernelBrowser $browser) use ($address2Billing) {
+                    $this->createSession($browser);
+                    self::assertNotNull(
+                        $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
+                    );
+
+                    self::assertEquals(
+                        $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),
+                        $address2Billing->getId()
+                    );
+
+
+
+                    $orderAddress = $this->findOneBy(
+                        OrderAddress::class, ['billingAddress' => $address2Billing->object()]
+                    );
+
+                    self::assertNotNull($orderAddress);
+                }
+            );
+
 
 
     }
