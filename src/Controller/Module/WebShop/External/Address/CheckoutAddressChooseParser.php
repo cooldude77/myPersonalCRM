@@ -9,14 +9,13 @@ use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 readonly class CheckoutAddressChooseParser
 {
     public function __construct(
-        private CheckOutAddressSession $checkOutAddressSession
+        private readonly CheckOutAddressSession $checkOutAddressSession
     ) {
     }
 
     public function setAddressInSession(AddressChooseExistingMultipleDTO $multipleDTO,
         string $addressType
-    ):
-    void {
+    ): void {
         /** @var AddressChooseExistingSingleDTO $address */
         foreach ($multipleDTO->addresses as $address) {
             if ($address->isChosen) {
@@ -24,8 +23,8 @@ readonly class CheckoutAddressChooseParser
                     $this->checkOutAddressSession->setShippingAddress($address->id);
                 } elseif ($addressType == 'billing') {
                     $this->checkOutAddressSession->setBillingAddress($address->id);
+
                 }
-                break;
             }
         }
 

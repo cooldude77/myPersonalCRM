@@ -12,7 +12,7 @@ use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class OnOrderCartEvent implements EventSubscriberInterface
+readonly class OnCartEvents implements EventSubscriberInterface
 {
     public function __construct(private OrderSave $orderSave,
         private readonly OrderRead $orderRead,

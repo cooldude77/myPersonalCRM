@@ -32,4 +32,12 @@ class DatabaseOperations
         $this->entityManager->clear();
     }
 
+    public function save(mixed $entity): mixed
+    {
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+
+        return  $entity;
+    }
+
 }

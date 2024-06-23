@@ -2,12 +2,12 @@
 
 namespace App\Tests\Utility;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 trait FindByCriteria
 {
 
-    public function findOneBy( string $entityName, array $criteria)
+    public function findOneBy(string $entityName, array $criteria)
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository($entityName);
@@ -15,5 +15,16 @@ trait FindByCriteria
         return $repo->findOneBy($criteria);
 
 
+    }
+
+    public function save(mixed $entity): mixed
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        $em->persist($em);
+        $em->flush();
+
+        return $entity;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\PriceProductBase;
 use App\Entity\Product;
+use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderStatusTypeRepository;
@@ -18,7 +19,8 @@ readonly class OrderRead
     public function __construct(private readonly OrderHeaderRepository $orderHeaderRepository,
         private readonly OrderItemRepository $orderItemRepository,
         private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
-        private readonly PriceProductBaseRepository $priceProductBaseRepository
+        private readonly PriceProductBaseRepository $priceProductBaseRepository,
+        private readonly OrderAddressRepository $orderAddressRepository
     ) {
     }
 
@@ -62,6 +64,11 @@ readonly class OrderRead
 
         return $this->orderHeaderRepository->findOneBy(['customer' => $customer,
                                                         'orderStatusType' => $orderStatusType]);
+    }
+
+    public function getAddresses(?OrderHeader $orderHeader): array
+    {
+       return $this->orderAddressRepository->findBy(['orderHeader' => $orderHeader]);
     }
 
 }

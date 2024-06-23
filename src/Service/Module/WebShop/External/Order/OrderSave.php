@@ -3,9 +3,12 @@
 namespace App\Service\Module\WebShop\External\Order;
 
 use App\Entity\Customer;
+use App\Entity\CustomerAddress;
+use App\Entity\OrderAddress;
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
+use App\Repository\OrderAddressRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
@@ -31,6 +34,7 @@ readonly class OrderSave
         private OrderItemMapper $orderItemMapper,
         private OrderAddressMapper $orderAddressMapper,
         private OrderStatusMapper $orderStatusMapper,
+        private OrderAddressRepository $orderAddressRepository,
         private DatabaseOperations $databaseOperations
     ) {
     }
@@ -160,6 +164,30 @@ readonly class OrderSave
         $this->databaseOperations->flush();
         $this->databaseOperations->clear();
 
+
+    }
+
+    public function createOrUpdate(?OrderHeader $orderHeader, CustomerAddress $address,
+        array $currentAddressesForOrder
+    ): void {
+        // no list was sent
+        if (count($currentAddressesForOrder) == 0) {
+            $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
+            $this->databaseOperations->save($orderAddress);
+        } else {
+            /** @var OrderAddress $orderAddress */
+            foreach ($currentAddressesForOrder as $orderAddress) {
+                if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
+                    $orderAddress->setShippingAddress($address);
+                    break;
+                } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
+                    $orderAddress->setBillingAddress($address);
+                    break;
+                }
+
+            }
+            $this->databaseOperations->flush();
+        }
 
     }
 }

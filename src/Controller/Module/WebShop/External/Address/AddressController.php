@@ -3,6 +3,8 @@
 namespace App\Controller\Module\WebShop\External\Address;
 
 use App\Controller\Component\Routing\RoutingConstants;
+use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
+use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
@@ -16,6 +18,7 @@ use App\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultip
 use App\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -95,7 +98,8 @@ class AddressController extends AbstractController
     public function create(RouterInterface $router, Request $request,
         CustomerFromUserFinder $customerFromUserFinder,
         CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
-        CheckOutAddressSave $checkOutAddressSave
+        CheckOutAddressSave $checkOutAddressSave,
+        EventDispatcherInterface $eventDispatcher
     ): Response {
 
 
@@ -117,12 +121,18 @@ class AddressController extends AbstractController
             $data = $form->getData();
 
 
-            $checkOutAddressSave->save(
+            $address = $checkOutAddressSave->save(
                 $createNewAndChooseDTOMapper->map($data),
                 $createNewAndChooseDTOMapper->isChosen($data)
             );
 
-
+            $eventDispatcher->dispatch(new CheckoutAddressCreatedEvent(
+                $customerFromUserFinder->getLoggedInCustomer(),
+                $address,
+                $createNewAndChooseDTOMapper->isChosen($data)
+            ),
+                CheckoutAddressEventTypes::POST_ADDRESS_CREATE
+            );
             return $this->redirect(
                 $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
             );
@@ -149,6 +159,7 @@ class AddressController extends AbstractController
         CustomerFromUserFinder $customerFromUserFinder,
         ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
         CheckoutAddressChooseParser $checkoutAddressChooseParser,
+        EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
         $customer = $customerFromUserFinder->getLoggedInCustomer();
@@ -172,7 +183,16 @@ class AddressController extends AbstractController
             /** @var AddressChooseExistingMultipleDTO $data */
             $data = $form->getData();
 
-            $checkoutAddressChooseParser->setAddressInSession($data, $request->query->get('type'));
+          $address =  $checkoutAddressChooseParser->setAddressInSession($data, $request->query->get
+            ('type'));
+
+            $eventDispatcher->dispatch( new CheckoutAddressCreatedEvent(
+                $customerFromUserFinder->getLoggedInCustomer(),
+                $address
+            ),
+                CheckoutAddressEventTypes::POST_ADDRESS_CHOSEN,
+
+            );
 
             return $this->redirectToRoute('web_shop_checkout_addresses');
 

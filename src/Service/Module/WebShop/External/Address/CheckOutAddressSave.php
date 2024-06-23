@@ -16,14 +16,20 @@ readonly class CheckOutAddressSave
     }
 
 
-    public function save(CustomerAddress $customerAddress, bool $isChosen): void
+    public function save(CustomerAddress $customerAddress, bool $isChosen): CustomerAddress
     {
 
 
         $customerAddress = $this->customerAddressSave->save($customerAddress);
         if ($isChosen) {
-            $this->checkOutAddressSession->setShippingAddress($customerAddress->getId());
+            if ($customerAddress->getAddressType() == 'shipping') {
+                $this->checkOutAddressSession->setShippingAddress($customerAddress->getId());
+            } elseif ($customerAddress->getAddressType() == 'billing') {
+                $this->checkOutAddressSession->setBillingAddress($customerAddress->getId());
+            }
         }
+
+        return $customerAddress;
 
     }
 

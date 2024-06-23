@@ -4,11 +4,14 @@ namespace App\Tests\Controller\Module\WebShop\External\Address;
 
 use App\Controller\Component\Routing\RoutingConstants;
 use App\Entity\CustomerAddress;
+use App\Entity\OrderAddress;
 use App\Factory\CustomerAddressFactory;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Fixtures\OrderFixture;
 use App\Tests\Fixtures\SessionFactoryFixture;
+use App\Tests\Utility\FindByCriteria;
 use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,7 +21,8 @@ use Zenstruck\Foundry\Proxy;
 
 class AddressControllerTest extends WebTestCase
 {
-    use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture;
+    use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
+        FindByCriteria, OrderFixture;
 
 
     private Proxy|CustomerAddress $shippingAddress;
@@ -93,6 +97,9 @@ class AddressControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
+
+                $this->createOpenOrder($this->customer);
+
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -126,6 +133,17 @@ class AddressControllerTest extends WebTestCase
                     $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
                 );
 
+                $address = $this->findOneBy(
+                    CustomerAddress::class,
+                    ['customer' => $this->customer->object()]
+                );
+
+                $orderAddress = $this->findOneBy(
+                    OrderAddress::class, ['shippingAddress' => $address]
+                );
+
+                self::assertNotNull($orderAddress);
+
             });
     }
 
@@ -140,6 +158,8 @@ class AddressControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
+                $this->createOpenOrder($this->customer);
+
             })
             ->interceptRedirects()
             ->visit($uri)
@@ -172,6 +192,17 @@ class AddressControllerTest extends WebTestCase
                 self::assertNotNull(
                     $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
                 );
+
+                $address = $this->findOneBy(
+                    CustomerAddress::class,
+                    ['customer' => $this->customer->object()]
+                );
+
+                $orderAddress = $this->findOneBy(
+                    OrderAddress::class, ['billingAddress' => $address]
+                );
+
+                self::assertNotNull($orderAddress);
 
             });
         //todo: check redirect
