@@ -7,8 +7,9 @@ use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
 use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -31,16 +32,21 @@ class CheckOutPaymentController extends AbstractController
         OrderRead $orderRead,
         CustomerFromUserFinder $customerFromUserFinder,
         Request $request
-    ): Response {
+    ): RedirectResponse {
 
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
 
-        $eventDispatcher->dispatch(new PaymentEvent(), PaymentEventTypes::AFTER_PAYMENT_SUCCESS);
+        $event = new PaymentEvent();
+        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
+        $eventDispatcher->dispatch($event, PaymentEventTypes::AFTER_PAYMENT_SUCCESS);
 
-        return $this->render(
-            'module/web_shop/external/payment/success.html.twig',
-            ['orderHeader' => $orderHeader]
-        );
+        $this->addFlash('success','Your payment was successful');
+
+        $this->addFlash('success','Your order was created and is in under process');
+
+        return  $this->redirectToRoute('module_web_shop_order_complete_details',
+            ['id'=>$orderHeader->getId()]);
+
     }
 
     #[Route('/checkout/payment/failure', 'web_shop_payment_failure')]
@@ -51,7 +57,11 @@ class CheckOutPaymentController extends AbstractController
     ): Response {
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
 
-        $eventDispatcher->dispatch(new PaymentEvent(), PaymentEventTypes::AFTER_PAYMENT_FAILURE);
+        $event = new PaymentEvent();
+
+        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
+
+        $eventDispatcher->dispatch($event, PaymentEventTypes::AFTER_PAYMENT_FAILURE);
 
         return $this->render(
             'module/web_shop/external/payment/failure.html.twig',

@@ -26,10 +26,10 @@ readonly class OnPaymentFailure implements EventSubscriberInterface
 
     }
 
-    public function afterPaymentFailure(PaymentEvent $paymentEvent,Customer $customer): void
+    public function afterPaymentFailure(PaymentEvent $paymentEvent): void
     {
 
-      $orderHeader =   $this->orderRead->getOpenOrder($customer);
+      $orderHeader =   $this->orderRead->getOpenOrder($paymentEvent->getCustomer());
 
       $this->orderSave->setOrderStatus($orderHeader,OrderStatusTypes::ORDER_PAYMENT_FAILED);
 

@@ -26,10 +26,10 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
 
     }
 
-    public function afterPaymentSuccess(PaymentEvent $paymentEvent,Customer $customer): void
+    public function afterPaymentSuccess(PaymentEvent $paymentEvent): void
     {
 
-      $orderHeader =   $this->orderRead->getOpenOrder($customer);
+      $orderHeader =   $this->orderRead->getOpenOrder($paymentEvent->getCustomer());
 
       $this->orderSave->setOrderStatus($orderHeader,OrderStatusTypes::ORDER_PAYMENT_COMPLETE);
 
