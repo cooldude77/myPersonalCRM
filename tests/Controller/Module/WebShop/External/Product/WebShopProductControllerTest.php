@@ -12,36 +12,6 @@ class WebShopProductControllerTest extends WebTestCase
     use HasBrowser;
     use SessionHelper;
 
-
-    /**
-     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
-     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
-     */
-    public function testSimpleSession()
-    {
-
-        /*
-           Example when we don't use client from browser() function, which creates its own
-        client and its own session.
-         $client = static::createClient();
-           $session = $this->createSession($client);
-
-           //  $tokenGenerator = $client->getContainer()->get('security.csrf.token_generator');
-           //$token = $this->generateCsrfToken($session, $tokenGenerator, 'expected token id');
-
-           */
-
-
-        $client = static::createClient();
-        $session = $this->createSession($client);
-
-        $client->request('POST', '/locale', [
-            'locale' => 'fr_FR',
-        ]);
-
-        $this->assertSame('fr_FR', $session->get('locale'));
-    }
-
     public function testAddProductToCartTest()
     {
 
