@@ -121,16 +121,6 @@ class CartSessionProductService
         return !empty($this->getCartArray());
     }
 
-    public function validateBeforeOrder()
-    {
-        // todo
-    }
-
-    public function getProductListFromCartArray(): array
-    {
-
-        return $this->productRepository->findBy(['id' => array_keys($this->getCartArray())]);
-    }
 
     public function getQuantity(string $id): int
     {

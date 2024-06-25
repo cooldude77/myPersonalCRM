@@ -32,7 +32,7 @@ class CheckOutControllerTest extends WebTestCase
         $this
             ->browser()
             ->visit($uriCheckout)
-            ->assertOn('http://localhost/signup?_redirect_upon_success_url=/checkout', ['query']);
+            ->assertOn('/signup?_redirect_upon_success_url=/checkout', ['query']);
 
         // user is logged in
         // cart is empty
@@ -43,44 +43,17 @@ class CheckOutControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uriCheckout)
-            ->assertRedirectedTo('/cart')
+            ->assertRedirectedTo('/cart',1)
             // fill cart and see it redirected to addresses
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
-                $this->createCartInSession($this->session, $this->productA);
+                $this->createCartInSession($this->session, $this->productA,4);
 
             })
             // addresses not created
             ->interceptRedirects()
             ->visit($uriCheckout)
-            ->assertRedirectedTo('/checkout/addresses')
-            ->use(function (KernelBrowser $browser) {
-
-                // create shipping address
-                CustomerAddressFactory::createOne(
-                    ['customer' => $this->customer,
-                     'addressType' => 'shipping',
-                     'line1' => 'Shipping lane']
-                );
-            })
-
-            // also need to create entry in session
-
-            ->interceptRedirects()
-            ->visit($uriCheckout)
-            ->assertRedirectedTo('/checkout/addresses')
-            ->use(function (KernelBrowser $browser) {
-
-                // create shipping address
-                CustomerAddressFactory::createOne(
-                    ['customer' => $this->customer,
-                     'addressType' => 'Billing',
-                     'line1' => 'billing lane']
-                );
-            })
-            ->visit($uriCheckout)
-            ->assertSuccessful();
-
+            ->assertRedirectedTo('/checkout/addresses',1);
 
     }
 

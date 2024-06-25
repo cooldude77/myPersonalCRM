@@ -2,7 +2,16 @@
 
 namespace App\Exception\Module\WebShop\External\Order;
 
-class NoOpenOrderExists extends \Exception
-{
+use App\Entity\Customer;
+use Exception;
 
+class NoOpenOrderExists extends Exception
+{
+    /**
+     * @param Customer $getCustomer
+     */
+    public function __construct(public Customer $getCustomer
+    ) {
+        parent::__construct();
+    }
 }

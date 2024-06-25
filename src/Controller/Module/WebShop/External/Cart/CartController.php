@@ -151,12 +151,10 @@ class  CartController extends AbstractController
         RouterInterface $router
     ):
     Response {
-        if (!$cartService->isInitialized()) {
-            $this->initializeCartAndDispatchEvents(
-                $cartService,
-                $eventDispatcher, $customerFromUserFinder
-            );
-        }
+        $this->initializeCartAndDispatchEvents(
+            $cartService,
+            $eventDispatcher, $customerFromUserFinder
+        );
 
         $product = $productRepository->find($id);
 

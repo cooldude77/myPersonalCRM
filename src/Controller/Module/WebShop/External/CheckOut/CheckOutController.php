@@ -36,7 +36,6 @@ class CheckOutController extends AbstractController
 
         //todo check if the user is a customer
 
-
         if (!$cartSessionService->isInitialized() || !$cartSessionService->hasItems()) {
             // todo: add flash
             return $this->redirectToRoute('module_web_shop_cart');

@@ -5,11 +5,13 @@ namespace App\Tests\Controller\Module\WebShop\External\Cart;
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
+use App\Tests\Fixtures\SessionFactoryFixture;
 use App\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
@@ -17,8 +19,15 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class CartControllerTest extends WebTestCase
 {
-    use HasBrowser, CurrencyFixture, CustomerFixture, ProductFixture, PriceFixture,
-        LocationFixture, FindByCriteria;
+    use HasBrowser,
+        CurrencyFixture,
+        CustomerFixture,
+        ProductFixture,
+        PriceFixture,
+        LocationFixture,
+        FindByCriteria,
+        CartFixture,
+        SessionFactoryFixture;
 
     public function testInCartProcesses()
     {
@@ -279,27 +288,46 @@ class CartControllerTest extends WebTestCase
         $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
         $this->browser()
-            // todo: don't allow cart when user is not logged in
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+                $this->createSession($browser);
+                $this->createCartInSession($se);
+            })
+            ->visit($cartUri)
+            ->interceptRedirects()
+            ->click('Checkout')
+            ->assertRedirectedTo('/checkout', 1);
+
+    }
+
+    public function testAddProductToCartTest()
+    {
+
+        $this->createCustomer();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createProductFixtures();
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+        $uri = "/cart/product/" . $this->productA->getId() . '/add';
+
+
+        $browser = $this->browser()
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
-            ->visit($uriAddProductA)
+            ->visit($uri)
             ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('Add To Cart')
-            ->visit($uriAddProductB)
-            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
-            ->fillField(
-                'cart_add_product_single_form[quantity]', 2
-            )
-            ->click('Add To Cart')
-            ->visit($cartUri)
-            ->interceptRedirects()
-            ->click('Checkout')
-            ->assertRedirectedTo('/checkout');
+            ->assertSuccessful();
+
+
+        // Todo: more validations needed
 
     }
 }
