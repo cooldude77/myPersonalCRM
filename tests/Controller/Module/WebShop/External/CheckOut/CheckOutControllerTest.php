@@ -41,13 +41,17 @@ class CheckOutControllerTest extends WebTestCase
             ->use(function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
+            ->use(function (KernelBrowser $browser){
+                $this->createSession($browser);
+                $this->createSessionKey($this->session);
+
+            })
             ->interceptRedirects()
             ->visit($uriCheckout)
             ->assertRedirectedTo('/cart',1)
             // fill cart and see it redirected to addresses
             ->use(function (KernelBrowser $browser) {
-                $this->createSession($browser);
-                $this->createCartInSession($this->session, $this->productA,4);
+                $this->addProductToCart($this->session,$this->productA->object(),10);
 
             })
             // addresses not created

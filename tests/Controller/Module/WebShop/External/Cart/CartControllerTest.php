@@ -288,18 +288,19 @@ class CartControllerTest extends WebTestCase
         $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
         $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
-      $browser=  $this->browser()
+        $browser = $this->browser()
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
 
             })
-            ->use(function (KernelBrowser $browser){
+            ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
-                $this->createCartInSession($this->session,$this->productA);
+                $this->createSessionKey($this->session);
+                $this->addProductToCart($this->session, $this->productA->object(), 10);
             });
 
-            $browser->visit($cartUri)
+        $browser->visit($cartUri)
             ->interceptRedirects()
             ->click('Checkout')
             ->assertRedirectedTo('/checkout', 1);
@@ -322,6 +323,10 @@ class CartControllerTest extends WebTestCase
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                $this->createSessionKey($this->session);
             })
             ->visit($uri)
             ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
