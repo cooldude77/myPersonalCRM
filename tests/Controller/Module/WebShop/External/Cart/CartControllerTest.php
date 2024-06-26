@@ -13,6 +13,7 @@ use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Fixtures\SessionFactoryFixture;
 use App\Tests\Utility\FindByCriteria;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -287,14 +288,18 @@ class CartControllerTest extends WebTestCase
         $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
         $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
-        $this->browser()
+      $browser=  $this->browser()
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createSession($browser);
-                $this->createCartInSession($se);
+
             })
-            ->visit($cartUri)
+            ->use(function (KernelBrowser $browser){
+                $this->createSession($browser);
+                $this->createCartInSession($this->session,$this->productA);
+            });
+
+            $browser->visit($cartUri)
             ->interceptRedirects()
             ->click('Checkout')
             ->assertRedirectedTo('/checkout', 1);

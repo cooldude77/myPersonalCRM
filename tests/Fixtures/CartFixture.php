@@ -12,7 +12,7 @@ trait CartFixture
 {
     private function createCartInSession(Session $session, Proxy|Product $product): void
     {
-        $array = [new CartSessionObject($product->getId(), 4)];
+        $array = [$product->getId()=>new CartSessionObject($product->getId(), 4)];
         $session->set(CartSessionProductService::CART_SESSION_KEY, $array);
         $session->save();
     }
