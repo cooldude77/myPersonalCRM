@@ -2,6 +2,8 @@
 
 namespace App\Controller\Security\External\Credentials;
 
+use App\Event\Security\External\SignUp\SignUpEvent;
+use App\Event\Security\SecurityEventTypes;
 use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Form\Security\User\DTO\SignUpSimpleDTO;
 use App\Form\Security\User\SignUpAdvancedForm;
@@ -11,6 +13,7 @@ use App\Service\Security\User\Customer\CustomerService;
 use App\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,7 +33,8 @@ class SignUpController extends AbstractController
     #[Route('/signup', name: 'user_customer_sign_up')]
     public function signUp(Request $request,
         CustomerService $customerService,
-        SignUpDTOMapper $signUpDTOMapper
+        SignUpDTOMapper $signUpDTOMapper,
+        EventDispatcher $eventDispatcher
 
     ): Response {
         $signUpDTO = new SignUpSimpleDTO();
@@ -49,6 +53,11 @@ class SignUpController extends AbstractController
             $customer = $customerService->mapCustomerFromSimpleSignUp($user);
 
             $customerService->save($customer);
+
+            $event = new SignUpEvent();
+            $event->setCustomer($customer);
+
+            $eventDispatcher->dispatch($event,SecurityEventTypes::POST_CUSTOMER_SIGN_UP_SUCCESS);
 
             // do anything else you need here, like send an email
             if ($request->get('_redirect_after_success') == null) {
