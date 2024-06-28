@@ -9,13 +9,13 @@ use Symfony\Component\Mailer\MailerInterface;
 /**
  *
  */
-class EmailService
+readonly class EmailService
 {
 
     /**
      * @param MailerInterface $mailer
      */
-    public function __construct(private readonly MailerInterface $mailer)
+    public function __construct(private MailerInterface $mailer)
     {
     }
 
