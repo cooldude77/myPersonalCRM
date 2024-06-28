@@ -15,11 +15,11 @@ readonly class OnSignUpSuccess implements EventSubscriberInterface
 {
     public function __construct(
         private readonly EmailService $emailService,
-        #[Autowire(param: 'app.sign_up.email.email_from_address')]
+       #[Autowire(param: 'silecust.sign_up.email.email_from_address')]
         private readonly string $fromEmail,
-        #[Autowire(param: 'app.sign_up.email.headline')]
+        #[Autowire(param: 'silecust.sign_up.email.headline')]
         private readonly string $headLine,
-        #[Autowire(param: 'app.sign_up.email.template_location')]
+        #[Autowire(param: 'silecust.sign_up.email.template_location')]
         private readonly string $templateLocation
     ) {
     }

@@ -2,22 +2,25 @@
 
 namespace App\Tests\Controller\Security\External\Credentials;
 
+use App\Entity\Customer;
+use App\Entity\User;
 use App\Factory\CustomerFactory;
 use App\Factory\SalutationFactory;
 use App\Factory\UserFactory;
+use App\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Mailer\Test\InteractsWithMailer;
 
 class SignUpControllerTest extends WebTestCase
 {
-    use HasBrowser;
+    use HasBrowser, FindByCriteria, InteractsWithMailer;
 
     public function testSignUp()
     {
         $uri = '/signup';
-
 
         $this->browser()
             // use before visiting
@@ -31,16 +34,19 @@ class SignUpControllerTest extends WebTestCase
             ->fillField('sign_up_simple_form[agreeTerms]', true)
             ->interceptRedirects()
             ->click('Sign Up')
-            ->assertRedirectedTo('/');
+            ->assertRedirectedTo('/')
+            ->use(function (Browser $browser) {
+                $user = $this->findOneBy(User::class, ['login' => 'x@y.com']);
+                $customer = $this->findOneBy(Customer::class, ['email' => 'x@y.com']);
 
-        $created = UserFactory::find(array('login' => 'x@y.com'));
-        $customer = CustomerFactory::find(['user' => $created]);
+                $this->assertNotNull($user);
+                $this->assertTrue(in_array('ROLE_CUSTOMER', $user->getRoles()));
+                $this->assertNotNull($customer);
+                $this->assertEquals('x@y.com', $customer->getEmail());
 
-        $this->assertNotNull($created);
-        $this->assertTrue(in_array('ROLE_CUSTOMER', $created->getRoles()));
-        $this->assertNotNull($customer);
-        $this->assertEquals('x@y.com', $customer->getEmail());
 
+            });
+        $this->mailer()->assertSentEmailCount(1);
 
     }
 
